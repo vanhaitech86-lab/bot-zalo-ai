@@ -794,31 +794,65 @@
 
                     <!-- Wizard Step 2: Knowledge -->
                     <div class="step-panel" id="stepPanel2">
-                        <p style="font-size: 14px; color: var(--ink-soft); margin-bottom: 20px;">
-                            Cung cấp tài liệu sản phẩm hoặc nhập các câu hỏi thường gặp để Bot ghi nhớ và trả lời chuẩn xác.
-                        </p>
-
-                        <!-- Upload Box -->
-                        <div class="upload-dropzone" onclick="document.getElementById('fileUploadInput').click()">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                            <div style="font-weight: 700; color: var(--brand); font-size: 15px;">Bấm vào đây để tải tài liệu (PDF, Word, Excel, TXT)</div>
-                            <div style="font-size: 12.5px; color: var(--ink-soft); margin-top: 4px;">Bot sẽ tự động bóc tách nội dung và ghi nhớ tức thì.</div>
-                            <input type="file" id="fileUploadInput" style="display:none" onchange="handleFileUpload(event)" multiple accept=".pdf,.doc,.docx,.txt,.csv,.xlsx" />
+                        <div style="background: var(--brand-tint); border: 1px solid rgba(0,119,182,0.2); border-radius: 14px; padding: 14px 18px; margin-bottom: 22px; font-size: 13.5px; color: var(--brand-dark); display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 20px;">💡</span>
+                            <div><strong>Chọn 1 trong 3 cách</strong> bên dưới để nạp dữ liệu vào bộ não của Bot. Bạn có thể nạp bao nhiêu tài liệu tùy thích!</div>
                         </div>
 
-                        <!-- Add URL -->
-                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                            <input type="url" id="websiteUrlInput" placeholder="Hoặc dán link Website / Fanpage / Video sản phẩm tại đây..." style="flex:1; padding:12px; border-radius:10px; border:1.5px solid var(--border); font-size:14px;" />
-                            <button class="btn-action secondary" onclick="addWebsiteUrl()">+ Nạp Link</button>
+                        <!-- 3 Input Methods Tabs -->
+                        <div style="display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
+                            <button type="button" class="sim-chip" id="methodBtn1" style="font-size: 13.5px; padding: 8px 16px; background: var(--brand); color: white;" onclick="switchInputMethod(1)">📂 1. Tải tệp từ máy</button>
+                            <button type="button" class="sim-chip" id="methodBtn2" style="font-size: 13.5px; padding: 8px 16px;" onclick="switchInputMethod(2)">✍️ 2. Dán trực tiếp văn bản / Bảng giá</button>
+                            <button type="button" class="sim-chip" id="methodBtn3" style="font-size: 13.5px; padding: 8px 16px;" onclick="switchInputMethod(3)">🌐 3. Nạp link Website / Fanpage</button>
+                        </div>
+
+                        <!-- Method 1: File Upload -->
+                        <div id="methodPanel1" style="display: block;">
+                            <label for="fileUploadInput" class="upload-dropzone" style="display: block; cursor: pointer;">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <div style="font-weight: 700; color: var(--brand); font-size: 16px; margin-bottom: 6px;">👉 BẤM VÀO ĐÂY ĐỂ CHỌN TỆP TẢI LÊN</div>
+                                <div style="font-size: 13px; color: var(--ink-soft);">Hỗ trợ: PDF, Word (.docx, .doc), Excel (.xlsx, .csv), Văn bản (.txt)</div>
+                                <div style="margin-top: 12px; display: inline-block; padding: 8px 20px; background: var(--brand); color: white; border-radius: 8px; font-weight: 700; font-size: 13px;">Chọn tệp từ máy tính / điện thoại</div>
+                            </label>
+                            <input type="file" id="fileUploadInput" style="display: none;" onchange="handleFileUpload(event)" multiple accept=".pdf,.doc,.docx,.txt,.csv,.xlsx" />
+                        </div>
+
+                        <!-- Method 2: Direct Text Input (Paste anything) -->
+                        <div id="methodPanel2" style="display: none; background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+                            <h4 style="margin: 0 0 14px; font-size: 15px; color: var(--ink);">✍️ Nhập hoặc dán trực tiếp kiến thức / Bảng giá / Bài viết</h4>
+                            <div class="form-field">
+                                <label for="directDocTitle">Tên chủ đề / Tên sản phẩm</label>
+                                <input type="text" id="directDocTitle" placeholder="Ví dụ: Bảng giá máy lọc nước mới nhất 2026" />
+                            </div>
+                            <div class="form-field">
+                                <label for="directDocContent">Nội dung chi tiết (Copy thông tin sản phẩm, báo giá, chính sách vào đây)</label>
+                                <textarea id="directDocContent" rows="6" placeholder="Dán nội dung chi tiết vào đây... Ví dụ:
+- Máy lọc nước RO150: Giá 91.800.000đ, công suất 150L/h, bảo hành 12 tháng.
+- Máy lọc nước RO250: Giá 125.000.000đ, công suất 250L/h.
+- Miễn phí vận chuyển và lắp đặt toàn quốc. Hotline: 0988 739 896."></textarea>
+                            </div>
+                            <button type="button" class="btn-action primary" onclick="saveDirectTextDoc()">📥 Lưu văn bản này vào bộ não Bot</button>
+                        </div>
+
+                        <!-- Method 3: Website URL -->
+                        <div id="methodPanel3" style="display: none; background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+                            <h4 style="margin: 0 0 14px; font-size: 15px; color: var(--ink);">🌐 Nạp kiến thức từ liên kết Website / Fanpage / Video</h4>
+                            <form onsubmit="addWebsiteUrl(event)" style="display: flex; gap: 10px;">
+                                <input type="text" id="websiteUrlInput" placeholder="Nhập địa chỉ link (Ví dụ: haitech.vn hoặc https://...)" style="flex:1; padding:12px 14px; border-radius:10px; border:1.5px solid var(--border); font-size:14px;" />
+                                <button type="submit" class="btn-action primary">+ Nạp Link ngay</button>
+                            </form>
                         </div>
 
                         <!-- Documents List -->
-                        <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px;">Dữ liệu đã nạp vào bộ não Bot:</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 24px; margin-bottom: 12px;">
+                            <div style="font-weight: 700; font-size: 15px;">🧠 Dữ liệu đã nạp vào bộ não Bot (<span id="docCountText">0</span> tài liệu):</div>
+                            <button type="button" class="btn-action secondary" style="padding: 4px 10px; font-size: 12px; color: #E53E3E;" onclick="clearAllDocs()">Xóa tất cả</button>
+                        </div>
                         <div class="doc-list" id="docListContainer">
                             <!-- Rendered by JS -->
                         </div>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 24px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 28px;">
                             <button class="btn-action secondary" onclick="switchWizardStep(1)">← Quay lại Bước 1</button>
                             <button class="btn-action primary" onclick="switchWizardStep(3)">Sang Bước 3 (Quét QR Zalo) →</button>
                         </div>
@@ -1028,6 +1062,23 @@
         </main>
     </div>
 
+    <!-- Modal xem nội dung tài liệu -->
+    <div id="docPreviewModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.6); z-index:999; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:white; border-radius:20px; max-width:600px; width:100%; max-height:85vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+            <div style="padding:18px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--surface);">
+                <div style="font-weight:700; font-size:16px;" id="modalDocTitle">Chi tiết tài liệu</div>
+                <button type="button" onclick="closeDocModal()" style="background:transparent; border:none; font-size:20px; cursor:pointer; color:var(--ink-soft);">&times;</button>
+            </div>
+            <div style="padding:20px 24px; overflow-y:auto; flex:1;">
+                <div style="font-size:12px; color:var(--ink-soft); margin-bottom:12px;" id="modalDocMeta">Loại tài liệu</div>
+                <div style="white-space:pre-wrap; font-size:14px; line-height:1.6; background:var(--surface); padding:16px; border-radius:12px; border:1px solid var(--border);" id="modalDocBody"></div>
+            </div>
+            <div style="padding:14px 24px; border-top:1px solid var(--border); text-align:right; background:white;">
+                <button type="button" class="btn-action primary" onclick="closeDocModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== SCRIPTS & DATA MANAGEMENT ========== -->
     <script>
         // State
@@ -1145,71 +1196,222 @@
             switchWizardStep(2);
         }
 
-        // Knowledge Management
+        // Input Methods Switcher
+        function switchInputMethod(method) {
+            document.getElementById('methodPanel1').style.display = method === 1 ? 'block' : 'none';
+            document.getElementById('methodPanel2').style.display = method === 2 ? 'block' : 'none';
+            document.getElementById('methodPanel3').style.display = method === 3 ? 'block' : 'none';
+
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById('methodBtn' + i);
+                if (btn) {
+                    if (i === method) {
+                        btn.style.background = 'var(--brand)';
+                        btn.style.color = 'white';
+                    } else {
+                        btn.style.background = 'var(--brand-tint)';
+                        btn.style.color = 'var(--brand)';
+                    }
+                }
+            }
+        }
+
+        // Direct Text Document Input (Method 2)
+        function saveDirectTextDoc() {
+            const titleInput = document.getElementById('directDocTitle');
+            const contentInput = document.getElementById('directDocContent');
+            const title = titleInput.value.trim() || 'Tài liệu kiến thức ' + (documents.length + 1);
+            const content = contentInput.value.trim();
+
+            if (!content) {
+                alert('⚠️ Vui lòng nhập hoặc dán nội dung chi tiết vào ô văn bản!');
+                contentInput.focus();
+                return;
+            }
+
+            documents.unshift({
+                id: Date.now(),
+                name: title,
+                type: 'VĂN BẢN',
+                size: (content.length / 1024).toFixed(1) + ' KB',
+                content: content,
+                date: new Date().toLocaleDateString('vi-VN')
+            });
+
+            localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+            renderDocs();
+
+            titleInput.value = '';
+            contentInput.value = '';
+            alert('🎉 Tuyệt vời! Bot đã ghi nhớ thành công tài liệu: "' + title + '"');
+        }
+
+        // Knowledge Management & Rendering
         function renderDocs() {
             const container = document.getElementById('docListContainer');
+            if (!container) return;
             container.innerHTML = '';
+
+            const docCountText = document.getElementById('docCountText');
+            if (docCountText) docCountText.textContent = documents.length;
+
+            const docCountBadge = document.getElementById('docCountBadge');
+            if (docCountBadge) docCountBadge.textContent = documents.length;
+
+            const metricKnowledgeCount = document.getElementById('metricKnowledgeCount');
+            if (metricKnowledgeCount) metricKnowledgeCount.textContent = documents.length;
+
+            if (documents.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 24px; color: var(--ink-soft); font-size: 13.5px; background: var(--surface); border-radius: 12px; border: 1px dashed var(--border);">
+                        Chưa có dữ liệu nào trong bộ não của Bot. Bạn hãy chọn 1 trong 3 cách ở trên để nạp dữ liệu nhé!
+                    </div>
+                `;
+                return;
+            }
 
             documents.forEach((doc, idx) => {
                 const item = document.createElement('div');
                 item.className = 'doc-item';
                 item.innerHTML = `
                     <div class="doc-item-title">
-                        <span>📄</span>
+                        <span style="font-size: 20px;">📄</span>
                         <div>
-                            <div>${doc.name}</div>
-                            <div style="font-size:11px; color:var(--ink-soft); font-weight:normal;">Loại: ${doc.type} · Dung lượng: ${doc.size}</div>
+                            <div style="color: var(--ink); font-weight: 700;">${doc.name}</div>
+                            <div style="font-size: 11.5px; color: var(--ink-soft); font-weight: normal; margin-top: 2px;">
+                                <span style="background: var(--brand-tint); color: var(--brand); padding: 1px 6px; border-radius: 4px; font-weight: 700;">${doc.type}</span>
+                                · Dung lượng: ${doc.size}
+                                ${doc.date ? '· Nạp lúc: ' + doc.date : ''}
+                            </div>
                         </div>
                     </div>
-                    <button class="doc-del-btn" onclick="deleteDoc(${idx})">Xóa</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="btn-action secondary" style="padding: 6px 12px; font-size: 12px;" onclick="viewDocDetail(${idx})">👁️ Xem nội dung</button>
+                        <button type="button" class="doc-del-btn" onclick="deleteDoc(${idx})">🗑️ Xóa</button>
+                    </div>
                 `;
                 container.appendChild(item);
             });
-
-            document.getElementById('docCountBadge').textContent = documents.length;
-            document.getElementById('metricKnowledgeCount').textContent = documents.length;
         }
 
+        // View Document Modal
+        function viewDocDetail(idx) {
+            const doc = documents[idx];
+            if (!doc) return;
+
+            document.getElementById('modalDocTitle').textContent = doc.name;
+            document.getElementById('modalDocMeta').textContent = `Định dạng: ${doc.type} · Dung lượng: ${doc.size} ${doc.date ? '· ' + doc.date : ''}`;
+            document.getElementById('modalDocBody').textContent = doc.content || 'Tài liệu đã được phân tích và lưu vào cơ sở tri thức của Bot.';
+            document.getElementById('docPreviewModal').style.display = 'flex';
+        }
+
+        function closeDocModal() {
+            document.getElementById('docPreviewModal').style.display = 'none';
+        }
+
+        // File Upload (Method 1)
         function handleFileUpload(e) {
             const files = e.target.files;
-            if (!files.length) return;
+            if (!files || !files.length) return;
 
-            for (let i = 0; i < files.length; i++) {
+            let loadedCount = 0;
+            const total = files.length;
+
+            for (let i = 0; i < total; i++) {
                 const file = files[i];
-                documents.push({
-                    id: Date.now() + i,
-                    name: file.name,
-                    type: file.name.split('.').pop().toUpperCase(),
-                    size: (file.size / 1024).toFixed(1) + ' KB'
-                });
+                const ext = file.name.split('.').pop().toUpperCase();
+                const reader = new FileReader();
+
+                reader.onload = function(evt) {
+                    const textContent = evt.target.result;
+                    documents.unshift({
+                        id: Date.now() + i,
+                        name: file.name,
+                        type: ext,
+                        size: (file.size / 1024).toFixed(1) + ' KB',
+                        content: (typeof textContent === 'string' && textContent.length > 0)
+                            ? textContent.substring(0, 10000)
+                            : `Tài liệu ${file.name} đã được phân tích và trích xuất dữ liệu để phục vụ tư vấn khách hàng.`,
+                        date: new Date().toLocaleDateString('vi-VN')
+                    });
+
+                    loadedCount++;
+                    if (loadedCount === total) {
+                        localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+                        renderDocs();
+                        alert(`✅ Đã nạp thành công ${total} tệp vào bộ nhớ của Bot!`);
+                    }
+                };
+
+                // Read as text for text/csv, or fallback for binaries
+                if (file.type.includes('text') || ext === 'TXT' || ext === 'CSV') {
+                    reader.readAsText(file);
+                } else {
+                    // For PDF, Word, Excel simulate text extraction
+                    setTimeout(() => {
+                        documents.unshift({
+                            id: Date.now() + i,
+                            name: file.name,
+                            type: ext,
+                            size: (file.size / 1024).toFixed(1) + ' KB',
+                            content: `Tài liệu: ${file.name}\nNội dung: Trích xuất tự động thông số kỹ thuật, bảng giá và quy trình từ file ${file.name}. Bot sẽ sử dụng dữ liệu này để giải đáp cho khách hàng trên Zalo.`,
+                            date: new Date().toLocaleDateString('vi-VN')
+                        });
+                        loadedCount++;
+                        if (loadedCount === total) {
+                            localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+                            renderDocs();
+                            alert(`✅ Đã nạp thành công ${total} tệp vào bộ nhớ của Bot!`);
+                        }
+                    }, 200);
+                }
             }
 
-            localStorage.setItem('zalobot_docs', JSON.stringify(documents));
-            renderDocs();
-            alert(`✅ Đã nạp thành công ${files.length} tài liệu vào bộ nhớ của Bot!`);
+            // Reset input so user can pick same file again if needed
+            e.target.value = '';
         }
 
-        function addWebsiteUrl() {
+        // Website URL Input (Method 3)
+        function addWebsiteUrl(e) {
+            if (e) e.preventDefault();
             const input = document.getElementById('websiteUrlInput');
-            const url = input.value.trim();
-            if (!url) return;
+            let url = input.value.trim();
+            if (!url) {
+                alert('Vui lòng nhập địa chỉ website hoặc fanpage!');
+                return;
+            }
 
-            documents.push({
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            documents.unshift({
                 id: Date.now(),
                 name: url,
                 type: 'URL',
-                size: 'Web crawl'
+                size: 'Web crawl',
+                content: `Nội dung trích xuất từ trang web ${url}:\nBao gồm toàn bộ bài viết, danh mục sản phẩm, bảng giá và thông tin liên hệ được đồng bộ tự động vào bộ não Bot.`,
+                date: new Date().toLocaleDateString('vi-VN')
             });
 
             localStorage.setItem('zalobot_docs', JSON.stringify(documents));
             renderDocs();
             input.value = '';
-            alert('✅ Đã nạp liên kết website vào tri thức của Bot!');
+            alert('✅ Đã nạp liên kết website vào tri thức của Bot: ' + url);
         }
 
         function deleteDoc(idx) {
-            if (confirm('Bạn có chắc muốn xóa tài liệu này khỏi bộ não của Bot?')) {
+            const doc = documents[idx];
+            if (confirm(`Bạn có chắc muốn xóa tài liệu "${doc.name}" khỏi bộ não của Bot?`)) {
                 documents.splice(idx, 1);
+                localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+                renderDocs();
+            }
+        }
+
+        function clearAllDocs() {
+            if (confirm('Bạn có chắc muốn xóa TẤT CẢ tài liệu trong bộ não của Bot không?')) {
+                documents = [];
                 localStorage.setItem('zalobot_docs', JSON.stringify(documents));
                 renderDocs();
             }
@@ -1374,30 +1576,62 @@
         }
 
         function generateBotReply(query) {
-            const qLower = query.toLowerCase();
+            const qLower = query.toLowerCase().trim();
 
-            // 1. Check direct FAQs
-            for (let f of faqs) {
-                const fLower = f.q.toLowerCase();
-                if (qLower.includes('ro150') && fLower.includes('ro150')) return f.a;
-                if (qLower.includes('ro250') && fLower.includes('ro250')) return f.a;
-                if ((qLower.includes('bảo hành') || qLower.includes('hỏng')) && fLower.includes('bảo hành')) return f.a;
-                if ((qLower.includes('hotline') || qLower.includes('số điện thoại') || qLower.includes('sđt') || qLower.includes('liên hệ')) && fLower.includes('hotline')) return f.a;
+            // 1. Tìm kiếm trong kho tài liệu đã nạp (documents content & title)
+            const queryWords = qLower.split(/\s+/).filter(w => w.length > 1);
+
+            for (let doc of documents) {
+                const docText = (doc.name + ' ' + (doc.content || '')).toLowerCase();
+                let matchCount = 0;
+                for (let w of queryWords) {
+                    if (docText.includes(w)) matchCount++;
+                }
+
+                // Nếu tìm thấy từ khóa trùng khớp với tài liệu đã nạp
+                if (matchCount >= 2 || (queryWords.length === 1 && docText.includes(queryWords[0]))) {
+                    if (doc.content) {
+                        const lines = doc.content.split('\n').filter(l => l.trim().length > 5);
+                        for (let line of lines) {
+                            const lineLower = line.toLowerCase();
+                            if (queryWords.some(w => lineLower.includes(w))) {
+                                return `Dạ theo thông tin từ tài liệu "${doc.name}":\n\n${line.trim()}\n\nAnh/chị cần em hỗ trợ giải đáp thêm phần nào nữa không ạ? 😊`;
+                            }
+                        }
+                        return `Dạ theo dữ liệu "${doc.name}" bên em:\n\n${doc.content.substring(0, 250)}...\n\nAnh/chị liên hệ hotline ${botConfig.phone} để em tư vấn chi tiết hơn nhé!`;
+                    }
+                }
             }
 
-            // 2. Keyword based matching
-            if (qLower.includes('giá') || qLower.includes('nhiêu tiền') || qLower.includes('chi phí')) {
-                return `Dạ bên em có các dòng máy lọc nước RO150 (giá 91.800.000đ) và RO250 (giá 125.000.000đ) đã gồm lắp đặt trọn gói ạ. Anh/chị cần em gửi thông số kỹ thuật chi tiết không ạ? 📋`;
+            // 2. Check direct FAQs
+            for (let f of faqs) {
+                const fLower = f.q.toLowerCase();
+                const words = fLower.split(/\s+/).filter(w => w.length > 2);
+                let hit = 0;
+                for (let w of words) {
+                    if (qLower.includes(w)) hit++;
+                }
+                if (hit >= 2 || qLower.includes(fLower)) {
+                    return f.a;
+                }
+            }
+
+            // 3. Keyword based matching
+            if (qLower.includes('giá') || qLower.includes('nhiêu tiền') || qLower.includes('chi phí') || qLower.includes('báo giá')) {
+                return `Dạ anh/chị đang quan tâm đến bảng giá chi tiết ạ? Bên em có đầy đủ thông tin báo giá và chính sách chiết khấu tốt nhất. Anh/chị có thể gọi ngay hotline ${botConfig.phone} hoặc để lại số điện thoại để em gửi báo giá qua Zalo ngay ạ! 📋`;
             }
             if (qLower.includes('chào') || qLower.includes('alo') || qLower.includes('hi') || qLower.includes('hello')) {
                 return `Dạ em chào anh/chị ạ! ${botConfig.name} có thể hỗ trợ tư vấn giải pháp gì cho anh/chị hôm nay ạ?`;
             }
-            if (qLower.includes('lắp đặt') || qLower.includes('vận chuyển') || qLower.includes('ở đâu')) {
-                return `Dạ bên em hỗ trợ khảo sát và lắp đặt tận nơi trên toàn quốc, có đội ngũ kỹ thuật viên bàn giao và hướng dẫn vận hành chi tiết ạ!`;
+            if (qLower.includes('bảo hành') || qLower.includes('hỏng') || qLower.includes('sửa')) {
+                return `Dạ chính sách bên em luôn cam kết bảo hành chính hãng tận nơi, có kỹ thuật viên hỗ trợ nhanh chóng trong vòng 24h ạ!`;
+            }
+            if (qLower.includes('hotline') || qLower.includes('số điện thoại') || qLower.includes('sđt') || qLower.includes('liên hệ')) {
+                return `Dạ anh/chị có thể gọi ngay hotline/Zalo: ${botConfig.phone} để được hỗ trợ trực tiếp 24/7 ạ!`;
             }
 
-            // 3. Fallback smart answer
-            return `Dạ em đã ghi nhận yêu cầu của anh/chị về "${query}". Để được hỗ trợ nhanh nhất và nhận báo giá ưu đãi độc quyền hôm nay, anh/chị vui lòng liên hệ hotline: ${botConfig.phone} hoặc để lại SĐT để chuyên viên bên em gọi lại ngay ạ! 😊`;
+            // 4. Fallback smart answer
+            return `Dạ em là ${botConfig.name}. Em đã ghi nhận câu hỏi của anh/chị về "${query}". Để được hỗ trợ cụ thể và chuẩn xác nhất cho nhu cầu của mình, anh/chị nhắn cho em số điện thoại hoặc gọi hotline: ${botConfig.phone} nhé ạ! 😊`;
         }
 
         function resetSimChat() {
