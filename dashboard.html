@@ -861,12 +861,22 @@
                     <!-- Wizard Step 3: QR Code & Activation -->
                     <div class="step-panel" id="stepPanel3">
                         <div class="qr-box">
-                            <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">Quét mã QR để đăng nhập Zalo Bot</div>
-                            <div style="font-size: 13px; color: var(--ink-soft); margin-bottom: 16px;">
-                                Mở ứng dụng Zalo trên điện thoại → Chọn biểu tượng Quét QR → Quét mã bên dưới.
+                            <div style="background: var(--brand-tint); color: var(--brand-dark); padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>📱</span> Tài khoản Zalo kết nối: <span id="displayZaloPhone" style="color: var(--brand);">0988 739 896</span>
                             </div>
 
-                            <img id="zaloQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=HAITECH_ZALO_BOT_LOGIN_TOKEN_0988739896" alt="Mã QR Zalo" />
+                            <div style="font-weight: 700; font-size: 17px; margin-bottom: 6px; color: var(--ink);">Quét mã QR kết nối Trợ lý AI Zalo</div>
+                            <div style="font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; max-width: 360px;">
+                                Mã QR bên dưới được liên kết trực tiếp với số Zalo <strong>0988 739 896</strong> của bạn. Mở Zalo trên điện thoại → Bấm biểu tượng <strong>Quét mã QR</strong> để kích hoạt.
+                            </div>
+
+                            <img id="zaloQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/0988739896" alt="Mã QR Zalo 0988739896" />
+
+                            <div style="margin-bottom: 14px;">
+                                <a id="zaloDirectLink" href="https://zalo.me/0988739896" target="_blank" class="btn-action secondary" style="padding: 8px 18px; font-size: 13px; text-decoration: none;">
+                                    💬 Mở Zalo trực tiếp: zalo.me/0988739896
+                                </a>
+                            </div>
 
                             <div style="display: flex; gap: 10px; margin-bottom: 14px;">
                                 <button class="btn-action secondary" style="padding: 8px 16px; font-size: 13px;" onclick="refreshQrCode()">🔄 Làm mới mã QR</button>
@@ -878,7 +888,15 @@
                             </div>
                         </div>
 
-                        <div style="text-align: center; margin-top: 20px;">
+                        <!-- Explanation card -->
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px; max-width: 520px; margin: 0 auto 24px; font-size: 13px; line-height: 1.6; color: var(--ink-soft);">
+                            <strong style="color: var(--brand); font-size: 14px; display: block; margin-bottom: 6px;">💡 Mã QR này hoạt động thế nào?</strong>
+                            1. <strong>Đúng vậy!</strong> Mã QR này liên kết trực tiếp với số Zalo của bạn (<strong>0988 739 896</strong>).<br />
+                            2. Khách hàng khi quét mã QR này sẽ mở trực tiếp cuộc trò chuyện trên Zalo với bạn.<br />
+                            3. Trợ lý AI sau khi được bật sẽ tự động học toàn bộ dữ liệu ở Bước 2 và trực chat 24/7 để tư vấn báo giá ngay khi có tin nhắn từ khách!
+                        </div>
+
+                        <div style="text-align: center;">
                             <button class="btn-action primary" style="padding: 14px 32px;" onclick="switchTab('simulator')">
                                 💬 Mở hộp Chat Thử Nghiệm ngay →
                             </button>
@@ -945,14 +963,6 @@
 
                         <div class="sim-messages" id="simMessagesContainer">
                             <!-- Messages rendered by JS -->
-                        </div>
-
-                        <!-- Quick Prompts -->
-                        <div class="sim-quick-prompts">
-                            <span class="sim-chip" onclick="sendSimPrompt('Shop còn máy lọc nước không ạ?')">Máy lọc nước?</span>
-                            <span class="sim-chip" onclick="sendSimPrompt('Giá máy RO150 bao nhiêu?')">Báo giá RO150</span>
-                            <span class="sim-chip" onclick="sendSimPrompt('Có được bảo hành không shop?')">Chính sách bảo hành</span>
-                            <span class="sim-chip" onclick="sendSimPrompt('Cho mình số hotline tư vấn')">Hotline tư vấn</span>
                         </div>
 
                         <!-- Input Box -->
@@ -1159,6 +1169,7 @@
             renderHistory();
             initSimChat();
             updateStatsUI();
+            updateZaloQrUI();
         });
 
         // Tab Navigation
@@ -1191,9 +1202,26 @@
 
             localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
             document.getElementById('simBotName').textContent = botConfig.name;
+            updateZaloQrUI();
 
             alert('✅ Đã lưu thông tin cấu hình Bot thành công!');
             switchWizardStep(2);
+        }
+
+        function updateZaloQrUI() {
+            const phone = botConfig.phone || '0988739896';
+            const phoneClean = phone.replace(/[^0-9]/g, '');
+            const phoneEl = document.getElementById('displayZaloPhone');
+            if (phoneEl) phoneEl.textContent = phone;
+            const directLink = document.getElementById('zaloDirectLink');
+            if (directLink) {
+                directLink.href = `https://zalo.me/${phoneClean}`;
+                directLink.textContent = `💬 Mở Zalo trực tiếp: zalo.me/${phoneClean}`;
+            }
+            const qrImg = document.getElementById('zaloQrImg');
+            if (qrImg) {
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/${phoneClean}`;
+            }
         }
 
         // Input Methods Switcher
@@ -1464,9 +1492,9 @@
         // QR Code & Status
         function refreshQrCode() {
             const img = document.getElementById('zaloQrImg');
-            const token = 'TOKEN_' + Date.now();
-            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=HAITECH_ZALO_LOGIN_${token}`;
-            alert('🔄 Đã làm mới mã QR kết nối Zalo!');
+            const phone = (botConfig.phone || '0988739896').replace(/[^0-9]/g, '');
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/${phone}?ref=haitech_bot_${Date.now()}`;
+            alert(`🔄 Đã làm mới mã QR kết nối Zalo số: ${botConfig.phone}!`);
         }
 
         function toggleBotOnline() {
