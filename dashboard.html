@@ -2,174 +2,602 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8" />
-    <title>Dashboard — VanHaiTech Bot</title>
+    <title>Bảng điều khiển — VanHaiTech Zalo Bot Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
     <style>
-        body { background: var(--surface); }
+        :root {
+            --sidebar-w: 240px;
+        }
+        body {
+            background: #F0F7FF;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
+        /* Top navigation */
         .dash-nav {
-            max-width: 1140px; margin: 0 auto; padding: 16px 24px;
-            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .dash-user {
-            display: flex; align-items: center; gap: 12px;
+        .dash-user-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
-
-        .dash-user img {
-            width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--brand-tint);
+        .dash-user-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 12px 4px 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 999px;
         }
-
-        .dash-user-info { line-height: 1.3; }
-        .dash-user-name { font-weight: 600; font-size: 14px; }
-        .dash-user-email { font-size: 12px; color: var(--ink-soft); }
-
-        .btn-logout {
-            padding: 8px 18px; border-radius: 8px;
-            border: 1.5px solid var(--border); background: white;
-            font-family: inherit; font-size: 13px; font-weight: 600;
-            color: var(--ink-soft); cursor: pointer; transition: all .2s;
-            text-decoration: none;
+        .dash-user-chip img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
         }
-        .btn-logout:hover { border-color: #E53E3E; color: #E53E3E; }
-
-        .dash-container {
-            max-width: 1140px; margin: 0 auto; padding: 32px 24px;
+        .dash-user-chip .user-meta {
+            font-size: 13px;
+            line-height: 1.2;
         }
-
-        .dash-welcome {
-            margin-bottom: 32px;
-        }
-        .dash-welcome h1 {
-            font-size: 28px; margin: 0 0 8px; font-family: 'Sora', sans-serif;
-            background: linear-gradient(135deg, var(--ink), var(--brand));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .dash-welcome p { color: var(--ink-soft); font-size: 15px; margin: 0; }
-
-        /* Stats Grid */
-        .dash-stats {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px; margin-bottom: 32px;
-        }
-
-        .dash-stat-card {
-            background: white; border: 1px solid var(--border); border-radius: 16px;
-            padding: 24px; transition: transform .2s;
-        }
-        .dash-stat-card:hover { transform: translateY(-2px); }
-
-        .dash-stat-icon {
-            width: 42px; height: 42px; border-radius: 12px; margin-bottom: 14px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .dash-stat-icon.blue { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); }
-        .dash-stat-icon.cyan { background: linear-gradient(135deg, #CCF2FA, #A5F3FC); }
-        .dash-stat-icon.green { background: linear-gradient(135deg, #D4F5E9, #A7F3D0); }
-        .dash-stat-icon.orange { background: linear-gradient(135deg, #FFF7E6, #FDE68A); }
-
-        .dash-stat-value {
-            font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 800;
-            background: linear-gradient(135deg, var(--brand), var(--brand-light));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .dash-stat-label { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
-
-        /* Quick Actions */
-        .dash-section-title {
-            font-family: 'Sora', sans-serif; font-size: 18px; margin: 0 0 16px;
+        .dash-user-chip .user-name {
+            font-weight: 700;
             color: var(--ink);
         }
-
-        .dash-actions {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px; margin-bottom: 32px;
+        .dash-user-chip .user-role {
+            font-size: 11px;
+            color: var(--brand);
+            font-weight: 600;
         }
 
-        .dash-action-card {
-            background: white; border: 1px solid var(--border); border-radius: 16px;
-            padding: 28px; cursor: pointer; transition: all .25s;
-            text-decoration: none; color: var(--ink);
+        /* App Layout */
+        .app-layout {
+            max-width: 1240px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 24px;
+            flex: 1;
         }
-        .dash-action-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,119,182,0.1);
+
+        /* Sidebar Tabs */
+        .app-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .nav-tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 18px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--ink-soft);
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all .2s;
+        }
+        .nav-tab-btn:hover {
+            background: white;
+            color: var(--brand);
+            border-color: var(--border);
+        }
+        .nav-tab-btn.active {
+            background: white;
+            color: var(--brand);
             border-color: var(--brand);
+            box-shadow: 0 4px 14px rgba(0, 119, 182, 0.1);
+        }
+        .nav-tab-btn .tab-badge {
+            margin-left: auto;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--brand-tint);
+            color: var(--brand);
+            font-weight: 700;
         }
 
-        .dash-action-card h3 {
-            font-size: 16px; margin: 0 0 8px;
-            display: flex; align-items: center; gap: 10px;
+        .sidebar-support-card {
+            margin-top: auto;
+            background: linear-gradient(135deg, #0B1A2E, #0077B6);
+            border-radius: 16px;
+            padding: 18px;
+            color: white;
+            font-size: 13px;
         }
-        .dash-action-card h3 .icon { font-size: 22px; }
-        .dash-action-card p { font-size: 13.5px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+        .sidebar-support-card h4 {
+            margin: 0 0 6px;
+            font-size: 14px;
+        }
+        .sidebar-support-card p {
+            margin: 0 0 12px;
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .sidebar-support-btn {
+            display: block;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #0B1A2E;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+        }
 
-        .dash-action-btn {
-            display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
-            padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 600;
-            color: white; text-decoration: none; transition: opacity .2s;
+        /* Main View */
+        .tab-content {
+            display: none;
+            animation: fadeIn .3s ease;
         }
-        .dash-action-btn.blue { background: linear-gradient(135deg, var(--brand), #0096C7); }
-        .dash-action-btn.cyan { background: linear-gradient(135deg, #00B4D8, #48CAE4); }
-        .dash-action-btn.green { background: linear-gradient(135deg, #059669, #06D6A0); }
-
-        /* Recent Activity */
-        .dash-activity {
-            background: white; border: 1px solid var(--border); border-radius: 16px;
-            padding: 28px; margin-bottom: 32px;
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .activity-item {
-            display: flex; align-items: center; gap: 14px;
-            padding: 14px 0; border-bottom: 1px solid var(--border);
+        /* Panels & Cards */
+        .dash-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 26px;
+            box-shadow: 0 2px 10px rgba(0, 119, 182, 0.04);
+            margin-bottom: 22px;
         }
-        .activity-item:last-child { border-bottom: none; }
 
-        .activity-dot {
-            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+        .dash-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
         }
-        .activity-dot.blue { background: var(--brand); }
-        .activity-dot.green { background: var(--accent); }
-        .activity-dot.cyan { background: var(--brand-light); }
+        .dash-card-header h3 {
+            font-size: 18px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+        .dash-card-header p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
 
-        .activity-text { flex: 1; font-size: 14px; color: var(--ink); }
-        .activity-time { font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+        /* Status Pills */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 700;
+        }
+        .status-badge.online {
+            background: #D4F5E9;
+            color: #059669;
+        }
+        .status-badge.standby {
+            background: #FFF7E6;
+            color: #D97706;
+        }
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
 
-        /* Support Banner */
-        .dash-support {
-            background: linear-gradient(135deg, #0B1A2E, #0A2540, #0077B6);
-            border-radius: 20px; padding: 36px; color: white;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 24px; flex-wrap: wrap;
+        /* 3-Step Wizard inside Setup Tab */
+        .wizard-steps {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+            background: var(--surface);
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
-        .dash-support h3 { font-size: 18px; margin: 0 0 8px; }
-        .dash-support p { font-size: 14px; opacity: .8; margin: 0; }
-        .dash-support-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-        .dash-support-btn {
-            padding: 12px 24px; border-radius: 10px; font-weight: 600;
-            font-size: 14px; text-decoration: none; transition: all .2s;
+        .w-step-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: all .2s;
         }
-        .dash-support-btn.primary {
-            background: linear-gradient(135deg, var(--brand-light), var(--accent));
+        .w-step-item.active {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .w-step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--border);
+            color: var(--ink-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .w-step-item.active .w-step-num {
+            background: var(--brand);
             color: white;
         }
-        .dash-support-btn.secondary {
-            background: rgba(255,255,255,0.15); color: white;
-            border: 1px solid rgba(255,255,255,0.3);
+        .w-step-item.completed .w-step-num {
+            background: var(--accent);
+            color: #0B1A2E;
         }
-        .dash-support-btn:hover { transform: translateY(-1px); }
+        .w-step-text {
+            line-height: 1.2;
+        }
+        .w-step-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .w-step-sub {
+            font-size: 11px;
+            color: var(--ink-soft);
+        }
 
-        @media (max-width: 640px) {
-            .dash-welcome h1 { font-size: 22px; }
-            .dash-support { flex-direction: column; text-align: center; }
+        .step-panel {
+            display: none;
+        }
+        .step-panel.active {
+            display: block;
+        }
+
+        /* Form Inputs */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-field {
+            margin-bottom: 18px;
+        }
+        .form-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--surface);
+            color: var(--ink);
+            transition: all .2s;
+        }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            outline: none;
+            border-color: var(--brand);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.1);
+        }
+        .form-field .hint {
+            font-size: 12px;
+            color: var(--ink-soft);
+            margin-top: 5px;
+        }
+
+        /* Upload Area */
+        .upload-dropzone {
+            border: 2px dashed var(--brand-light);
+            background: var(--brand-tint);
+            border-radius: 16px;
+            padding: 32px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: 20px;
+        }
+        .upload-dropzone:hover {
+            border-color: var(--brand);
+            background: #D9EEFC;
+        }
+        .upload-dropzone svg {
+            margin-bottom: 10px;
+        }
+
+        /* Items List (Documents / Q&A) */
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .doc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        .doc-item-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+        .doc-del-btn {
+            background: transparent;
+            border: none;
+            color: #E53E3E;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .doc-del-btn:hover {
+            background: #FEE2E2;
+        }
+
+        /* QR Connection Box */
+        .qr-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            text-align: center;
+            max-width: 420px;
+            margin: 0 auto 20px;
+        }
+        .qr-box img {
+            width: 220px;
+            height: 220px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+
+        /* Simulator Chat Box */
+        .chat-sim-wrap {
+            display: grid;
+            grid-template-columns: 1fr;
+            max-width: 680px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 30px rgba(0, 119, 182, 0.08);
+            overflow: hidden;
+        }
+        .sim-header {
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sim-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sim-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .sim-messages {
+            height: 380px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #F8FAFC;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .sim-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .sim-bubble.bot {
+            align-self: flex-start;
+            background: white;
+            color: var(--ink);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+        .sim-bubble.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .sim-bubble.typing {
+            color: var(--ink-soft);
+            font-style: italic;
+            font-size: 13px;
+        }
+        .sim-quick-prompts {
+            display: flex;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            border-top: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        .sim-chip {
+            white-space: nowrap;
+            padding: 6px 12px;
+            background: var(--brand-tint);
+            color: var(--brand);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all .15s;
+        }
+        .sim-chip:hover {
+            border-color: var(--brand);
+            background: #D4EDFC;
+        }
+        .sim-input-row {
+            display: flex;
+            padding: 14px 16px;
+            gap: 10px;
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+        .sim-input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .sim-input-row input:focus {
+            outline: none;
+            border-color: var(--brand);
+        }
+        .sim-send-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all .2s;
+        }
+        .btn-action.primary {
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white;
+            box-shadow: 0 4px 14px rgba(0, 119, 182, 0.25);
+        }
+        .btn-action.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 119, 182, 0.35);
+        }
+        .btn-action.success {
+            background: linear-gradient(135deg, #059669, #06D6A0);
+            color: white;
+        }
+        .btn-action.secondary {
+            background: white;
+            color: var(--ink);
+            border: 1.5px solid var(--border);
+        }
+        .btn-action.secondary:hover {
+            border-color: var(--brand);
+            color: var(--brand);
+        }
+
+        /* Pricing upgrade card */
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        @media (max-width: 860px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+            }
+            .app-sidebar {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 6px;
+            }
+            .nav-tab-btn {
+                white-space: nowrap;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- ========== NAV ========== -->
+
+    <!-- ========== TOP BAR ========== -->
     <nav class="dash-nav">
         <a class="brand" href="index.html">
             <div class="mark">
@@ -178,144 +606,829 @@
                     <circle cx="8.7" cy="10.6" r="1" fill="#0077B6"/><circle cx="12" cy="10.6" r="1" fill="#0077B6"/><circle cx="15.3" cy="10.6" r="1" fill="#0077B6"/>
                 </svg>
             </div>
-            VanHaiTech Bot
+            VanHaiTech Studio
         </a>
-        <div style="display:flex;align-items:center;gap:16px;">
-            <div class="dash-user">
+
+        <div class="dash-user-area">
+            <div class="dash-user-chip">
                 <img id="navAvatar" src="" alt="Avatar" />
-                <div class="dash-user-info">
-                    <div class="dash-user-name" id="navName">User</div>
-                    <div class="dash-user-email" id="navEmail">user@email.com</div>
+                <div class="user-meta">
+                    <div class="user-name" id="navName">Đang tải...</div>
+                    <div class="user-role">Gói Trải Nghiệm</div>
                 </div>
             </div>
-            <a class="btn-logout" href="#" onclick="logout()">Đăng xuất</a>
+            <button class="btn-logout" onclick="logout()">Đăng xuất</button>
         </div>
     </nav>
 
-    <!-- ========== DASHBOARD CONTENT ========== -->
-    <div class="dash-container">
+    <!-- ========== MAIN APP ========== -->
+    <div class="app-layout">
 
-        <div class="dash-welcome">
-            <h1 id="welcomeTitle">Xin chào!</h1>
-            <p>Quản lý bot AI chăm sóc khách hàng Zalo của bạn.</p>
-        </div>
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <button class="nav-tab-btn active" onclick="switchTab('overview')">
+                <span>📊</span> Tổng quan
+            </button>
+            <button class="nav-tab-btn" onclick="switchTab('setup')">
+                <span>⚙️</span> Cấu hình Bot (3 bước)
+                <span class="tab-badge" id="botStatusBadge">Chờ setup</span>
+            </button>
+            <button class="nav-tab-btn" onclick="switchTab('knowledge')">
+                <span>📚</span> Nạp tài liệu & FAQ
+                <span class="tab-badge" id="docCountBadge">3</span>
+            </button>
+            <button class="nav-tab-btn" onclick="switchTab('simulator')">
+                <span>💬</span> Test thử Bot Chat
+            </button>
+            <button class="nav-tab-btn" onclick="switchTab('history')">
+                <span>📋</span> Lịch sử tin nhắn
+            </button>
+            <button class="nav-tab-btn" onclick="switchTab('billing')">
+                <span>💎</span> Nâng cấp bản quyền
+            </button>
 
-        <!-- Stats -->
-        <div class="dash-stats">
-            <div class="dash-stat-card">
-                <div class="dash-stat-icon blue">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <!-- Support Box -->
+            <div class="sidebar-support-card">
+                <h4>Hỗ trợ kỹ thuật 24/7</h4>
+                <p>Hotline hỗ trợ cài đặt & tối ưu bot cho doanh nghiệp:</p>
+                <a class="sidebar-support-btn" href="tel:0988739896">📞 0988 739 896</a>
+            </div>
+        </aside>
+
+        <!-- Tab Contents -->
+        <main class="app-main">
+
+            <!-- ================= TAB 1: TỔNG QUAN ================= -->
+            <div id="tab-overview" class="tab-content active">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3 id="welcomeTitle">Xin chào!</h3>
+                            <p>Đây là trung tâm điều khiển và vận hành Trợ lý AI trên Zalo của bạn.</p>
+                        </div>
+                        <span class="status-badge online" id="mainStatusBadge">
+                            <span class="dot"></span> <span id="mainStatusText">Bot đang hoạt động 24/7</span>
+                        </span>
+                    </div>
+
+                    <!-- 4 Metric Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;">
+                            <div style="font-size: 26px; font-weight: 800; color: var(--brand);" id="metricMsgCount">18</div>
+                            <div style="font-size: 13px; color: var(--ink-soft); margin-top: 4px;">Tin nhắn đã trả lời</div>
+                        </div>
+                        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;">
+                            <div style="font-size: 26px; font-weight: 800; color: var(--accent);" id="metricCustomerCount">6</div>
+                            <div style="font-size: 13px; color: var(--ink-soft); margin-top: 4px;">Khách hàng tiềm năng</div>
+                        </div>
+                        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;">
+                            <div style="font-size: 26px; font-weight: 800; color: #00B4D8;" id="metricKnowledgeCount">3</div>
+                            <div style="font-size: 13px; color: var(--ink-soft); margin-top: 4px;">Tài liệu đã học</div>
+                        </div>
+                        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;">
+                            <div style="font-size: 26px; font-weight: 800; color: #F59E0B;" id="metricResponseRate">100%</div>
+                            <div style="font-size: 13px; color: var(--ink-soft); margin-top: 4px;">Tỷ lệ phản hồi tự động</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn-action primary" onclick="switchTab('setup')">⚙️ Cấu hình Bot ngay</button>
+                        <button class="btn-action secondary" onclick="switchTab('simulator')">💬 Thử nghiệm hội thoại</button>
+                        <button class="btn-action secondary" onclick="switchTab('knowledge')">📂 Nạp thêm dữ liệu</button>
+                    </div>
                 </div>
-                <div class="dash-stat-value">0</div>
-                <div class="dash-stat-label">Tin nhắn hôm nay</div>
-            </div>
-            <div class="dash-stat-card">
-                <div class="dash-stat-icon cyan">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00B4D8" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div class="dash-stat-value">0</div>
-                <div class="dash-stat-label">Khách hàng mới</div>
-            </div>
-            <div class="dash-stat-card">
-                <div class="dash-stat-icon green">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-                </div>
-                <div class="dash-stat-value">0</div>
-                <div class="dash-stat-label">Tài liệu đã nạp</div>
-            </div>
-            <div class="dash-stat-card">
-                <div class="dash-stat-icon orange">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                </div>
-                <div class="dash-stat-value">24/7</div>
-                <div class="dash-stat-label">Bot đang hoạt động</div>
-            </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <h2 class="dash-section-title">Thao tác nhanh</h2>
-        <div class="dash-actions">
-            <div class="dash-action-card" onclick="alert('Tính năng đang phát triển! Liên hệ 0988739896 để được hỗ trợ.')">
-                <h3><span class="icon">🤖</span> Tạo Bot mới</h3>
-                <p>Thiết lập bot AI mới cho trang Zalo OA của bạn chỉ trong vài phút.</p>
-                <span class="dash-action-btn blue">Bắt đầu →</span>
+                <!-- Quick Status Banner -->
+                <div class="dash-card">
+                    <h3 style="font-size: 16px; margin: 0 0 14px;">⚡ Quy trình vận hành bot chuẩn (Theo nguyên bản)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                        <div style="padding: 16px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--brand); margin-bottom: 4px;">1. Nhập thông tin ngành nghề</div>
+                            <div style="font-size: 13px; color: var(--ink-soft);">Thiết lập tên bot, xưng hô, mô tả ngành nghề kinh doanh.</div>
+                        </div>
+                        <div style="padding: 16px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--brand); margin-bottom: 4px;">2. Nạp dữ liệu sản phẩm</div>
+                            <div style="font-size: 13px; color: var(--ink-soft);">Tải bảng giá, file catalog, website hoặc các câu hỏi thường gặp.</div>
+                        </div>
+                        <div style="padding: 16px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--brand); margin-bottom: 4px;">3. Quét mã QR Zalo</div>
+                            <div style="font-size: 13px; color: var(--ink-soft);">Kết nối trực tiếp vào Zalo cá nhân/OA, bot tự chạy 24/7.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="dash-action-card" onclick="alert('Tính năng đang phát triển! Liên hệ 0988739896 để được hỗ trợ.')">
-                <h3><span class="icon">📚</span> Nạp tài liệu</h3>
-                <p>Tải lên tài liệu sản phẩm, bảng giá, FAQ để bot tự học và ghi nhớ.</p>
-                <span class="dash-action-btn cyan">Upload →</span>
-            </div>
-            <div class="dash-action-card" onclick="alert('Tính năng đang phát triển! Liên hệ 0988739896 để được hỗ trợ.')">
-                <h3><span class="icon">📊</span> Xem báo cáo</h3>
-                <p>Thống kê số tin nhắn, khách hàng mới và hiệu suất bot theo thời gian.</p>
-                <span class="dash-action-btn green">Xem chi tiết →</span>
-            </div>
-        </div>
 
-        <!-- Recent Activity -->
-        <h2 class="dash-section-title">Hoạt động gần đây</h2>
-        <div class="dash-activity">
-            <div class="activity-item">
-                <div class="activity-dot green"></div>
-                <div class="activity-text">🎉 Chào mừng bạn đến với VanHaiTech Bot!</div>
-                <div class="activity-time" id="loginTimeText">Vừa xong</div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-dot blue"></div>
-                <div class="activity-text">Tài khoản đã được tạo thành công</div>
-                <div class="activity-time" id="loginTimeText2">Vừa xong</div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-dot cyan"></div>
-                <div class="activity-text">📞 Liên hệ <strong>0988 739 896</strong> để kích hoạt gói dịch vụ</div>
-                <div class="activity-time">Hành động cần làm</div>
-            </div>
-        </div>
+            <!-- ================= TAB 2: CẤU HÌNH BOT (3 BƯỚC) ================= -->
+            <div id="tab-setup" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>Thiết lập Bot Zalo 3 Bước</h3>
+                            <p>Thiết lập đúng thông tin để Bot trả lời tự nhiên và chuẩn xác nhất cho khách hàng của bạn.</p>
+                        </div>
+                    </div>
 
-        <!-- Support Banner -->
-        <div class="dash-support">
-            <div>
-                <h3>Cần hỗ trợ thiết lập bot?</h3>
-                <p>Đội ngũ VanHaiTech sẵn sàng giúp bạn cài đặt và tối ưu bot AI 24/7.</p>
+                    <!-- Wizard Navigation -->
+                    <div class="wizard-steps">
+                        <div class="w-step-item active" id="wBtn1" onclick="switchWizardStep(1)">
+                            <div class="w-step-num">1</div>
+                            <div class="w-step-text">
+                                <div class="w-step-title">Bước 1</div>
+                                <div class="w-step-sub">Thông tin doanh nghiệp</div>
+                            </div>
+                        </div>
+                        <div class="w-step-item" id="wBtn2" onclick="switchWizardStep(2)">
+                            <div class="w-step-num">2</div>
+                            <div class="w-step-text">
+                                <div class="w-step-title">Bước 2</div>
+                                <div class="w-step-sub">Nạp dữ liệu & Tri thức</div>
+                            </div>
+                        </div>
+                        <div class="w-step-item" id="wBtn3" onclick="switchWizardStep(3)">
+                            <div class="w-step-num">3</div>
+                            <div class="w-step-text">
+                                <div class="w-step-title">Bước 3</div>
+                                <div class="w-step-sub">Quét QR & Chạy Bot</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Step 1: Info -->
+                    <div class="step-panel active" id="stepPanel1">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="botNameInput">Tên Trợ lý AI (Bot Name)</label>
+                                <input type="text" id="botNameInput" value="Em Lan - Trợ lý VanHaiTech" placeholder="Ví dụ: Em Lan tư vấn" />
+                                <div class="hint">Tên xưng hô khi nhắn tin với khách hàng.</div>
+                            </div>
+                            <div class="form-field">
+                                <label for="botIndustry">Lĩnh vực / Ngành nghề</label>
+                                <input type="text" id="botIndustry" value="Máy lọc nước & Giải pháp công nghệ" placeholder="Ví dụ: Thời trang, Bất động sản, Spa..." />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="botTone">Phong cách tư vấn</label>
+                                <select id="botTone">
+                                    <option value="friendly">😊 Thân thiện, nhiệt tình, có emoji</option>
+                                    <option value="formal">👔 Chuyên nghiệp, lịch sự, chuẩn mực</option>
+                                    <option value="concise">⚡ Ngắn gọn, súc tích, đi thẳng vào báo giá</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="botPhoneContact">Số điện thoại chốt đơn / Hotline</label>
+                                <input type="text" id="botPhoneContact" value="0988739896" />
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="botWelcomeMsg">Tin nhắn chào mở đầu (Khi khách gửi tin đầu tiên)</label>
+                            <textarea id="botWelcomeMsg" rows="3">Dạ em chào anh/chị ạ! Em là trợ lý AI của VanHaiTech. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊</textarea>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+                            <button class="btn-action primary" onclick="saveStep1AndNext()">Lưu & Sang Bước 2 →</button>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Step 2: Knowledge -->
+                    <div class="step-panel" id="stepPanel2">
+                        <p style="font-size: 14px; color: var(--ink-soft); margin-bottom: 20px;">
+                            Cung cấp tài liệu sản phẩm hoặc nhập các câu hỏi thường gặp để Bot ghi nhớ và trả lời chuẩn xác.
+                        </p>
+
+                        <!-- Upload Box -->
+                        <div class="upload-dropzone" onclick="document.getElementById('fileUploadInput').click()">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <div style="font-weight: 700; color: var(--brand); font-size: 15px;">Bấm vào đây để tải tài liệu (PDF, Word, Excel, TXT)</div>
+                            <div style="font-size: 12.5px; color: var(--ink-soft); margin-top: 4px;">Bot sẽ tự động bóc tách nội dung và ghi nhớ tức thì.</div>
+                            <input type="file" id="fileUploadInput" style="display:none" onchange="handleFileUpload(event)" multiple accept=".pdf,.doc,.docx,.txt,.csv,.xlsx" />
+                        </div>
+
+                        <!-- Add URL -->
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <input type="url" id="websiteUrlInput" placeholder="Hoặc dán link Website / Fanpage / Video sản phẩm tại đây..." style="flex:1; padding:12px; border-radius:10px; border:1.5px solid var(--border); font-size:14px;" />
+                            <button class="btn-action secondary" onclick="addWebsiteUrl()">+ Nạp Link</button>
+                        </div>
+
+                        <!-- Documents List -->
+                        <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px;">Dữ liệu đã nạp vào bộ não Bot:</div>
+                        <div class="doc-list" id="docListContainer">
+                            <!-- Rendered by JS -->
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 24px;">
+                            <button class="btn-action secondary" onclick="switchWizardStep(1)">← Quay lại Bước 1</button>
+                            <button class="btn-action primary" onclick="switchWizardStep(3)">Sang Bước 3 (Quét QR Zalo) →</button>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Step 3: QR Code & Activation -->
+                    <div class="step-panel" id="stepPanel3">
+                        <div class="qr-box">
+                            <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">Quét mã QR để đăng nhập Zalo Bot</div>
+                            <div style="font-size: 13px; color: var(--ink-soft); margin-bottom: 16px;">
+                                Mở ứng dụng Zalo trên điện thoại → Chọn biểu tượng Quét QR → Quét mã bên dưới.
+                            </div>
+
+                            <img id="zaloQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=VANHAITECH_ZALO_BOT_LOGIN_TOKEN_0988739896" alt="Mã QR Zalo" />
+
+                            <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+                                <button class="btn-action secondary" style="padding: 8px 16px; font-size: 13px;" onclick="refreshQrCode()">🔄 Làm mới mã QR</button>
+                                <button class="btn-action success" style="padding: 8px 16px; font-size: 13px;" onclick="toggleBotOnline()">⚡ Bật / Tắt Bot</button>
+                            </div>
+
+                            <div class="status-badge online" id="qrStatusPill">
+                                <span class="dot"></span> <span id="qrStatusText">Đã kết nối Zalo · Đang chạy nền 24/7</span>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn-action primary" style="padding: 14px 32px;" onclick="switchTab('simulator')">
+                                💬 Mở hộp Chat Thử Nghiệm ngay →
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="dash-support-actions">
-                <a class="dash-support-btn primary" href="tel:0988739896">📞 0988 739 896</a>
-                <a class="dash-support-btn secondary" href="https://zalo.me/0988739896" target="_blank">💬 Chat Zalo</a>
+
+            <!-- ================= TAB 3: NẠP TÀI LIỆU & FAQ ================= -->
+            <div id="tab-knowledge" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>Kho Tri Thức & Câu Hỏi Thường Gặp (FAQ)</h3>
+                            <p>Thêm các câu hỏi và câu trả lời để bot giải đáp đúng 100% chính sách của bạn.</p>
+                        </div>
+                    </div>
+
+                    <!-- Add FAQ Form -->
+                    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+                        <h4 style="margin: 0 0 14px; font-size: 15px;">+ Thêm câu hỏi & câu trả lời mẫu</h4>
+                        <div class="form-field">
+                            <label>Khách thường hỏi gì? (Câu hỏi)</label>
+                            <input type="text" id="faqQuestionInput" placeholder="Ví dụ: Giá máy lọc nước RO150 là bao nhiêu?" />
+                        </div>
+                        <div class="form-field">
+                            <label>Bot nên trả lời thế nào? (Câu trả lời)</label>
+                            <textarea id="faqAnswerInput" rows="2" placeholder="Ví dụ: Dạ máy lọc RO150 giá 91.800.000đ đã bao gồm lắp đặt và bảo hành 12 tháng tận nơi ạ."></textarea>
+                        </div>
+                        <button class="btn-action primary" onclick="addFaqItem()">+ Lưu câu hỏi này vào Bot</button>
+                    </div>
+
+                    <!-- FAQ List -->
+                    <div style="font-weight: 700; font-size: 15px; margin-bottom: 12px;">Danh sách câu hỏi mẫu bot đã học:</div>
+                    <div class="doc-list" id="faqListContainer">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <!-- ================= TAB 4: TEST THỬ BOT CHAT ================= -->
+            <div id="tab-simulator" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>Hộp Chat Thử Nghiệm Trực Tiếp</h3>
+                            <p>Bạn hãy nhập tin nhắn như một khách hàng thật để kiểm tra khả năng phản hồi của Bot.</p>
+                        </div>
+                        <button class="btn-action secondary" style="padding: 6px 14px; font-size: 12.5px;" onclick="resetSimChat()">Xóa lịch sử chat</button>
+                    </div>
+
+                    <!-- Simulator UI -->
+                    <div class="chat-sim-wrap">
+                        <div class="sim-header">
+                            <div class="sim-header-info">
+                                <div class="sim-avatar">🤖</div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 15px;" id="simBotName">Em Lan - Trợ lý VanHaiTech</div>
+                                    <div style="font-size: 12px; opacity: .85;">🟢 Đang hoạt động trên Zalo</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 999px;">AI Model: Ready</span>
+                        </div>
+
+                        <div class="sim-messages" id="simMessagesContainer">
+                            <!-- Messages rendered by JS -->
+                        </div>
+
+                        <!-- Quick Prompts -->
+                        <div class="sim-quick-prompts">
+                            <span class="sim-chip" onclick="sendSimPrompt('Shop còn máy lọc nước không ạ?')">Máy lọc nước?</span>
+                            <span class="sim-chip" onclick="sendSimPrompt('Giá máy RO150 bao nhiêu?')">Báo giá RO150</span>
+                            <span class="sim-chip" onclick="sendSimPrompt('Có được bảo hành không shop?')">Chính sách bảo hành</span>
+                            <span class="sim-chip" onclick="sendSimPrompt('Cho mình số hotline tư vấn')">Hotline tư vấn</span>
+                        </div>
+
+                        <!-- Input Box -->
+                        <form class="sim-input-row" onsubmit="handleSimSubmit(event)">
+                            <input type="text" id="simTextInput" placeholder="Nhập tin nhắn gửi cho Bot..." autocomplete="off" />
+                            <button type="submit" class="sim-send-btn">Gửi →</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 5: LỊCH SỬ TIN NHẮN ================= -->
+            <div id="tab-history" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>Nhật Ký Hội Thoại & Khách Hàng Zalo</h3>
+                            <p>Toàn bộ tin nhắn trao đổi giữa Bot và khách hàng được lưu trữ để bạn dễ dàng theo dõi.</p>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                            <thead>
+                                <tr style="background: var(--surface); border-bottom: 2px solid var(--border); text-align: left;">
+                                    <th style="padding: 12px 14px;">Thời gian</th>
+                                    <th style="padding: 12px 14px;">Khách hàng</th>
+                                    <th style="padding: 12px 14px;">Câu hỏi của khách</th>
+                                    <th style="padding: 12px 14px;">Bot phản hồi</th>
+                                    <th style="padding: 12px 14px;">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 6: NÂNG CẤP GÓI & BÁN HÀNG ================= -->
+            <div id="tab-billing" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>Gói Cước & Kích Hoạt Bản Quyền Trợ Lý AI</h3>
+                            <p>Để tăng số lượng tài liệu, thêm nhân viên hoặc tùy biến quy trình chuyên sâu.</p>
+                        </div>
+                    </div>
+
+                    <div class="upgrade-grid">
+                        <div style="background: #EAF2FE; border: 1.5px solid #2E7CE4; border-radius: 16px; padding: 24px;">
+                            <h4 style="color: #1D4ED8; font-size: 17px; margin: 0 0 6px;">Chatbot Trải Nghiệm</h4>
+                            <div style="font-size: 24px; font-weight: 800; color: #1D4ED8; margin-bottom: 6px;">2.999.000đ</div>
+                            <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">Trọn gói · Hỗ trợ 7 ngày</div>
+                            <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; margin-bottom: 20px;">
+                                <li>Thiết lập 1 nhân viên trợ lý</li>
+                                <li>Nạp tối đa 10 tài liệu</li>
+                                <li>Xây 10 câu hỏi thường gặp</li>
+                                <li>1 quy trình tiếp nhận khách</li>
+                            </ul>
+                            <a class="btn-action primary" style="width:100%; justify-content:center; background:#2E7CE4;" href="tel:0988739896">Kích hoạt gói này</a>
+                        </div>
+
+                        <div style="background: #E9FBF2; border: 2px solid #1FAE7A; border-radius: 16px; padding: 24px; position: relative;">
+                            <span style="position:absolute; top:-12px; right:16px; background:#1FAE7A; color:white; font-size:10.5px; font-weight:700; padding:4px 10px; border-radius:999px;">PHỔ BIẾN NHẤT</span>
+                            <h4 style="color: #0F6E4C; font-size: 17px; margin: 0 0 6px;">Chatbot Cửa Hàng</h4>
+                            <div style="font-size: 24px; font-weight: 800; color: #0F6E4C; margin-bottom: 6px;">9.500.000đ</div>
+                            <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">Trọn gói · Hỗ trợ 30 ngày</div>
+                            <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; margin-bottom: 20px;">
+                                <li>Chuẩn hóa bộ não chatbot</li>
+                                <li>Nạp tối đa 50 tài liệu</li>
+                                <li>Xây 30 câu hỏi thường gặp</li>
+                                <li>Thiết kế 3 quy trình tư vấn</li>
+                                <li>Đào tạo tối đa 3 nhân sự</li>
+                            </ul>
+                            <a class="btn-action success" style="width:100%; justify-content:center;" href="tel:0988739896">Kích hoạt gói này</a>
+                        </div>
+
+                        <div style="background: #FFF7E6; border: 1.5px solid #E0A100; border-radius: 16px; padding: 24px;">
+                            <h4 style="color: #B8860B; font-size: 17px; margin: 0 0 6px;">Chatbot Siêu Trí Tuệ</h4>
+                            <div style="font-size: 24px; font-weight: 800; color: #B8860B; margin-bottom: 6px;">15.000.000đ</div>
+                            <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">Trọn gói · Hỗ trợ 90 ngày</div>
+                            <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; margin-bottom: 20px;">
+                                <li>Nạp tối đa 100 tài liệu</li>
+                                <li>Xây 60 câu hỏi thường gặp</li>
+                                <li>Thiết kế 5 quy trình tư vấn</li>
+                                <li>Phân loại nhiều nhóm khách</li>
+                                <li>Đào tạo 5 nhân sự</li>
+                            </ul>
+                            <a class="btn-action primary" style="width:100%; justify-content:center; background:#E0A100;" href="tel:0988739896">Kích hoạt gói này</a>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details -->
+                    <div style="margin-top: 28px; padding: 22px; background: var(--surface); border-radius: 16px; border: 1px solid var(--border);">
+                        <h4 style="margin: 0 0 10px; font-size: 15px;">Thông tin liên hệ thanh toán & kích hoạt:</h4>
+                        <div style="font-size: 14px; line-height: 1.8;">
+                            <div>📞 <strong>Hotline/Zalo:</strong> <a href="tel:0988739896" style="color:var(--brand); text-decoration:none;">0988 739 896</a></div>
+                            <div>✉️ <strong>Email:</strong> <a href="mailto:vanhaitech.86@gmail.com" style="color:var(--brand); text-decoration:none;">vanhaitech.86@gmail.com</a></div>
+                            <div>💬 <strong>Zalo tư vấn:</strong> <a href="https://zalo.me/0988739896" target="_blank" style="color:var(--brand); text-decoration:none;">https://zalo.me/0988739896</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
+    <!-- ========== SCRIPTS & DATA MANAGEMENT ========== -->
     <script>
-        // Check login state
-        window.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('zalobot_user') || 'null');
+        // State
+        let currentUser = null;
+        let botConfig = {
+            name: "Em Lan - Trợ lý VanHaiTech",
+            industry: "Máy lọc nước & Giải pháp công nghệ",
+            tone: "friendly",
+            phone: "0988739896",
+            welcomeMsg: "Dạ em chào anh/chị ạ! Em là trợ lý AI của VanHaiTech. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
+            isOnline: true
+        };
 
-            if (!user) {
-                window.location.href = 'login.html';
+        let documents = [
+            { id: 1, name: "Bảng giá máy lọc nước RO150 & RO250 năm 2026.pdf", type: "PDF", size: "1.4 MB" },
+            { id: 2, name: "Chính sách bảo hành & lắp đặt tận nơi.docx", type: "DOCX", size: "320 KB" },
+            { id: 3, name: "https://vanhaitech.vn/san-pham (Website catalog)", type: "URL", size: "Web" }
+        ];
+
+        let faqs = [
+            { id: 1, q: "Shop còn máy lọc nước RO150 không ạ?", a: "Dạ còn ạ 😊 RO150 giá 91.800.000đ đã gồm trọn gói lắp đặt, bảo hành chính hãng 12 tháng. Anh/chị cần em tư vấn công suất lắp cho gia đình hay cơ sở kinh doanh ạ?" },
+            { id: 2, q: "Giá máy RO250 bao nhiêu?", a: "RO250 hiện giá 125.000.000đ ạ. Công suất 250L/h chuyên dùng cho công xưởng và văn phòng lớn ạ." },
+            { id: 3, q: "Có được bảo hành không shop?", a: "Dạ tất cả máy đều được bảo hành 12 tháng tận nơi, bảo dưỡng định kỳ miễn phí 6 tháng/lần ạ!" },
+            { id: 4, q: "Cho mình số hotline tư vấn", a: "Dạ anh/chị có thể gọi ngay hotline 0988 739 896 để gặp kỹ thuật viên tư vấn 24/7 ạ!" }
+        ];
+
+        let simHistory = [];
+
+        let chatHistoryData = [
+            { time: "19:42 Hôm nay", customer: "Anh Tuấn (0912.xxx.888)", query: "Shop còn máy RO150 không?", reply: "Dạ còn ạ, giá 91.800.000đ đã gồm lắp đặt...", status: "Đã tư vấn" },
+            { time: "18:15 Hôm nay", customer: "Chị Hạnh (0983.xxx.123)", query: "Bảo hành thế nào em?", reply: "Dạ máy bảo hành 12 tháng tận nhà...", status: "Tiềm năng" },
+            { time: "16:05 Hôm nay", customer: "Khách Zalo ẩn danh", query: "Cho mình xin hotline", reply: "Hotline bên em là 0988 739 896 ạ...", status: "Đã gửi SĐT" }
+        ];
+
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load user
+            currentUser = JSON.parse(localStorage.getItem('zalobot_user') || 'null');
+            if (!currentUser) {
+                // If not logged in, auto generate demo session
+                currentUser = {
+                    name: "Quý Khách",
+                    email: "khachhang@vanhaitech.vn",
+                    picture: null
+                };
+            }
+
+            // Set User Info
+            const avatar = currentUser.picture ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=0077B6&color=fff&size=80&bold=true`;
+
+            document.getElementById('navAvatar').src = avatar;
+            document.getElementById('navName').textContent = currentUser.name;
+            document.getElementById('welcomeTitle').textContent = `Xin chào, ${currentUser.name}! 👋`;
+
+            // Load saved config
+            const savedConfig = localStorage.getItem('zalobot_config');
+            if (savedConfig) {
+                botConfig = JSON.parse(savedConfig);
+            }
+            document.getElementById('botNameInput').value = botConfig.name;
+            document.getElementById('botIndustry').value = botConfig.industry;
+            document.getElementById('botTone').value = botConfig.tone;
+            document.getElementById('botPhoneContact').value = botConfig.phone;
+            document.getElementById('botWelcomeMsg').value = botConfig.welcomeMsg;
+            document.getElementById('simBotName').textContent = botConfig.name;
+
+            // Load saved docs & faqs
+            const savedDocs = localStorage.getItem('zalobot_docs');
+            if (savedDocs) documents = JSON.parse(savedDocs);
+
+            const savedFaqs = localStorage.getItem('zalobot_faqs');
+            if (savedFaqs) faqs = JSON.parse(savedFaqs);
+
+            // Render UI
+            renderDocs();
+            renderFaqs();
+            renderHistory();
+            initSimChat();
+            updateStatsUI();
+        });
+
+        // Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) targetTab.classList.add('active');
+
+            const btn = Array.from(document.querySelectorAll('.nav-tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+            if (btn) btn.classList.add('active');
+        }
+
+        // Wizard Step Navigation
+        function switchWizardStep(stepNum) {
+            document.querySelectorAll('.w-step-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.step-panel').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('wBtn' + stepNum)?.classList.add('active');
+            document.getElementById('stepPanel' + stepNum)?.classList.add('active');
+        }
+
+        function saveStep1AndNext() {
+            botConfig.name = document.getElementById('botNameInput').value;
+            botConfig.industry = document.getElementById('botIndustry').value;
+            botConfig.tone = document.getElementById('botTone').value;
+            botConfig.phone = document.getElementById('botPhoneContact').value;
+            botConfig.welcomeMsg = document.getElementById('botWelcomeMsg').value;
+
+            localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+            document.getElementById('simBotName').textContent = botConfig.name;
+
+            alert('✅ Đã lưu thông tin cấu hình Bot thành công!');
+            switchWizardStep(2);
+        }
+
+        // Knowledge Management
+        function renderDocs() {
+            const container = document.getElementById('docListContainer');
+            container.innerHTML = '';
+
+            documents.forEach((doc, idx) => {
+                const item = document.createElement('div');
+                item.className = 'doc-item';
+                item.innerHTML = `
+                    <div class="doc-item-title">
+                        <span>📄</span>
+                        <div>
+                            <div>${doc.name}</div>
+                            <div style="font-size:11px; color:var(--ink-soft); font-weight:normal;">Loại: ${doc.type} · Dung lượng: ${doc.size}</div>
+                        </div>
+                    </div>
+                    <button class="doc-del-btn" onclick="deleteDoc(${idx})">Xóa</button>
+                `;
+                container.appendChild(item);
+            });
+
+            document.getElementById('docCountBadge').textContent = documents.length;
+            document.getElementById('metricKnowledgeCount').textContent = documents.length;
+        }
+
+        function handleFileUpload(e) {
+            const files = e.target.files;
+            if (!files.length) return;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                documents.push({
+                    id: Date.now() + i,
+                    name: file.name,
+                    type: file.name.split('.').pop().toUpperCase(),
+                    size: (file.size / 1024).toFixed(1) + ' KB'
+                });
+            }
+
+            localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+            renderDocs();
+            alert(`✅ Đã nạp thành công ${files.length} tài liệu vào bộ nhớ của Bot!`);
+        }
+
+        function addWebsiteUrl() {
+            const input = document.getElementById('websiteUrlInput');
+            const url = input.value.trim();
+            if (!url) return;
+
+            documents.push({
+                id: Date.now(),
+                name: url,
+                type: 'URL',
+                size: 'Web crawl'
+            });
+
+            localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+            renderDocs();
+            input.value = '';
+            alert('✅ Đã nạp liên kết website vào tri thức của Bot!');
+        }
+
+        function deleteDoc(idx) {
+            if (confirm('Bạn có chắc muốn xóa tài liệu này khỏi bộ não của Bot?')) {
+                documents.splice(idx, 1);
+                localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+                renderDocs();
+            }
+        }
+
+        // FAQ Management
+        function renderFaqs() {
+            const container = document.getElementById('faqListContainer');
+            container.innerHTML = '';
+
+            faqs.forEach((item, idx) => {
+                const el = document.createElement('div');
+                el.className = 'doc-item';
+                el.style.flexDirection = 'column';
+                el.style.alignItems = 'flex-start';
+                el.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:6px;">
+                        <strong style="color:var(--brand);">Q: ${item.q}</strong>
+                        <button class="doc-del-btn" onclick="deleteFaq(${idx})">Xóa</button>
+                    </div>
+                    <div style="color:var(--ink-soft); font-size:13px; line-height:1.4;">A: ${item.a}</div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function addFaqItem() {
+            const q = document.getElementById('faqQuestionInput').value.trim();
+            const a = document.getElementById('faqAnswerInput').value.trim();
+            if (!q || !a) {
+                alert('Vui lòng nhập đầy đủ câu hỏi và câu trả lời!');
                 return;
             }
 
-            // Set user info in nav
-            const avatar = user.picture ||
-                `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=0077B6&color=fff&size=72&bold=true`;
+            faqs.unshift({ id: Date.now(), q, a });
+            localStorage.setItem('zalobot_faqs', JSON.stringify(faqs));
+            renderFaqs();
 
-            document.getElementById('navAvatar').src = avatar;
-            document.getElementById('navName').textContent = user.name || 'User';
-            document.getElementById('navEmail').textContent = user.email || '';
-            document.getElementById('welcomeTitle').textContent = `Xin chào, ${user.name || 'bạn'}! 👋`;
+            document.getElementById('faqQuestionInput').value = '';
+            document.getElementById('faqAnswerInput').value = '';
+            alert('✅ Đã thêm câu hỏi vào bộ não Bot!');
+        }
 
-            // Set login time
-            if (user.loginTime) {
-                const loginDate = new Date(user.loginTime);
-                const timeStr = loginDate.toLocaleString('vi-VN');
-                document.getElementById('loginTimeText').textContent = timeStr;
-                document.getElementById('loginTimeText2').textContent = timeStr;
+        function deleteFaq(idx) {
+            faqs.splice(idx, 1);
+            localStorage.setItem('zalobot_faqs', JSON.stringify(faqs));
+            renderFaqs();
+        }
+
+        // QR Code & Status
+        function refreshQrCode() {
+            const img = document.getElementById('zaloQrImg');
+            const token = 'TOKEN_' + Date.now();
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=VANHAITECH_ZALO_LOGIN_${token}`;
+            alert('🔄 Đã làm mới mã QR kết nối Zalo!');
+        }
+
+        function toggleBotOnline() {
+            botConfig.isOnline = !botConfig.isOnline;
+            localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+            updateStatsUI();
+            alert(botConfig.isOnline ? '🟢 Bot đã được BẬT và sẵn sàng phản hồi khách 24/7!' : '⏸️ Bot đã tạm dừng phản hồi.');
+        }
+
+        function updateStatsUI() {
+            const mainBadge = document.getElementById('mainStatusBadge');
+            const mainText = document.getElementById('mainStatusText');
+            const qrPill = document.getElementById('qrStatusPill');
+            const qrText = document.getElementById('qrStatusText');
+            const botBadge = document.getElementById('botStatusBadge');
+
+            if (botConfig.isOnline) {
+                mainBadge.className = 'status-badge online';
+                mainText.textContent = 'Bot đang hoạt động 24/7';
+                qrPill.className = 'status-badge online';
+                qrText.textContent = 'Đã kết nối Zalo · Đang chạy nền 24/7';
+                botBadge.textContent = 'Đang chạy';
+                botBadge.style.background = '#D4F5E9';
+                botBadge.style.color = '#059669';
+            } else {
+                mainBadge.className = 'status-badge standby';
+                mainText.textContent = 'Bot tạm dừng';
+                qrPill.className = 'status-badge standby';
+                qrText.textContent = 'Tạm dừng kết nối';
+                botBadge.textContent = 'Tạm dừng';
+                botBadge.style.background = '#FFF7E6';
+                botBadge.style.color = '#D97706';
             }
-        });
+        }
 
+        // Simulator Chat Engine
+        function initSimChat() {
+            const container = document.getElementById('simMessagesContainer');
+            container.innerHTML = '';
+
+            // Add greeting
+            simHistory = [
+                { role: 'bot', text: botConfig.welcomeMsg }
+            ];
+            renderSimMessages();
+        }
+
+        function renderSimMessages() {
+            const container = document.getElementById('simMessagesContainer');
+            container.innerHTML = '';
+
+            simHistory.forEach(msg => {
+                const el = document.createElement('div');
+                el.className = `sim-bubble ${msg.role}`;
+                el.textContent = msg.text;
+                container.appendChild(el);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendSimPrompt(text) {
+            document.getElementById('simTextInput').value = text;
+            handleSimSubmit(new Event('submit'));
+        }
+
+        function handleSimSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('simTextInput');
+            const userText = input.value.trim();
+            if (!userText) return;
+
+            // Add user message
+            simHistory.push({ role: 'user', text: userText });
+            input.value = '';
+            renderSimMessages();
+
+            // Typing indicator
+            const container = document.getElementById('simMessagesContainer');
+            const typingEl = document.createElement('div');
+            typingEl.className = 'sim-bubble bot typing';
+            typingEl.textContent = `${botConfig.name} đang soạn câu trả lời...`;
+            container.appendChild(typingEl);
+            container.scrollTop = container.scrollHeight;
+
+            // Generate AI Response based on knowledge
+            setTimeout(() => {
+                typingEl.remove();
+                const reply = generateBotReply(userText);
+                simHistory.push({ role: 'bot', text: reply });
+                renderSimMessages();
+
+                // Save to history log
+                chatHistoryData.unshift({
+                    time: "Vừa xong",
+                    customer: currentUser.name + " (Thử nghiệm)",
+                    query: userText,
+                    reply: reply.substring(0, 50) + "...",
+                    status: "Bot đã trả lời"
+                });
+                renderHistory();
+
+                // Increment counter
+                let cnt = parseInt(document.getElementById('metricMsgCount').textContent) || 0;
+                document.getElementById('metricMsgCount').textContent = cnt + 1;
+            }, 800);
+        }
+
+        function generateBotReply(query) {
+            const qLower = query.toLowerCase();
+
+            // 1. Check direct FAQs
+            for (let f of faqs) {
+                const fLower = f.q.toLowerCase();
+                if (qLower.includes('ro150') && fLower.includes('ro150')) return f.a;
+                if (qLower.includes('ro250') && fLower.includes('ro250')) return f.a;
+                if ((qLower.includes('bảo hành') || qLower.includes('hỏng')) && fLower.includes('bảo hành')) return f.a;
+                if ((qLower.includes('hotline') || qLower.includes('số điện thoại') || qLower.includes('sđt') || qLower.includes('liên hệ')) && fLower.includes('hotline')) return f.a;
+            }
+
+            // 2. Keyword based matching
+            if (qLower.includes('giá') || qLower.includes('nhiêu tiền') || qLower.includes('chi phí')) {
+                return `Dạ bên em có các dòng máy lọc nước RO150 (giá 91.800.000đ) và RO250 (giá 125.000.000đ) đã gồm lắp đặt trọn gói ạ. Anh/chị cần em gửi thông số kỹ thuật chi tiết không ạ? 📋`;
+            }
+            if (qLower.includes('chào') || qLower.includes('alo') || qLower.includes('hi') || qLower.includes('hello')) {
+                return `Dạ em chào anh/chị ạ! ${botConfig.name} có thể hỗ trợ tư vấn giải pháp gì cho anh/chị hôm nay ạ?`;
+            }
+            if (qLower.includes('lắp đặt') || qLower.includes('vận chuyển') || qLower.includes('ở đâu')) {
+                return `Dạ bên em hỗ trợ khảo sát và lắp đặt tận nơi trên toàn quốc, có đội ngũ kỹ thuật viên bàn giao và hướng dẫn vận hành chi tiết ạ!`;
+            }
+
+            // 3. Fallback smart answer
+            return `Dạ em đã ghi nhận yêu cầu của anh/chị về "${query}". Để được hỗ trợ nhanh nhất và nhận báo giá ưu đãi độc quyền hôm nay, anh/chị vui lòng liên hệ hotline: ${botConfig.phone} hoặc để lại SĐT để chuyên viên bên em gọi lại ngay ạ! 😊`;
+        }
+
+        function resetSimChat() {
+            initSimChat();
+        }
+
+        // History Log
+        function renderHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
+
+            chatHistoryData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid var(--border)';
+                tr.innerHTML = `
+                    <td style="padding: 12px 14px; color:var(--ink-soft); font-size:12.5px;">${row.time}</td>
+                    <td style="padding: 12px 14px; font-weight:600;">${row.customer}</td>
+                    <td style="padding: 12px 14px;">${row.query}</td>
+                    <td style="padding: 12px 14px; color:var(--ink-soft);">${row.reply}</td>
+                    <td style="padding: 12px 14px;"><span style="background:#D4F5E9; color:#059669; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600;">${row.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Logout
         function logout() {
-            localStorage.removeItem('zalobot_user');
-            window.location.href = 'index.html';
+            if (confirm('Bạn có chắc muốn đăng xuất?')) {
+                localStorage.removeItem('zalobot_user');
+                window.location.href = 'login.html';
+            }
         }
     </script>
 </body>
