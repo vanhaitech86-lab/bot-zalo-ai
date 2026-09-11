@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Đăng nhập — VanHaiTech Bot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+    <style>
+        .login-wrap {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            background: var(--surface);
+            background-image:
+                radial-gradient(ellipse at 30% 20%, rgba(0,119,182,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(0,180,216,0.08) 0%, transparent 50%);
+        }
+        .login-card {
+            background: var(--card); border-radius: 28px; padding: 48px 40px;
+            box-shadow: var(--shadow-lg); text-align: center; max-width: 420px; width: 100%;
+            border: 1px solid var(--border); position: relative;
+        }
+        .login-back {
+            position: absolute; top: 20px; left: 24px;
+            font-size: 13px; font-weight: 600; color: var(--ink-soft);
+            text-decoration: none; display: flex; align-items: center; gap: 6px;
+            transition: color .2s;
+        }
+        .login-back:hover { color: var(--brand); }
+        .login-mark {
+            width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 24px rgba(0,119,182,0.3);
+        }
+        .login-card h1 {
+            font-size: 24px; margin: 0 0 8px; font-family: 'Sora', sans-serif;
+            background: linear-gradient(135deg, var(--ink), var(--brand));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .login-card .subtitle { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 32px; line-height: 1.5; }
+
+        .google-btn {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: 100%; padding: 14px 24px;
+            background: white; border: 1.5px solid var(--border); border-radius: 12px;
+            font-family: inherit; font-size: 15px; font-weight: 600; color: var(--ink);
+            cursor: pointer; transition: all .25s;
+            text-decoration: none;
+        }
+        .google-btn:hover {
+            border-color: var(--brand); color: var(--brand);
+            box-shadow: 0 4px 16px rgba(0,119,182,0.1);
+            transform: translateY(-1px);
+        }
+        .google-btn svg { flex-shrink: 0; }
+
+        .divider {
+            display: flex; align-items: center; gap: 16px;
+            margin: 24px 0; color: var(--ink-soft); font-size: 12px;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
+        }
+
+        .login-form { text-align: left; }
+        .login-form .form-group { margin-bottom: 16px; }
+        .login-form .form-group label {
+            display: block; font-weight: 600; font-size: 13px;
+            margin-bottom: 6px; color: var(--ink);
+        }
+        .login-form .form-group input {
+            width: 100%; padding: 12px 16px;
+            border: 1.5px solid var(--border); border-radius: 12px;
+            font-size: 14px; font-family: inherit; color: var(--ink);
+            background: var(--surface); transition: all .2s;
+        }
+        .login-form .form-group input:focus {
+            outline: none; border-color: var(--brand); background: white;
+            box-shadow: 0 0 0 4px rgba(0,119,182,0.1);
+        }
+
+        .login-submit {
+            width: 100%; padding: 14px 24px; margin-top: 8px;
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white; border: none; border-radius: 12px;
+            font-family: inherit; font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: all .25s;
+            box-shadow: 0 4px 16px rgba(0,119,182,0.3);
+        }
+        .login-submit:hover {
+            box-shadow: 0 8px 24px rgba(0,119,182,0.4);
+            transform: translateY(-1px);
+        }
+
+        .login-footer {
+            margin-top: 24px; font-size: 13px; color: var(--ink-soft);
+        }
+        .login-footer a { color: var(--brand); text-decoration: none; font-weight: 600; }
+        .login-footer a:hover { text-decoration: underline; }
+
+        .login-features {
+            display: flex; gap: 16px; justify-content: center; margin-top: 28px;
+            padding-top: 24px; border-top: 1px solid var(--border);
+        }
+        .login-feat {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--ink-soft);
+        }
+        .login-feat svg { flex-shrink: 0; }
+
+        @media (max-width: 480px) {
+            .login-card { padding: 36px 24px; }
+            .login-features { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+        <div class="login-card">
+            <a class="login-back" href="index.html">← Trang chủ</a>
+
+            <div class="login-mark">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3C7 3 3 6.4 3 10.6c0 2.5 1.5 4.7 3.8 6.1-.1.9-.5 2.1-1.3 3.1 1.6-.2 3-.9 4-1.7.8.2 1.6.3 2.5.3 5 0 9-3.4 9-7.8S17 3 12 3Z" fill="white"/>
+                    <circle cx="8.7" cy="10.6" r="1" fill="#0077B6"/><circle cx="12" cy="10.6" r="1" fill="#0077B6"/><circle cx="15.3" cy="10.6" r="1" fill="#0077B6"/>
+                </svg>
+            </div>
+
+            <h1>Chào mừng bạn</h1>
+            <p class="subtitle">Đăng nhập để tạo bot AI chăm sóc khách hàng trên Zalo</p>
+
+            <!-- Google Sign In -->
+            <a class="google-btn" href="#" onclick="handleGoogleLogin()">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Đăng nhập bằng Google
+            </a>
+
+            <div class="divider">hoặc</div>
+
+            <!-- Email Login -->
+            <form class="login-form" onsubmit="handleEmailLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="name@company.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" placeholder="Nhập mật khẩu" required />
+                </div>
+                <button type="submit" class="login-submit">Đăng nhập →</button>
+            </form>
+
+            <p class="login-footer">
+                Chưa có tài khoản? <a href="#" onclick="alert('Vui lòng liên hệ 0988739896 hoặc email vanhaitech.86@gmail.com để đăng ký!')">Đăng ký ngay</a>
+            </p>
+
+            <div class="login-features">
+                <div class="login-feat">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Bảo mật cao
+                </div>
+                <div class="login-feat">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    Setup 3 phút
+                </div>
+                <div class="login-feat">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00B4D8" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    500+ doanh nghiệp
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleGoogleLogin() {
+            alert('Tính năng đăng nhập Google sẽ sớm được kích hoạt!\n\nVui lòng liên hệ:\n📞 0988 739 896\n✉️ vanhaitech.86@gmail.com');
+        }
+
+        function handleEmailLogin(e) {
+            e.preventDefault();
+            alert('Tính năng đăng nhập sẽ sớm được kích hoạt!\n\nVui lòng liên hệ:\n📞 0988 739 896\n✉️ vanhaitech.86@gmail.com');
+        }
+    </script>
+</body>
+</html>
