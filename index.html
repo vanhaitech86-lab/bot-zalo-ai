@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>VanHaiTech — Trợ lý AI trả lời khách hàng trên Zalo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Dựng bot AI tự học từ tài liệu, website, video của bạn và trả lời khách hàng trên Zalo 24/7 — không cần biết code. Liên hệ: 0988739896" />
+    <meta name="keywords" content="chatbot zalo, bot zalo, trợ lý AI, chăm sóc khách hàng tự động, bot AI zalo" />
+    <meta property="og:title" content="VanHaiTech — Trợ lý AI trả lời khách hàng trên Zalo" />
+    <meta property="og:description" content="Dựng bot AI tự học từ tài liệu, website, video của bạn và trả lời khách hàng trên Zalo 24/7 — không cần biết code." />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+</head>
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="lp-nav">
+        <a class="brand" href="#">
+            <div class="mark">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3C7 3 3 6.4 3 10.6c0 2.5 1.5 4.7 3.8 6.1-.1.9-.5 2.1-1.3 3.1 1.6-.2 3-.9 4-1.7.8.2 1.6.3 2.5.3 5 0 9-3.4 9-7.8S17 3 12 3Z" fill="white"/>
+                    <circle cx="8.7" cy="10.6" r="1" fill="#5B4FE8"/><circle cx="12" cy="10.6" r="1" fill="#5B4FE8"/><circle cx="15.3" cy="10.6" r="1" fill="#5B4FE8"/>
+                </svg>
+            </div>
+            VanHaiTech Bot
+        </a>
+        <div class="nav-actions">
+            <a class="lp-btn-secondary" href="#lien-he" style="padding:9px 18px; font-size:14px; border-radius:999px">Liên hệ</a>
+            <a class="btn-cta" href="tel:0988739896">Gọi ngay</a>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <header class="lp-hero-split">
+        <div class="lp-hero-text">
+            <span class="lp-eyebrow">✨ Không cần biết lập trình</span>
+            <h1>Bot AI trả lời khách hàng trên <span class="accent">Zalo</span>, học từ chính dữ liệu của bạn</h1>
+            <p class="lead">Tải tài liệu, dán link website hoặc video — bot tự đọc và ghi nhớ. Quét một mã QR, bot chạy nền 24/7, kể cả khi bạn tắt máy.</p>
+            <div class="lp-cta-row">
+                <a class="lp-btn-primary" href="#bang-gia">Xem bảng giá →</a>
+                <a class="lp-btn-secondary" href="#tinh-nang">Xem tính năng</a>
+            </div>
+            <p class="lp-hint">📞 Hotline: 0988739896 · Tư vấn miễn phí</p>
+        </div>
+
+        <div class="lp-hero-visual">
+            <svg viewBox="0 0 420 460" class="lp-robot" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+                        <stop offset="0%" stop-color="#8B7FF5" stop-opacity="0.35"/>
+                        <stop offset="100%" stop-color="#8B7FF5" stop-opacity="0"/>
+                    </radialGradient>
+                    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#EFEEFF"/>
+                        <stop offset="100%" stop-color="#C9C4F7"/>
+                    </linearGradient>
+                    <linearGradient id="headGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#FFFFFF"/>
+                        <stop offset="100%" stop-color="#E4E1FB"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="210" cy="230" r="200" fill="url(#glow)"/>
+                <circle cx="90" cy="80" r="4" fill="#8B7FF5" opacity="0.6"/>
+                <circle cx="340" cy="120" r="3" fill="#FF7A59" opacity="0.6"/>
+                <circle cx="360" cy="300" r="4" fill="#8B7FF5" opacity="0.5"/>
+                <circle cx="60" cy="330" r="3" fill="#FF7A59" opacity="0.5"/>
+
+                <!-- antenna -->
+                <line x1="210" y1="70" x2="210" y2="40" stroke="#5B4FE8" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="210" cy="32" r="9" fill="#FF7A59">
+                    <animate attributeName="r" values="9;11;9" dur="2s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- head -->
+                <rect x="140" y="70" width="140" height="110" rx="42" fill="url(#headGrad)" stroke="#C9C4F7" stroke-width="3"/>
+                <path d="M172 118 q16 -20 32 0" stroke="#5B4FE8" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <path d="M216 118 q16 -20 32 0" stroke="#5B4FE8" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+                <!-- body -->
+                <rect x="110" y="185" width="200" height="200" rx="56" fill="url(#bodyGrad)" stroke="#C9C4F7" stroke-width="3"/>
+                <rect x="178" y="240" width="64" height="64" rx="18" fill="white" opacity="0.7"/>
+                <circle cx="210" cy="272" r="16" fill="#5B4FE8">
+                    <animate attributeName="fill" values="#5B4FE8;#FF7A59;#5B4FE8" dur="3s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- left arm -->
+                <rect x="90" y="230" width="34" height="90" rx="17" fill="url(#bodyGrad)" stroke="#C9C4F7" stroke-width="3"/>
+
+                <!-- right arm (waving) -->
+                <g>
+                    <animateTransform attributeName="transform" type="rotate" values="0 313 195;-10 313 195;0 313 195;10 313 195;0 313 195" dur="2s" repeatCount="indefinite"/>
+                    <rect x="296" y="150" width="34" height="95" rx="17" fill="url(#bodyGrad)" stroke="#C9C4F7" stroke-width="3" transform="rotate(28 313 150)"/>
+                    <circle cx="345" cy="140" r="20" fill="url(#headGrad)" stroke="#C9C4F7" stroke-width="3"/>
+                </g>
+
+                <!-- floating chat bubble -->
+                <g transform="translate(20,300)">
+                    <rect x="0" y="0" width="92" height="60" rx="16" fill="white" stroke="#E4E3F0" stroke-width="2"/>
+                    <path d="M18 60 L18 74 L34 60 Z" fill="white" stroke="#E4E3F0" stroke-width="2"/>
+                    <circle cx="24" cy="30" r="5" fill="#5B4FE8"/>
+                    <circle cx="46" cy="30" r="5" fill="#8B7FF5"/>
+                    <circle cx="68" cy="30" r="5" fill="#FF7A59"/>
+                    <animate attributeName="opacity" values="1;0.7;1" dur="1.5s" repeatCount="indefinite"/>
+                </g>
+            </svg>
+        </div>
+    </header>
+
+    <!-- ========== CHAT DEMO ========== -->
+    <div class="lp-hero-mock-wrap">
+        <div class="lp-mock">
+            <div class="lp-mock-bar"><span></span><span></span><span></span></div>
+            <div class="lp-bubble them">Shop còn máy lọc nước RO150 không ạ?</div>
+            <div class="lp-bubble me">Dạ còn ạ 😊 RO150 giá 91.800.000đ đã gồm lắp đặt, bảo hành 12 tháng. Anh/chị cần tư vấn công suất phù hợp không ạ?</div>
+            <div class="lp-bubble them">Cho mình giá RO250 nữa</div>
+            <div class="lp-bubble me">RO250 hiện giá 125.000.000đ ạ. Em gửi anh/chị bảng so sánh chi tiết 2 mẫu nhé! 📋</div>
+        </div>
+    </div>
+
+    <!-- ========== FEATURES ========== -->
+    <section class="lp-section" id="tinh-nang">
+        <div class="lp-section-head">
+            <h2>Mọi thứ để bot hiểu đúng về doanh nghiệp của bạn</h2>
+            <p>Không phải chatbot trả lời máy móc — bot học từ chính dữ liệu thật của bạn.</p>
+        </div>
+        <div class="lp-features">
+            <div class="lp-feature fade-up">
+                <div class="lp-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B4FE8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+                </div>
+                <h3>Tự học & cập nhật kiến thức</h3>
+                <p>Bạn cập nhật tài liệu, bot tự động lên đời bộ não — càng dùng lâu càng thông minh.</p>
+            </div>
+            <div class="lp-feature fade-up">
+                <div class="lp-feature-icon coral">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF7A59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>
+                </div>
+                <h3>Dữ liệu lưu trên Google Drive</h3>
+                <p>An toàn, dễ dàng cập nhật, mở rộng kiến thức mọi lúc — bạn luôn kiểm soát dữ liệu của mình.</p>
+            </div>
+            <div class="lp-feature fade-up">
+                <div class="lp-feature-icon green">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1FAE7A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+                <h3>Tư vấn tự nhiên như con người</h3>
+                <p>Trả lời chân thật, đúng chất doanh nghiệp — không phải kịch bản trả lời máy móc.</p>
+            </div>
+            <div class="lp-feature fade-up">
+                <div class="lp-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B4FE8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+                </div>
+                <h3>Hoạt động 24/7</h3>
+                <p>Ngay cả khi bạn tắt máy tính, ngủ nghỉ — bot vẫn tự động trả lời khách hàng.</p>
+            </div>
+            <div class="lp-feature fade-up">
+                <div class="lp-feature-icon coral">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF7A59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                </div>
+                <h3>Cài đặt cực đơn giản</h3>
+                <p>Chỉ vài phút: nhập thông tin ngành nghề, tải tài liệu và quét mã QR là xong.</p>
+            </div>
+            <div class="lp-feature fade-up">
+                <div class="lp-feature-icon green">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1FAE7A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6M9 11h2"/></svg>
+                </div>
+                <h3>Lưu lại mọi cuộc trò chuyện</h3>
+                <p>Toàn bộ hội thoại được lưu vào Google Drive riêng để xem lại và cải thiện dần theo thời gian.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 3 STEPS ========== -->
+    <section class="lp-section">
+        <div class="lp-steps-band">
+            <div class="lp-section-head">
+                <h2>Chỉ 3 bước đơn giản để sở hữu chatbot Zalo</h2>
+                <p>Không cần biết kỹ thuật — làm theo thứ tự là bot hoạt động.</p>
+            </div>
+            <div class="lp-step-row">
+                <div class="lp-step fade-up">
+                    <div class="num">1</div>
+                    <h4>Nhập thông tin ngành nghề</h4>
+                    <p>Mô tả công việc, lĩnh vực kinh doanh của bạn.</p>
+                </div>
+                <div class="lp-step fade-up">
+                    <div class="num">2</div>
+                    <h4>Tải tài liệu cho bot</h4>
+                    <p>Cung cấp dữ liệu, tài liệu để bot tự học.</p>
+                </div>
+                <div class="lp-step fade-up">
+                    <div class="num">3</div>
+                    <h4>Quét mã QR</h4>
+                    <p>Đăng nhập và sử dụng ngay trong vài phút.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="lp-section" id="danh-gia">
+        <div class="lp-section-head">
+            <h2>Khách hàng nói gì về chúng tôi</h2>
+            <p>Hàng trăm doanh nghiệp đã tin tưởng sử dụng bot AI của VanHaiTech.</p>
+        </div>
+        <div class="lp-testimonials">
+            <div class="lp-testimonial fade-up">
+                <div class="lp-testimonial-stars">★★★★★</div>
+                <p>"Bot trả lời khách hàng rất tự nhiên, giảm 70% thời gian chăm sóc khách. Đội ngũ hỗ trợ rất nhiệt tình."</p>
+                <div class="lp-testimonial-author">
+                    <div class="lp-testimonial-avatar">H</div>
+                    <div>
+                        <div class="lp-testimonial-name">Anh Hoàng</div>
+                        <div class="lp-testimonial-role">Chủ shop thời trang online</div>
+                    </div>
+                </div>
+            </div>
+            <div class="lp-testimonial fade-up">
+                <div class="lp-testimonial-stars">★★★★★</div>
+                <p>"Từ khi dùng bot, doanh thu tăng 30% nhờ không bỏ sót khách nhắn tin ngoài giờ. Rất đáng đầu tư!"</p>
+                <div class="lp-testimonial-author">
+                    <div class="lp-testimonial-avatar">L</div>
+                    <div>
+                        <div class="lp-testimonial-name">Chị Linh</div>
+                        <div class="lp-testimonial-role">Giám đốc công ty nội thất</div>
+                    </div>
+                </div>
+            </div>
+            <div class="lp-testimonial fade-up">
+                <div class="lp-testimonial-stars">★★★★★</div>
+                <p>"Cài đặt đơn giản, không cần biết code. Bot học từ tài liệu sản phẩm và trả lời chuẩn xác ngay từ đầu."</p>
+                <div class="lp-testimonial-author">
+                    <div class="lp-testimonial-avatar">T</div>
+                    <div>
+                        <div class="lp-testimonial-name">Anh Tuấn</div>
+                        <div class="lp-testimonial-role">Chủ chuỗi cửa hàng điện tử</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PRICING ========== -->
+    <section class="lp-section" id="bang-gia">
+        <div class="lp-section-head">
+            <h2>Chọn gói phù hợp với bạn</h2>
+            <p>Chi phí hợp lý — hiệu quả dài lâu.</p>
+        </div>
+        <div class="lp-pricing">
+
+            <div class="lp-price-card tier-blue fade-up">
+                <h3>Chatbot trải nghiệm</h3>
+                <p class="note">Phù hợp với cá nhân và cửa hàng nhỏ.</p>
+                <div class="amount">2.999.000đ</div>
+                <div class="per">Trọn gói &middot; Hỗ trợ 7 ngày</div>
+                <a class="lp-price-btn" href="tel:0988739896">ĐĂNG KÝ NGAY</a>
+                <ul>
+                    <li>Thiết lập 1 nhân viên trợ lý</li>
+                    <li>Nạp tối đa 10 tài liệu</li>
+                    <li>Xây 10 câu hỏi thường gặp</li>
+                    <li>1 quy trình tiếp nhận khách</li>
+                    <li>1 lần tinh chỉnh</li>
+                    <li>Hỗ trợ 7 ngày</li>
+                </ul>
+            </div>
+
+            <div class="lp-price-card tier-green fade-up">
+                <span class="badge">ĐƯỢC LỰA CHỌN NHIỀU NHẤT</span>
+                <h3>Chatbot cửa hàng</h3>
+                <p class="note">Phù hợp với shop và doanh nghiệp nhỏ.</p>
+                <div class="amount">9.500.000đ</div>
+                <div class="per">Trọn gói &middot; Hỗ trợ 30 ngày</div>
+                <a class="lp-price-btn" href="tel:0988739896">ĐĂNG KÝ NGAY</a>
+                <ul>
+                    <li>Chuẩn hóa bộ não chatbot</li>
+                    <li>Nạp tối đa 50 tài liệu</li>
+                    <li>Xây 30 câu hỏi thường gặp</li>
+                    <li>Thiết kế 3 quy trình tư vấn</li>
+                    <li>Phân loại và chuyển khách</li>
+                    <li>Đào tạo tối đa 3 nhân sự</li>
+                    <li>Hỗ trợ 30 ngày</li>
+                </ul>
+            </div>
+
+            <div class="lp-price-card tier-gold fade-up">
+                <h3>Chatbot siêu trí tuệ</h3>
+                <p class="note">Phù hợp với doanh nghiệp cần cá nhân hóa chuyên sâu.</p>
+                <div class="amount">15.000.000đ</div>
+                <div class="per">Trọn gói &middot; Hỗ trợ và tối ưu 90 ngày</div>
+                <a class="lp-price-btn" href="tel:0988739896">ĐĂNG KÝ NGAY</a>
+                <ul>
+                    <li>Nạp tối đa 100 tài liệu</li>
+                    <li>Xây 60 câu hỏi thường gặp</li>
+                    <li>Thiết kế 5 quy trình tư vấn</li>
+                    <li>Phân loại nhiều nhóm khách hàng</li>
+                    <li>Chuyển đúng bộ phận phụ trách</li>
+                    <li>Đào tạo tối đa 5 nhân sự</li>
+                    <li>Hỗ trợ và tối ưu 90 ngày</li>
+                </ul>
+            </div>
+
+            <div class="lp-price-card tier-dark fade-up">
+                <h3>Tư vấn cao cấp</h3>
+                <p class="note">Cho nhu cầu đặc thù, vượt ngoài 3 gói trên</p>
+                <div class="amount" style="font-size:22px">Theo yêu cầu</div>
+                <div class="per">Khảo sát &amp; báo giá riêng</div>
+                <a class="lp-price-btn" href="mailto:vanhaitech.86@gmail.com?subject=T%C3%B4i%20mu%E1%BB%91n%20t%C6%B0%20v%E1%BA%A5n%20g%C3%B3i%20cao%20c%E1%BA%A5p">NHẬN TƯ VẤN GÓI CAO CẤP</a>
+                <ul>
+                    <li>Khảo sát quy trình thực tế</li>
+                    <li>Tuỳ biến không giới hạn</li>
+                    <li>Đội ngũ triển khai riêng</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="lp-section" id="faq">
+        <div class="lp-section-head">
+            <h2>Câu hỏi thường gặp</h2>
+            <p>Giải đáp nhanh những thắc mắc phổ biến nhất.</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Bot có trả lời được ngoài giờ hành chính không?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Có! Bot hoạt động 24/7 liên tục, kể cả khi bạn tắt máy tính hay đang ngủ. Khách hàng nhắn tin lúc nào cũng được trả lời ngay lập tức.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Tôi không biết lập trình, có sử dụng được không?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Hoàn toàn được! Bạn chỉ cần nhập thông tin về ngành nghề, tải tài liệu sản phẩm/dịch vụ lên và quét mã QR. Toàn bộ phần kỹ thuật đội ngũ chúng tôi sẽ hỗ trợ bạn.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Dữ liệu của tôi có an toàn không?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Dữ liệu được lưu trữ trên Google Drive riêng của bạn, bạn hoàn toàn kiểm soát và quản lý. Chúng tôi không truy cập hay chia sẻ dữ liệu của bạn cho bất kỳ bên thứ ba nào.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Bot có thể trả lời sai không?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Bot chỉ trả lời dựa trên tài liệu bạn cung cấp, nên độ chính xác phụ thuộc vào chất lượng dữ liệu đầu vào. Bạn có thể liên tục cập nhật và tinh chỉnh để bot ngày càng thông minh hơn.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Tôi muốn dùng thử trước khi mua, có được không?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">Có! Hãy liên hệ hotline <strong>0988739896</strong> hoặc gửi email đến <strong>vanhaitech.86@gmail.com</strong>, chúng tôi sẽ tạo bản demo miễn phí để bạn trải nghiệm trước khi quyết định.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="lp-contact" id="lien-he">
+        <div class="lp-contact-inner">
+            <div class="lp-contact-info fade-up">
+                <h2>Liên hệ với chúng tôi</h2>
+                <p>Bạn cần tư vấn thêm? Đội ngũ VanHaiTech luôn sẵn sàng hỗ trợ bạn.</p>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B4FE8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </div>
+                    <div class="contact-item-text">
+                        <div class="label">Hotline</div>
+                        <a href="tel:0988739896">0988 739 896</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF7A59" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div class="contact-item-text">
+                        <div class="label">Email</div>
+                        <a href="mailto:vanhaitech.86@gmail.com">vanhaitech.86@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1FAE7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C7 2 3 5.4 3 9.6c0 2.5 1.5 4.7 3.8 6.1-.1.9-.5 2.1-1.3 3.1 1.6-.2 3-.9 4-1.7.8.2 1.6.3 2.5.3 5 0 9-3.4 9-7.8S17 2 12 2Z"/></svg>
+                    </div>
+                    <div class="contact-item-text">
+                        <div class="label">Zalo</div>
+                        <a href="https://zalo.me/0988739896" target="_blank">Chat qua Zalo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lp-contact-form fade-up">
+                <h3>Gửi yêu cầu tư vấn</h3>
+                <form id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Họ và tên</label>
+                        <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" placeholder="Nhập email (không bắt buộc)" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Nội dung</label>
+                        <textarea id="message" name="message" placeholder="Mô tả ngắn về nhu cầu của bạn..." rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Gửi yêu cầu tư vấn →</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FINAL CTA ========== -->
+    <section class="lp-final-cta">
+        <h2>Sẵn sàng để bot chăm sóc khách hàng thay bạn?</h2>
+        <p>Chọn gói phù hợp và bắt đầu ngay. Hotline: <strong>0988 739 896</strong></p>
+        <a class="lp-btn-primary" href="tel:0988739896">Gọi ngay để tư vấn →</a>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="lp-footer">
+        <p>© 2026 VanHaiTech Bot — Trợ lý AI chăm sóc khách hàng trên Zalo</p>
+        <p style="margin-top:8px">
+            📞 <a href="tel:0988739896">0988 739 896</a> &middot;
+            ✉️ <a href="mailto:vanhaitech.86@gmail.com">vanhaitech.86@gmail.com</a> &middot;
+            💬 <a href="https://zalo.me/0988739896" target="_blank">Zalo</a>
+        </p>
+    </footer>
+
+    <!-- ========== ZALO FLOAT BUTTON ========== -->
+    <a class="zalo-float" href="https://zalo.me/0988739896" target="_blank" title="Chat qua Zalo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2C6.48 2 2 5.82 2 10.5c0 2.7 1.56 5.09 4 6.63V21l3.71-2.04c.74.14 1.5.04 2.29.04 5.52 0 10-3.82 10-8.5S17.52 2 12 2zm1.03 11.34l-2.55-2.72-4.97 2.72L10.6 8h2.55l-2.55 2.72 4.97-2.72-5.09 5.34z"/>
+        </svg>
+    </a>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        // FAQ Toggle
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isOpen = item.classList.contains('open');
+
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('open');
+                el.querySelector('.faq-answer').style.maxHeight = null;
+            });
+
+            // Open clicked
+            if (!isOpen) {
+                item.classList.add('open');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }
+
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Contact Form Handler
+        function handleSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const name = form.querySelector('#name').value;
+            const phone = form.querySelector('#phone').value;
+            const email = form.querySelector('#email').value;
+            const message = form.querySelector('#message').value;
+
+            // Build mailto link
+            const subject = encodeURIComponent('Yêu cầu tư vấn Bot AI Zalo');
+            const body = encodeURIComponent(
+                `Họ tên: ${name}\nSĐT: ${phone}\nEmail: ${email}\n\nNội dung:\n${message}`
+            );
+            window.location.href = `mailto:vanhaitech.86@gmail.com?subject=${subject}&body=${body}`;
+
+            // Show thank you
+            const btn = form.querySelector('.form-submit');
+            btn.textContent = '✅ Đã gửi! Cảm ơn bạn';
+            btn.style.background = '#1FAE7A';
+            setTimeout(() => {
+                btn.textContent = 'Gửi yêu cầu tư vấn →';
+                btn.style.background = '';
+                form.reset();
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
