@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8" />
-    <title>Bảng điều khiển — VanHaiTech Zalo Bot Studio</title>
+    <title>Bảng điều khiển — HAITECH BOT Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
@@ -606,7 +606,7 @@
                     <circle cx="8.7" cy="10.6" r="1" fill="#0077B6"/><circle cx="12" cy="10.6" r="1" fill="#0077B6"/><circle cx="15.3" cy="10.6" r="1" fill="#0077B6"/>
                 </svg>
             </div>
-            VanHaiTech Studio
+            HAITECH BOT Studio
         </a>
 
         <div class="dash-user-area">
@@ -758,7 +758,7 @@
                         <div class="form-row">
                             <div class="form-field">
                                 <label for="botNameInput">Tên Trợ lý AI (Bot Name)</label>
-                                <input type="text" id="botNameInput" value="Em Lan - Trợ lý VanHaiTech" placeholder="Ví dụ: Em Lan tư vấn" />
+                                <input type="text" id="botNameInput" value="Em Lan - Trợ lý HAITECH BOT" placeholder="Ví dụ: Em Lan tư vấn" />
                                 <div class="hint">Tên xưng hô khi nhắn tin với khách hàng.</div>
                             </div>
                             <div class="form-field">
@@ -784,7 +784,7 @@
 
                         <div class="form-field">
                             <label for="botWelcomeMsg">Tin nhắn chào mở đầu (Khi khách gửi tin đầu tiên)</label>
-                            <textarea id="botWelcomeMsg" rows="3">Dạ em chào anh/chị ạ! Em là trợ lý AI của VanHaiTech. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊</textarea>
+                            <textarea id="botWelcomeMsg" rows="3">Dạ em chào anh/chị ạ! Em là trợ lý AI của HAITECH BOT. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊</textarea>
                         </div>
 
                         <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
@@ -832,7 +832,7 @@
                                 Mở ứng dụng Zalo trên điện thoại → Chọn biểu tượng Quét QR → Quét mã bên dưới.
                             </div>
 
-                            <img id="zaloQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=VANHAITECH_ZALO_BOT_LOGIN_TOKEN_0988739896" alt="Mã QR Zalo" />
+                            <img id="zaloQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=HAITECH_ZALO_BOT_LOGIN_TOKEN_0988739896" alt="Mã QR Zalo" />
 
                             <div style="display: flex; gap: 10px; margin-bottom: 14px;">
                                 <button class="btn-action secondary" style="padding: 8px 16px; font-size: 13px;" onclick="refreshQrCode()">🔄 Làm mới mã QR</button>
@@ -902,7 +902,7 @@
                             <div class="sim-header-info">
                                 <div class="sim-avatar">🤖</div>
                                 <div>
-                                    <div style="font-weight: 700; font-size: 15px;" id="simBotName">Em Lan - Trợ lý VanHaiTech</div>
+                                    <div style="font-weight: 700; font-size: 15px;" id="simBotName">Em Lan - Trợ lý HAITECH BOT</div>
                                     <div style="font-size: 12px; opacity: .85;">🟢 Đang hoạt động trên Zalo</div>
                                 </div>
                             </div>
@@ -1033,18 +1033,18 @@
         // State
         let currentUser = null;
         let botConfig = {
-            name: "Em Lan - Trợ lý VanHaiTech",
+            name: "Em Lan - Trợ lý HAITECH BOT",
             industry: "Máy lọc nước & Giải pháp công nghệ",
             tone: "friendly",
             phone: "0988739896",
-            welcomeMsg: "Dạ em chào anh/chị ạ! Em là trợ lý AI của VanHaiTech. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
+            welcomeMsg: "Dạ em chào anh/chị ạ! Em là trợ lý AI của HAITECH BOT. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
             isOnline: true
         };
 
         let documents = [
             { id: 1, name: "Bảng giá máy lọc nước RO150 & RO250 năm 2026.pdf", type: "PDF", size: "1.4 MB" },
             { id: 2, name: "Chính sách bảo hành & lắp đặt tận nơi.docx", type: "DOCX", size: "320 KB" },
-            { id: 3, name: "https://vanhaitech.vn/san-pham (Website catalog)", type: "URL", size: "Web" }
+            { id: 3, name: "https://haitech.vn/san-pham (Website catalog)", type: "URL", size: "Web" }
         ];
 
         let faqs = [
@@ -1070,7 +1070,7 @@
                 // If not logged in, auto generate demo session
                 currentUser = {
                     name: "Quý Khách",
-                    email: "khachhang@vanhaitech.vn",
+                    email: "khachhang@haitech.vn",
                     picture: null
                 };
             }
@@ -1263,7 +1263,7 @@
         function refreshQrCode() {
             const img = document.getElementById('zaloQrImg');
             const token = 'TOKEN_' + Date.now();
-            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=VANHAITECH_ZALO_LOGIN_${token}`;
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=HAITECH_ZALO_LOGIN_${token}`;
             alert('🔄 Đã làm mới mã QR kết nối Zalo!');
         }
 

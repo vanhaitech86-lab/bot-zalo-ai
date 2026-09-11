@@ -1,4 +1,4 @@
-# Bot Zalo AI - VanHaiTech
+# HAITECH BOT — Trợ lý AI Zalo
 
 Trợ lý AI trả lời khách hàng trên Zalo 24/7, học từ chính dữ liệu của bạn.
 
