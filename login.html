@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         .login-wrap {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
@@ -41,20 +43,25 @@
         }
         .login-card .subtitle { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 32px; line-height: 1.5; }
 
-        .google-btn {
+        /* Google Sign-In button container */
+        .google-signin-wrap {
+            display: flex; justify-content: center; margin-bottom: 8px;
+        }
+
+        /* Custom Google button fallback */
+        .google-btn-custom {
             display: flex; align-items: center; justify-content: center; gap: 12px;
             width: 100%; padding: 14px 24px;
             background: white; border: 1.5px solid var(--border); border-radius: 12px;
             font-family: inherit; font-size: 15px; font-weight: 600; color: var(--ink);
-            cursor: pointer; transition: all .25s;
-            text-decoration: none;
+            cursor: pointer; transition: all .25s; text-decoration: none;
+            border: none; outline: none;
         }
-        .google-btn:hover {
+        .google-btn-custom:hover {
             border-color: var(--brand); color: var(--brand);
             box-shadow: 0 4px 16px rgba(0,119,182,0.1);
             transform: translateY(-1px);
         }
-        .google-btn svg { flex-shrink: 0; }
 
         .divider {
             display: flex; align-items: center; gap: 16px;
@@ -108,7 +115,48 @@
             display: flex; align-items: center; gap: 6px;
             font-size: 12px; color: var(--ink-soft);
         }
-        .login-feat svg { flex-shrink: 0; }
+
+        /* Loading spinner */
+        .login-loading {
+            display: none; flex-direction: column; align-items: center;
+            gap: 16px; padding: 40px 0;
+        }
+        .login-loading.show { display: flex; }
+        .login-loading .spinner {
+            width: 40px; height: 40px; border: 3px solid var(--border);
+            border-top-color: var(--brand); border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .login-loading p { color: var(--ink-soft); font-size: 14px; }
+
+        /* Success state */
+        .login-success {
+            display: none; flex-direction: column; align-items: center; gap: 16px; padding: 20px 0;
+        }
+        .login-success.show { display: flex; }
+        .login-success .avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            border: 3px solid var(--accent); object-fit: cover;
+        }
+        .login-success .welcome {
+            font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700;
+            background: linear-gradient(135deg, var(--ink), var(--brand));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .login-success .email-text { color: var(--ink-soft); font-size: 14px; margin-top: -8px; }
+        .login-success .continue-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white; text-decoration: none; font-weight: 700; font-size: 15px;
+            box-shadow: 0 4px 16px rgba(0,119,182,0.3);
+            transition: all .25s; margin-top: 8px;
+        }
+        .login-success .continue-btn:hover {
+            box-shadow: 0 8px 24px rgba(0,119,182,0.4);
+            transform: translateY(-1px);
+        }
 
         @media (max-width: 480px) {
             .login-card { padding: 36px 24px; }
@@ -128,38 +176,74 @@
                 </svg>
             </div>
 
-            <h1>Chào mừng bạn</h1>
-            <p class="subtitle">Đăng nhập để tạo bot AI chăm sóc khách hàng trên Zalo</p>
+            <!-- ===== Login Form (default state) ===== -->
+            <div id="loginContent">
+                <h1>Chào mừng bạn</h1>
+                <p class="subtitle">Đăng nhập để tạo bot AI chăm sóc khách hàng trên Zalo</p>
 
-            <!-- Google Sign In -->
-            <a class="google-btn" href="#" onclick="handleGoogleLogin()">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Đăng nhập bằng Google
-            </a>
-
-            <div class="divider">hoặc</div>
-
-            <!-- Email Login -->
-            <form class="login-form" onsubmit="handleEmailLogin(event)">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="name@company.com" required />
+                <!-- Google Sign-In Button (rendered by Google) -->
+                <div class="google-signin-wrap">
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                         data-callback="handleGoogleCredential"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-shape="rectangular"
+                         data-theme="outline"
+                         data-text="signin_with"
+                         data-size="large"
+                         data-logo_alignment="left"
+                         data-width="340">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <input type="password" id="password" placeholder="Nhập mật khẩu" required />
-                </div>
-                <button type="submit" class="login-submit">Đăng nhập →</button>
-            </form>
 
-            <p class="login-footer">
-                Chưa có tài khoản? <a href="#" onclick="alert('Vui lòng liên hệ 0988739896 hoặc email vanhaitech.86@gmail.com để đăng ký!')">Đăng ký ngay</a>
-            </p>
+                <!-- Fallback button in case Google SDK not loaded -->
+                <div id="googleFallback" style="display:none;">
+                    <button class="google-btn-custom" onclick="googleFallbackLogin()">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        Đăng nhập bằng Google
+                    </button>
+                </div>
+
+                <div class="divider">hoặc đăng nhập bằng email</div>
+
+                <form class="login-form" onsubmit="handleEmailLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="name@company.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" placeholder="Nhập mật khẩu" required />
+                    </div>
+                    <button type="submit" class="login-submit">Đăng nhập →</button>
+                </form>
+
+                <p class="login-footer">
+                    Chưa có tài khoản? <a href="#" onclick="showRegisterInfo()">Đăng ký ngay</a>
+                </p>
+            </div>
+
+            <!-- ===== Loading State ===== -->
+            <div id="loginLoading" class="login-loading">
+                <div class="spinner"></div>
+                <p>Đang đăng nhập...</p>
+            </div>
+
+            <!-- ===== Success State ===== -->
+            <div id="loginSuccess" class="login-success">
+                <img id="userAvatar" class="avatar" src="" alt="Avatar" />
+                <div class="welcome" id="userName">Xin chào!</div>
+                <div class="email-text" id="userEmail"></div>
+                <a class="continue-btn" href="dashboard.html">Vào Dashboard →</a>
+            </div>
 
             <div class="login-features">
                 <div class="login-feat">
@@ -179,14 +263,145 @@
     </div>
 
     <script>
-        function handleGoogleLogin() {
-            alert('Tính năng đăng nhập Google sẽ sớm được kích hoạt!\n\nVui lòng liên hệ:\n📞 0988 739 896\n✉️ vanhaitech.86@gmail.com');
+    // ============================================
+    // CONFIG: Thay YOUR_GOOGLE_CLIENT_ID bằng Client ID thật
+    // ============================================
+    const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
+
+    // Check if user already logged in
+    window.addEventListener('DOMContentLoaded', () => {
+        const user = JSON.parse(localStorage.getItem('zalobot_user') || 'null');
+        if (user) {
+            showSuccess(user);
         }
 
-        function handleEmailLogin(e) {
-            e.preventDefault();
-            alert('Tính năng đăng nhập sẽ sớm được kích hoạt!\n\nVui lòng liên hệ:\n📞 0988 739 896\n✉️ vanhaitech.86@gmail.com');
+        // Show fallback button if Google SDK fails to load
+        setTimeout(() => {
+            const gBtn = document.querySelector('.g_id_signin');
+            if (gBtn && gBtn.children.length === 0) {
+                document.getElementById('googleFallback').style.display = 'block';
+            }
+        }, 2000);
+    });
+
+    // ============================================
+    // Google Sign-In Callback
+    // ============================================
+    function handleGoogleCredential(response) {
+        showLoading();
+
+        // Decode JWT token from Google
+        const payload = decodeJWT(response.credential);
+
+        const user = {
+            name: payload.name,
+            email: payload.email,
+            picture: payload.picture,
+            loginMethod: 'google',
+            loginTime: new Date().toISOString()
+        };
+
+        // Save to localStorage
+        localStorage.setItem('zalobot_user', JSON.stringify(user));
+
+        // Show success after brief loading
+        setTimeout(() => showSuccess(user), 1200);
+    }
+
+    // Decode JWT token (no verification needed for display purposes)
+    function decodeJWT(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(
+                atob(base64).split('').map(c =>
+                    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                ).join('')
+            );
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error('JWT decode error:', e);
+            return {};
         }
+    }
+
+    // ============================================
+    // Email Login (placeholder)
+    // ============================================
+    function handleEmailLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) return;
+
+        showLoading();
+
+        // Simulate login (replace with real auth later)
+        const user = {
+            name: email.split('@')[0],
+            email: email,
+            picture: null,
+            loginMethod: 'email',
+            loginTime: new Date().toISOString()
+        };
+
+        localStorage.setItem('zalobot_user', JSON.stringify(user));
+
+        setTimeout(() => showSuccess(user), 1200);
+    }
+
+    // ============================================
+    // Google fallback (when SDK fails)
+    // ============================================
+    function googleFallbackLogin() {
+        if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+            alert('⚠️ Chưa cấu hình Google Client ID.\n\nAdmin vui lòng thay YOUR_GOOGLE_CLIENT_ID bằng Client ID thật trong file login.html');
+            return;
+        }
+        // Manual OAuth redirect
+        const redirectUri = encodeURIComponent(window.location.origin + '/login.html');
+        const scope = encodeURIComponent('openid profile email');
+        window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+    }
+
+    // ============================================
+    // UI State Management
+    // ============================================
+    function showLoading() {
+        document.getElementById('loginContent').style.display = 'none';
+        document.getElementById('loginLoading').classList.add('show');
+        document.getElementById('loginSuccess').classList.remove('show');
+    }
+
+    function showSuccess(user) {
+        document.getElementById('loginContent').style.display = 'none';
+        document.getElementById('loginLoading').classList.remove('show');
+
+        const successEl = document.getElementById('loginSuccess');
+        const avatarEl = document.getElementById('userAvatar');
+        const nameEl = document.getElementById('userName');
+        const emailEl = document.getElementById('userEmail');
+
+        if (user.picture) {
+            avatarEl.src = user.picture;
+            avatarEl.style.display = 'block';
+        } else {
+            // Generate avatar from initials
+            const initial = (user.name || user.email)[0].toUpperCase();
+            avatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=0077B6&color=fff&size=128&bold=true`;
+            avatarEl.style.display = 'block';
+        }
+
+        nameEl.textContent = `Xin chào, ${user.name}!`;
+        emailEl.textContent = user.email;
+
+        successEl.classList.add('show');
+    }
+
+    function showRegisterInfo() {
+        alert('📝 Đăng ký tài khoản mới\n\nBạn có thể đăng ký bằng cách:\n1. Nhấn "Đăng nhập bằng Google"\n2. Hoặc liên hệ:\n   📞 0988 739 896\n   ✉️ vanhaitech.86@gmail.com');
+    }
     </script>
 </body>
 </html>
