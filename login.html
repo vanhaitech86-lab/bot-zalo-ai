@@ -184,7 +184,7 @@
                 <!-- Google Sign-In Button (rendered by Google) -->
                 <div class="google-signin-wrap">
                     <div id="g_id_onload"
-                         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                         data-client_id="900808362493-0tk4lqd1debds37liuqslcgipeh6c5gj.apps.googleusercontent.com"
                          data-callback="handleGoogleCredential"
                          data-auto_prompt="false">
                     </div>
@@ -264,9 +264,9 @@
 
     <script>
     // ============================================
-    // CONFIG: Thay YOUR_GOOGLE_CLIENT_ID bằng Client ID thật
+    // CONFIG: Thay 900808362493-0tk4lqd1debds37liuqslcgipeh6c5gj.apps.googleusercontent.com bằng Client ID thật
     // ============================================
-    const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
+    const GOOGLE_CLIENT_ID = '900808362493-0tk4lqd1debds37liuqslcgipeh6c5gj.apps.googleusercontent.com';
 
     // Check if user already logged in
     window.addEventListener('DOMContentLoaded', () => {
@@ -355,8 +355,8 @@
     // Google fallback (when SDK fails)
     // ============================================
     function googleFallbackLogin() {
-        if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
-            alert('⚠️ Chưa cấu hình Google Client ID.\n\nAdmin vui lòng thay YOUR_GOOGLE_CLIENT_ID bằng Client ID thật trong file login.html');
+        if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+            alert('⚠️ Chưa cấu hình Google Client ID.');
             return;
         }
         // Manual OAuth redirect
