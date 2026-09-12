@@ -2,3 +2,5 @@
 node_modules/
 session.json
 qr.png
+qr.html
+test-qr.js

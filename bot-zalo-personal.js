@@ -4,12 +4,17 @@
 // =============================================================================
 
 import { Zalo, ThreadType, LoginQRCallbackEventType } from "zca-js";
+import qrcode from "qrcode-terminal";
+import { PNG } from "pngjs";
+import jsQR from "jsqr";
 import fs from "node:fs";
 import path from "node:path";
 import { exec } from "node:child_process";
 
 const SESSION_FILE = "./session.json";
 const KNOWLEDGE_FILE = "./knowledge.json";
+const QR_PNG_FILE = "./qr.png";
+const QR_HTML_FILE = "./qr.html";
 
 // 1. Nạp và theo dõi dữ liệu tri thức (Knowledge Base)
 let knowledge = {};
@@ -30,7 +35,7 @@ function loadKnowledge() {
     }
 }
 
-// Tự động cập nhật tri thức khi sửa file knowledge.json mà không cần bật lại bot
+// Tự động cập nhật tri thức khi sửa file knowledge.json
 try {
     fs.watch(KNOWLEDGE_FILE, (eventType) => {
         if (eventType === "change") {
@@ -38,9 +43,7 @@ try {
             loadKnowledge();
         }
     });
-} catch (err) {
-    // Bỏ qua nếu môi trường không hỗ trợ fs.watch
-}
+} catch (err) {}
 
 // 2. Logic sinh câu trả lời thông minh dựa vào tri thức
 function generateReply(userMessage) {
@@ -65,11 +68,143 @@ function generateReply(userMessage) {
         return `Dạ bên em có bảng giá ưu đãi tốt nhất hôm nay. Anh/chị vui lòng liên hệ trực tiếp hotline/Zalo: ${knowledge.phone || "0988 739 896"} để em gửi bảng giá chi tiết kèm ưu đãi ạ! 📋`;
     }
 
-    // 2.4. Câu trả lời mặc định khi không khớp từ khóa
+    // 2.4. Mặc định
     return `Dạ em là ${knowledge.botName || "HAITECH BOT"}. Em đã nhận được tin nhắn của anh/chị: "${userMessage}". Để được tư vấn chi tiết nhất, anh/chị vui lòng gọi hoặc nhắn Zalo hotline: ${knowledge.phone || "0988 739 896"} nhé ạ! Cảm ơn anh/chị! 🙏`;
 }
 
-// 3. Khởi động Bot
+// 3. Hàm tạo file HTML hiển thị mã QR đẹp mắt và mở trình duyệt
+function createAndOpenQRPage(base64Image) {
+    const htmlContent = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAITECH BOT - Quét mã QR đăng nhập Zalo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0b132b;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #1c2541;
+      padding: 36px 32px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
+      text-align: center;
+      max-width: 440px;
+      width: 100%;
+      border: 1px solid #3a506b;
+    }
+    .badge {
+      display: inline-block;
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px 0;
+      color: #38bdf8;
+    }
+    p {
+      color: #94a3b8;
+      font-size: 14px;
+      margin: 0 0 24px 0;
+      line-height: 1.5;
+    }
+    .qr-container {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    }
+    .qr-container img {
+      width: 260px;
+      height: 260px;
+      display: block;
+      image-rendering: pixelated;
+    }
+    .steps {
+      background: #0b132b;
+      border-radius: 16px;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #e2e8f0;
+      border-left: 4px solid #38bdf8;
+    }
+    .steps ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .steps li {
+      margin-bottom: 6px;
+    }
+    .steps li:last-child {
+      margin-bottom: 0;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">Động cơ Zalo 24/7</span>
+    <h1>HAITECH BOT</h1>
+    <p>Vui lòng quét mã QR bên dưới bằng ứng dụng Zalo trên điện thoại của bạn</p>
+    
+    <div class="qr-container">
+      <img src="${base64Image.startsWith('data:') ? base64Image : 'data:image/png;base64,' + base64Image}" alt="Mã QR Zalo">
+    </div>
+
+    <div class="steps">
+      <ol>
+        <li>Mở ứng dụng <b>Zalo</b> trên điện thoại (số 0988 739 896)</li>
+        <li>Nhấn biểu tượng <b>Quét mã QR</b> ở góc trên cùng bên phải</li>
+        <li>Hướng camera điện thoại vào mã QR này</li>
+        <li>Nhấn <b>Đăng nhập</b> (hoặc <b>Xác nhận</b>) trên điện thoại</li>
+      </ol>
+    </div>
+
+    <div class="footer">
+      Sau khi quét xong, bạn có thể đóng tab này lại. Bot sẽ tự động trực 24/7.
+    </div>
+  </div>
+</body>
+</html>`;
+
+    try {
+        fs.writeFileSync(QR_HTML_FILE, htmlContent, "utf8");
+        const fullHtmlPath = path.resolve(QR_HTML_FILE);
+        // Mở trên Windows
+        exec(`cmd /c start "" "${fullHtmlPath}"`, (err) => {});
+    } catch (e) {
+        console.warn("⚠️ Không thể tạo qr.html:", e.message);
+    }
+}
+
+// 4. Khởi động Bot
 async function startBot() {
     console.log("=================================================================");
     console.log("🤖 HAITECH BOT - HỆ THỐNG TỰ ĐỘNG TRẢ LỜI TIN NHẮN ZALO CÁ NHÂN 24/7");
@@ -79,7 +214,7 @@ async function startBot() {
     const zalo = new Zalo();
     let api = null;
 
-    // 3.1. Thử đăng nhập lại bằng phiên đăng nhập đã lưu (session.json)
+    // 4.1. Thử đăng nhập lại bằng phiên cũ (session.json)
     if (fs.existsSync(SESSION_FILE)) {
         try {
             console.log("\n🔑 Đang tìm phiên đăng nhập trước đó từ session.json...");
@@ -92,31 +227,54 @@ async function startBot() {
         }
     }
 
-    // 3.2. Nếu chưa có phiên hoặc phiên hết hạn, tiến hành đăng nhập bằng mã QR
+    // 4.2. Nếu chưa đăng nhập, bắt đầu tạo mã QR
     if (!api) {
         console.log("\n⏳ Đang khởi tạo mã QR đăng nhập Zalo...");
         try {
             api = await zalo.loginQR(
-                { qrPath: "qr.png" },
-                (event) => {
+                { qrPath: QR_PNG_FILE },
+                async (event) => {
                     if (event.type === LoginQRCallbackEventType.QRCodeGenerated) {
-                        event.actions.saveToFile("qr.png").then(() => {
+                        try {
+                            // Lưu ảnh qr.png
+                            await event.actions.saveToFile(QR_PNG_FILE);
+                            
+                            // Tạo và mở trang web hiển thị mã QR to rõ
+                            createAndOpenQRPage(event.data.image);
+
+                            // Giải mã nội dung URL trong ảnh QR để in trực tiếp vào cửa sổ Console
+                            try {
+                                const buffer = fs.readFileSync(QR_PNG_FILE);
+                                const png = PNG.sync.read(buffer);
+                                const decoded = jsQR(new Uint8ClampedArray(png.data), png.width, png.height);
+                                
+                                if (decoded && decoded.data) {
+                                    console.log("\n=================== QUÉT MÃ QR DƯỚI ĐÂY ===================");
+                                    qrcode.generate(decoded.data, { small: true });
+                                    console.log("===========================================================");
+                                }
+                            } catch (qrErr) {
+                                // Nếu không decode được thì đã có qr.html và qr.png
+                            }
+
                             console.log("\n🖼️ ĐÃ TẠO MÃ QR ĐĂNG NHẬP THÀNH CÔNG!");
-                            console.log("👉 Đang tự động mở ảnh mã QR trên màn hình máy tính...");
-                            console.log("👉 Bạn cũng có thể mở trực tiếp file 'qr.png' trong thư mục dự án.");
-                            console.log("📱 Vui lòng mở Zalo trên điện thoại -> Bấm quét mã QR để đăng nhập!\n");
-                            // Tự động mở ảnh QR trên Windows
-                            exec("start qr.png", (err) => {});
-                        });
+                            console.log("👉 1. Trình duyệt web đã tự động mở trang hiển thị mã QR to rõ (qr.html).");
+                            console.log("👉 2. Mã QR cũng đã được in trực tiếp ngay trong cửa sổ này (ở trên).");
+                            console.log(`👉 3. Hoặc bạn có thể mở ảnh: "${path.resolve(QR_PNG_FILE)}"`);
+                            console.log("📱 Vui lòng dùng ứng dụng Zalo trên điện thoại -> Quét mã để đăng nhập!\n");
+                            
+                        } catch (err) {
+                            console.error("Lỗi xử lý QR:", err);
+                        }
                     } else if (event.type === LoginQRCallbackEventType.QRCodeScanned) {
-                        console.log("📱 -> ĐÃ QUÉT MÃ QR! Vui lòng bấm [Đăng nhập] hoặc [Xác nhận] trên điện thoại...");
+                        console.log("📱 -> ĐÃ QUÉT MÃ QR THÀNH CÔNG! Vui lòng bấm [Đăng nhập] hoặc [Xác nhận] trên điện thoại...");
                     } else if (event.type === LoginQRCallbackEventType.QRCodeExpired) {
-                        console.log("⏳ Mã QR đã hết hạn, đang tự tạo lại mã mới...");
+                        console.log("⏳ Mã QR đã hết hạn, đang tự động tạo lại mã mới...");
                         event.actions.retry();
                     } else if (event.type === LoginQRCallbackEventType.GotLoginInfo) {
                         try {
                             fs.writeFileSync(SESSION_FILE, JSON.stringify(event.data, null, 2), "utf8");
-                            console.log("💾 Đã lưu phiên đăng nhập vào session.json cho lần sau!");
+                            console.log("💾 Đã lưu phiên đăng nhập vào session.json cho các lần chạy sau!");
                         } catch (e) {}
                     }
                 }
@@ -128,13 +286,13 @@ async function startBot() {
         }
     }
 
-    // 3.3. Đăng nhập thành công, bắt đầu lắng nghe và trả lời tin nhắn
+    // 4.3. Đăng nhập thành công, bắt đầu nhận diện và trả lời tin nhắn
     console.log("\n=================================================================");
     console.log("🎉 HAITECH BOT ĐÃ SẴN SÀNG HOẠT ĐỘNG 100%!");
     console.log("🟢 BOT ĐANG CHẠY NỀN TRỰC CHAT TRÊN ZALO CỦA BẠN!");
     console.log(`📞 Số điện thoại hotline: ${knowledge.phone || "0988 739 896"}`);
     console.log("💬 Bất kỳ ai nhắn tin đến Zalo, Bot sẽ tự động trả lời theo dữ liệu tri thức.");
-    console.log("🛑 Nhấn Ctrl + C hoặc đóng cửa sổ đen này nếu muốn tắt bot.");
+    console.log("🛑 Nhấn Ctrl + C hoặc đóng cửa sổ này nếu muốn tắt bot.");
     console.log("=================================================================\n");
 
     api.listener.on("message", async (message) => {
