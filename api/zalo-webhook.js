@@ -1,5 +1,10 @@
-// Vercel Serverless Function: Zalo OA Webhook Handler
-// Handles incoming messages from Zalo OA and replies automatically using AI knowledge
+// =============================================================================
+// VERCEL SERVERLESS FUNCTION: ZALO OA WEBHOOK HANDLER
+// HAITECH BOT OMNICHANNEL - HỆ THỐNG TRỢ LÝ AI CHĂM SÓC KHÁCH HÀNG TỰ ĐỘNG
+// Tác giả: HAITECH (Hotline: 0988 739 896 - Email: vanhaitech.86@gmail.com)
+// =============================================================================
+
+import { generateReply } from './knowledge-engine.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -18,13 +23,13 @@ export default async function handler(req, res) {
 
     // 1. Handle GET: Zalo Webhook Verification
     if (req.method === 'GET') {
-        // Zalo sends a challenge parameter or verify token to verify endpoint ownership
         const challenge = req.query.challenge || req.query['hub.challenge'];
         if (challenge) {
             return res.status(200).send(challenge);
         }
         return res.status(200).json({
             status: 'online',
+            channel: 'Zalo Official Account (OA)',
             service: 'HAITECH BOT Zalo OA Webhook',
             time: new Date().toISOString()
         });
@@ -38,7 +43,6 @@ export default async function handler(req, res) {
 
             const eventName = body.event_name;
             const senderId = body.sender?.id;
-            const recipientId = body.recipient?.id;
             const messageObj = body.message;
 
             // Handle user sending text message
@@ -46,8 +50,8 @@ export default async function handler(req, res) {
                 const userText = messageObj.text.trim();
                 console.log(`User ${senderId} sent: "${userText}"`);
 
-                // Generate AI Response based on business logic
-                const replyText = generateBotReply(userText);
+                // Generate AI Response from unified brain
+                const replyText = generateReply(userText);
 
                 // If OA Access Token is configured, send reply directly to user via Zalo Open API
                 const oaAccessToken = process.env.ZALO_OA_ACCESS_TOKEN;
@@ -104,24 +108,4 @@ async function sendZaloOAReply(accessToken, userId, messageText) {
         console.error('Failed to send Zalo OA message:', err);
         return null;
     }
-}
-
-// Smart reply logic
-function generateBotReply(query) {
-    const qLower = query.toLowerCase().trim();
-
-    if (qLower.includes('giá') || qLower.includes('nhiêu tiền') || qLower.includes('báo giá')) {
-        return `Dạ em chào anh/chị ạ! Bên em đang có chính sách giá ưu đãi đặc biệt hôm nay. Anh/chị cho em xin số điện thoại để chuyên viên tư vấn gọi gửi bảng giá chi tiết kèm chiết khấu tốt nhất nhé ạ! 📋 Hotline: 0988 739 896`;
-    }
-    if (qLower.includes('chào') || qLower.includes('alo') || qLower.includes('hi') || qLower.includes('hello')) {
-        return `Dạ em là Trợ lý AI của HAITECH BOT. Rất vui được hỗ trợ anh/chị! Anh/chị đang quan tâm đến sản phẩm hoặc dịch vụ nào để em hỗ trợ tư vấn ngay ạ? 😊`;
-    }
-    if (qLower.includes('bảo hành') || qLower.includes('hỏng') || qLower.includes('sửa')) {
-        return `Dạ sản phẩm bên em luôn cam kết bảo hành chính hãng tận nơi 12 tháng, bảo dưỡng định kỳ đầy đủ ạ!`;
-    }
-    if (qLower.includes('hotline') || qLower.includes('liên hệ') || qLower.includes('sđt') || qLower.includes('số điện thoại')) {
-        return `Dạ anh/chị có thể gọi ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!`;
-    }
-
-    return `Dạ em đã ghi nhận yêu cầu của anh/chị về "${query}". Em sẽ báo chuyên viên liên hệ hỗ trợ anh/chị ngay nhé ạ! Hotline/Zalo hỗ trợ: 0988 739 896 😊`;
 }
