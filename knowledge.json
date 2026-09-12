@@ -1,0 +1,31 @@
+{
+  "botName": "Em Lan - Trợ lý HAITECH BOT",
+  "phone": "0988739896",
+  "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
+  "defaultContact": "Dạ anh/chị có thể liên hệ ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!",
+  "rules": [
+    {
+      "keywords": ["giá", "nhiêu tiền", "chi phí", "báo giá", "bảng giá"],
+      "reply": "Dạ bên em có các gói giải pháp tối ưu cho cá nhân và doanh nghiệp. Anh/chị đang quan tâm đến dòng sản phẩm cụ thể nào để em gửi bảng báo giá chi tiết kèm ưu đãi hôm nay ạ? 📋 Hotline/Zalo hỗ trợ: 0988 739 896"
+    },
+    {
+      "keywords": ["chào", "alo", "hi", "hello", "shop ơi"],
+      "reply": "Dạ em chào anh/chị ạ! Rất vui được hỗ trợ anh/chị. Anh/chị cần em giải đáp thông tin sản phẩm hay chính sách nào ạ? 😊"
+    },
+    {
+      "keywords": ["bảo hành", "hỏng", "sửa", "đổi trả"],
+      "reply": "Dạ tất cả sản phẩm bên em đều được cam kết bảo hành chính hãng tận nơi 12 tháng, bảo dưỡng định kỳ và hỗ trợ kỹ thuật nhanh chóng trong vòng 24h ạ!"
+    },
+    {
+      "keywords": ["hotline", "số điện thoại", "sđt", "liên hệ", "địa chỉ", "ở đâu"],
+      "reply": "Dạ thông tin liên hệ trực tiếp của bên em:\n📞 Hotline/Zalo: 0988 739 896\n✉️ Email: vanhaitech.86@gmail.com\nAnh/chị có thể gọi ngay hoặc để lại lời nhắn em hỗ trợ ngay ạ!"
+    },
+    {
+      "keywords": ["lắp đặt", "giao hàng", "ship", "vận chuyển"],
+      "reply": "Dạ bên em hỗ trợ giao hàng và lắp đặt tận nơi trên toàn quốc, có kỹ thuật viên bàn giao và hướng dẫn vận hành chi tiết ạ!"
+    }
+  ],
+  "customNotes": [
+    "Khách có thể tự thêm bất kỳ thông tin nào vào file knowledge.json này. Bot sẽ tự động học và trả lời khách hàng trên Zalo!"
+  ]
+}

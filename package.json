@@ -1,0 +1,16 @@
+{
+  "name": "haitech-zalo-bot",
+  "version": "1.0.0",
+  "description": "HAITECH BOT - Trợ lý AI trả lời khách hàng trên Zalo cá nhân",
+  "main": "bot-zalo-personal.js",
+  "type": "module",
+  "scripts": {
+    "start": "node bot-zalo-personal.js"
+  },
+  "dependencies": {
+    "zca-js": "^2.2.0",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "author": "HAITECH",
+  "license": "MIT"
+}

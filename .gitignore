@@ -1,1 +1,4 @@
 .vercel
+node_modules/
+session.json
+qr.png
