@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "name": "haitech-bot-omnichannel",
+  "builds": [
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/facebook-webhook",
+      "dest": "/api/facebook-webhook.js"
+    },
+    {
+      "src": "/api/zalo-webhook",
+      "dest": "/api/zalo-webhook.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
