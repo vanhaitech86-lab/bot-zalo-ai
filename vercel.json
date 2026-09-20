@@ -13,6 +13,10 @@
     {
       "src": "*.css",
       "use": "@vercel/static"
+    },
+    {
+      "src": "haitech-chat-widget.js",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -23,6 +27,14 @@
     {
       "src": "/api/zalo-webhook",
       "dest": "/api/zalo-webhook.js"
+    },
+    {
+      "src": "/api/website-chat",
+      "dest": "/api/website-chat.js"
+    },
+    {
+      "src": "/haitech-chat-widget.js",
+      "dest": "/haitech-chat-widget.js"
     },
     {
       "src": "/(.*)",

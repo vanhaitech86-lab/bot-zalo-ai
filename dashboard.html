@@ -645,6 +645,10 @@
                 <span>🌐</span> Kết nối Facebook Fanpage
                 <span class="tab-badge" style="background: #EFF6FF; color: #1877F2; font-weight: 700;">Messenger</span>
             </button>
+            <button class="nav-tab-btn" onclick="switchTab('website')">
+                <span>💻</span> Kết nối Website (Widget AI)
+                <span class="tab-badge" style="background: #ECFDF5; color: #059669; font-weight: 700;">LiveChat</span>
+            </button>
             <button class="nav-tab-btn" onclick="switchTab('simulator')">
                 <span>💬</span> Test thử Bot Chat
             </button>
@@ -1149,6 +1153,142 @@
                 </div>
             </div>
 
+            <!-- ================= TAB: KẾT NỐI WEBSITE (LIVECHAT WIDGET) ================= -->
+            <div id="tab-website" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3 style="color: #059669;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -4px; margin-right: 6px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                                Kết Nối Website Bằng LiveChat AI Widget (Đa Nền Tảng)
+                            </h3>
+                            <p>Nhúng Trợ lý AI trực tiếp vào bất kỳ Website nào (WordPress, Landing Page, Haravan, Sapo, HTML) chỉ với 1 dòng mã — Đồng bộ 100% Bộ não AI.</p>
+                        </div>
+                        <span class="status-badge online" id="widgetStatusBadge">
+                            <span class="dot" style="background:#059669;"></span> <span>Widget Sẵn Sàng Nhúng 1-Click</span>
+                        </span>
+                    </div>
+
+                    <!-- Embed Code Snippet Box -->
+                    <div style="background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                            <label style="font-weight: 700; font-size: 14.5px; color: var(--ink);">
+                                📋 Mã nhúng Website của bạn (Chỉ cần sao chép và dán vào Website):
+                            </label>
+                            <div style="display: flex; gap: 8px;">
+                                <button type="button" class="btn-action primary" style="background: #059669; padding: 8px 18px; font-size: 13px;" onclick="copyWebsiteWidgetSnippet()">
+                                    📋 Copy Mã Nhúng 1-Click
+                                </button>
+                                <button type="button" class="btn-action secondary" style="padding: 8px 16px; font-size: 13px;" onclick="previewWidgetOnThisPage()">
+                                    👁️ Bật Thử Ngay Trên Trang Này
+                                </button>
+                            </div>
+                        </div>
+
+                        <textarea id="websiteEmbedCodeText" readonly rows="3" style="width: 100%; padding: 14px; font-family: Consolas, Monaco, monospace; font-size: 13.5px; background: #0B1A2E; color: #38BDF8; border-radius: 12px; border: 1px solid #1E293B; line-height: 1.5; resize: none;"><script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" async></script></textarea>
+                        
+                        <div style="font-size: 12.5px; color: var(--ink-soft); margin-top: 8px; display: flex; align-items: center; gap: 6px;">
+                            <span>💡</span> Dán dòng mã trên vào trước thẻ <code>&lt;/body&gt;</code> của website hoặc dán vào mục <em>Custom JavaScript / Header & Footer Code</em> của bạn.
+                        </div>
+                    </div>
+
+                    <!-- Customizer Box -->
+                    <div style="background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 24px;">
+                        <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--ink);">🎨 Tùy biến giao diện Widget theo nhận diện thương hiệu:</h4>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label>Màu sắc chủ đạo (Brand Color):</label>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <input type="color" id="widgetColorPicker" value="#0077B6" style="width: 50px; height: 42px; padding: 2px; border-radius: 8px; cursor: pointer;" onchange="updateWidgetCodeSnippet()" />
+                                    <select id="widgetColorPreset" onchange="applyColorPreset(this.value)" style="flex: 1;">
+                                        <option value="#0077B6">Xanh Công Nghệ (#0077B6 - Mặc định)</option>
+                                        <option value="#1877F2">Xanh Facebook (#1877F2)</option>
+                                        <option value="#059669">Xanh Lá Thịnh Vượng (#059669)</option>
+                                        <option value="#D97706">Cam Năng Động (#D97706)</option>
+                                        <option value="#7C3AED">Tím Hoàng Gia (#7C3AED)</option>
+                                        <option value="#E11D48">Đỏ Quyến Rũ (#E11D48)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label>Vị trí hiển thị trên màn hình:</label>
+                                <select id="widgetPositionSelect" onchange="updateWidgetCodeSnippet()">
+                                    <option value="right">Góc dưới bên Phải (Khuyên dùng)</option>
+                                    <option value="left">Góc dưới bên Trái</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label>Tên nhân viên AI hiển thị:</label>
+                                <input type="text" id="widgetBotNameInput" value="Em Lan - Trợ lý HAITECH BOT" oninput="updateWidgetCodeSnippet()" />
+                            </div>
+                            <div class="form-field">
+                                <label>Số Hotline hiển thị trên nút gọi:</label>
+                                <input type="text" id="widgetPhoneInput" value="0988 739 896" oninput="updateWidgetCodeSnippet()" />
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label>Lời chào mở đầu khi khách mở chat:</label>
+                            <textarea id="widgetGreetingInput" rows="2" oninput="updateWidgetCodeSnippet()">Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Anh/chị cần em tư vấn sản phẩm hay gửi bảng giá ưu đãi hôm nay ạ? 😊</textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 14px;">
+                            <button type="button" class="btn-action primary" style="background: #059669;" onclick="copyWebsiteWidgetSnippet()">
+                                💾 Cập nhật & Copy Mã Nhúng Tùy Biến
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step-by-Step Website CMS Guide -->
+                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 14px; color: var(--ink);">
+                        📖 Hướng dẫn nhúng vào các nền tảng Website phổ biến trong 1 phút:
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 28px;">
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 18px;">
+                            <div style="font-weight: 700; font-size: 15px; color: var(--brand); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                                <span>🌐</span> WordPress / WooCommerce
+                            </div>
+                            <div style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
+                                Vào Quản trị <strong>Giao diện</strong> ➡️ <strong>Chỉnh sửa Theme (Theme Editor)</strong> ➡️ Mở file <code>footer.php</code> ➡️ Dán mã nhúng vào ngay trước thẻ <code>&lt;/body&gt;</code> rồi bấm Lưu.
+                            </div>
+                        </div>
+
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 18px;">
+                            <div style="font-weight: 700; font-size: 15px; color: #D97706; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                                <span>🛍️</span> Haravan / Sapo / Shopify
+                            </div>
+                            <div style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
+                                Vào <strong>Website</strong> ➡️ <strong>Giao diện</strong> ➡️ <strong>Chỉnh sửa Code</strong> ➡️ Mở file <code>theme.liquid</code> (hoặc <code>theme.master</code>) ➡️ Dán mã nhúng trước thẻ đóng <code>&lt;/body&gt;</code>.
+                            </div>
+                        </div>
+
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 18px;">
+                            <div style="font-weight: 700; font-size: 15px; color: #7C3AED; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                                <span>📄</span> LadiPage / Landing Page HTML
+                            </div>
+                            <div style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
+                                Vào mục <strong>Thiết lập trang</strong> ➡️ <strong>Mã JavaScript / CSS</strong> ➡️ Chọn mục <strong>Thẻ Body</strong> ➡️ Dán mã nhúng vào và bấm <strong>Xuất bản lại trang</strong>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commercial Support Banner -->
+                    <div style="background: linear-gradient(135deg, #0B1A2E, #059669); border-radius: 16px; padding: 22px; color: white; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+                        <div>
+                            <div style="font-weight: 700; font-size: 15px;">Cần kỹ thuật viên hỗ trợ nhúng vào Website của bạn hoặc khách hàng?</div>
+                            <div style="font-size: 13px; opacity: .85; margin-top: 2px;">HAITECH BOT hỗ trợ nhúng miễn phí từ A-Z qua UltraViewer / TeamViewer chỉ trong 2 phút!</div>
+                        </div>
+                        <a class="btn-action success" href="tel:0988739896">📞 Hotline hỗ trợ: 0988 739 896</a>
+                    </div>
+                </div>
+            </div>
+
             <!-- ================= TAB 4: TEST THỬ BOT CHAT ================= -->
             <div id="tab-simulator" class="tab-content">
                 <div class="dash-card">
@@ -1206,7 +1346,7 @@
                 <div class="dash-card">
                     <div class="dash-card-header">
                         <div>
-                            <h3>Nhật Ký Hội Thoại Đa Kênh (Zalo & Facebook Fanpage)</h3>
+                            <h3>Nhật Ký Hội Thoại Đa Kênh (Zalo, Facebook & Website)</h3>
                             <p>Toàn bộ tin nhắn trao đổi giữa Bot và khách hàng từ tất cả các kênh được lưu trữ tập trung.</p>
                         </div>
                         <div style="display: flex; gap: 8px;">
@@ -1215,6 +1355,7 @@
                                 <option value="Zalo Cá nhân">📱 Zalo Cá nhân</option>
                                 <option value="Zalo OA">📢 Zalo OA</option>
                                 <option value="Facebook Fanpage">💬 Facebook Fanpage</option>
+                                <option value="Website LiveChat">💻 Website LiveChat</option>
                             </select>
                         </div>
                     </div>
@@ -1355,6 +1496,7 @@
 
         let chatHistoryData = [
             { time: "19:42 Hôm nay", channel: "Zalo Cá nhân", customer: "Anh Tuấn (0912.xxx.888)", query: "Shop còn máy RO150 không?", reply: "Dạ còn ạ, giá 91.800.000đ đã gồm lắp đặt...", status: "Đã tư vấn" },
+            { time: "19:10 Hôm nay", channel: "Website LiveChat", customer: "Khách Web (Hà Nội)", query: "Cho mình hỏi công suất máy RO250 dùng được bao nhiêu người?", reply: "Dạ máy RO250 công suất 250L/h phục vụ tốt cho 80 - 150 người ạ...", status: "Khách LiveChat" },
             { time: "18:50 Hôm nay", channel: "Facebook Fanpage", customer: "Thu Trang (Messenger)", query: "Báo giá em mẫu RO150 với shop ơi", reply: "Dạ chào bạn, bên mình đang ưu đãi...", status: "Khách Messenger" },
             { time: "18:15 Hôm nay", channel: "Zalo OA", customer: "Chị Hạnh (0983.xxx.123)", query: "Bảo hành thế nào em?", reply: "Dạ máy bảo hành 12 tháng tận nhà...", status: "Tiềm năng" },
             { time: "16:05 Hôm nay", channel: "Zalo Cá nhân", customer: "Khách Zalo ẩn danh", query: "Cho mình xin hotline", reply: "Hotline bên em là 0988 739 896 ạ...", status: "Đã gửi SĐT" }
@@ -1965,6 +2107,8 @@
                     channelBadge = '<span style="background:#EFF6FF; color:#1877F2; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700;">💬 Messenger</span>';
                 } else if (row.channel === 'Zalo OA') {
                     channelBadge = '<span style="background:#D1FAE5; color:#059669; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700;">📢 Zalo OA</span>';
+                } else if (row.channel === 'Website LiveChat') {
+                    channelBadge = '<span style="background:#ECFDF5; color:#059669; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700;">💻 LiveChat AI</span>';
                 }
 
                 tr.innerHTML = `
@@ -2104,6 +2248,64 @@
                 resEl.style.background = '#EFF6FF';
                 resEl.style.color = '#1877F2';
             }
+        }
+
+        // ================= Website LiveChat Widget Helpers =================
+        function updateWidgetCodeSnippet() {
+            const color = document.getElementById('widgetColorPicker')?.value || '#0077B6';
+            const position = document.getElementById('widgetPositionSelect')?.value || 'right';
+            const botName = document.getElementById('widgetBotNameInput')?.value || 'Em Lan - Trợ lý HAITECH BOT';
+            const phone = document.getElementById('widgetPhoneInput')?.value || '0988 739 896';
+            const greeting = document.getElementById('widgetGreetingInput')?.value || '';
+
+            const snippet = `<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+  data-color="${color}" 
+  data-position="${position}" 
+  data-bot-name="${botName}" 
+  data-phone="${phone}" 
+  data-greeting="${greeting.replace(/"/g, '&quot;')}" 
+  async><\/script>`;
+
+            const textarea = document.getElementById('websiteEmbedCodeText');
+            if (textarea) textarea.value = snippet;
+        }
+
+        function applyColorPreset(color) {
+            const picker = document.getElementById('widgetColorPicker');
+            if (picker) picker.value = color;
+            updateWidgetCodeSnippet();
+        }
+
+        function copyWebsiteWidgetSnippet() {
+            updateWidgetCodeSnippet();
+            const textarea = document.getElementById('websiteEmbedCodeText');
+            textarea.select();
+            navigator.clipboard.writeText(textarea.value);
+            alert('🎉 ĐÃ SAO CHÉP MÃ NHÚNG THÀNH CÔNG!\n\nBây giờ bạn chỉ cần dán đoạn mã này vào trước thẻ </body> trên website của bạn hoặc khách hàng!');
+        }
+
+        function previewWidgetOnThisPage() {
+            if (window.HaitechChatWidgetLoaded) {
+                const win = document.getElementById('haitechChatWindow');
+                if (win) {
+                    win.classList.toggle('open');
+                    alert('👁️ Bong bóng chat LiveChat AI đã được bật ở góc dưới màn hình của bạn!');
+                    return;
+                }
+            }
+
+            const script = document.createElement('script');
+            script.src = 'haitech-chat-widget.js';
+            script.setAttribute('data-color', document.getElementById('widgetColorPicker')?.value || '#0077B6');
+            script.setAttribute('data-position', document.getElementById('widgetPositionSelect')?.value || 'right');
+            script.setAttribute('data-bot-name', document.getElementById('widgetBotNameInput')?.value || 'Em Lan - Trợ lý HAITECH BOT');
+            script.setAttribute('data-phone', document.getElementById('widgetPhoneInput')?.value || '0988 739 896');
+            script.setAttribute('data-api-url', '/api/website-chat');
+            document.body.appendChild(script);
+
+            setTimeout(() => {
+                alert('🎉 Bong bóng chat LiveChat AI đã xuất hiện ở góc dưới bên phải màn hình! Hãy bấm vào để chat thử nghiệm trực tiếp.');
+            }, 300);
         }
 
         // Logout

@@ -1,5 +1,5 @@
 # 📖 CẨM NANG HƯỚNG DẪN CÀI ĐẶT & VẬN HÀNH HAITECH BOT STUDIO
-### *Hệ Thống Trợ Lý AI Chăm Sóc Khách Hàng Tự Động 24/7 Đa Kênh (Zalo & Facebook Messenger)*
+### *Hệ Thống Trợ Lý AI Chăm Sóc Khách Hàng Tự Động 24/7 Đa Kênh (Zalo, Facebook Messenger & Website LiveChat)*
 
 > **Đơn vị phát triển:** HAITECH BOT STUDIO  
 > **Hotline/Zalo hỗ trợ kỹ thuật 24/7:** 0988 739 896  
@@ -16,23 +16,26 @@
 4. [Chương 4: Hướng dẫn nạp bảng giá & Tri thức vào Bộ Não AI](#chương-4-hướng-dẫn-nạp-bảng-giá--tri-thức-vào-bộ-não-ai)
 5. [Chương 5: Hướng dẫn kết nối Facebook Fanpage Messenger (Cloud 24/7)](#chương-5-hướng-dẫn-kết-nối-facebook-fanpage-messenger-cloud-247)
 6. [Chương 6: Hướng dẫn kết nối Zalo Official Account (Zalo Doanh Nghiệp)](#chương-6-hướng-dẫn-kết-nối-zalo-official-account-zalo-doanh-nghiệp)
-7. [Chương 7: Bảng mã lỗi & Hướng dẫn xử lý sự cố (Troubleshooting)](#chương-7-bảng-mã-lỗi--hướng-dẫn-xử-lý-sự-cố-troubleshooting)
+7. [Chương 7: Hướng dẫn kết nối Website (Widget LiveChat AI 1-Dòng Mã)](#chương-7-hướng-dẫn-kết-nối-website-widget-livechat-ai-1-dòng-mã)
+8. [Chương 8: Bảng mã lỗi & Hướng dẫn xử lý sự cố (Troubleshooting)](#chương-8-bảng-mã-lỗi--hướng-dẫn-xử-lý-sự-cố-troubleshooting)
 
 ---
 
 ## CHƯƠNG 1: GIỚI THIỆU HỆ THỐNG HAITECH BOT
 
-**HAITECH BOT STUDIO** là giải pháp phần mềm trí tuệ nhân tạo (AI) giúp cá nhân kinh doanh, chủ shop online và doanh nghiệp tự động hóa 100% khâu tư vấn, báo giá, chốt đơn và chăm sóc khách hàng trên 3 kênh liên lạc phổ biến nhất tại Việt Nam:
+**HAITECH BOT STUDIO** là giải pháp phần mềm trí tuệ nhân tạo (AI) giúp cá nhân kinh doanh, chủ shop online và doanh nghiệp tự động hóa 100% khâu tư vấn, báo giá, chốt đơn và chăm sóc khách hàng trên 4 kênh liên lạc phổ biến nhất tại Việt Nam:
 
 ```mermaid
 graph TD
     A[Khách hàng nhắn tin] -->|Zalo cá nhân| B[Động cơ Zalo PC - CHAY_BOT_ZALO.bat]
     A -->|Zalo OA Doanh nghiệp| C[Cloud Serverless Webhook]
     A -->|Facebook Fanpage| D[Meta Graph API Webhook]
+    A -->|Website Khách Hàng| W[Website LiveChat AI Widget]
     
     B --> E[(BỘ NÃO AI DÙNG CHUNG\nknowledge.json)]
     C --> E
     D --> E
+    W --> E
     
     E --> F[Sinh câu trả lời thông minh\nBáo giá + Hotline + Bảo hành]
     F --> G[Phản hồi tự động trong 1 giây]
@@ -174,7 +177,67 @@ Dành cho các doanh nghiệp, công ty có tài khoản Zalo OA có tích vàng
 
 ---
 
-## CHƯƠNG 7: BẢNG MÃ LỖI & HƯỚNG DẪN XỬ LÝ SỰ CỐ (TROUBLESHOOTING)
+## CHƯƠNG 7: HƯỚNG DẪN KẾT NỐI WEBSITE (WIDGET LIVECHAT AI 1-DÒNG MÃ)
+
+Tính năng **LiveChat AI Widget** cho phép bạn hoặc khách hàng nhúng một trợ lý AI bán hàng và chăm sóc khách hàng thông minh lên bất kỳ trang web nào chỉ với **1 dòng mã duy nhất**.
+
+```html
+<!-- Mã nhúng nhanh mặc định -->
+<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" async></script>
+```
+
+### 🌟 Các tính năng nổi bật của Widget Website:
+- **Tự động thích ứng (Responsive):** Hiển thị hoàn hảo trên cả máy tính, máy tính bảng và điện thoại di động.
+- **Nút liên hệ đa kênh (Omnichannel Bar):** Khách có thể vừa trò chuyện trực tiếp với AI trên web, vừa bấm 1-chạm để gọi **Hotline**, mở **Zalo cá nhân** (`https://zalo.me/0988739896`) hoặc mở **Messenger**.
+- **Gợi ý câu hỏi nhanh (Quick Chips):** Giúp khách hàng bấm hỏi giá, khuyến mãi, bảo hành mà không cần gõ phím.
+- **Dùng chung Bộ Não AI:** Trả lời theo đúng dữ liệu giá và chính sách được thiết lập trên Dashboard / file `knowledge.json`.
+
+---
+
+### 🔹 Cách 1: Tùy biến Widget theo màu sắc thương hiệu
+Bạn có thể mở [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html) ➡️ Chọn Tab **`💻 Kết nối Website (Widget AI)`** để tự chỉnh:
+- Màu sắc chủ đạo (Xanh dương, Xanh lá, Cam đỏ, Tím hoặc mã màu HEX riêng).
+- Vị trí hiển thị: Góc phải màn hình hoặc Góc trái màn hình.
+- Tên trợ lý AI & Lời chào mở đầu.
+- Số điện thoại Hotline.
+
+Mã nhúng tùy biến mẫu:
+```html
+<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+  data-color="#0077B6" 
+  data-position="right" 
+  data-bot-name="Em Lan - Trợ lý HAITECH BOT" 
+  data-phone="0988 739 896" 
+  data-greeting="Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Anh/chị cần em tư vấn sản phẩm hay gửi bảng giá ưu đãi hôm nay ạ? 😊" 
+  async></script>
+```
+
+---
+
+### 🔹 Cách 2: Hướng dẫn dán mã vào các nền tảng Website phổ biến:
+
+#### 1. Nền tảng WordPress / WooCommerce:
+1. Đăng nhập trang quản trị WordPress (`/wp-admin`).
+2. Vào **Giao diện (Appearance)** ➡️ **Chỉnh sửa Tệp Giao diện (Theme File Editor)**.
+3. Ở cột bên phải, bấm mở file **`footer.php`** (Chân trang giao diện).
+4. Cuộn xuống cuối file, dán đoạn mã `<script...>` vào **ngay trước thẻ `</body>`**.
+5. Bấm **Cập nhật tệp (Update File)** là xong!
+
+#### 2. Nền tảng Haravan / Sapo / Shopify:
+1. Vào mục **Website** ➡️ **Giao diện (Themes)** ➡️ **Chỉnh sửa Code (Edit HTML/CSS)**.
+2. Tìm file **`theme.liquid`** (hoặc `theme.master`).
+3. Dán đoạn mã `<script...>` vào ngay trước thẻ đóng `</body>`.
+4. Bấm **Lưu**.
+
+#### 3. Nền tảng LadiPage / Trang đích HTML:
+1. Mở trang Landing Page cần cài đặt trong trình thiết kế LadiPage.
+2. Bấm vào menu **Thiết lập trang** ➡️ Chọn mục **Mã JavaScript / CSS**.
+3. Chọn thẻ **Body**.
+4. Dán đoạn mã `<script...>` vào và bấm **Đóng** ➡️ Bấm **Xuất bản lại trang**.
+
+---
+
+## CHƯƠNG 8: BẢNG MÃ LỖI & HƯỚNG DẪN XỬ LÝ SỰ CỐ (TROUBLESHOOTING)
 
 | Hiện tượng | Nguyên nhân | Cách xử lý |
 | :--- | :--- | :--- |
