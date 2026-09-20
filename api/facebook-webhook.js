@@ -4,7 +4,7 @@
 // Tác giả: HAITECH (Hotline: 0988 739 896 - Email: vanhaitech.86@gmail.com)
 // =============================================================================
 
-import { generateReply } from './knowledge-engine.js';
+import { generateReplyAsync } from './knowledge-engine.js';
 
 // Token xác thực mặc định (người dùng có thể cấu hình qua biến môi trường hoặc trong dashboard)
 const DEFAULT_VERIFY_TOKEN = 'haitech_fanpage_bot_secret';
@@ -108,9 +108,10 @@ export default async function handler(req, res) {
                         const timeStr = new Date().toLocaleTimeString('vi-VN');
                         console.log(`\n📩 [Facebook - ${timeStr}] Khách (${senderId}) nhắn: "${userText}"`);
 
-                        // Tạo câu trả lời thông minh từ Bộ não AI
-                        const replyText = generateReply(userText);
-                        console.log(`🤖 [Facebook - ${timeStr}] Bot trả lời: "${replyText.substring(0, 70)}..."`);
+                        // Tạo câu trả lời thông minh từ Động Cơ Trí Tuệ Kép (Bộ Não 1 + Bộ Não 2 GPT)
+                        const result = await generateReplyAsync(userText);
+                        const replyText = result.reply;
+                        console.log(`🤖 [Facebook - ${timeStr}] [${result.model}] Bot trả lời: "${replyText.substring(0, 70)}..."`);
 
                         // Gửi tin nhắn phản hồi về lại Facebook Messenger
                         const pageAccessToken = process.env.FB_PAGE_ACCESS_TOKEN;

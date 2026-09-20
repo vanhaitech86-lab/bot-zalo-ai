@@ -1,10 +1,10 @@
 // =============================================================================
-// VERCEL SERVERLESS FUNCTION: WEBSITE LIVECHAT AI WIDGET API
+// VERCEL SERVERLESS FUNCTION: WEBSITE LIVECHAT AI WIDGET API & GPT TESTER
 // HAITECH BOT OMNICHANNEL - HỆ THỐNG TRỢ LÝ AI CHĂM SÓC KHÁCH HÀNG TỰ ĐỘNG
 // Tác giả: HAITECH (Hotline: 0988 739 896 - Email: vanhaitech.86@gmail.com)
 // =============================================================================
 
-import { generateReply, getKnowledgeBase } from './knowledge-engine.js';
+import { generateReplyAsync, getKnowledgeBase, callOpenAiGpt } from './knowledge-engine.js';
 
 export default async function handler(req, res) {
     // 1. Cấu hình Headers & CORS để mọi website đều có thể nhúng và gọi API
@@ -31,16 +31,42 @@ export default async function handler(req, res) {
             botName: kb.botName || 'HAITECH BOT',
             phone: kb.phone || '0988 739 896',
             welcomeMessage: kb.welcomeMessage,
+            gptEnabled: Boolean(kb.gptConfig?.enabled),
+            gptModel: kb.gptConfig?.model || 'gpt-4o-mini',
             timestamp: new Date().toISOString()
         });
     }
 
-    // 3. Xử lý POST: Nhận tin nhắn từ khách truy cập Website
+    // 3. Xử lý POST: Nhận tin nhắn từ khách truy cập Website hoặc kiểm tra GPT
     if (req.method === 'POST') {
         try {
-            const body = req.body || {};
-            const userMessage = (body.message || '').trim();
+            const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
 
+            // 3.1. Hỗ trợ Dashboard Test trực tiếp OpenAI GPT
+            if (body.action === 'test_gpt') {
+                const testPrompt = body.prompt || "Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.";
+                const testKb = {
+                    ...kb,
+                    gptConfig: {
+                        ...kb.gptConfig,
+                        apiKey: body.apiKey || kb.gptConfig?.apiKey,
+                        model: body.model || kb.gptConfig?.model || 'gpt-4o-mini',
+                        temperature: body.temperature ?? kb.gptConfig?.temperature ?? 0.7,
+                        systemPrompt: body.systemPrompt || kb.gptConfig?.systemPrompt
+                    }
+                };
+
+                const testRes = await callOpenAiGpt(testPrompt, testKb);
+                return res.status(200).json({
+                    success: true,
+                    reply: testRes.reply,
+                    model: testRes.model,
+                    usage: testRes.usage
+                });
+            }
+
+            // 3.2. Xử lý tin nhắn khách hàng gửi đến Widget LiveChat
+            const userMessage = (body.message || '').trim();
             if (!userMessage) {
                 return res.status(400).json({
                     success: false,
@@ -51,15 +77,29 @@ export default async function handler(req, res) {
             const timeStr = new Date().toLocaleTimeString('vi-VN');
             console.log(`\n💬 [Website LiveChat - ${timeStr}] Khách nhắn: "${userMessage}"`);
 
-            // Tạo câu trả lời thông minh từ Bộ não AI dùng chung
-            const replyText = generateReply(userMessage, kb);
-            console.log(`🤖 [Website LiveChat - ${timeStr}] Bot trả lời: "${replyText.substring(0, 70)}..."`);
+            // Tạo customKb nếu client gửi kèm cấu hình GPT tạm từ Dashboard
+            let runtimeKb = kb;
+            if (body.gptConfig) {
+                runtimeKb = {
+                    ...kb,
+                    gptConfig: {
+                        ...kb.gptConfig,
+                        ...body.gptConfig
+                    }
+                };
+            }
+
+            // Gọi Động Cơ Trí Tuệ Kép (Bộ Não 1 + Bộ Não 2 GPT)
+            const result = await generateReplyAsync(userMessage, runtimeKb);
+            console.log(`🤖 [Website LiveChat - ${timeStr}] [${result.model}] Bot trả lời: "${result.reply.substring(0, 70)}..."`);
 
             return res.status(200).json({
                 success: true,
-                reply: replyText,
-                botName: kb.botName || 'HAITECH BOT',
-                phone: kb.phone || '0988 739 896',
+                reply: result.reply,
+                brainUsed: result.brainUsed,
+                model: result.model,
+                botName: runtimeKb.botName || 'HAITECH BOT',
+                phone: runtimeKb.phone || '0988 739 896',
                 timestamp: new Date().toISOString()
             });
 

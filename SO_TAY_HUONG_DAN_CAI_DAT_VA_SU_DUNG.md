@@ -1,5 +1,5 @@
 # 📖 CẨM NANG HƯỚNG DẪN CÀI ĐẶT & VẬN HÀNH HAITECH BOT STUDIO
-### *Hệ Thống Trợ Lý AI Chăm Sóc Khách Hàng Tự Động 24/7 Đa Kênh (Zalo, Facebook Messenger & Website LiveChat)*
+### *Hệ Thống Trợ Lý AI Chăm Sóc Khách Hàng Tự Động 24/7 Đa Kênh & Bộ Não Kép OpenAI GPT*
 
 > **Đơn vị phát triển:** HAITECH BOT STUDIO  
 > **Hotline/Zalo hỗ trợ kỹ thuật 24/7:** 0988 739 896  
@@ -17,7 +17,8 @@
 5. [Chương 5: Hướng dẫn kết nối Facebook Fanpage Messenger (Cloud 24/7)](#chương-5-hướng-dẫn-kết-nối-facebook-fanpage-messenger-cloud-247)
 6. [Chương 6: Hướng dẫn kết nối Zalo Official Account (Zalo Doanh Nghiệp)](#chương-6-hướng-dẫn-kết-nối-zalo-official-account-zalo-doanh-nghiệp)
 7. [Chương 7: Hướng dẫn kết nối Website (Widget LiveChat AI 1-Dòng Mã)](#chương-7-hướng-dẫn-kết-nối-website-widget-livechat-ai-1-dòng-mã)
-8. [Chương 8: Bảng mã lỗi & Hướng dẫn xử lý sự cố (Troubleshooting)](#chương-8-bảng-mã-lỗi--hướng-dẫn-xử-lý-sự-cố-troubleshooting)
+8. [Chương 8: Hướng dẫn kích hoạt Bộ Não Thứ 2 (Model OpenAI GPT)](#chương-8-hướng-dẫn-kích-hoạt-bộ-não-thứ-2-model-openai-gpt)
+9. [Chương 9: Bảng mã lỗi & Hướng dẫn xử lý sự cố (Troubleshooting)](#chương-9-bảng-mã-lỗi--hướng-dẫn-xử-lý-sự-cố-troubleshooting)
 
 ---
 
@@ -237,7 +238,50 @@ Mã nhúng tùy biến mẫu:
 
 ---
 
-## CHƯƠNG 8: BẢNG MÃ LỖI & HƯỚNG DẪN XỬ LÝ SỰ CỐ (TROUBLESHOOTING)
+## CHƯƠNG 8: HƯỚNG DẪN KÍCH HOẠT BỘ NÃO THỨ 2 (MODEL OPENAI GPT)
+
+**Kiến trúc Trí Tuệ Kép (Dual-Brain Hybrid AI)** là tính năng cao cấp nhất của **HAITECH BOT STUDIO**, kết hợp hoàn hảo giữa 2 bộ não:
+1. **Bộ Não 1 (Tri thức & Bảng giá chuẩn):** Trả lời tức thì (< 0.1s), chi phí 0đ, độ chuẩn xác 100% về giá bán, thông số và hotline chính thức.
+2. **Bộ Não 2 (AI Ngôn Ngữ Lớn OpenAI GPT):** Tự động kích hoạt khi khách hỏi câu hỏi mở, so sánh công nghệ, đàm phán, tư vấn giải pháp hoặc trò chuyện tự nhiên ngoài kịch bản có sẵn.
+
+---
+
+### 🔹 Bước 1: Lấy API Key từ OpenAI
+1. Truy cập trang quản trị lập trình viên của OpenAI: [https://platform.openai.com/](https://platform.openai.com/).
+2. Đăng ký hoặc đăng nhập tài khoản OpenAI.
+3. Vào mục **API Keys** ➡️ Bấm **Create new secret key** ➡️ Đặt tên (Ví dụ: `HaitechBotKey`).
+4. Sao chép chuỗi khóa bí mật (dạng `sk-proj-...`).
+
+---
+
+### 🔹 Bước 2: Cấu hình trên Dashboard
+Mở file [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html) ➡️ Chọn Tab **`🧠 Bộ Não GPT (Dual-Brain)`**:
+1. Tích chọn **Kích hoạt Bộ Não 2 (GPT)**.
+2. Dán API Key vào ô **OpenAI API Key**.
+3. Chọn Mô hình (Model):
+   - **`gpt-4o-mini` (Khuyên dùng):** Tốc độ phản hồi cực nhanh (1 - 2 giây), độ hiểu tiếng Việt xuất sắc và chi phí siêu rẻ (chỉ 0.15$ cho 1 triệu token - khoảng 3.800đ).
+   - **`gpt-4o`:** Dành cho các tác vụ cần phân tích và suy luận kỹ thuật sâu nhất.
+4. Chọn Chế độ vận hành (Strategy):
+   - **Chế độ Kép Hybrid (Khuyên dùng):** Ưu tiên Bộ Não 1 trả lời theo bảng giá/luật chuẩn (0đ chi phí), các câu hỏi mở mới chuyển sang GPT. Giúp tiết kiệm 95% chi phí API!
+   - **Full AI GPT:** Mọi câu hỏi đều do GPT suy luận và đối chiếu tri thức RAG của shop để phản hồi.
+5. Bấm **Lưu Cấu Hình Bộ Não GPT**.
+6. Bấm nút **🧪 Kiểm Tra Kết Nối OpenAI GPT Ngay** để kiểm chứng kết nối thành công 100%.
+
+---
+
+### 🔹 Bước 3: Đồng bộ trên toàn bộ 4 kênh
+Khi bạn lưu cấu hình, Bộ Não 2 sẽ tự động có hiệu lực đồng thời trên cả:
+- 📱 Zalo Cá nhân (`CHAY_BOT_ZALO.bat`)
+- 📢 Zalo Official Account (`api/zalo-webhook.js`)
+- 💬 Facebook Fanpage Messenger (`api/facebook-webhook.js`)
+- 💻 Website LiveChat Widget (`haitech-chat-widget.js`)
+
+> [!TIP]
+> **Cơ chế Fallback an toàn:** Nếu bạn chưa nạp API Key hoặc tài khoản OpenAI tạm hết hạn/mất mạng, hệ thống sẽ tự động dùng câu trả lời lịch sự của Bộ Não 1 kèm số Hotline để giữ liên lạc với khách mà không bao giờ bị gián đoạn hoạt động!
+
+---
+
+## CHƯƠNG 9: BẢNG MÃ LỖI & HƯỚNG DẪN XỬ LÝ SỰ CỐ (TROUBLESHOOTING)
 
 | Hiện tượng | Nguyên nhân | Cách xử lý |
 | :--- | :--- | :--- |

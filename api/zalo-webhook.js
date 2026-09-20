@@ -4,7 +4,7 @@
 // Tác giả: HAITECH (Hotline: 0988 739 896 - Email: vanhaitech.86@gmail.com)
 // =============================================================================
 
-import { generateReply } from './knowledge-engine.js';
+import { generateReplyAsync } from './knowledge-engine.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -50,8 +50,10 @@ export default async function handler(req, res) {
                 const userText = messageObj.text.trim();
                 console.log(`User ${senderId} sent: "${userText}"`);
 
-                // Generate AI Response from unified brain
-                const replyText = generateReply(userText);
+                // Generate AI Response from Dual-Brain unified engine
+                const result = await generateReplyAsync(userText);
+                const replyText = result.reply;
+                console.log(`[Zalo OA] [${result.model}] Bot reply: "${replyText}"`);
 
                 // If OA Access Token is configured, send reply directly to user via Zalo Open API
                 const oaAccessToken = process.env.ZALO_OA_ACCESS_TOKEN;

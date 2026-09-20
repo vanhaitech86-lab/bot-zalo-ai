@@ -10,6 +10,7 @@ import jsQR from "jsqr";
 import fs from "node:fs";
 import path from "node:path";
 import { exec } from "node:child_process";
+import { generateReplyAsync } from "./api/knowledge-engine.js";
 
 const SESSION_FILE = "./session.json";
 const KNOWLEDGE_FILE = "./knowledge.json";
@@ -305,9 +306,10 @@ async function startBot() {
             const timeStr = new Date().toLocaleTimeString("vi-VN");
             console.log(`\n📩 [${timeStr}] Khách nhắn: "${userText}"`);
 
-            // Sinh câu trả lời thông minh
-            const replyText = generateReply(userText);
-            console.log(`🤖 [${timeStr}] HAITECH BOT trả lời: "${replyText.substring(0, 80)}..."`);
+            // Sinh câu trả lời thông minh từ Động Cơ Trí Tuệ Kép (Bộ Não 1 + Bộ Não 2 GPT)
+            const result = await generateReplyAsync(userText, knowledge);
+            const replyText = result.reply;
+            console.log(`🤖 [${timeStr}] [${result.model}] HAITECH BOT trả lời: "${replyText.substring(0, 80)}..."`);
 
             // Gửi tin nhắn phản hồi cho khách
             try {
