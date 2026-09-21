@@ -5,14 +5,22 @@
   "brandName": "HAITECH BOT STUDIO",
   "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
   "defaultContact": "Dạ anh/chị có thể liên hệ ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!",
-  "gptConfig": {
+  "aiConfig": {
+    "provider": "gemini",
     "enabled": true,
     "apiKey": "",
-    "model": "gpt-4o-mini",
+    "model": "gemini-1.5-flash",
     "mode": "hybrid",
     "temperature": 0.7,
-    "maxTokens": 500,
+    "maxTokens": 600,
     "systemPrompt": ""
+  },
+  "gptConfig": {
+    "provider": "gemini",
+    "enabled": true,
+    "apiKey": "",
+    "model": "gemini-1.5-flash",
+    "mode": "hybrid"
   },
   "channels": {
     "facebook": {

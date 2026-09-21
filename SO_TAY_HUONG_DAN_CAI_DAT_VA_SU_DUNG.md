@@ -1,5 +1,5 @@
 # 📖 CẨM NANG HƯỚNG DẪN CÀI ĐẶT & VẬN HÀNH HAITECH BOT STUDIO
-### *Hệ Thống Trợ Lý AI Chăm Sóc Khách Hàng Tự Động 24/7 Đa Kênh & Bộ Não Kép OpenAI GPT*
+### *Hệ Thống Trợ Lý AI Chăm Sóc Khách Hàng Tự Động 24/7 Đa Kênh & Bộ Não Thứ 2 (Google Gemini & Đa Nền Tảng AI)*
 
 > **Đơn vị phát triển:** HAITECH BOT STUDIO  
 > **Hotline/Zalo hỗ trợ kỹ thuật 24/7:** 0988 739 896  
@@ -17,7 +17,7 @@
 5. [Chương 5: Hướng dẫn kết nối Facebook Fanpage Messenger (Cloud 24/7)](#chương-5-hướng-dẫn-kết-nối-facebook-fanpage-messenger-cloud-247)
 6. [Chương 6: Hướng dẫn kết nối Zalo Official Account (Zalo Doanh Nghiệp)](#chương-6-hướng-dẫn-kết-nối-zalo-official-account-zalo-doanh-nghiệp)
 7. [Chương 7: Hướng dẫn kết nối Website (Widget LiveChat AI 1-Dòng Mã)](#chương-7-hướng-dẫn-kết-nối-website-widget-livechat-ai-1-dòng-mã)
-8. [Chương 8: Hướng dẫn kích hoạt Bộ Não Thứ 2 (Model OpenAI GPT)](#chương-8-hướng-dẫn-kích-hoạt-bộ-não-thứ-2-model-openai-gpt)
+8. [Chương 8: Hướng dẫn kích hoạt Bộ Não Thứ 2 (Google Gemini 100% Free & Đa Nền Tảng AI)](#chương-8-hướng-dẫn-kích-hoạt-bộ-não-thứ-2-google-gemini-100-free--đa-nền-tảng-ai)
 9. [Chương 9: Bảng mã lỗi & Hướng dẫn xử lý sự cố (Troubleshooting)](#chương-9-bảng-mã-lỗi--hướng-dẫn-xử-lý-sự-cố-troubleshooting)
 
 ---
@@ -238,38 +238,62 @@ Mã nhúng tùy biến mẫu:
 
 ---
 
-## CHƯƠNG 8: HƯỚNG DẪN KÍCH HOẠT BỘ NÃO THỨ 2 (MODEL OPENAI GPT)
+## CHƯƠNG 8: HƯỚNG DẪN KÍCH HOẠT BỘ NÃO THỨ 2 (GOOGLE GEMINI 100% FREE & ĐA NỀN TẢNG AI)
 
-**Kiến trúc Trí Tuệ Kép (Dual-Brain Hybrid AI)** là tính năng cao cấp nhất của **HAITECH BOT STUDIO**, kết hợp hoàn hảo giữa 2 bộ não:
+**Kiến trúc Trí Tuệ Kép Đa Nền Tảng (Multi-Platform Dual-Brain AI)** là điểm đột phá của **HAITECH BOT STUDIO**, kết hợp hoàn hảo giữa 2 bộ não:
 1. **Bộ Não 1 (Tri thức & Bảng giá chuẩn):** Trả lời tức thì (< 0.1s), chi phí 0đ, độ chuẩn xác 100% về giá bán, thông số và hotline chính thức.
-2. **Bộ Não 2 (AI Ngôn Ngữ Lớn OpenAI GPT):** Tự động kích hoạt khi khách hỏi câu hỏi mở, so sánh công nghệ, đàm phán, tư vấn giải pháp hoặc trò chuyện tự nhiên ngoài kịch bản có sẵn.
+2. **Bộ Não 2 (AI Ngôn Ngữ Lớn - Ưu tiên Google Gemini):** Tự động kích hoạt khi khách hỏi câu hỏi mở, so sánh sản phẩm, đàm phán, tư vấn giải pháp hoặc trò chuyện tự nhiên ngoài kịch bản có sẵn.
 
 ---
 
-### 🔹 Bước 1: Lấy API Key từ OpenAI
-1. Truy cập trang quản trị lập trình viên của OpenAI: [https://platform.openai.com/](https://platform.openai.com/).
-2. Đăng ký hoặc đăng nhập tài khoản OpenAI.
-3. Vào mục **API Keys** ➡️ Bấm **Create new secret key** ➡️ Đặt tên (Ví dụ: `HaitechBotKey`).
-4. Sao chép chuỗi khóa bí mật (dạng `sk-proj-...`).
+### ⭐ NỀN TẢNG KHUYÊN DÙNG SỐ 1: GOOGLE GEMINI (GOOGLE AI STUDIO)
+> [!IMPORTANT]
+> **Hoàn toàn Miễn Phí 100% — Không cần thẻ ngân hàng Visa/Mastercard!**
+> - Hạn mức miễn phí: **1.500 lượt chat mỗi ngày** (~45.000 tin nhắn/tháng).
+> - Mô hình chuẩn: **`gemini-1.5-flash`** (Tốc độ phản hồi cực nhanh < 1s, tiếng Việt tự nhiên và trôi chảy nhất hiện nay).
+
+#### 🔹 Hướng dẫn lấy Google Gemini API Key trong 30 giây:
+1. Truy cập: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey).
+2. Đăng nhập bằng tài khoản Google (Gmail) bất kỳ của bạn.
+3. Bấm vào nút xanh **"Create API key"** (Tạo khóa API).
+4. Chọn dự án mặc định hoặc bấm **"Create API key in new project"**.
+5. Hệ thống sẽ cấp ngay một chuỗi khóa bí mật bắt đầu bằng `AIzaSy...`. Bấm **Copy** để sao chép.
 
 ---
 
-### 🔹 Bước 2: Cấu hình trên Dashboard
-Mở file [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html) ➡️ Chọn Tab **`🧠 Bộ Não GPT (Dual-Brain)`**:
-1. Tích chọn **Kích hoạt Bộ Não 2 (GPT)**.
-2. Dán API Key vào ô **OpenAI API Key**.
-3. Chọn Mô hình (Model):
-   - **`gpt-4o-mini` (Khuyên dùng):** Tốc độ phản hồi cực nhanh (1 - 2 giây), độ hiểu tiếng Việt xuất sắc và chi phí siêu rẻ (chỉ 0.15$ cho 1 triệu token - khoảng 3.800đ).
-   - **`gpt-4o`:** Dành cho các tác vụ cần phân tích và suy luận kỹ thuật sâu nhất.
-4. Chọn Chế độ vận hành (Strategy):
-   - **Chế độ Kép Hybrid (Khuyên dùng):** Ưu tiên Bộ Não 1 trả lời theo bảng giá/luật chuẩn (0đ chi phí), các câu hỏi mở mới chuyển sang GPT. Giúp tiết kiệm 95% chi phí API!
-   - **Full AI GPT:** Mọi câu hỏi đều do GPT suy luận và đối chiếu tri thức RAG của shop để phản hồi.
-5. Bấm **Lưu Cấu Hình Bộ Não GPT**.
-6. Bấm nút **🧪 Kiểm Tra Kết Nối OpenAI GPT Ngay** để kiểm chứng kết nối thành công 100%.
+### 🌐 CÁC NỀN TẢNG AI ĐƯỢC HỖ TRỢ KHÁC:
+1. **⚡ GroqCloud LPU (Miễn phí 100% - Tốc độ 0.3s):**
+   - Lấy key tại: [https://console.groq.com/keys](https://console.groq.com/keys).
+   - Mô hình khuyên dùng: `llama-3.3-70b-versatile` (Mạnh tương đương GPT-4).
+2. **🌐 OpenRouter.ai (Tổng hợp model free):**
+   - Lấy key tại: [https://openrouter.ai/keys](https://openrouter.ai/keys).
+   - Hỗ trợ các model đuôi `:free` như `meta-llama/llama-3.3-70b-instruct:free`, `deepseek/deepseek-r1:free`.
+3. **🇨🇳 DeepSeek AI:**
+   - Lấy key tại: [https://platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys).
+   - Mô hình: `deepseek-chat` (V3), `deepseek-reasoner` (R1).
+4. **🤖 OpenAI ChatGPT:**
+   - Lấy key tại: [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys).
+   - Mô hình: `gpt-4o-mini`, `gpt-4o`.
+5. **🛠️ Ollama / Local AI (Offline 100% trên PC):**
+   - Không cần internet, chạy trực tiếp qua `http://localhost:11434/v1`.
 
 ---
 
-### 🔹 Bước 3: Đồng bộ trên toàn bộ 4 kênh
+### 🔹 Cách cấu hình trên Dashboard:
+Mở file [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html) ➡️ Chọn Tab **`🧠 Bộ Não Thứ 2 (Google Gemini / AI)`**:
+1. Tích chọn **Kích hoạt Bộ Não Thứ 2**.
+2. Chọn Nền Tảng AI: Chọn **🟢 Google Gemini (Google AI Studio)**.
+3. Chọn Mô hình: **`gemini-1.5-flash`** (Khuyên dùng).
+4. Dán API Key `AIzaSy...` vừa copy vào ô **Google Gemini API Key**.
+5. Chọn Chế độ vận hành (Strategy):
+   - **Chế độ Kép Hybrid (Khuyên dùng):** Ưu tiên Bộ Não 1 trả lời theo bảng giá/luật chuẩn (0đ chi phí & tức thì < 0.1s), các câu hỏi mở mới chuyển sang Gemini.
+   - **Full AI:** Mọi câu hỏi đều do Gemini suy luận và đối chiếu tri thức RAG của shop để phản hồi.
+6. Bấm **💾 Lưu Cấu Hình Bộ Não AI**.
+7. Bấm nút **🧪 Kiểm Tra Kết Nối Google Gemini Ngay** để kiểm chứng kết nối và đo tốc độ phản hồi trực tiếp (thường chỉ 300ms - 600ms).
+
+---
+
+### 🔹 Đồng bộ trên toàn bộ 4 kênh
 Khi bạn lưu cấu hình, Bộ Não 2 sẽ tự động có hiệu lực đồng thời trên cả:
 - 📱 Zalo Cá nhân (`CHAY_BOT_ZALO.bat`)
 - 📢 Zalo Official Account (`api/zalo-webhook.js`)
@@ -277,7 +301,7 @@ Khi bạn lưu cấu hình, Bộ Não 2 sẽ tự động có hiệu lực đồ
 - 💻 Website LiveChat Widget (`haitech-chat-widget.js`)
 
 > [!TIP]
-> **Cơ chế Fallback an toàn:** Nếu bạn chưa nạp API Key hoặc tài khoản OpenAI tạm hết hạn/mất mạng, hệ thống sẽ tự động dùng câu trả lời lịch sự của Bộ Não 1 kèm số Hotline để giữ liên lạc với khách mà không bao giờ bị gián đoạn hoạt động!
+> **Cơ chế Fallback 100% An Toàn:** Nếu bạn chưa nạp API Key hoặc tài khoản tạm mất kết nối, hệ thống sẽ tự động dùng câu trả lời lịch sự của Bộ Não 1 kèm số Hotline để giữ chân khách mà không bao giờ bị dừng hoạt động!
 
 ---
 

@@ -650,8 +650,8 @@
                 <span class="tab-badge" style="background: #ECFDF5; color: #059669; font-weight: 700;">LiveChat</span>
             </button>
             <button class="nav-tab-btn" onclick="switchTab('gpt')">
-                <span>🧠</span> Bộ Não GPT (Dual-Brain)
-                <span class="tab-badge" style="background: #FEF3C7; color: #D97706; font-weight: 700;">AI 4.0</span>
+                <span>🧠</span> Bộ Não Thứ 2 (Google Gemini / AI)
+                <span class="tab-badge" style="background: #D1FAE5; color: #059669; font-weight: 700;">Gemini Free</span>
             </button>
             <button class="nav-tab-btn" onclick="switchTab('simulator')">
                 <span>💬</span> Test thử Bot Chat
@@ -1293,85 +1293,110 @@
                 </div>
             </div>
 
-            <!-- ================= TAB: CẤU HÌNH BỘ NÃO THỨ 2 - OPENAI GPT ================= -->
+            <!-- ================= TAB: CẤU HÌNH BỘ NÃO THỨ 2 - GOOGLE GEMINI & MULTI-AI ================= -->
             <div id="tab-gpt" class="tab-content">
                 <div class="dash-card">
                     <div class="dash-card-header">
                         <div>
-                            <h3>🧠 Cấu hình Bộ Não Thứ 2 (Model OpenAI GPT)</h3>
-                            <p>Tích hợp mô hình AI ngôn ngữ lớn (LLM) để bot hiểu ngữ cảnh sâu, tư vấn linh hoạt và xử lý câu hỏi mở ngoài kịch bản.</p>
+                            <h3>🧠 Cấu hình Bộ Não Thứ 2 (Google Gemini & Đa Nền Tảng AI)</h3>
+                            <p>Tích hợp mô hình AI siêu trí tuệ để Bot hiểu ngữ cảnh sâu, tư vấn linh hoạt và giải đáp câu hỏi mở ngoài kịch bản.</p>
                         </div>
-                        <span class="status-badge online" id="gptStatusBadge" style="background:#FEF3C7; color:#B45309;">
-                            <span class="dot" style="background:#D97706;"></span> <span id="gptStatusText">Dual-Brain Sẵn Sàng</span>
+                        <span class="status-badge online" id="aiStatusBadge" style="background:#D1FAE5; color:#059669;">
+                            <span class="dot" style="background:#10B981;"></span> <span id="aiStatusText">Google Gemini Sẵn Sàng</span>
                         </span>
                     </div>
 
-                    <!-- Dual-Brain Architecture Explanation -->
-                    <div style="background: linear-gradient(135deg, #1E293B, #0F172A); border-radius: 16px; padding: 22px; color: white; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
-                            <div style="font-weight: 800; font-size: 16px; color: #FCD34D; display: flex; align-items: center; gap: 8px;">
-                                <span>⚡</span> Kiến Trúc Trí Tuệ Kép Độc Quyền (Dual-Brain Hybrid AI)
+                    <!-- Spotlight: Google Gemini Free Tier Banner -->
+                    <div style="background: linear-gradient(135deg, #047857, #065F46, #0F172A); border-radius: 18px; padding: 22px 24px; color: white; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(5, 150, 105, 0.2);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 12px;">
+                            <div style="font-weight: 800; font-size: 17px; color: #A7F3D0; display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 22px;">⭐</span> NỀN TẢNG KHUYÊN DÙNG: GOOGLE GEMINI 1.5 FLASH (100% MIỄN PHÍ)
                             </div>
-                            <span style="background: rgba(252, 211, 77, 0.2); color: #FCD34D; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(252, 211, 77, 0.4);">
-                                Tiết kiệm 95% chi phí API
+                            <span style="background: rgba(255, 255, 255, 0.2); color: white; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; backdrop-filter: blur(4px);">
+                                1.500 lượt chat/ngày · 0 VNĐ Chi phí
                             </span>
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; font-size: 13px; line-height: 1.6;">
-                            <div style="background: rgba(255, 255, 255, 0.07); padding: 14px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                                <div style="font-weight: 700; color: #38BDF8; margin-bottom: 4px;">🧠 Bộ Não 1: Luật nghiệp vụ & Tri thức chuẩn</div>
-                                <div style="color: #CBD5E1;">Xử lý ngay lập tức (&lt; 0.1s) các câu hỏi về bảng giá, số hotline, chính sách bảo hành đã nạp. Chi phí: <strong>0 VNĐ</strong>, độ chính xác 100% không bị ảo tưởng giá.</div>
-                            </div>
-                            <div style="background: rgba(255, 255, 255, 0.07); padding: 14px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                                <div style="font-weight: 700; color: #34D399; margin-bottom: 4px;">🤖 Bộ Não 2: AI Siêu Trí Tuệ OpenAI GPT</div>
-                                <div style="color: #CBD5E1;">Kích hoạt khi khách hỏi câu hỏi mở, so sánh công nghệ, đàm phán hoặc tư vấn giải pháp. GPT sử dụng tri thức RAG của shop để trả lời chuẩn mực và khéo léo.</div>
-                            </div>
+                        <p style="font-size: 13.5px; line-height: 1.6; opacity: .92; margin: 0 0 16px;">
+                            Google AI Studio cung cấp hạn mức miễn phí cực kỳ hào phóng: <strong>1.500 lượt hỏi đáp mỗi ngày</strong>, phản hồi siêu nhanh (&lt; 1 giây), tiếng Việt mượt mà và tự nhiên nhất. <strong>Không cần thẻ thanh toán quốc tế Visa/Mastercard!</strong>
+                        </p>
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <a class="btn-action primary" style="background: #10B981; color: white; border: none; font-size: 13.5px;" href="https://aistudio.google.com/app/apikey" target="_blank">
+                                🔗 Nhận API Key Google Gemini Miễn Phí (Trong 30 giây) ↗
+                            </a>
+                            <a class="btn-action secondary" style="background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); font-size: 13.5px;" href="https://console.groq.com/keys" target="_blank">
+                                ⚡ Nhận API Key GroqCloud Miễn Phí ↗
+                            </a>
                         </div>
                     </div>
 
-                    <!-- GPT Settings Form -->
+                    <!-- AI Model Configuration Form -->
                     <div style="background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 24px;">
-                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 16px; color: var(--ink); display: flex; align-items: center; justify-content: space-between;">
-                            <span>⚙️ Cài đặt kết nối OpenAI API:</span>
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; font-weight: 600; color: var(--brand);">
-                                <input type="checkbox" id="gptEnabledCheckbox" checked style="width: 18px; height: 18px;" />
-                                Kích hoạt Bộ Não 2 (GPT)
+                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 18px; color: var(--ink); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <span>⚙️</span> Thiết lập kết nối AI Model cho Bộ Não Thứ 2:
+                            </span>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; font-weight: 700; color: #059669;">
+                                <input type="checkbox" id="aiEnabledCheckbox" checked style="width: 18px; height: 18px;" />
+                                Kích hoạt Bộ Não Thứ 2
                             </label>
                         </div>
 
+                        <!-- Provider Selection Row -->
                         <div class="form-row">
-                            <div class="form-field" style="flex: 2;">
-                                <label>OpenAI API Key (sk-...):</label>
-                                <div style="position: relative;">
-                                    <input type="password" id="gptApiKeyInput" placeholder="sk-proj-xxxxxxxxxxxxxxxxxxxxxxxx" style="padding-right: 44px; font-family: monospace;" />
-                                    <button type="button" onclick="toggleGptKeyVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 16px;">👁️</button>
-                                </div>
-                                <small style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; display: block;">
-                                    Lấy API Key tại: <a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--brand); font-weight: 600;">platform.openai.com/api-keys</a> (Khóa được lưu bảo mật trong trình duyệt và file knowledge.json).
-                                </small>
+                            <div class="form-field" style="flex: 1.5;">
+                                <label style="font-weight: 700;">Chọn Nền Tảng AI (Provider):</label>
+                                <select id="aiProviderSelect" onchange="onAiProviderChanged()" style="font-size: 14px; font-weight: 600; padding: 10px 14px;">
+                                    <option value="gemini" selected>🟢 Google Gemini (Google AI Studio) — MIỄN PHÍ 100% · Khuyên dùng số 1</option>
+                                    <option value="groq">⚡ GroqCloud LPU — MIỄN PHÍ 100% · Tốc độ nhanh nhất thế giới (0.3s)</option>
+                                    <option value="openrouter">🌐 OpenRouter.ai — Nền tảng tổng hợp nhiều model :free</option>
+                                    <option value="deepseek">🇨🇳 DeepSeek AI — DeepSeek-V3 / R1 thông minh đỉnh cao</option>
+                                    <option value="openai">🤖 OpenAI ChatGPT — GPT-4o-mini / GPT-4o chuẩn quốc tế</option>
+                                    <option value="custom">🛠️ Custom / Ollama Local — 0đ Offline trên máy tính</option>
+                                </select>
                             </div>
 
                             <div class="form-field" style="flex: 1;">
-                                <label>Mô hình AI (Model):</label>
-                                <select id="gptModelSelect">
-                                    <option value="gpt-4o-mini" selected>gpt-4o-mini (⭐ Khuyên dùng - Nhanh & Siêu rẻ)</option>
-                                    <option value="gpt-4o">gpt-4o (👑 Cao cấp nhất - Suy luận sâu)</option>
-                                    <option value="gpt-3.5-turbo">gpt-3.5-turbo (Cổ điển)</option>
+                                <label style="font-weight: 700;">Mô hình AI (Model):</label>
+                                <select id="aiModelSelect" style="font-size: 14px; font-weight: 600; padding: 10px 14px;">
+                                    <option value="gemini-1.5-flash" selected>gemini-1.5-flash (⭐ Khuyên dùng - Nhanh & Mượt)</option>
+                                    <option value="gemini-2.0-flash">gemini-2.0-flash (Thế hệ mới nhất)</option>
+                                    <option value="gemini-1.5-pro">gemini-1.5-pro (Tư duy chuyên sâu)</option>
                                 </select>
                             </div>
                         </div>
 
+                        <!-- API Key Row -->
+                        <div class="form-row">
+                            <div class="form-field" style="flex: 2;">
+                                <label style="font-weight: 700;" id="aiApiKeyLabel">Google Gemini API Key (AIzaSy...):</label>
+                                <div style="position: relative;">
+                                    <input type="password" id="aiApiKeyInput" placeholder="AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="padding-right: 44px; font-family: monospace; font-size: 13.5px;" />
+                                    <button type="button" onclick="toggleAiKeyVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 16px;">👁️</button>
+                                </div>
+                                <small id="aiApiKeyHelpText" style="font-size: 12px; color: var(--ink-soft); margin-top: 5px; display: block;">
+                                    Chưa có key? Bấm nhận miễn phí ngay tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight: 700;">aistudio.google.com/app/apikey ↗</a>
+                                </small>
+                            </div>
+
+                            <div class="form-field" id="customBaseUrlField" style="flex: 1.5; display: none;">
+                                <label style="font-weight: 700;">Custom Base URL (Ollama / Local):</label>
+                                <input type="text" id="aiCustomBaseUrlInput" placeholder="http://localhost:11434/v1" />
+                            </div>
+                        </div>
+
+                        <!-- Strategy & Temperature -->
                         <div class="form-row">
                             <div class="form-field">
-                                <label>Chế độ hoạt động (Strategy):</label>
-                                <select id="gptModeSelect">
-                                    <option value="hybrid" selected>Chế độ Kép Hybrid (Ưu tiên Bộ Não 1, câu hỏi mở mới gọi GPT - Tiết kiệm nhất)</option>
-                                    <option value="full-ai">Full AI GPT (Mọi tin nhắn đều do GPT suy luận và trả lời kèm tri thức shop)</option>
+                                <label style="font-weight: 700;">Chế độ hoạt động (Strategy):</label>
+                                <select id="aiModeSelect">
+                                    <option value="hybrid" selected>Chế độ Kép Hybrid (Ưu tiên Bộ Não 1 để 0đ chi phí & tức thì < 0.1s, câu hỏi mở mới gọi AI - Khuyên dùng)</option>
+                                    <option value="full-ai">Full AI (Mọi tin nhắn đều do AI suy luận kèm toàn bộ tri thức của shop)</option>
                                 </select>
                             </div>
 
                             <div class="form-field">
-                                <label>Độ sáng tạo (Temperature: <span id="tempValueDisplay">0.7</span>):</label>
-                                <input type="range" id="gptTemperatureSlider" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('tempValueDisplay').textContent = this.value" />
+                                <label style="font-weight: 700;">Độ sáng tạo (Temperature: <span id="tempValueDisplay">0.7</span>):</label>
+                                <input type="range" id="aiTemperatureSlider" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('tempValueDisplay').textContent = this.value" />
                                 <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-soft); margin-top: 2px;">
                                     <span>Chính xác / Nghiêm túc (0.0)</span>
                                     <span>Tự nhiên / Cân bằng (0.7)</span>
@@ -1380,50 +1405,63 @@
                             </div>
                         </div>
 
+                        <!-- System Prompt -->
                         <div class="form-field">
-                            <label>Tùy chỉnh Lời Chỉ Dẫn Hệ Thống (System Prompt) cho GPT:</label>
-                            <textarea id="gptSystemPromptInput" rows="4" placeholder="Để trống nếu muốn dùng Prompt chuẩn mặc định của Em Lan - Trợ lý HAITECH BOT."></textarea>
-                            <small style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; display: block;">
-                                💡 Để trống hệ thống sẽ tự động ghép tên nhân viên, bảng giá, hotline và tài liệu FAQ vào prompt cho GPT.
-                            </small>
+                            <label style="font-weight: 700;">Tùy chỉnh Lời Chỉ Dẫn Hệ Thống (System Prompt):</label>
+                            <textarea id="aiSystemPromptInput" rows="3" placeholder="Để trống nếu muốn dùng Prompt chuẩn của Em Lan - Trợ lý HAITECH BOT (Hệ thống tự động ghép bảng giá, hotline và tài liệu FAQ vào ngữ cảnh RAG cho AI)."></textarea>
                         </div>
 
+                        <!-- Action Buttons -->
                         <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
-                            <button type="button" class="btn-action primary" onclick="saveGptConfig()">
-                                💾 Lưu Cấu Hình Bộ Não GPT
+                            <button type="button" class="btn-action primary" style="background: linear-gradient(135deg, #059669, #10B981);" onclick="saveAiConfig()">
+                                💾 Lưu Cấu Hình Bộ Não AI
                             </button>
-                            <button type="button" class="btn-action secondary" style="border-color: #D97706; color: #D97706;" onclick="testGptConnection()">
-                                🧪 Kiểm Tra Kết Nối OpenAI GPT Ngay
+                            <button type="button" class="btn-action secondary" style="border-color: #059669; color: #059669; font-weight: 700;" onclick="testAiConnection()">
+                                🧪 Kiểm Tra Kết Nối Google Gemini Ngay
                             </button>
                         </div>
 
                         <!-- Live Test Output Box -->
-                        <div id="gptTestResultBox" style="display: none; margin-top: 18px; padding: 16px; border-radius: 12px; background: white; border: 1.5px solid #F59E0B;">
-                            <div style="font-weight: 700; font-size: 13.5px; color: #B45309; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-                                <span>🎉</span> Kết quả kiểm tra trực tiếp từ OpenAI API:
+                        <div id="aiTestResultBox" style="display: none; margin-top: 18px; padding: 18px; border-radius: 14px; background: white; border: 1.5px solid #10B981; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+                                <div style="font-weight: 700; font-size: 14px; color: #059669; display: flex; align-items: center; gap: 6px;">
+                                    <span>🎉</span> Kết quả phản hồi từ mô hình AI:
+                                </div>
+                                <span id="aiTestLatencyBadge" style="background: #D1FAE5; color: #059669; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 999px;">
+                                    ⚡ Độ trễ: 0ms
+                                </span>
                             </div>
-                            <div id="gptTestReplyText" style="font-size: 13.5px; color: var(--ink); line-height: 1.6; margin-bottom: 8px;"></div>
-                            <div id="gptTestMetaText" style="font-size: 11.5px; color: var(--ink-soft);"></div>
+                            <div id="aiTestReplyText" style="font-size: 14px; color: var(--ink); line-height: 1.6; margin-bottom: 8px; white-space: pre-line;"></div>
+                            <div id="aiTestMetaText" style="font-size: 12px; color: var(--ink-soft);"></div>
                         </div>
                     </div>
 
-                    <!-- Commercial Value & Cost Guide -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                    <!-- Platform Comparison Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                         <div style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 18px;">
-                            <div style="font-weight: 700; font-size: 14.5px; color: var(--brand); margin-bottom: 6px;">
-                                💰 Chi phí vận hành GPT-4o-mini là bao nhiêu?
+                            <div style="font-weight: 700; font-size: 14.5px; color: #059669; margin-bottom: 6px;">
+                                🟢 Google Gemini (Khuyên dùng)
                             </div>
                             <div style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
-                                Model <code>gpt-4o-mini</code> có giá chỉ khoảng <strong>0.15$ cho 1.000.000 token</strong> (~3.800đ). Với chế độ <em>Hybrid</em>, 1 tháng một shop kinh doanh trả lời 5.000 - 10.000 tin nhắn chỉ tiêu tốn khoảng <strong>10.000đ - 25.000đ</strong>!
+                                Miễn phí 1.500 lượt chat/ngày (~45.000 tin/tháng). Khả năng hiểu và xử lý tiếng Việt rất tự nhiên, hỗ trợ giải thích kỹ thuật và tư vấn giá chuyên nghiệp.
                             </div>
                         </div>
 
                         <div style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 18px;">
-                            <div style="font-weight: 700; font-size: 14.5px; color: #059669; margin-bottom: 6px;">
-                                🛡️ Bảo mật & Chống rò rỉ thông tin
+                            <div style="font-weight: 700; font-size: 14.5px; color: #D97706; margin-bottom: 6px;">
+                                ⚡ GroqCloud LPU (Siêu tốc 0.3s)
                             </div>
                             <div style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
-                                OpenAI API tuân thủ tiêu chuẩn bảo mật dữ liệu doanh nghiệp, không sử dụng dữ liệu chat của khách hàng để huấn luyện model công cộng. Thông tin khách hàng được bảo vệ tuyệt đối.
+                                Miễn phí 100%, tốc độ sinh chữ nhanh nhất thế giới. Sử dụng model Llama 3.3 70B của Meta với trí tuệ mạnh ngang ngửa GPT-4.
+                            </div>
+                        </div>
+
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 18px;">
+                            <div style="font-weight: 700; font-size: 14.5px; color: var(--brand); margin-bottom: 6px;">
+                                🛡️ Cơ Chế Fallback 100% An Toàn
+                            </div>
+                            <div style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
+                                Dù bạn chọn nền tảng nào, nếu API Key gặp sự cố mạng hoặc hết hạn ngạch, Bot sẽ <strong>tự động chuyển về Bộ Não 1</strong> kèm số Hotline, đảm bảo hệ thống không bao giờ bị dừng hoạt động!
                             </div>
                         </div>
                     </div>
@@ -1701,7 +1739,7 @@
             initSimChat();
             updateStatsUI();
             updateZaloQrUI();
-            loadGptConfig();
+            loadAiConfig();
         });
 
         // Tab Navigation
@@ -2122,9 +2160,9 @@
             let replyText = '';
             let brainBadge = '';
 
-            // Check if GPT is configured
-            const isGptActive = gptConfigState.enabled && gptConfigState.apiKey;
-            const mode = gptConfigState.mode || 'hybrid';
+            // Check if AI (Google Gemini / OpenAI / Groq / etc.) is configured
+            const isAiActive = aiConfigState.enabled && (aiConfigState.apiKey || aiConfigState.provider === 'custom');
+            const mode = aiConfigState.mode || 'hybrid';
 
             // Check if matched by rules first in hybrid mode
             let ruleHit = false;
@@ -2156,35 +2194,68 @@
 
             if (ruleHit) {
                 brainBadge = `<span style="display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; background:#E0F2FE; color:#0077B6;">🧠 Bộ Não 1 (Tri thức chuẩn)</span>`;
-            } else if (isGptActive) {
-                // Call GPT API
+            } else if (isAiActive) {
+                // Call AI Model via backend /api/website-chat or direct fallback
                 try {
-                    const gptRes = await fetch('https://api.openai.com/v1/chat/completions', {
+                    const aiRes = await fetch('/api/website-chat', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${gptConfigState.apiKey}`
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            model: gptConfigState.model || 'gpt-4o-mini',
-                            messages: [
-                                {
-                                    role: 'system',
-                                    content: gptConfigState.systemPrompt || `Bạn là ${botConfig.name} của HAITECH BOT. Hotline/Zalo: ${botConfig.phone}. Hãy trả lời súc tích 2-3 câu, thân thiện, xưng em và gọi khách là anh/chị.`
-                                },
-                                { role: 'user', content: userText }
-                            ],
-                            temperature: gptConfigState.temperature ?? 0.7,
-                            max_tokens: 350
+                            action: 'test_ai_model',
+                            provider: aiConfigState.provider || 'gemini',
+                            model: aiConfigState.model || 'gemini-1.5-flash',
+                            apiKey: aiConfigState.apiKey,
+                            baseUrl: aiConfigState.baseUrl,
+                            temperature: aiConfigState.temperature ?? 0.7,
+                            systemPrompt: aiConfigState.systemPrompt,
+                            prompt: userText
                         })
                     });
-                    const gptData = await gptRes.json();
-                    if (gptData.choices?.[0]?.message?.content) {
-                        replyText = gptData.choices[0].message.content.trim();
-                        brainBadge = `<span style="display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; background:#FEF3C7; color:#B45309;">🤖 Bộ Não 2 (${gptConfigState.model})</span>`;
+                    const aiData = await aiRes.json();
+                    if (aiData && aiData.reply) {
+                        replyText = aiData.reply.trim();
+                        const pName = aiConfigState.provider === 'gemini' ? 'Google Gemini' : (aiConfigState.provider === 'groq' ? 'Groq LPU' : (aiConfigState.provider === 'openrouter' ? 'OpenRouter' : (aiConfigState.provider === 'deepseek' ? 'DeepSeek' : aiConfigState.provider.toUpperCase())));
+                        brainBadge = `<span style="display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; background:#D1FAE5; color:#059669;">🤖 Bộ Não 2: ${pName} (${aiConfigState.model})</span>`;
                     }
                 } catch (e) {
-                    console.warn('Simulator GPT call failed:', e);
+                    // Direct browser call fallback (e.g. offline or static test)
+                    try {
+                        if (aiConfigState.provider === 'gemini') {
+                            const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${aiConfigState.model || 'gemini-1.5-flash'}:generateContent?key=${aiConfigState.apiKey}`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    systemInstruction: { parts: [{ text: aiConfigState.systemPrompt || `Bạn là ${botConfig.name} của HAITECH BOT. Hotline: ${botConfig.phone}. Hãy trả lời súc tích 2-3 câu, thân thiện bằng tiếng Việt.` }] },
+                                    contents: [{ role: 'user', parts: [{ text: userText }] }]
+                                })
+                            });
+                            const gData = await gRes.json();
+                            if (gData.candidates?.[0]?.content?.parts?.[0]?.text) {
+                                replyText = gData.candidates[0].content.parts[0].text.trim();
+                                brainBadge = `<span style="display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; background:#D1FAE5; color:#059669;">🤖 Bộ Não 2: Google Gemini (${aiConfigState.model})</span>`;
+                            }
+                        } else if (aiConfigState.provider === 'openai') {
+                            const oRes = await fetch('https://api.openai.com/v1/chat/completions', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${aiConfigState.apiKey}` },
+                                body: JSON.stringify({
+                                    model: aiConfigState.model || 'gpt-4o-mini',
+                                    messages: [
+                                        { role: 'system', content: aiConfigState.systemPrompt || `Bạn là ${botConfig.name} của HAITECH BOT. Hotline: ${botConfig.phone}.` },
+                                        { role: 'user', content: userText }
+                                    ],
+                                    temperature: aiConfigState.temperature ?? 0.7
+                                })
+                            });
+                            const oData = await oRes.json();
+                            if (oData.choices?.[0]?.message?.content) {
+                                replyText = oData.choices[0].message.content.trim();
+                                brainBadge = `<span style="display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; background:#FEF3C7; color:#B45309;">🤖 Bộ Não 2: OpenAI (${aiConfigState.model})</span>`;
+                            }
+                        }
+                    } catch (errFallback) {
+                        console.warn('AI fallback failed:', errFallback);
+                    }
                 }
             }
 
@@ -2527,158 +2598,366 @@
             }, 300);
         }
 
-        // ================= OpenAI GPT Dual-Brain Helpers =================
-        let gptConfigState = {
+        // ================= Multi-AI Platform & Google Gemini Dual-Brain Helpers =================
+        const AI_MODELS_BY_PROVIDER = {
+            gemini: [
+                { id: 'gemini-1.5-flash', name: 'gemini-1.5-flash (⭐ Khuyên dùng - Nhanh & Mượt 100% Free)' },
+                { id: 'gemini-2.0-flash', name: 'gemini-2.0-flash (Thế hệ mới nhất)' },
+                { id: 'gemini-1.5-pro', name: 'gemini-1.5-pro (Tư duy sâu & Phân tích)' }
+            ],
+            groq: [
+                { id: 'llama-3.3-70b-versatile', name: 'llama-3.3-70b-versatile (⭐ 0.3s Siêu tốc Free)' },
+                { id: 'llama-3.1-8b-instant', name: 'llama-3.1-8b-instant (Siêu nhẹ & Nhanh)' },
+                { id: 'mixtral-8x7b-32768', name: 'mixtral-8x7b-32768 (Ngữ cảnh 32k)' }
+            ],
+            openrouter: [
+                { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'meta-llama/llama-3.3-70b-instruct:free (Free)' },
+                { id: 'deepseek/deepseek-r1:free', name: 'deepseek/deepseek-r1:free (Suy luận R1 Free)' },
+                { id: 'google/gemini-flash-1.5-exp', name: 'google/gemini-flash-1.5-exp' }
+            ],
+            deepseek: [
+                { id: 'deepseek-chat', name: 'deepseek-chat (DeepSeek V3 Siêu Rẻ & Thông Minh)' },
+                { id: 'deepseek-reasoner', name: 'deepseek-reasoner (DeepSeek R1 Suy Luận Cao Cấp)' }
+            ],
+            openai: [
+                { id: 'gpt-4o-mini', name: 'gpt-4o-mini (Tiêu chuẩn & Chi phí thấp)' },
+                { id: 'gpt-4o', name: 'gpt-4o (Đỉnh cao thông minh)' }
+            ],
+            custom: [
+                { id: 'default', name: 'default (Model cục bộ / Ollama)' },
+                { id: 'qwen2.5:7b', name: 'qwen2.5:7b (Ollama tiếng Việt cực tốt)' },
+                { id: 'llama3:8b', name: 'llama3:8b (Ollama Meta)' }
+            ]
+        };
+
+        const PROVIDER_METADATA = {
+            gemini: {
+                name: 'Google Gemini',
+                label: 'Google Gemini API Key (AIzaSy...):',
+                placeholder: 'AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                helpText: 'Chưa có key? Bấm nhận miễn phí ngay tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight: 700;">aistudio.google.com/app/apikey ↗</a> (1.500 lượt chat/ngày 100% Free)',
+                btnTest: '🧪 Kiểm Tra Kết Nối Google Gemini Ngay'
+            },
+            groq: {
+                name: 'GroqCloud LPU',
+                label: 'GroqCloud API Key (gsk_...):',
+                placeholder: 'gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                helpText: 'Nhận API Key miễn phí tại: <a href="https://console.groq.com/keys" target="_blank" style="color: #D97706; font-weight: 700;">console.groq.com/keys ↗</a> (Tốc độ phản hồi cực nhanh 0.3 giây)',
+                btnTest: '🧪 Kiểm Tra Kết Nối GroqCloud Ngay'
+            },
+            openrouter: {
+                name: 'OpenRouter.ai',
+                label: 'OpenRouter API Key (sk-or-...):',
+                placeholder: 'sk-or-v1-xxxxxxxxxxxxxxxxxxxx',
+                helpText: 'Nhận API Key tại: <a href="https://openrouter.ai/keys" target="_blank" style="color: #3B82F6; font-weight: 700;">openrouter.ai/keys ↗</a> (Có nhiều model đuôi :free)',
+                btnTest: '🧪 Kiểm Tra Kết Nối OpenRouter Ngay'
+            },
+            deepseek: {
+                name: 'DeepSeek AI',
+                label: 'DeepSeek API Key (sk-...):',
+                placeholder: 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                helpText: 'Đăng ký nhận key tại: <a href="https://platform.deepseek.com/api_keys" target="_blank" style="color: #2563EB; font-weight: 700;">platform.deepseek.com ↗</a>',
+                btnTest: '🧪 Kiểm Tra Kết Nối DeepSeek Ngay'
+            },
+            openai: {
+                name: 'OpenAI ChatGPT',
+                label: 'OpenAI API Key (sk-proj-...):',
+                placeholder: 'sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                helpText: 'Lấy API Key từ bảng điều khiển: <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #10B981; font-weight: 700;">platform.openai.com/api-keys ↗</a>',
+                btnTest: '🧪 Kiểm Tra Kết Nối OpenAI Ngay'
+            },
+            custom: {
+                name: 'Custom / Ollama Local',
+                label: 'API Key (Tùy chọn - để trống nếu Ollama chạy không pass):',
+                placeholder: 'Authorization Key (nếu có)',
+                helpText: 'Ollama mặc định chạy tại: <code>http://localhost:11434/v1</code> (0đ chi phí hoàn toàn offline trên PC)',
+                btnTest: '🧪 Kiểm Tra Kết Nối Ollama / Local Ngay'
+            }
+        };
+
+        let aiConfigState = {
             enabled: true,
+            provider: 'gemini',
+            model: 'gemini-1.5-flash',
             apiKey: '',
-            model: 'gpt-4o-mini',
+            baseUrl: '',
             mode: 'hybrid',
             temperature: 0.7,
             systemPrompt: ''
         };
 
-        function loadGptConfig() {
-            const saved = localStorage.getItem('zalobot_gpt_config');
-            if (saved) {
-                try {
-                    gptConfigState = { ...gptConfigState, ...JSON.parse(saved) };
-                } catch(e) {}
-            }
-            if (document.getElementById('gptEnabledCheckbox')) document.getElementById('gptEnabledCheckbox').checked = gptConfigState.enabled;
-            if (document.getElementById('gptApiKeyInput')) document.getElementById('gptApiKeyInput').value = gptConfigState.apiKey || '';
-            if (document.getElementById('gptModelSelect')) document.getElementById('gptModelSelect').value = gptConfigState.model || 'gpt-4o-mini';
-            if (document.getElementById('gptModeSelect')) document.getElementById('gptModeSelect').value = gptConfigState.mode || 'hybrid';
-            if (document.getElementById('gptTemperatureSlider')) {
-                document.getElementById('gptTemperatureSlider').value = gptConfigState.temperature ?? 0.7;
-                document.getElementById('tempValueDisplay').textContent = gptConfigState.temperature ?? 0.7;
-            }
-            if (document.getElementById('gptSystemPromptInput')) document.getElementById('gptSystemPromptInput').value = gptConfigState.systemPrompt || '';
+        // Backward compatibility
+        let gptConfigState = aiConfigState;
 
-            updateGptBadgeUI();
+        function onAiProviderChanged(targetModel = null) {
+            const provSelect = document.getElementById('aiProviderSelect');
+            if (!provSelect) return;
+            const prov = provSelect.value || 'gemini';
+            aiConfigState.provider = prov;
+
+            // Update model select options
+            const modelSelect = document.getElementById('aiModelSelect');
+            if (modelSelect) {
+                const models = AI_MODELS_BY_PROVIDER[prov] || AI_MODELS_BY_PROVIDER.gemini;
+                modelSelect.innerHTML = models.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+                if (targetModel && models.some(m => m.id === targetModel)) {
+                    modelSelect.value = targetModel;
+                } else if (models.length > 0) {
+                    modelSelect.value = models[0].id;
+                }
+                aiConfigState.model = modelSelect.value;
+            }
+
+            // Update label & placeholder
+            const meta = PROVIDER_METADATA[prov] || PROVIDER_METADATA.gemini;
+            const labelEl = document.getElementById('aiApiKeyLabel');
+            const inputEl = document.getElementById('aiApiKeyInput');
+            const helpEl = document.getElementById('aiApiKeyHelpText');
+            const baseUrlField = document.getElementById('customBaseUrlField');
+
+            if (labelEl) labelEl.textContent = meta.label;
+            if (inputEl) inputEl.placeholder = meta.placeholder;
+            if (helpEl) helpEl.innerHTML = meta.helpText;
+            if (baseUrlField) {
+                baseUrlField.style.display = (prov === 'custom') ? 'block' : 'none';
+            }
+
+            updateAiBadgeUI();
         }
 
-        function updateGptBadgeUI() {
-            const badge = document.getElementById('gptStatusBadge');
-            const text = document.getElementById('gptStatusText');
+        function loadAiConfig() {
+            const savedAi = localStorage.getItem('zalobot_ai_config');
+            const savedGpt = localStorage.getItem('zalobot_gpt_config');
+            if (savedAi) {
+                try {
+                    aiConfigState = { ...aiConfigState, ...JSON.parse(savedAi) };
+                } catch(e) {}
+            } else if (savedGpt) {
+                try {
+                    const parsedGpt = JSON.parse(savedGpt);
+                    aiConfigState = {
+                        ...aiConfigState,
+                        provider: 'openai',
+                        apiKey: parsedGpt.apiKey || '',
+                        model: parsedGpt.model || 'gpt-4o-mini',
+                        mode: parsedGpt.mode || 'hybrid',
+                        temperature: parsedGpt.temperature ?? 0.7,
+                        systemPrompt: parsedGpt.systemPrompt || ''
+                    };
+                } catch(e) {}
+            }
+
+            // Ensure backward compatibility alias
+            gptConfigState = aiConfigState;
+
+            if (document.getElementById('aiEnabledCheckbox')) document.getElementById('aiEnabledCheckbox').checked = aiConfigState.enabled;
+            if (document.getElementById('aiProviderSelect')) document.getElementById('aiProviderSelect').value = aiConfigState.provider || 'gemini';
+            
+            onAiProviderChanged(aiConfigState.model);
+
+            if (document.getElementById('aiApiKeyInput')) document.getElementById('aiApiKeyInput').value = aiConfigState.apiKey || '';
+            if (document.getElementById('aiCustomBaseUrlInput')) document.getElementById('aiCustomBaseUrlInput').value = aiConfigState.baseUrl || '';
+            if (document.getElementById('aiModeSelect')) document.getElementById('aiModeSelect').value = aiConfigState.mode || 'hybrid';
+            if (document.getElementById('aiTemperatureSlider')) {
+                document.getElementById('aiTemperatureSlider').value = aiConfigState.temperature ?? 0.7;
+                const tv = document.getElementById('tempValueDisplay');
+                if (tv) tv.textContent = aiConfigState.temperature ?? 0.7;
+            }
+            if (document.getElementById('aiSystemPromptInput')) document.getElementById('aiSystemPromptInput').value = aiConfigState.systemPrompt || '';
+
+            updateAiBadgeUI();
+        }
+
+        // Backward compatibility
+        function loadGptConfig() {
+            loadAiConfig();
+        }
+
+        function updateAiBadgeUI() {
+            const badge = document.getElementById('aiStatusBadge');
+            const text = document.getElementById('aiStatusText');
             if (!badge || !text) return;
 
-            if (gptConfigState.enabled && gptConfigState.apiKey) {
+            const provMeta = PROVIDER_METADATA[aiConfigState.provider] || PROVIDER_METADATA.gemini;
+            const provName = provMeta.name;
+
+            if (aiConfigState.enabled && (aiConfigState.apiKey || aiConfigState.provider === 'custom')) {
                 badge.style.background = '#D1FAE5';
                 badge.style.color = '#059669';
-                badge.querySelector('.dot').style.background = '#10B981';
-                text.textContent = `Model ${gptConfigState.model} Hoạt Động`;
-            } else if (gptConfigState.enabled) {
+                const dot = badge.querySelector('.dot');
+                if (dot) dot.style.background = '#10B981';
+                text.textContent = `${provName} (${aiConfigState.model}) Hoạt Động`;
+            } else if (aiConfigState.enabled) {
                 badge.style.background = '#FEF3C7';
                 badge.style.color = '#B45309';
-                badge.querySelector('.dot').style.background = '#D97706';
-                text.textContent = 'Chờ Nhập API Key';
+                const dot = badge.querySelector('.dot');
+                if (dot) dot.style.background = '#D97706';
+                text.textContent = `Chờ Nhập Key ${provName}`;
             } else {
                 badge.style.background = '#F1F5F9';
                 badge.style.color = '#64748B';
-                badge.querySelector('.dot').style.background = '#94A3B8';
-                text.textContent = 'Bộ Não GPT Đang Tắt';
+                const dot = badge.querySelector('.dot');
+                if (dot) dot.style.background = '#94A3B8';
+                text.textContent = 'Bộ Não AI Đang Tắt';
             }
         }
 
-        function toggleGptKeyVisibility() {
-            const input = document.getElementById('gptApiKeyInput');
+        function toggleAiKeyVisibility() {
+            const input = document.getElementById('aiApiKeyInput');
             if (input) {
                 input.type = input.type === 'password' ? 'text' : 'password';
             }
         }
+        function toggleGptKeyVisibility() { toggleAiKeyVisibility(); }
 
-        function saveGptConfig() {
-            gptConfigState.enabled = document.getElementById('gptEnabledCheckbox')?.checked ?? true;
-            gptConfigState.apiKey = document.getElementById('gptApiKeyInput')?.value.trim() || '';
-            gptConfigState.model = document.getElementById('gptModelSelect')?.value || 'gpt-4o-mini';
-            gptConfigState.mode = document.getElementById('gptModeSelect')?.value || 'hybrid';
-            gptConfigState.temperature = parseFloat(document.getElementById('gptTemperatureSlider')?.value || '0.7');
-            gptConfigState.systemPrompt = document.getElementById('gptSystemPromptInput')?.value.trim() || '';
+        function saveAiConfig() {
+            aiConfigState.enabled = document.getElementById('aiEnabledCheckbox')?.checked ?? true;
+            aiConfigState.provider = document.getElementById('aiProviderSelect')?.value || 'gemini';
+            aiConfigState.model = document.getElementById('aiModelSelect')?.value || 'gemini-1.5-flash';
+            aiConfigState.apiKey = document.getElementById('aiApiKeyInput')?.value.trim() || '';
+            aiConfigState.baseUrl = document.getElementById('aiCustomBaseUrlInput')?.value.trim() || '';
+            aiConfigState.mode = document.getElementById('aiModeSelect')?.value || 'hybrid';
+            aiConfigState.temperature = parseFloat(document.getElementById('aiTemperatureSlider')?.value || '0.7');
+            aiConfigState.systemPrompt = document.getElementById('aiSystemPromptInput')?.value.trim() || '';
 
-            localStorage.setItem('zalobot_gpt_config', JSON.stringify(gptConfigState));
-            updateGptBadgeUI();
-            alert('🎉 ĐÃ LƯU CẤU HÌNH BỘ NÃO GPT THÀNH CÔNG!\n\nToàn bộ các kênh sẽ tự động áp dụng cấu hình này.');
+            gptConfigState = aiConfigState;
+            localStorage.setItem('zalobot_ai_config', JSON.stringify(aiConfigState));
+            localStorage.setItem('zalobot_gpt_config', JSON.stringify(aiConfigState));
+
+            updateAiBadgeUI();
+
+            const provMeta = PROVIDER_METADATA[aiConfigState.provider] || PROVIDER_METADATA.gemini;
+            alert(`🎉 ĐÃ LƯU CẤU HÌNH BỘ NÃO AI THÀNH CÔNG!\n\nNền tảng: ${provMeta.name}\nMô hình: ${aiConfigState.model}\nChế độ: ${aiConfigState.mode === 'hybrid' ? 'Hybrid (Tiết kiệm chi phí)' : 'Full AI'}\n\nToàn bộ các kênh (Zalo, Website, Facebook) sẽ áp dụng ngay lập tức!`);
         }
+        function saveGptConfig() { saveAiConfig(); }
 
-        async function testGptConnection() {
-            const apiKey = document.getElementById('gptApiKeyInput')?.value.trim();
-            if (!apiKey) {
-                alert('⚠️ Vui lòng nhập OpenAI API Key trước khi kiểm tra!');
-                document.getElementById('gptApiKeyInput')?.focus();
+        async function testAiConnection() {
+            const provider = document.getElementById('aiProviderSelect')?.value || 'gemini';
+            const model = document.getElementById('aiModelSelect')?.value || 'gemini-1.5-flash';
+            const apiKey = document.getElementById('aiApiKeyInput')?.value.trim() || '';
+            const baseUrl = document.getElementById('aiCustomBaseUrlInput')?.value.trim() || '';
+            const temperature = parseFloat(document.getElementById('aiTemperatureSlider')?.value || '0.7');
+            const systemPrompt = document.getElementById('aiSystemPromptInput')?.value.trim();
+
+            const provMeta = PROVIDER_METADATA[provider] || PROVIDER_METADATA.gemini;
+
+            if (!apiKey && provider !== 'custom') {
+                alert(`⚠️ Vui lòng nhập ${provMeta.name} API Key trước khi kiểm tra!`);
+                document.getElementById('aiApiKeyInput')?.focus();
                 return;
             }
 
-            const model = document.getElementById('gptModelSelect')?.value || 'gpt-4o-mini';
-            const temperature = parseFloat(document.getElementById('gptTemperatureSlider')?.value || '0.7');
-            const systemPrompt = document.getElementById('gptSystemPromptInput')?.value.trim();
+            const resultBox = document.getElementById('aiTestResultBox');
+            const replyEl = document.getElementById('aiTestReplyText');
+            const metaEl = document.getElementById('aiTestMetaText');
+            const latencyBadge = document.getElementById('aiTestLatencyBadge');
 
-            const resultBox = document.getElementById('gptTestResultBox');
-            const replyEl = document.getElementById('gptTestReplyText');
-            const metaEl = document.getElementById('gptTestMetaText');
+            if (resultBox) {
+                resultBox.style.display = 'block';
+                resultBox.style.borderColor = '#059669';
+            }
+            if (replyEl) replyEl.innerHTML = `⏳ Đang kết nối tới <strong>${provMeta.name} (${model})</strong> và gửi tin nhắn kiểm tra...`;
+            if (metaEl) metaEl.textContent = '';
+            if (latencyBadge) latencyBadge.textContent = '⚡ Đang gửi...';
 
-            resultBox.style.display = 'block';
-            resultBox.style.borderColor = '#3B82F6';
-            replyEl.innerHTML = '⏳ Đang kết nối tới OpenAI API và gửi tin nhắn kiểm tra...';
-            metaEl.textContent = '';
+            const startTime = Date.now();
 
             try {
-                // Gọi qua serverless endpoint website-chat action test_gpt
+                // Call serverless endpoint /api/website-chat with action 'test_ai_model'
                 const res = await fetch('/api/website-chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        action: 'test_gpt',
-                        apiKey: apiKey,
+                        action: 'test_ai_model',
+                        provider: provider,
                         model: model,
+                        apiKey: apiKey,
+                        baseUrl: baseUrl,
                         temperature: temperature,
                         systemPrompt: systemPrompt,
-                        prompt: "Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai và sẵn sàng hỗ trợ khách hàng như thế nào."
+                        prompt: "Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai và sẵn sàng hỗ trợ khách hàng HAITECH BOT như thế nào."
                     })
                 });
 
                 const data = await res.json();
                 if (!res.ok || !data.success) {
-                    throw new Error(data.error || data.message || 'Lỗi kiểm tra API');
+                    throw new Error(data.error || data.message || `Lỗi phản hồi từ ${provMeta.name}`);
                 }
 
-                resultBox.style.borderColor = '#10B981';
-                replyEl.innerHTML = `<strong>Phản hồi từ AI:</strong><br/>"${data.reply}"`;
-                metaEl.innerHTML = `✅ <strong>Kết nối thành công 100%!</strong> Model: <code>${data.model}</code> ${data.usage ? `· Token tiêu thụ: ${data.usage.total_tokens}` : ''}`;
+                const elapsedMs = data.latencyMs || (Date.now() - startTime);
+
+                if (resultBox) resultBox.style.borderColor = '#10B981';
+                if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (${provMeta.name}):</strong><br/>"${data.reply}"`;
+                if (metaEl) {
+                    metaEl.innerHTML = `✅ <strong>Kết nối thành công 100%!</strong> Nền tảng: <code>${provMeta.name}</code> · Model: <code>${data.model || model}</code> · Thời gian: <code>${elapsedMs}ms</code> ${data.usage ? `· Token: ${data.usage.total_tokens || JSON.stringify(data.usage)}` : ''}`;
+                }
             } catch (err) {
-                // Nếu gọi backend lỗi hoặc chạy file:// trực tiếp, thử gọi trực tiếp OpenAI
+                // Client-side fallback if backend endpoint unreachable (e.g. static html preview)
                 try {
-                    const directRes = await fetch('https://api.openai.com/v1/chat/completions', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${apiKey}`
-                        },
-                        body: JSON.stringify({
-                            model: model,
-                            messages: [
-                                { role: 'system', content: 'Bạn là trợ lý AI thông minh của HAITECH BOT. Trả lời súc tích trong 1-2 câu.' },
-                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn bạn là ai.' }
-                            ],
-                            temperature: temperature,
-                            max_tokens: 150
-                        })
-                    });
-
-                    const directData = await directRes.json();
-                    if (!directRes.ok) {
-                        throw new Error(directData.error?.message || 'Lỗi OpenAI');
+                    if (provider === 'gemini') {
+                        const directRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                systemInstruction: {
+                                    parts: [{ text: systemPrompt || "Bạn là trợ lý AI thông minh của HAITECH BOT. Trả lời súc tích trong 1 câu ngắn bằng tiếng Việt." }]
+                                },
+                                contents: [
+                                    { role: "user", parts: [{ text: "Chào bạn, hãy giới thiệu ngắn gọn bạn là ai." }] }
+                                ]
+                            })
+                        });
+                        const directData = await directRes.json();
+                        if (!directRes.ok) {
+                            throw new Error(directData.error?.message || 'Lỗi Google Gemini API');
+                        }
+                        const text = directData.candidates?.[0]?.content?.parts?.[0]?.text;
+                        const elapsedMs = Date.now() - startTime;
+                        if (resultBox) resultBox.style.borderColor = '#10B981';
+                        if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                        if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (Google Gemini Direct):</strong><br/>"${text}"`;
+                        if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối Google Gemini thành công 100%!</strong> Model: <code>${model}</code>`;
+                    } else if (provider === 'openai') {
+                        const directRes = await fetch('https://api.openai.com/v1/chat/completions', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${apiKey}`
+                            },
+                            body: JSON.stringify({
+                                model: model,
+                                messages: [
+                                    { role: 'system', content: systemPrompt || 'Bạn là trợ lý AI thông minh của HAITECH BOT. Trả lời súc tích trong 1 câu.' },
+                                    { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn bạn là ai.' }
+                                ],
+                                temperature: temperature,
+                                max_tokens: 150
+                            })
+                        });
+                        const directData = await directRes.json();
+                        if (!directRes.ok) {
+                            throw new Error(directData.error?.message || 'Lỗi OpenAI');
+                        }
+                        const elapsedMs = Date.now() - startTime;
+                        if (resultBox) resultBox.style.borderColor = '#10B981';
+                        if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                        if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (OpenAI Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
+                        if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối OpenAI thành công 100%!</strong> Model: <code>${directData.model}</code>`;
+                    } else {
+                        throw err;
                     }
-
-                    resultBox.style.borderColor = '#10B981';
-                    replyEl.innerHTML = `<strong>Phản hồi từ AI:</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
-                    metaEl.innerHTML = `✅ <strong>Kết nối thành công 100%!</strong> Model: <code>${directData.model}</code>`;
                 } catch (fallbackErr) {
-                    resultBox.style.borderColor = '#EF4444';
-                    replyEl.innerHTML = `❌ <strong>Kết nối thất bại:</strong> ${fallbackErr.message}`;
-                    metaEl.textContent = 'Gợi ý: Hãy kiểm tra xem API Key của bạn có chính xác không và tài khoản OpenAI còn số dư (credit) không.';
+                    if (resultBox) resultBox.style.borderColor = '#EF4444';
+                    if (latencyBadge) latencyBadge.textContent = '❌ Lỗi';
+                    if (replyEl) replyEl.innerHTML = `❌ <strong>Kết nối thất bại:</strong> ${fallbackErr.message}`;
+                    if (metaEl) {
+                        metaEl.innerHTML = `Gợi ý: Hãy kiểm tra xem API Key của bạn có chính xác không. Nhận key Google Gemini miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey</a>`;
+                    }
                 }
             }
         }
+        function testGptConnection() { testAiConnection(); }
 
         // Logout
         function logout() {
