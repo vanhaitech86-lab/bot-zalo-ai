@@ -14,8 +14,15 @@ export const AI_PROVIDERS = {
         id: "gemini",
         name: "Google Gemini (Google AI Studio)",
         badge: "Miễn phí 100% · 1.500 lượt/ngày",
-        defaultModel: "gemini-1.5-flash",
-        models: ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-1.5-pro"],
+        defaultModel: "gemini-2.5-flash",
+        models: [
+            "gemini-2.5-flash",
+            "gemini-2.0-flash",
+            "gemini-flash-latest",
+            "gemini-2.5-flash-lite",
+            "gemini-2.5-pro",
+            "gemini-1.5-flash"
+        ],
         keyPlaceholder: "AIzaSy...",
         keyUrl: "https://aistudio.google.com/app/apikey",
         isFree: true,
@@ -207,59 +214,93 @@ export async function callGoogleGemini(userMessage, kb) {
         throw new Error('Chưa cấu hình Google Gemini API Key. Hãy lấy key miễn phí tại aistudio.google.com!');
     }
 
-    const model = (aiConfig.model || 'gemini-1.5-flash').trim();
+    const requestedModel = (aiConfig.model || 'gemini-2.5-flash').trim();
     const temperature = Number(aiConfig.temperature ?? 0.7);
     const maxTokens = Number(aiConfig.maxTokens ?? 600);
     const systemPrompt = buildAiSystemPrompt(kb);
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    // Danh sách model ưu tiên thử nghiệm nếu model chỉ định bị deprecated (404/not supported)
+    const candidateModels = Array.from(new Set([
+        requestedModel,
+        'gemini-2.5-flash',
+        'gemini-2.0-flash',
+        'gemini-flash-latest',
+        'gemini-2.5-flash-lite',
+        'gemini-2.5-pro',
+        'gemini-1.5-flash-latest',
+        'gemini-1.5-flash'
+    ]));
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    let lastError = null;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [
-                    { role: 'user', parts: [{ text: userMessage }] }
-                ],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-                generationConfig: {
-                    temperature: temperature,
-                    maxOutputTokens: maxTokens
+    for (const curModel of candidateModels) {
+        const cleanModel = curModel.replace(/^models\//, '');
+        // Thử cả v1beta và v1
+        const endpoints = [
+            `https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1/models/${cleanModel}:generateContent?key=${apiKey}`
+        ];
+
+        for (const url of endpoints) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [
+                            { role: 'user', parts: [{ text: userMessage }] }
+                        ],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                        generationConfig: {
+                            temperature: temperature,
+                            maxOutputTokens: maxTokens
+                        }
+                    }),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+                    if (reply) {
+                        return {
+                            reply,
+                            model: cleanModel,
+                            provider: 'Google Gemini',
+                            usage: data.usageMetadata
+                        };
+                    }
                 }
-            }),
-            signal: controller.signal
-        });
 
-        clearTimeout(timeoutId);
+                const errData = await response.json().catch(() => ({}));
+                const errMsg = errData.error?.message || `HTTP ${response.status}: ${response.statusText}`;
+                lastError = new Error(errMsg);
 
-        if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            const errMsg = errData.error?.message || `HTTP ${response.status}: ${response.statusText}`;
-            throw new Error(`Google Gemini Error: ${errMsg}`);
+                // Nếu lỗi là do model không tìm thấy trên endpoint này, thử model tiếp theo
+                if (response.status === 404 || errMsg.includes('not found') || errMsg.includes('not supported')) {
+                    break; // break khỏi endpoint loop để sang candidateModel tiếp theo
+                } else {
+                    // Lỗi xác thực hoặc hết quota hoặc lỗi khác thì ném lỗi ra ngay
+                    throw new Error(`Google Gemini Error: ${errMsg}`);
+                }
+            } catch (err) {
+                clearTimeout(timeoutId);
+                if (err.message && (err.message.includes('API_KEY_INVALID') || err.message.includes('API key not valid') || err.message.includes('Google Gemini Error:'))) {
+                    throw err;
+                }
+                lastError = err;
+            }
         }
-
-        const data = await response.json();
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-        if (!reply) {
-            throw new Error('Google Gemini không trả về câu trả lời hợp lệ.');
-        }
-
-        return {
-            reply,
-            model: model,
-            provider: 'Google Gemini',
-            usage: data.usageMetadata
-        };
-    } catch (err) {
-        clearTimeout(timeoutId);
-        throw err;
     }
+
+    throw lastError || new Error('Không thể kết nối tới Google Gemini. Vui lòng kiểm tra lại API Key hoặc chọn Model khác.');
 }
 
 // 2. OpenAI-Compatible API (Groq, OpenRouter, DeepSeek, OpenAI, Custom/Ollama)

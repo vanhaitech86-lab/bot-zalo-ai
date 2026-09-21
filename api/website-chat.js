@@ -47,11 +47,33 @@ export default async function handler(req, res) {
             const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
 
             // 3.1. Hỗ trợ Dashboard Test trực tiếp các mô hình AI (Google Gemini, Groq, OpenAI, etc.)
+            // 3.1. Hành động kiểm tra kết nối AI Model từ Dashboard
+            if (body.action === 'list_gemini_models') {
+                const apiKey = (body.apiKey || kb.aiConfig?.apiKey || '').trim();
+                if (!apiKey) {
+                    return res.status(400).json({ success: false, error: 'Chưa cung cấp API Key để truy vấn models' });
+                }
+                try {
+                    const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+                    const gData = await gRes.json();
+                    if (!gRes.ok) throw new Error(gData.error?.message || 'Lỗi lấy danh sách models từ Google');
+                    const availableModels = (gData.models || [])
+                        .filter(m => m.supportedGenerationMethods?.includes('generateContent'))
+                        .map(m => ({
+                            id: m.name.replace(/^models\//, ''),
+                            name: m.displayName ? `${m.name.replace(/^models\//, '')} (${m.displayName})` : m.name.replace(/^models\//, '')
+                        }));
+                    return res.status(200).json({ success: true, models: availableModels });
+                } catch (e) {
+                    return res.status(500).json({ success: false, error: e.message });
+                }
+            }
+
             if (body.action === 'test_ai_model' || body.action === 'test_gpt') {
                 const startTime = Date.now();
                 const testPrompt = body.prompt || "Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai và sẵn sàng hỗ trợ khách hàng như thế nào.";
                 const provider = body.provider || kb.aiConfig?.provider || 'gemini';
-                const model = body.model || (provider === 'gemini' ? 'gemini-1.5-flash' : 'llama-3.3-70b-versatile');
+                const model = body.model || (provider === 'gemini' ? 'gemini-2.5-flash' : 'llama-3.3-70b-versatile');
 
                 const testKb = {
                     ...kb,

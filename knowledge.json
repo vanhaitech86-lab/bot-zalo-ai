@@ -9,7 +9,7 @@
     "provider": "gemini",
     "enabled": true,
     "apiKey": "",
-    "model": "gemini-1.5-flash",
+    "model": "gemini-2.5-flash",
     "mode": "hybrid",
     "temperature": 0.7,
     "maxTokens": 600,
@@ -19,7 +19,7 @@
     "provider": "gemini",
     "enabled": true,
     "apiKey": "",
-    "model": "gemini-1.5-flash",
+    "model": "gemini-2.5-flash",
     "mode": "hybrid"
   },
   "channels": {

@@ -250,7 +250,7 @@ Mã nhúng tùy biến mẫu:
 > [!IMPORTANT]
 > **Hoàn toàn Miễn Phí 100% — Không cần thẻ ngân hàng Visa/Mastercard!**
 > - Hạn mức miễn phí: **1.500 lượt chat mỗi ngày** (~45.000 tin nhắn/tháng).
-> - Mô hình chuẩn: **`gemini-1.5-flash`** (Tốc độ phản hồi cực nhanh < 1s, tiếng Việt tự nhiên và trôi chảy nhất hiện nay).
+> - Mô hình chuẩn mới nhất: **`gemini-2.5-flash`** (hoặc `gemini-2.0-flash`, `gemini-flash-latest`) với tốc độ phản hồi cực nhanh < 1s, tiếng Việt tự nhiên và trôi chảy nhất.
 
 #### 🔹 Hướng dẫn lấy Google Gemini API Key trong 30 giây:
 1. Truy cập: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey).
@@ -283,8 +283,8 @@ Mã nhúng tùy biến mẫu:
 Mở file [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html) ➡️ Chọn Tab **`🧠 Bộ Não Thứ 2 (Google Gemini / AI)`**:
 1. Tích chọn **Kích hoạt Bộ Não Thứ 2**.
 2. Chọn Nền Tảng AI: Chọn **🟢 Google Gemini (Google AI Studio)**.
-3. Chọn Mô hình: **`gemini-1.5-flash`** (Khuyên dùng).
-4. Dán API Key `AIzaSy...` vừa copy vào ô **Google Gemini API Key**.
+3. Dán API Key `AIzaSy...` vừa copy vào ô **Google Gemini API Key**.
+4. Bấm nút **🔍 Dò Model từ Key** (hoặc chọn mô hình chuẩn **`gemini-2.5-flash`**). Hệ thống có cơ chế tự động chuyển đổi sang model tương thích nếu model cũ bị deprecated.
 5. Chọn Chế độ vận hành (Strategy):
    - **Chế độ Kép Hybrid (Khuyên dùng):** Ưu tiên Bộ Não 1 trả lời theo bảng giá/luật chuẩn (0đ chi phí & tức thì < 0.1s), các câu hỏi mở mới chuyển sang Gemini.
    - **Full AI:** Mọi câu hỏi đều do Gemini suy luận và đối chiếu tri thức RAG của shop để phản hồi.
