@@ -3085,7 +3085,15 @@
                     if (latencyBadge) latencyBadge.textContent = '❌ Lỗi';
                     if (replyEl) replyEl.innerHTML = `❌ <strong>Kết nối thất bại:</strong> ${fallbackErr.message}`;
                     if (metaEl) {
-                        metaEl.innerHTML = `Gợi ý: Hãy bấm nút <strong>🔍 Dò Model từ Key</strong> hoặc chọn model <code>gemini-2.5-flash</code> từ danh sách. Nhận key Google Gemini miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey</a>`;
+                        const errMsg = fallbackErr.message || '';
+                        if (errMsg.includes('prepayment credits are depleted')) {
+                            metaEl.innerHTML = `⚠️ <strong>Dự án Google này đang bị kích hoạt chế độ Trả phí (Prepayment) nhưng số dư là $0.</strong><br/>
+                            👉 <strong>Cách khắc phục Miễn Phí 100% (Không tốn tiền):</strong><br/>
+                            • <strong>Cách 1:</strong> Vào <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey ↗</a> ➡️ Bấm <strong>Create API key</strong> ➡️ Chọn <strong>"Create API key in new project"</strong> (Tạo dự án mới hoàn toàn KHÔNG gắn billing để nhận 1.500 lượt chat/ngày Free 100%).<br/>
+                            • <strong>Cách 2 (Khuyên dùng):</strong> Đổi Nền tảng AI sang <strong>⚡ GroqCloud LPU</strong> (Lấy key tại <a href="https://console.groq.com/keys" target="_blank" style="color: #D97706; font-weight:700;">console.groq.com/keys ↗</a>) — Miễn phí 100% trọn đời, phản hồi siêu tốc 0.3s!`;
+                        } else {
+                            metaEl.innerHTML = `Gợi ý: Hãy bấm nút <strong>🔍 Dò Model từ Key</strong> hoặc chọn model <code>gemini-2.5-flash</code> từ danh sách. Nhận key Google Gemini miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey</a>`;
+                        }
                     }
                 }
             }
