@@ -379,15 +379,23 @@ export async function callOpenAiCompatible(userMessage, kb, defaultBaseUrl = 'ht
 // 3. Dispatcher điều phối gọi Model theo đúng Nền tảng được chọn
 export async function callAiModel(userMessage, kb) {
     const aiConfig = kb.aiConfig || kb.gptConfig || {};
-    const provider = aiConfig.provider || 'gemini';
+    let provider = aiConfig.provider || 'gemini';
+    const apiKey = (aiConfig.apiKey || '').trim();
+
+    // TỰ ĐỘNG CHUẨN HÓA: Nếu dán key Google Gemini (AIzaSy...) nhưng dropdown đang để Groq (hoặc ngược lại)
+    if (apiKey.startsWith('AIzaSy') && provider !== 'gemini') {
+        provider = 'gemini';
+    } else if (apiKey.startsWith('gsk_') && provider !== 'groq') {
+        provider = 'groq';
+    }
 
     if (provider === 'gemini') {
-        return await callGoogleGemini(userMessage, kb);
+        return await callGoogleGemini(userMessage, { ...kb, aiConfig: { ...aiConfig, provider: 'gemini' } });
     }
 
     const providerDef = AI_PROVIDERS[provider] || AI_PROVIDERS.openai;
     const baseUrl = aiConfig.customBaseUrl || providerDef.baseUrl || 'https://api.openai.com/v1';
-    return await callOpenAiCompatible(userMessage, kb, baseUrl);
+    return await callOpenAiCompatible(userMessage, { ...kb, aiConfig: { ...aiConfig, provider } }, baseUrl);
 }
 
 // Giữ hàm callOpenAiGpt cho tương thích ngược

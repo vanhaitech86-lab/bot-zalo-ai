@@ -609,7 +609,24 @@
             HAITECH BOT Studio
         </a>
 
-        <div class="dash-user-area">
+        <div class="dash-user-area" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <!-- NÚT KẾT NỐI ZALO (LUÔN HIỂN THỊ TRÊN ĐẦU MÀN HÌNH DASHBOARD) -->
+            <button type="button" id="topNavConnectBtn" onclick="openZaloConnectModal()" style="background: linear-gradient(135deg, #0077B6, #00B4D8); color: white; border: none; font-weight: 700; font-size: 13px; padding: 7px 16px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,119,182,0.25); transition: all .2s;" title="Bấm để kết nối Zalo mới hoặc quét mã QR">
+                <span style="font-size: 14px;">🔗</span>
+                <span>Kết Nối Zalo</span>
+            </button>
+
+            <!-- NÚT NGẮT BOT ZALO TỨC THÌ (LUÔN HIỂN THỊ TRÊN ĐẦU MÀN HÌNH DASHBOARD) -->
+            <button type="button" id="topNavDisconnectBtn" onclick="toggleQuickDisconnect()" style="background: #FEE2E2; color: #DC2626; border: 1.5px solid #FCA5A5; font-weight: 700; font-size: 13px; padding: 7px 15px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all .2s; box-shadow: 0 2px 8px rgba(220,38,38,0.12);" title="Bấm để ngắt hoặc bật lại Bot Zalo ngay">
+                <span id="topNavDisconnectIcon" style="font-size: 14px;">🛑</span>
+                <span id="topNavDisconnectText">Ngắt Bot Zalo</span>
+            </button>
+
+            <!-- Nút đăng ký trải nghiệm dùng thử 7 ngày -->
+            <button type="button" onclick="openTrialRegisterModal()" style="background: linear-gradient(135deg, #059669, #10B981); color: white; border: none; font-weight: 700; font-size: 13px; padding: 7px 16px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(16,185,129,0.25);" title="Đăng ký trải nghiệm dùng thử 7 ngày">
+                <span>🎁</span> Đăng Ký Trải Nghiệm
+            </button>
+
             <div class="dash-user-chip">
                 <img id="navAvatar" src="" alt="Avatar" />
                 <div class="user-meta">
@@ -659,8 +676,13 @@
             <button class="nav-tab-btn" onclick="switchTab('history')">
                 <span>📋</span> Lịch sử tin nhắn
             </button>
+            <button class="nav-tab-btn" onclick="switchTab('trial')">
+                <span>🎁</span> Đăng ký trải nghiệm
+                <span class="tab-badge" style="background: #D1FAE5; color: #059669; font-weight: 700;">Free 7 ngày</span>
+            </button>
             <button class="nav-tab-btn" onclick="switchTab('billing')">
-                <span>💎</span> Nâng cấp bản quyền
+                <span>💰</span> Bảng giá & Cho thuê
+                <span class="tab-badge" style="background: #FEF3C7; color: #D97706; font-weight: 700;">Thương mại</span>
             </button>
 
             <!-- Support Box -->
@@ -685,6 +707,31 @@
                         <span class="status-badge online" id="mainStatusBadge">
                             <span class="dot"></span> <span id="mainStatusText">Bot đang hoạt động 24/7</span>
                         </span>
+                    </div>
+
+                    <!-- EMERGENCY DISCONNECT & BOT CONTROL BANNER -->
+                    <div style="background: linear-gradient(135deg, #FFF1F2, #FFE4E6); border: 1.5px solid #FECDD3; border-radius: 16px; padding: 18px 22px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; box-shadow: 0 4px 14px rgba(225,29,72,0.06);">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFE4E6; display: flex; align-items: center; justify-content: center; font-size: 22px;">🛑</div>
+                            <div>
+                                <div style="font-weight: 800; font-size: 15px; color: #BE123C; display: flex; align-items: center; gap: 8px;">
+                                    Bảng Điều Khiển Nhanh: Ngắt / Bật Bot Zalo
+                                    <span id="quickControlStatusPill" style="font-size: 11.5px; font-weight: 700; padding: 2px 10px; border-radius: 999px; background: #D1FAE5; color: #059669;">🟢 Đang chạy</span>
+                                </div>
+                                <div style="font-size: 12.5px; color: #9F1239; margin-top: 2px;">Chủ động ngắt kết nối ngay khi bạn muốn chat thủ công hoặc dừng tiếp nhận khách tự động.</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <button type="button" id="overviewConnectBtn" onclick="openZaloConnectModal()" class="btn-action primary" style="background: linear-gradient(135deg, #0077B6, #00B4D8); color: white; border: none; padding: 10px 18px; font-weight: 700; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,119,182,0.25); font-size: 13.5px;">
+                                🔗 KẾT NỐI ZALO (QUÉT QR)
+                            </button>
+                            <button type="button" id="overviewDisconnectBtn" onclick="toggleQuickDisconnect()" class="btn-action danger" style="background: #E11D48; color: white; border: none; padding: 10px 18px; font-weight: 700; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(225,29,72,0.25); font-size: 13.5px;">
+                                🛑 BẤM ĐỂ NGẮT BOT NGAY
+                            </button>
+                            <button type="button" onclick="switchWizardStep(3); switchTab('setup');" class="btn-action secondary" style="padding: 10px 18px; font-size: 13px;">
+                                📱 Quét QR Zalo
+                            </button>
+                        </div>
                     </div>
 
                     <!-- 4 Metric Cards -->
@@ -894,13 +941,22 @@
                                 </a>
                             </div>
 
-                            <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+                            <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; justify-content: center;">
                                 <button class="btn-action secondary" style="padding: 8px 16px; font-size: 13px;" onclick="refreshQrCode()">🔄 Làm mới mã QR</button>
                                 <button class="btn-action success" style="padding: 8px 16px; font-size: 13px;" onclick="toggleBotOnline()">⚡ Bật / Tắt Bot</button>
+                                <button class="btn-action danger" style="padding: 8px 16px; font-size: 13px; background: #dc2626; color: white; border: none; cursor: pointer; border-radius: 10px; font-weight: 600;" onclick="disconnectZaloBot()">🛑 Ngắt kết nối Zalo</button>
                             </div>
 
                             <div class="status-badge online" id="qrStatusPill">
                                 <span class="dot"></span> <span id="qrStatusText">Đã kết nối Zalo · Đang chạy nền 24/7</span>
+                            </div>
+
+                            <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 12px 18px; margin: 16px auto; display: flex; align-items: center; gap: 12px; font-size: 13px; color: #166534; text-align: left; max-width: 480px;">
+                                <span style="font-size: 22px;">🛡️</span>
+                                <div>
+                                    <div style="font-weight: 700; color: #15803d; font-size: 13.5px;">Chế độ an toàn: Chỉ Chat 1-1 Riêng Tư</div>
+                                    <div style="font-size: 12px; color: #166534; margin-top: 2px; line-height: 1.4;">Bot chỉ phản hồi khách nhắn tin riêng 1-1. Tự động bỏ qua và <strong>tuyệt đối không nhắn vào bất kỳ hội nhóm Zalo nào</strong>.</div>
+                                </div>
                             </div>
                         </div>
 
@@ -1378,7 +1434,7 @@
                             <div class="form-field" style="flex: 2;">
                                 <label style="font-weight: 700;" id="aiApiKeyLabel">Google Gemini API Key (AIzaSy...):</label>
                                 <div style="position: relative;">
-                                    <input type="password" id="aiApiKeyInput" placeholder="AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="padding-right: 44px; font-family: monospace; font-size: 13.5px;" />
+                                    <input type="password" id="aiApiKeyInput" oninput="detectApiKeyProvider(this.value)" placeholder="AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="padding-right: 44px; font-family: monospace; font-size: 13.5px;" />
                                     <button type="button" onclick="toggleAiKeyVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 16px;">👁️</button>
                                 </div>
                                 <small id="aiApiKeyHelpText" style="font-size: 12px; color: var(--ink-soft); margin-top: 5px; display: block;">
@@ -1567,73 +1623,387 @@
                 </div>
             </div>
 
-            <!-- ================= TAB 6: NÂNG CẤP GÓI & BÁN HÀNG ================= -->
+            <!-- ================= TAB 6: ĐĂNG KÝ TRẢI NGHIỆM MIỄN PHÍ 7 NGÀY ================= -->
+            <div id="tab-trial" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>🎁 Đăng Ký Trải Nghiệm Miễn Phí 7 Ngày (Full Tính Năng)</h3>
+                            <p>Dành cho khách hàng mới muốn trải nghiệm khả năng trực chat, báo giá và chốt đơn 24/7 của HAITECH BOT trước khi xuống tiền.</p>
+                        </div>
+                        <span class="status-badge online" style="background:#D1FAE5; color:#059669;">
+                            <span class="dot" style="background:#10B981;"></span> 100% Miễn Phí · 0đ Chi Phí
+                        </span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 28px;">
+                        <!-- Registration Form -->
+                        <div style="background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 24px;">
+                            <h4 style="margin: 0 0 16px; font-size: 16px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                                <span>📝</span> Thông tin đăng ký nhận tài khoản dùng thử
+                            </h4>
+                            <form id="trialRegisterForm" onsubmit="handleTrialSubmit(event)">
+                                <div class="form-field" style="margin-bottom: 14px;">
+                                    <label style="font-weight: 700; font-size: 13px;">Họ và tên của bạn: <span style="color:#E11D48;">*</span></label>
+                                    <input type="text" id="trialNameInput" required placeholder="Ví dụ: Nguyễn Văn Hải" />
+                                </div>
+                                <div class="form-field" style="margin-bottom: 14px;">
+                                    <label style="font-weight: 700; font-size: 13px;">Số điện thoại Zalo nhận kích hoạt: <span style="color:#E11D48;">*</span></label>
+                                    <input type="tel" id="trialPhoneInput" required placeholder="Ví dụ: 0988 739 896" />
+                                </div>
+                                <div class="form-field" style="margin-bottom: 14px;">
+                                    <label style="font-weight: 700; font-size: 13px;">Tên Cửa hàng / Công ty / Shop online:</label>
+                                    <input type="text" id="trialShopInput" placeholder="Ví dụ: Haitech Studio / Shop Mỹ Phẩm Mai Linh" />
+                                </div>
+                                <div class="form-field" style="margin-bottom: 14px;">
+                                    <label style="font-weight: 700; font-size: 13px;">Ngành hàng kinh doanh:</label>
+                                    <select id="trialCategorySelect">
+                                        <option value="Bán lẻ / Mỹ phẩm / Thời trang">👗 Bán lẻ / Mỹ phẩm / Thời trang</option>
+                                        <option value="Máy móc / Thiết bị / Công nghệ">💻 Máy móc / Thiết bị / Công nghệ</option>
+                                        <option value="Bất động sản / Dự án">🏢 Bất động sản / Dự án</option>
+                                        <option value="Spa / Nha khoa / Thẩm mỹ">💆 Spa / Nha khoa / Thẩm mỹ</option>
+                                        <option value="Nhà hàng / Cafe / Dịch vụ ăn uống">☕ Nhà hàng / Cafe / Ăn uống</option>
+                                        <option value="Khác">✨ Ngành nghề khác</option>
+                                    </select>
+                                </div>
+                                <div class="form-field" style="margin-bottom: 18px;">
+                                    <label style="font-weight: 700; font-size: 13px;">Kênh bạn muốn triển khai Bot:</label>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+                                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="trialChZaloPersonal" checked /> 📱 Zalo Cá Nhân</label>
+                                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="trialChZaloOa" checked /> 📢 Zalo OA</label>
+                                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="trialChFacebook" checked /> 💬 Facebook Fanpage</label>
+                                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="trialChWebsite" checked /> 💻 Website Widget</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-action primary" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #059669, #10B981); border: none; padding: 13px; font-size: 14.5px; font-weight: 700; box-shadow: 0 4px 14px rgba(16,185,129,0.3);">
+                                    🚀 KÍCH HOẠT DÙNG THỬ 7 NGÀY NGAY
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Trial Benefits & Active Certificate -->
+                        <div>
+                            <div style="background: linear-gradient(135deg, #064E3B, #0F766E, #0F172A); border-radius: 18px; padding: 24px; color: white; margin-bottom: 18px; box-shadow: 0 8px 24px rgba(6,78,59,0.2);">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                    <span style="font-size: 12px; font-weight: 800; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 999px;">ĐẶC QUYỀN TRẢI NGHIỆM</span>
+                                    <span style="color: #6EE7B7; font-weight: 700; font-size: 13px;">7 Ngày Miễn Phí</span>
+                                </div>
+                                <h4 style="font-size: 18px; margin: 0 0 10px; color: #A7F3D0;">Bạn được nhận trọn bộ những gì?</h4>
+                                <ul style="font-size: 13.5px; line-height: 1.8; padding-left: 20px; opacity: .95; margin: 0 0 18px;">
+                                    <li>Kích hoạt ngay <strong>Bộ Não Thứ 2 (Google Gemini AI)</strong> hiểu sâu ngữ cảnh.</li>
+                                    <li>Nạp sẵn bảng giá & 20 câu hỏi tư vấn chuẩn ngành nghề của bạn.</li>
+                                    <li>Trực tiếp test thử tốc độ phản hồi &lt; 1 giây trên Zalo thật.</li>
+                                    <li>Chế độ an toàn 100%: <strong>Chỉ chat 1-1 riêng tư</strong>, không nhắn nhóm.</li>
+                                    <li>Hỗ trợ kỹ thuật viên đồng hành 1-1 qua Zalo/UltraViewer.</li>
+                                </ul>
+                                <div style="background: rgba(255,255,255,0.12); padding: 12px 16px; border-radius: 12px; font-size: 12.5px; border-left: 3px solid #34D399;">
+                                    💡 <em>Sau 7 ngày trải nghiệm, bạn có thể chọn thuê theo tháng (từ 199k/tháng) hoặc không tiếp tục mà không phát sinh bất kỳ khoản phí nào!</em>
+                                </div>
+                            </div>
+
+                            <!-- Active License Card -->
+                            <div id="trialActiveCard" style="display:none; background: #ECFDF5; border: 1.5px solid #10B981; border-radius: 16px; padding: 18px;">
+                                <div style="font-weight: 800; color: #047857; font-size: 14.5px; display: flex; align-items: center; gap: 8px;">
+                                    <span>🎉</span> ĐÃ KÍCH HOẠT THÀNH CÔNG GÓI TRẢI NGHIỆM!
+                                </div>
+                                <div style="font-size: 13px; color: #065F46; margin: 8px 0;" id="trialActiveInfo"></div>
+                                <button type="button" class="btn-action primary" onclick="switchTab('simulator')" style="background:#059669; font-size: 13px; padding: 8px 16px;">
+                                    💬 Mở khung Test Chat với AI ngay →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leads Management CRM Table (Dành cho chủ bot theo dõi khách đăng ký để chốt đơn) -->
+                    <div style="border-top: 2px dashed var(--border); padding-top: 24px; margin-top: 12px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+                            <div>
+                                <h4 style="margin: 0; font-size: 15.5px; color: var(--ink);">📋 Danh Sách Khách Hàng Đã Đăng Ký Trải Nghiệm (Leads CRM)</h4>
+                                <p style="margin: 2px 0 0; font-size: 12.5px; color: var(--ink-soft);">Theo dõi thông tin khách để gọi điện tư vấn và chuyển đổi thành hợp đồng thuê tháng.</p>
+                            </div>
+                            <span id="trialLeadCountBadge" style="background: var(--brand-tint); color: var(--brand-dark); font-weight: 800; padding: 4px 12px; border-radius: 999px; font-size: 12px;">
+                                0 Khách Hàng
+                            </span>
+                        </div>
+                        <div style="overflow-x: auto; background: white; border-radius: 14px; border: 1px solid var(--border);">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                                <thead>
+                                    <tr style="background: var(--surface); border-bottom: 2px solid var(--border); text-align: left;">
+                                        <th style="padding: 10px 14px;">Thời gian</th>
+                                        <th style="padding: 10px 14px;">Họ tên</th>
+                                        <th style="padding: 10px 14px;">Số Zalo</th>
+                                        <th style="padding: 10px 14px;">Cửa hàng / Ngành</th>
+                                        <th style="padding: 10px 14px;">Kênh muốn dùng</th>
+                                        <th style="padding: 10px 14px;">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trialLeadsTableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 24px; color: var(--ink-soft);">Chưa có dữ liệu khách đăng ký mới. Dữ liệu sẽ tự động xuất hiện tại đây khi có khách điền form!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 7: BẢNG GIÁ & CHO THUÊ THƯƠNG MẠI HÓA ================= -->
             <div id="tab-billing" class="tab-content">
                 <div class="dash-card">
                     <div class="dash-card-header">
                         <div>
-                            <h3>Gói Cước & Kích Hoạt Bản Quyền Trợ Lý AI</h3>
-                            <p>Để tăng số lượng tài liệu, thêm nhân viên hoặc tùy biến quy trình chuyên sâu.</p>
+                            <h3>💰 Bảng Giá Cho Thuê & Kế Hoạch Thương Mại Hóa HAITECH BOT</h3>
+                            <p>Mô hình kinh doanh SaaS siêu lợi nhuận (>90% biên lãi) với chi phí vận hành AI gần như 0đ nhờ Google Gemini Free Tier.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn-action primary" onclick="setBillingCycle('monthly')" id="billingCycleMonthlyBtn" style="padding: 6px 14px; font-size: 12.5px;">Thuê Theo Tháng</button>
+                            <button type="button" class="btn-action secondary" onclick="setBillingCycle('yearly')" id="billingCycleYearlyBtn" style="padding: 6px 14px; font-size: 12.5px;">Thuê Theo Năm (Tiết kiệm 20%)</button>
                         </div>
                     </div>
 
-                    <div class="upgrade-grid">
-                        <div style="background: #EAF2FE; border: 1.5px solid #2E7CE4; border-radius: 16px; padding: 24px;">
-                            <h4 style="color: #1D4ED8; font-size: 17px; margin: 0 0 6px;">Chatbot Trải Nghiệm</h4>
-                            <div style="font-size: 24px; font-weight: 800; color: #1D4ED8; margin-bottom: 6px;">2.999.000đ</div>
-                            <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">Trọn gói · Hỗ trợ 7 ngày</div>
-                            <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; margin-bottom: 20px;">
-                                <li>Thiết lập 1 nhân viên trợ lý</li>
-                                <li>Nạp tối đa 10 tài liệu</li>
-                                <li>Xây 10 câu hỏi thường gặp</li>
-                                <li>1 quy trình tiếp nhận khách</li>
-                            </ul>
-                            <a class="btn-action primary" style="width:100%; justify-content:center; background:#2E7CE4;" href="tel:0988739896">Kích hoạt gói này</a>
+                    <!-- Commercial Pricing Cards Grid -->
+                    <div class="upgrade-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 28px;">
+                        <!-- Gói 1: Khởi nghiệp -->
+                        <div style="background: white; border: 1.5px solid #CBD5E1; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+                            <div>
+                                <span style="display: inline-block; background: #F1F5F9; color: #475569; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px;">GÓI 1: KHỞI NGHIỆP</span>
+                                <h4 style="color: var(--ink); font-size: 18px; margin: 0 0 6px;">Zalo Cá Nhân Starter</h4>
+                                <div style="font-size: 26px; font-weight: 800; color: var(--brand); margin-bottom: 4px;" id="priceStarterText">199.000đ<span style="font-size: 13px; font-weight: 500; color: var(--ink-soft);">/tháng</span></div>
+                                <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">(Hoặc mua đứt trọn đời: 2.990.000đ)</div>
+                                <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; color: var(--ink); margin-bottom: 20px;">
+                                    <li>Trực chat tự động trên <strong>1 Zalo Cá Nhân</strong></li>
+                                    <li>Chạy 1-Click trên máy tính Windows (`.bat`)</li>
+                                    <li>🔒 <strong>Chế độ khóa an toàn:</strong> Chỉ chat 1-1, bỏ qua nhóm</li>
+                                    <li>Nạp 15 sản phẩm &amp; kịch bản hỏi giá</li>
+                                    <li>Bộ Não 1 phản hồi siêu tốc &lt; 0.1s</li>
+                                    <li>Hỗ trợ kỹ thuật qua UltraViewer</li>
+                                </ul>
+                            </div>
+                            <a class="btn-action secondary" style="width: 100%; justify-content: center;" href="https://zalo.me/0988739896?text=Tôi muốn tư vấn Gói Khởi Nghiệp Zalo 199k" target="_blank">Đăng ký gói này</a>
                         </div>
 
-                        <div style="background: #E9FBF2; border: 2px solid #1FAE7A; border-radius: 16px; padding: 24px; position: relative;">
-                            <span style="position:absolute; top:-12px; right:16px; background:#1FAE7A; color:white; font-size:10.5px; font-weight:700; padding:4px 10px; border-radius:999px;">PHỔ BIẾN NHẤT</span>
-                            <h4 style="color: #0F6E4C; font-size: 17px; margin: 0 0 6px;">Chatbot Cửa Hàng</h4>
-                            <div style="font-size: 24px; font-weight: 800; color: #0F6E4C; margin-bottom: 6px;">9.500.000đ</div>
-                            <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">Trọn gói · Hỗ trợ 30 ngày</div>
-                            <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; margin-bottom: 20px;">
-                                <li>Chuẩn hóa bộ não chatbot</li>
-                                <li>Nạp tối đa 50 tài liệu</li>
-                                <li>Xây 30 câu hỏi thường gặp</li>
-                                <li>Thiết kế 3 quy trình tư vấn</li>
-                                <li>Đào tạo tối đa 3 nhân sự</li>
-                            </ul>
-                            <a class="btn-action success" style="width:100%; justify-content:center;" href="tel:0988739896">Kích hoạt gói này</a>
+                        <!-- Gói 2: Pro Shop -->
+                        <div style="background: #F0FDF4; border: 2.5px solid #10B981; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 8px 24px rgba(16,185,129,0.15);">
+                            <span style="position: absolute; top: -12px; right: 20px; background: linear-gradient(135deg, #059669, #10B981); color: white; font-size: 10.5px; font-weight: 800; padding: 4px 12px; border-radius: 999px;">BÁN CHẠY NHẤT ⭐</span>
+                            <div>
+                                <span style="display: inline-block; background: #D1FAE5; color: #047857; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px;">GÓI 2: KINH DOANH PRO</span>
+                                <h4 style="color: #065F46; font-size: 18px; margin: 0 0 6px;">Pro Shop Cloud 24/7</h4>
+                                <div style="font-size: 26px; font-weight: 800; color: #059669; margin-bottom: 4px;" id="priceProText">499.000đ<span style="font-size: 13px; font-weight: 500; color: #065F46;">/tháng</span></div>
+                                <div style="font-size: 12px; color: #047857; margin-bottom: 16px;">(Hoặc setup Cloud trọn gói: 5.900.000đ)</div>
+                                <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; color: #064E3B; margin-bottom: 20px;">
+                                    <li><strong>Zalo OA Doanh Nghiệp + Facebook Fanpage</strong></li>
+                                    <li>Chạy Cloud Serverless 24/7 (Không cần mở máy tính)</li>
+                                    <li>🧠 <strong>Tích hợp Bộ Não Thứ 2 (Google Gemini AI)</strong></li>
+                                    <li>Nạp 50 tài liệu bảng giá &amp; danh mục hàng</li>
+                                    <li>Kỹ năng xin số điện thoại &amp; chốt đơn tự động</li>
+                                    <li>Tự động phân loại khách hàng tiềm năng</li>
+                                </ul>
+                            </div>
+                            <a class="btn-action success" style="width: 100%; justify-content: center; background: #10B981;" href="https://zalo.me/0988739896?text=Tôi muốn tư vấn Gói Pro Shop 499k" target="_blank">Đăng ký gói này</a>
                         </div>
 
-                        <div style="background: #FFF7E6; border: 1.5px solid #E0A100; border-radius: 16px; padding: 24px;">
-                            <h4 style="color: #B8860B; font-size: 17px; margin: 0 0 6px;">Chatbot Siêu Trí Tuệ</h4>
-                            <div style="font-size: 24px; font-weight: 800; color: #B8860B; margin-bottom: 6px;">15.000.000đ</div>
-                            <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">Trọn gói · Hỗ trợ 90 ngày</div>
-                            <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; margin-bottom: 20px;">
-                                <li>Nạp tối đa 100 tài liệu</li>
-                                <li>Xây 60 câu hỏi thường gặp</li>
-                                <li>Thiết kế 5 quy trình tư vấn</li>
-                                <li>Phân loại nhiều nhóm khách</li>
-                                <li>Đào tạo 5 nhân sự</li>
-                            </ul>
-                            <a class="btn-action primary" style="width:100%; justify-content:center; background:#E0A100;" href="tel:0988739896">Kích hoạt gói này</a>
+                        <!-- Gói 3: Doanh nghiệp Omnichannel -->
+                        <div style="background: white; border: 1.5px solid #93C5FD; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <span style="display: inline-block; background: #EFF6FF; color: #1D4ED8; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px;">GÓI 3: DOANH NGHIỆP</span>
+                                <h4 style="color: #1E3A8A; font-size: 18px; margin: 0 0 6px;">Omnichannel Cao Cấp</h4>
+                                <div style="font-size: 26px; font-weight: 800; color: #2563EB; margin-bottom: 4px;" id="priceEnterpriseText">990.000đ<span style="font-size: 13px; font-weight: 500; color: var(--ink-soft);">/tháng</span></div>
+                                <div style="font-size: 12px; color: var(--ink-soft); margin-bottom: 16px;">(Hoặc bàn giao chuyển giao 100%: 14.900.000đ)</div>
+                                <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; color: var(--ink); margin-bottom: 20px;">
+                                    <li><strong>Trọn bộ 4 Kênh:</strong> Zalo PC + Zalo OA + Fanpage + Website</li>
+                                    <li>Không giới hạn tài liệu &amp; câu hỏi sản phẩm</li>
+                                    <li>Tùy biến System Prompt &amp; cá nhân hóa theo ngành</li>
+                                    <li>Kỹ thuật viên setup từ A-Z theo yêu cầu</li>
+                                    <li>Bảo hành, nâng cấp và sao lưu dữ liệu 24/7</li>
+                                    <li>Cam kết Uptime 99.9%</li>
+                                </ul>
+                            </div>
+                            <a class="btn-action primary" style="width: 100%; justify-content: center; background: #2563EB;" href="https://zalo.me/0988739896?text=Tôi muốn tư vấn Gói Doanh Nghiệp 990k" target="_blank">Đăng ký gói này</a>
+                        </div>
+
+                        <!-- Gói 4: Đại lý Whitelabel -->
+                        <div style="background: linear-gradient(135deg, #1E1B4B, #312E81); border-radius: 18px; padding: 24px; color: white; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <span style="display: inline-block; background: rgba(255,255,255,0.2); color: #C7D2FE; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px;">GÓI 4: ĐẠI LÝ / AGENCY</span>
+                                <h4 style="color: #E0E7FF; font-size: 18px; margin: 0 0 6px;">Whitelabel Nhượng Quyền</h4>
+                                <div style="font-size: 26px; font-weight: 800; color: #FCD34D; margin-bottom: 4px;">Chiết khấu 50%</div>
+                                <div style="font-size: 12px; color: #A5B4FC; margin-bottom: 16px;">Gắn thương hiệu riêng để đi bán</div>
+                                <ul style="font-size: 13px; line-height: 1.8; padding-left: 18px; color: #C7D2FE; margin-bottom: 20px;">
+                                    <li>Toàn quyền thay đổi Logo &amp; Tên sản phẩm của bạn</li>
+                                    <li>Tự định giá và thu 100% tiền từ khách hàng của bạn</li>
+                                    <li>Được cấp mã nguồn và cập nhật tính năng mới vĩnh viễn</li>
+                                    <li>Đào tạo quy trình sale &amp; kỹ thuật chuyển giao</li>
+                                </ul>
+                            </div>
+                            <a class="btn-action primary" style="width: 100%; justify-content: center; background: #F59E0B; color: #1E1B4B; font-weight: 800;" href="tel:0988739896">Trở thành Đại Lý</a>
                         </div>
                     </div>
 
-                    <!-- Payment Details -->
-                    <div style="margin-top: 28px; padding: 22px; background: var(--surface); border-radius: 16px; border: 1px solid var(--border);">
-                        <h4 style="margin: 0 0 10px; font-size: 15px;">Thông tin liên hệ thanh toán & kích hoạt:</h4>
-                        <div style="font-size: 14px; line-height: 1.8;">
-                            <div>📞 <strong>Hotline/Zalo:</strong> <a href="tel:0988739896" style="color:var(--brand); text-decoration:none;">0988 739 896</a></div>
-                            <div>✉️ <strong>Email:</strong> <a href="mailto:vanhaitech.86@gmail.com" style="color:var(--brand); text-decoration:none;">vanhaitech.86@gmail.com</a></div>
-                            <div>💬 <strong>Zalo tư vấn:</strong> <a href="https://zalo.me/0988739896" target="_blank" style="color:var(--brand); text-decoration:none;">https://zalo.me/0988739896</a></div>
+                    <!-- BỘ TÍNH TOÁN DOANH THU & LỢI NHUẬN THƯƠNG MẠI (COMMERCIAL PROFIT CALCULATOR) -->
+                    <div style="background: linear-gradient(135deg, #0F172A, #1E293B); border-radius: 18px; padding: 26px; color: white; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(15,23,42,0.3);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                            <div>
+                                <h4 style="margin: 0; font-size: 17px; color: #38BDF8; display: flex; align-items: center; gap: 8px;">
+                                    <span>📊</span> Bảng Tính Dự Phóng Doanh Thu &amp; Lợi Nhuận Cho Thuê
+                                </h4>
+                                <p style="margin: 4px 0 0; font-size: 13px; color: #94A3B8;">Kéo thanh trượt để xem bạn sẽ kiếm được bao nhiêu tiền hàng tháng khi bán giải pháp này cho các chủ shop.</p>
+                            </div>
+                            <span style="background: rgba(56,189,248,0.15); color: #38BDF8; border: 1px solid rgba(56,189,248,0.3); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px;">
+                                Tỷ suất lợi nhuận gộp &gt; 95%
+                            </span>
+                        </div>
+
+                        <!-- Slider -->
+                        <div style="background: rgba(255,255,255,0.05); padding: 18px; border-radius: 14px; margin-bottom: 22px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="font-weight: 700; font-size: 14px; color: #E2E8F0;">Số lượng shop / khách thuê hàng tháng:</label>
+                                <span style="font-size: 22px; font-weight: 800; color: #38BDF8;" id="calcClientCountDisplay">30 Khách Hàng</span>
+                            </div>
+                            <input type="range" id="calcClientSlider" min="5" max="200" step="5" value="30" oninput="calculateCommercialRevenue()" style="width: 100%; accent-color: #38BDF8; cursor: pointer;" />
+                            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748B; margin-top: 4px;">
+                                <span>5 shop (Mới bắt đầu)</span>
+                                <span>50 shop (Kinh doanh tốt)</span>
+                                <span>100 shop (Chuyên nghiệp)</span>
+                                <span>200 shop (Quy mô lớn)</span>
+                            </div>
+                        </div>
+
+                        <!-- 3 Output Metrics -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                            <div style="background: rgba(255,255,255,0.06); padding: 18px; border-radius: 14px; border-left: 4px solid #38BDF8;">
+                                <div style="font-size: 12.5px; color: #94A3B8;">Doanh Thu Thu Về / Tháng</div>
+                                <div style="font-size: 24px; font-weight: 800; color: #38BDF8; margin-top: 4px;" id="calcRevenueVal">14.970.000đ</div>
+                                <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">(Tính theo gói Pro 499k/shop)</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.06); padding: 18px; border-radius: 14px; border-left: 4px solid #F43F5E;">
+                                <div style="font-size: 12.5px; color: #94A3B8;">Chi Phí Vận Hành AI (Gemini Free)</div>
+                                <div style="font-size: 24px; font-weight: 800; color: #F43F5E; margin-top: 4px;" id="calcCostVal">0đ - 150.000đ</div>
+                                <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">(Chi phí gần như bằng 0)</div>
+                            </div>
+                            <div style="background: rgba(16,185,129,0.15); padding: 18px; border-radius: 14px; border: 1.5px solid #10B981;">
+                                <div style="font-size: 12.5px; color: #6EE7B7; font-weight: 700;">LỢI NHUẬN RÒNG ĐÚT TÚI / THÁNG</div>
+                                <div style="font-size: 26px; font-weight: 900; color: #34D399; margin-top: 4px;" id="calcProfitVal">~14.820.000đ</div>
+                                <div style="font-size: 11.5px; color: #6EE7B7; margin-top: 2px;">Dòng tiền thụ động định kỳ hàng tháng</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment & Commercial Contact -->
+                    <div style="padding: 22px; background: var(--surface); border-radius: 16px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <h4 style="margin: 0 0 6px; font-size: 15.5px; color: var(--ink);">Bạn muốn tư vấn đóng gói và bắt đầu thương mại hóa?</h4>
+                            <p style="margin: 0; font-size: 13.5px; color: var(--ink-soft);">Chúng tôi hỗ trợ chuyển giao toàn bộ tài liệu, hợp đồng mẫu và quy trình kỹ thuật.</p>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <a class="btn-action primary" style="background: var(--brand); padding: 10px 20px;" href="tel:0988739896">📞 Hotline: 0988 739 896</a>
+                            <a class="btn-action success" style="padding: 10px 20px;" href="https://zalo.me/0988739896" target="_blank">💬 Nhắn Zalo Chuyên Viên</a>
                         </div>
                     </div>
                 </div>
             </div>
 
         </main>
+    </div>
+
+    <!-- MODAL KẾT NỐI ZALO (QUÉT MÃ QR TRỰC TIẾP) -->
+    <div id="zaloConnectModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.7); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
+        <div style="background:white; border-radius:24px; max-width:540px; width:100%; max-height:92vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.35); border:1px solid var(--border);">
+            <div style="padding:18px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #E0F2FE, #F0F9FF);">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg, #0077B6, #00B4D8); color:white; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 4px 12px rgba(0,119,182,0.3);">🔗</div>
+                    <div>
+                        <div style="font-weight:800; font-size:16.5px; color:#005A8D;">Kết Nối Zalo Cá Nhân 1-1</div>
+                        <div style="font-size:12.5px; color:#0369A1;">Quét mã QR bằng ứng dụng Zalo trên điện thoại</div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeZaloConnectModal()" style="background:transparent; border:none; font-size:26px; cursor:pointer; color:var(--ink-soft); line-height:1;">&times;</button>
+            </div>
+            
+            <div style="padding:22px 24px; overflow-y:auto; flex:1; text-align:center;">
+                <!-- QR Code Box -->
+                <div style="background:#F8FAFC; border:2px dashed #93C5FD; border-radius:20px; padding:18px; display:inline-block; margin-bottom:16px; box-shadow:inset 0 2px 8px rgba(0,0,0,0.03);">
+                    <img id="modalZaloQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://zalo.me/0988739896" alt="Mã QR Kết Nối Zalo" style="width:210px; height:210px; border-radius:12px; display:block; margin:0 auto;" />
+                    <div style="font-size:12.5px; color:#64748B; margin-top:8px;">
+                        Số điện thoại Zalo: <strong id="modalZaloPhone" style="color:#0077B6;">0988 739 896</strong>
+                    </div>
+                </div>
+
+                <!-- 3 Quick Steps -->
+                <div style="background:#F0FDF4; border:1px solid #86EFAC; border-radius:14px; padding:12px 16px; text-align:left; font-size:13px; color:#166534; margin-bottom:16px; line-height:1.6;">
+                    <div style="font-weight:800; color:#15803D; margin-bottom:4px; font-size:13.5px;">📋 3 Bước kết nối nhanh trong 10 giây:</div>
+                    1️⃣ Mở ứng dụng <strong>Zalo</strong> trên điện thoại của bạn<br/>
+                    2️⃣ Bấm vào biểu tượng <strong>Quét mã QR 📷</strong> ở góc trên bên phải<br/>
+                    3️⃣ Hướng camera vào mã QR ở trên và xác nhận <strong>"Đăng nhập"</strong> trên máy tính
+                </div>
+
+                <!-- Action buttons -->
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <button type="button" onclick="refreshModalQrCode()" class="btn-action secondary" style="padding:9px 16px; font-size:13px;">
+                        🔄 Làm Mới Mã QR
+                    </button>
+                    <a id="modalDirectZaloLink" href="https://zalo.me/0988739896" target="_blank" class="btn-action primary" style="padding:9px 18px; font-size:13px; text-decoration:none;">
+                        💬 Mở Zalo Trực Tiếp
+                    </a>
+                    <button type="button" onclick="confirmBotConnected()" class="btn-action success" style="padding:9px 18px; font-size:13px; background:linear-gradient(135deg, #059669, #10B981); color:white; border:none; border-radius:12px; font-weight:700; cursor:pointer;">
+                        ✅ Xác Nhận Đã Kết Nối
+                    </button>
+                </div>
+            </div>
+            
+            <div style="padding:12px 24px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:#F8FAFC;">
+                <span style="font-size:12px; color:#64748B;">🛡️ Cam kết: Bot chỉ chat riêng 1-1, không nhắn vào nhóm.</span>
+                <button type="button" onclick="closeZaloConnectModal()" class="btn-action secondary" style="padding:6px 14px; font-size:12.5px;">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Đăng Ký Trải Nghiệm 7 Ngày -->
+    <div id="trialRegisterModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.65); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px);">
+        <div style="background:white; border-radius:24px; max-width:520px; width:100%; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.35); border:1px solid var(--border);">
+            <div style="padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #ECFDF5, #F0FDF4);">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="width:38px; height:38px; border-radius:10px; background:#10B981; color:white; display:flex; align-items:center; justify-content:center; font-size:18px;">🎁</div>
+                    <div>
+                        <div style="font-weight:800; font-size:16px; color:#065F46;">Đăng Ký Trải Nghiệm Miễn Phí 7 Ngày</div>
+                        <div style="font-size:12px; color:#047857;">Trực chat 24/7 trên Zalo, Facebook & Website</div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeTrialRegisterModal()" style="background:transparent; border:none; font-size:24px; cursor:pointer; color:var(--ink-soft);">&times;</button>
+            </div>
+            <div style="padding:22px 24px; overflow-y:auto; flex:1;">
+                <form id="modalTrialForm" onsubmit="handleModalTrialSubmit(event)">
+                    <div class="form-field" style="margin-bottom: 12px;">
+                        <label style="font-weight: 700; font-size: 13px;">Họ và tên: <span style="color:#E11D48;">*</span></label>
+                        <input type="text" id="modalTrialName" required placeholder="Ví dụ: Nguyễn Văn Hải" />
+                    </div>
+                    <div class="form-field" style="margin-bottom: 12px;">
+                        <label style="font-weight: 700; font-size: 13px;">Số điện thoại / Zalo nhận kích hoạt: <span style="color:#E11D48;">*</span></label>
+                        <input type="tel" id="modalTrialPhone" required placeholder="Ví dụ: 0988 739 896" />
+                    </div>
+                    <div class="form-field" style="margin-bottom: 12px;">
+                        <label style="font-weight: 700; font-size: 13px;">Tên Cửa hàng / Shop / Công ty:</label>
+                        <input type="text" id="modalTrialShop" placeholder="Ví dụ: Shop Mỹ phẩm Mai Linh" />
+                    </div>
+                    <div class="form-field" style="margin-bottom: 16px;">
+                        <label style="font-weight: 700; font-size: 13px;">Ngành hàng kinh doanh:</label>
+                        <select id="modalTrialCategory">
+                            <option value="Bán lẻ / Mỹ phẩm / Thời trang">👗 Bán lẻ / Mỹ phẩm / Thời trang</option>
+                            <option value="Thiết bị / Máy móc / Công nghệ">💻 Thiết bị / Máy móc / Công nghệ</option>
+                            <option value="Bất động sản / Dự án">🏢 Bất động sản / Dự án</option>
+                            <option value="Spa / Nha khoa / Dịch vụ">💆 Spa / Nha khoa / Dịch vụ</option>
+                            <option value="Khác">✨ Ngành nghề khác</option>
+                        </select>
+                    </div>
+                    <div style="background: #ECFDF5; padding: 12px 14px; border-radius: 12px; margin-bottom: 18px; font-size: 12.5px; color: #065F46; border-left: 3px solid #10B981;">
+                        ✨ <em>Kích hoạt ngay 7 ngày full tính năng. Hỗ trợ kỹ thuật 1-1 cài đặt và hướng dẫn tận nơi qua UltraViewer/Zalo!</em>
+                    </div>
+                    <button type="submit" class="btn-action primary" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #059669, #10B981); border: none; padding: 12px; font-size: 14.5px; font-weight: 800; border-radius: 12px; box-shadow: 0 4px 14px rgba(16,185,129,0.3);">
+                        🚀 KÍCH HOẠT DÙNG THỬ 7 NGÀY
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Modal xem nội dung tài liệu -->
@@ -1748,6 +2118,8 @@
             updateStatsUI();
             updateZaloQrUI();
             loadAiConfig();
+            renderTrialLeads();
+            calculateCommercialRevenue();
         });
 
         // Tab Navigation
@@ -2082,6 +2454,22 @@
             alert(botConfig.isOnline ? '🟢 Bot đã được BẬT và sẵn sàng phản hồi khách 24/7!' : '⏸️ Bot đã tạm dừng phản hồi.');
         }
 
+        function disconnectZaloBot() {
+            if (!confirm('Bạn có chắc chắn muốn ngắt kết nối Bot Zalo không?\n\nSau khi ngắt kết nối, Bot sẽ ngừng trả lời tin nhắn cho đến khi bạn kết nối lại.')) {
+                return;
+            }
+            botConfig.isOnline = false;
+            localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+            updateStatsUI();
+
+            const qrPill = document.getElementById('qrStatusPill');
+            const qrText = document.getElementById('qrStatusText');
+            if (qrPill) qrPill.className = 'status-badge standby';
+            if (qrText) qrText.textContent = 'Đã ngắt kết nối · Bot đã dừng';
+
+            alert('🛑 ĐÃ NGẮT KẾT NỐI BOT ZALO TRÊN DASHBOARD!\n\n👉 Để tắt hẳn tiến trình Bot trên máy tính:\n1. Nhấp đúp chuột vào file: NGAT_KET_NOI_BOT.bat trong thư mục phần mềm.\n2. Hoặc từ Zalo điện thoại, bạn gửi tin nhắn: #tatbot');
+        }
+
         function updateStatsUI() {
             const mainBadge = document.getElementById('mainStatusBadge');
             const mainText = document.getElementById('mainStatusText');
@@ -2089,23 +2477,281 @@
             const qrText = document.getElementById('qrStatusText');
             const botBadge = document.getElementById('botStatusBadge');
 
+            // Top Nav Emergency Disconnect & Connect Buttons
+            const topNavBtn = document.getElementById('topNavDisconnectBtn');
+            const topNavIcon = document.getElementById('topNavDisconnectIcon');
+            const topNavText = document.getElementById('topNavDisconnectText');
+            const topNavConn = document.getElementById('topNavConnectBtn');
+
+            // Overview Emergency Bar Elements
+            const ovPill = document.getElementById('quickControlStatusPill');
+            const ovBtn = document.getElementById('overviewDisconnectBtn');
+            const ovConn = document.getElementById('overviewConnectBtn');
+
             if (botConfig.isOnline) {
-                mainBadge.className = 'status-badge online';
-                mainText.textContent = 'Bot đang hoạt động 24/7';
-                qrPill.className = 'status-badge online';
-                qrText.textContent = 'Đã kết nối Zalo · Đang chạy nền 24/7';
-                botBadge.textContent = 'Đang chạy';
-                botBadge.style.background = '#D4F5E9';
-                botBadge.style.color = '#059669';
+                if (mainBadge) mainBadge.className = 'status-badge online';
+                if (mainText) mainText.textContent = 'Bot đang hoạt động 24/7';
+                if (qrPill) qrPill.className = 'status-badge online';
+                if (qrText) qrText.textContent = 'Đã kết nối Zalo · Đang chạy nền 24/7';
+                if (botBadge) {
+                    botBadge.textContent = 'Đang chạy';
+                    botBadge.style.background = '#D4F5E9';
+                    botBadge.style.color = '#059669';
+                }
+                if (topNavConn) {
+                    topNavConn.style.background = 'linear-gradient(135deg, #0284C7, #0077B6)';
+                    topNavConn.innerHTML = '<span style="font-size:14px;">🔗</span> <span>Kết Nối Zalo</span>';
+                }
+                if (topNavBtn) {
+                    topNavBtn.style.background = '#FEE2E2';
+                    topNavBtn.style.color = '#DC2626';
+                    topNavBtn.style.borderColor = '#FCA5A5';
+                }
+                if (topNavIcon) topNavIcon.textContent = '🛑';
+                if (topNavText) topNavText.textContent = 'Ngắt Bot Zalo';
+                if (ovPill) {
+                    ovPill.textContent = '🟢 Đang chạy 24/7';
+                    ovPill.style.background = '#D1FAE5';
+                    ovPill.style.color = '#059669';
+                }
+                if (ovBtn) {
+                    ovBtn.textContent = '🛑 BẤM ĐỂ NGẮT BOT NGAY';
+                    ovBtn.style.background = '#E11D48';
+                }
+                if (ovConn) {
+                    ovConn.textContent = '🔗 KẾT NỐI ZALO (QUÉT QR)';
+                }
             } else {
-                mainBadge.className = 'status-badge standby';
-                mainText.textContent = 'Bot tạm dừng';
-                qrPill.className = 'status-badge standby';
-                qrText.textContent = 'Tạm dừng kết nối';
-                botBadge.textContent = 'Tạm dừng';
-                botBadge.style.background = '#FFF7E6';
-                botBadge.style.color = '#D97706';
+                if (mainBadge) mainBadge.className = 'status-badge standby';
+                if (mainText) mainText.textContent = 'Bot tạm dừng / Đã ngắt';
+                if (qrPill) qrPill.className = 'status-badge standby';
+                if (qrText) qrText.textContent = 'Đã ngắt kết nối · Bot đã dừng';
+                if (botBadge) {
+                    botBadge.textContent = 'Tạm dừng';
+                    botBadge.style.background = '#FFF7E6';
+                    botBadge.style.color = '#D97706';
+                }
+                if (topNavConn) {
+                    topNavConn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+                    topNavConn.innerHTML = '<span style="font-size:14px;">⚡</span> <span>Kết Nối Zalo Ngay</span>';
+                }
+                if (topNavBtn) {
+                    topNavBtn.style.background = '#ECFDF5';
+                    topNavBtn.style.color = '#059669';
+                    topNavBtn.style.borderColor = '#6EE7B7';
+                }
+                if (topNavIcon) topNavIcon.textContent = '⚡';
+                if (topNavText) topNavText.textContent = 'Bật Lại Bot';
+                if (ovPill) {
+                    ovPill.textContent = '⏸️ Đã ngắt kết nối';
+                    ovPill.style.background = '#FEE2E2';
+                    ovPill.style.color = '#DC2626';
+                }
+                if (ovBtn) {
+                    ovBtn.textContent = '⚡ BẬT LẠI BOT TRỰC TUYẾN';
+                    ovBtn.style.background = '#10B981';
+                }
+                if (ovConn) {
+                    ovConn.textContent = '🚀 KẾT NỐI LẠI ZALO NGAY';
+                }
             }
+        }
+
+        // Bật / Ngắt nhanh 1-chạm từ thanh điều hướng trên cùng hoặc banner tổng quan
+        function toggleQuickDisconnect() {
+            if (botConfig.isOnline) {
+                disconnectZaloBot();
+            } else {
+                botConfig.isOnline = true;
+                localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+                updateStatsUI();
+                alert('🟢 ĐÃ BẬT LẠI BOT ZALO!\n\nBot đã sẵn sàng tiếp nhận và phản hồi tin nhắn khách hàng 24/7.');
+            }
+        }
+
+        // ================= KẾT NỐI ZALO (QUÉT QR MODAL) =================
+        function openZaloConnectModal() {
+            const m = document.getElementById('zaloConnectModal');
+            const phone = (botConfig.phone || '0988739896').trim();
+            const phoneClean = phone.replace(/[^0-9]/g, '');
+
+            const phoneEl = document.getElementById('modalZaloPhone');
+            if (phoneEl) phoneEl.textContent = phone;
+
+            const qrImg = document.getElementById('modalZaloQrImg');
+            if (qrImg) {
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/${phoneClean}?t=${Date.now()}`;
+            }
+
+            const directLink = document.getElementById('modalDirectZaloLink');
+            if (directLink) {
+                directLink.href = `https://zalo.me/${phoneClean}`;
+                directLink.textContent = `💬 Mở Zalo: zalo.me/${phoneClean}`;
+            }
+
+            if (m) m.style.display = 'flex';
+        }
+
+        function closeZaloConnectModal() {
+            const m = document.getElementById('zaloConnectModal');
+            if (m) m.style.display = 'none';
+        }
+
+        function refreshModalQrCode() {
+            const phone = (botConfig.phone || '0988739896').replace(/[^0-9]/g, '');
+            const qrImg = document.getElementById('modalZaloQrImg');
+            if (qrImg) {
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/${phone}?ref=haitech_${Date.now()}`;
+            }
+            alert('🔄 Đã làm mới mã QR kết nối Zalo thành công!');
+        }
+
+        function confirmBotConnected() {
+            botConfig.isOnline = true;
+            localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+            updateStatsUI();
+            closeZaloConnectModal();
+            alert('🎉 XÁC NHẬN KẾT NỐI THÀNH CÔNG!\n\nBot Zalo đã được bật và sẵn sàng tự động trả lời tin nhắn riêng tư 1-1 của khách hàng 24/7.');
+        }
+
+        // ================= TRIAL REGISTRATION & LEADS CRM =================
+        function openTrialRegisterModal() {
+            const m = document.getElementById('trialRegisterModal');
+            if (m) m.style.display = 'flex';
+        }
+        function closeTrialRegisterModal() {
+            const m = document.getElementById('trialRegisterModal');
+            if (m) m.style.display = 'none';
+        }
+
+        function handleTrialSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('trialNameInput')?.value.trim();
+            const phone = document.getElementById('trialPhoneInput')?.value.trim();
+            const shop = document.getElementById('trialShopInput')?.value.trim() || 'Cửa hàng tự do';
+            const category = document.getElementById('trialCategorySelect')?.value;
+
+            const channels = [];
+            if (document.getElementById('trialChZaloPersonal')?.checked) channels.push('Zalo PC');
+            if (document.getElementById('trialChZaloOa')?.checked) channels.push('Zalo OA');
+            if (document.getElementById('trialChFacebook')?.checked) channels.push('Fanpage');
+            if (document.getElementById('trialChWebsite')?.checked) channels.push('Website');
+
+            saveTrialLead({ name, phone, shop, category, channels: channels.join(', ') || 'Đa kênh' });
+
+            const activeCard = document.getElementById('trialActiveCard');
+            const activeInfo = document.getElementById('trialActiveInfo');
+            if (activeCard && activeInfo) {
+                activeCard.style.display = 'block';
+                const code = 'HT-' + Math.floor(100000 + Math.random() * 900000);
+                const expDate = new Date(Date.now() + 7 * 86400000).toLocaleDateString('vi-VN');
+                activeInfo.innerHTML = `Mã kích hoạt: <strong>${code}</strong> · Khách hàng: <strong>${name}</strong> (${phone})<br/>Hạn dùng thử: <strong>7 Ngày (Đến ${expDate})</strong>`;
+            }
+
+            alert(`🎉 CHÚC MỪNG ${name.toUpperCase()}!\n\nBạn đã đăng ký thành công Gói Trải Nghiệm 7 Ngày Miễn Phí!\nChuyên viên kỹ thuật sẽ kết nối qua Zalo (${phone}) để kích hoạt bot ngay cho bạn.`);
+        }
+
+        function handleModalTrialSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('modalTrialName')?.value.trim();
+            const phone = document.getElementById('modalTrialPhone')?.value.trim();
+            const shop = document.getElementById('modalTrialShop')?.value.trim() || 'Cửa hàng';
+            const category = document.getElementById('modalTrialCategory')?.value;
+
+            saveTrialLead({ name, phone, shop, category, channels: 'Đa kênh (Zalo + FB)' });
+            closeTrialRegisterModal();
+            alert(`🎉 ĐÃ ĐĂNG KÝ TRẢI NGHIỆM THÀNH CÔNG!\n\nCảm ơn anh/chị ${name}. Hệ thống đã ghi nhận số Zalo: ${phone}.\nChuyên viên HAITECH BOT sẽ liên hệ hỗ trợ cài đặt ngay cho bạn!`);
+        }
+
+        function saveTrialLead(lead) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            lead.time = new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN');
+            leads.unshift(lead);
+            localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+            renderTrialLeads();
+        }
+
+        function renderTrialLeads() {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const badge = document.getElementById('trialLeadCountBadge');
+            if (badge) badge.textContent = `${leads.length} Khách Hàng`;
+
+            const tbody = document.getElementById('trialLeadsTableBody');
+            if (!tbody) return;
+
+            if (leads.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: var(--ink-soft);">Chưa có dữ liệu khách đăng ký mới. Dữ liệu sẽ tự động xuất hiện tại đây khi có khách điền form!</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = leads.map(item => `
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 10px 14px; color: var(--ink-soft);">${item.time}</td>
+                    <td style="padding: 10px 14px; font-weight: 700; color: var(--brand);">${item.name}</td>
+                    <td style="padding: 10px 14px; font-weight: 600;">
+                        <a href="tel:${item.phone}" style="color:var(--brand); text-decoration:none;">📞 ${item.phone}</a>
+                    </td>
+                    <td style="padding: 10px 14px;">${item.shop} <br/><small style="color:var(--ink-soft);">${item.category}</small></td>
+                    <td style="padding: 10px 14px;"><span style="background:var(--brand-tint); color:var(--brand-dark); font-size:11px; padding:2px 8px; border-radius:999px;">${item.channels}</span></td>
+                    <td style="padding: 10px 14px;">
+                        <a class="btn-action primary" style="padding:4px 10px; font-size:11.5px; text-decoration:none; display:inline-flex;" href="https://zalo.me/${(item.phone||'').replace(/[^0-9]/g,'')}" target="_blank">💬 Nhắn Zalo</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ================= COMMERCIAL PRICING & PROFIT CALCULATOR =================
+        let currentBillingCycle = 'monthly';
+        function setBillingCycle(cycle) {
+            currentBillingCycle = cycle;
+            const mBtn = document.getElementById('billingCycleMonthlyBtn');
+            const yBtn = document.getElementById('billingCycleYearlyBtn');
+            const pStarter = document.getElementById('priceStarterText');
+            const pPro = document.getElementById('priceProText');
+            const pEnt = document.getElementById('priceEnterpriseText');
+
+            if (cycle === 'yearly') {
+                if (mBtn) mBtn.className = 'btn-action secondary';
+                if (yBtn) yBtn.className = 'btn-action primary';
+                if (pStarter) pStarter.innerHTML = `1.990.000đ<span style="font-size:13px; font-weight:500; color:var(--ink-soft);">/năm</span>`;
+                if (pPro) pPro.innerHTML = `4.990.000đ<span style="font-size:13px; font-weight:500; color:#065F46;">/năm</span>`;
+                if (pEnt) pEnt.innerHTML = `9.900.000đ<span style="font-size:13px; font-weight:500; color:var(--ink-soft);">/năm</span>`;
+            } else {
+                if (mBtn) mBtn.className = 'btn-action primary';
+                if (yBtn) yBtn.className = 'btn-action secondary';
+                if (pStarter) pStarter.innerHTML = `199.000đ<span style="font-size:13px; font-weight:500; color:var(--ink-soft);">/tháng</span>`;
+                if (pPro) pPro.innerHTML = `499.000đ<span style="font-size:13px; font-weight:500; color:#065F46;">/tháng</span>`;
+                if (pEnt) pEnt.innerHTML = `990.000đ<span style="font-size:13px; font-weight:500; color:var(--ink-soft);">/tháng</span>`;
+            }
+        }
+
+        function calculateCommercialRevenue() {
+            const slider = document.getElementById('calcClientSlider');
+            if (!slider) return;
+            const count = parseInt(slider.value, 10);
+            const countDisplay = document.getElementById('calcClientCountDisplay');
+            if (countDisplay) countDisplay.textContent = `${count} Khách Hàng (Shop)`;
+
+            const pricePerShop = 499000; // Gói phổ biến nhất: Pro Shop 499k
+            const revenue = count * pricePerShop;
+            const cost = count <= 50 ? 150000 : 350000;
+            const profit = revenue - cost;
+
+            const revEl = document.getElementById('calcRevenueVal');
+            const costEl = document.getElementById('calcCostVal');
+            const profEl = document.getElementById('calcProfitVal');
+
+            if (revEl) revEl.textContent = revenue.toLocaleString('vi-VN') + 'đ';
+            if (costEl) costEl.textContent = cost.toLocaleString('vi-VN') + 'đ';
+            if (profEl) profEl.textContent = '~' + profit.toLocaleString('vi-VN') + 'đ/tháng';
         }
 
         // Simulator Chat Engine
@@ -2697,8 +3343,26 @@
             systemPrompt: ''
         };
 
-        // Backward compatibility
-        let gptConfigState = aiConfigState;
+        // Tự động nhận diện loại key (Gemini AIzaSy vs Groq gsk_ vs OpenRouter sk-or vs OpenAI sk-)
+        function detectApiKeyProvider(val) {
+            const key = (val || '').trim();
+            const provSelect = document.getElementById('aiProviderSelect');
+            if (!key || !provSelect) return;
+
+            if (key.startsWith('AIzaSy') && provSelect.value !== 'gemini') {
+                provSelect.value = 'gemini';
+                onAiProviderChanged('gemini-2.5-flash');
+            } else if (key.startsWith('gsk_') && provSelect.value !== 'groq') {
+                provSelect.value = 'groq';
+                onAiProviderChanged('llama-3.3-70b-versatile');
+            } else if (key.startsWith('sk-or-') && provSelect.value !== 'openrouter') {
+                provSelect.value = 'openrouter';
+                onAiProviderChanged('google/gemini-2.0-flash-exp:free');
+            } else if (key.startsWith('sk-') && !key.startsWith('sk-or-') && provSelect.value !== 'openai' && provSelect.value !== 'deepseek') {
+                provSelect.value = 'openai';
+                onAiProviderChanged('gpt-4o-mini');
+            }
+        }
 
         function onAiProviderChanged(targetModel = null) {
             const provSelect = document.getElementById('aiProviderSelect');
@@ -2910,12 +3574,29 @@
         function saveGptConfig() { saveAiConfig(); }
 
         async function testAiConnection() {
-            const provider = document.getElementById('aiProviderSelect')?.value || 'gemini';
+            let provider = document.getElementById('aiProviderSelect')?.value || 'gemini';
             let model = document.getElementById('aiModelSelect')?.value || 'gemini-2.5-flash';
-            const apiKey = document.getElementById('aiApiKeyInput')?.value.trim() || '';
+            let apiKey = document.getElementById('aiApiKeyInput')?.value.trim() || '';
             const baseUrl = document.getElementById('aiCustomBaseUrlInput')?.value.trim() || '';
             const temperature = parseFloat(document.getElementById('aiTemperatureSlider')?.value || '0.7');
             const systemPrompt = document.getElementById('aiSystemPromptInput')?.value.trim();
+
+            // TỰ ĐỘNG CHUYỂN ĐỔI NỀN TẢNG NẾU DÁN NHẦM LOẠI KEY:
+            if (apiKey.startsWith('AIzaSy') && provider !== 'gemini') {
+                provider = 'gemini';
+                if (document.getElementById('aiProviderSelect')) {
+                    document.getElementById('aiProviderSelect').value = 'gemini';
+                    onAiProviderChanged('gemini-2.5-flash');
+                }
+                model = 'gemini-2.5-flash';
+            } else if (apiKey.startsWith('gsk_') && provider !== 'groq') {
+                provider = 'groq';
+                if (document.getElementById('aiProviderSelect')) {
+                    document.getElementById('aiProviderSelect').value = 'groq';
+                    onAiProviderChanged('llama-3.3-70b-versatile');
+                }
+                model = 'llama-3.3-70b-versatile';
+            }
 
             const provMeta = PROVIDER_METADATA[provider] || PROVIDER_METADATA.gemini;
 

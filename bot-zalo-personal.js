@@ -292,26 +292,74 @@ async function startBot() {
     console.log("🎉 HAITECH BOT ĐÃ SẴN SÀNG HOẠT ĐỘNG 100%!");
     console.log("🟢 BOT ĐANG CHẠY NỀN TRỰC CHAT TRÊN ZALO CỦA BẠN!");
     console.log(`📞 Số điện thoại hotline: ${knowledge.phone || "0988 739 896"}`);
-    console.log("💬 Bất kỳ ai nhắn tin đến Zalo, Bot sẽ tự động trả lời theo dữ liệu tri thức.");
-    console.log("🛑 Nhấn Ctrl + C hoặc đóng cửa sổ này nếu muốn tắt bot.");
+    console.log("-----------------------------------------------------------------");
+    console.log("🔒 CHẾ ĐỘ BẢO VỆ: CHỈ CHAT 1-1 VỚI KHÁCH HÀNG (TỰ ĐỘNG BỎ QUA MỌI HỘI NHÓM)");
+    console.log("🛑 3 CÁCH NGẮT KẾT NỐI & DỪNG BOT:");
+    console.log("   👉 Cách 1: Gõ chữ 'q' rồi bấm Enter (hoặc nhấn Ctrl + C) tại cửa sổ này.");
+    console.log("   👉 Cách 2: Nhấp đúp chuột vào file: NGAT_KET_NOI_BOT.bat");
+    console.log("   👉 Cách 3: Từ Zalo trên điện thoại, bạn nhắn tin chữ: #tatbot hoặc #ngatketnoi");
     console.log("=================================================================\n");
+
+    // Lắng nghe phím bấm tại Console để ngắt kết nối nhanh
+    if (process.stdin.isTTY) {
+        process.stdin.setEncoding("utf8");
+        process.stdin.on("data", (chunk) => {
+            const input = chunk.toString().trim().toLowerCase();
+            if (input === "q" || input === "exit" || input === "stop" || input === "tat" || input === "ngat") {
+                console.log("\n🛑 Đang ngắt kết nối và dừng Bot theo yêu cầu của bạn...");
+                try {
+                    if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
+                    if (fs.existsSync(QR_PNG_FILE)) fs.unlinkSync(QR_PNG_FILE);
+                    if (fs.existsSync(QR_HTML_FILE)) fs.unlinkSync(QR_HTML_FILE);
+                } catch (e) {}
+                console.log("✅ Đã ngắt kết nối sạch sẽ. Tạm biệt!\n");
+                process.exit(0);
+            }
+        });
+    }
 
     api.listener.on("message", async (message) => {
         try {
             const isPlainText = typeof message.data.content === "string";
-            // Bỏ qua tin nhắn của chính mình hoặc tin nhắn không phải văn bản
-            if (message.isSelf || !isPlainText) return;
+            if (!isPlainText) return;
 
             const userText = message.data.content.trim();
+
+            // 1. TÍNH NĂNG NGẮT KẾT NỐI TỪ XA:
+            // Nhận diện lệnh tắt bot từ chính tài khoản của bạn (gửi từ điện thoại)
+            if (message.isSelf) {
+                const cmd = userText.toLowerCase();
+                if (cmd === "#tatbot" || cmd === "#ngatketnoi" || cmd === "#stop" || cmd === "tat bot" || cmd === "ngat ket noi") {
+                    console.log("\n=================================================================");
+                    console.log("🛑 NHẬN ĐƯỢC LỆNH NGẮT KẾT NỐI TỪ ĐIỆN THOẠI CỦA BẠN (#tatbot / #ngatketnoi)!");
+                    console.log("🔒 Đang dừng Bot và xóa phiên đăng nhập...");
+                    console.log("=================================================================\n");
+                    try {
+                        if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
+                        if (fs.existsSync(QR_PNG_FILE)) fs.unlinkSync(QR_PNG_FILE);
+                        if (fs.existsSync(QR_HTML_FILE)) fs.unlinkSync(QR_HTML_FILE);
+                    } catch (e) {}
+                    process.exit(0);
+                }
+                return; // Bỏ qua tin nhắn khác của chính mình
+            }
+
+            // 2. TÍNH NĂNG BẢO VỆ CHỈ CHAT 1-1 RIÊNG TƯ:
+            // Tuyệt đối không bao giờ nhắn tin vào hội nhóm Zalo (Group Chat)
+            if (message.type !== ThreadType.User) {
+                console.log(`🛡️ [BỎ QUA HỘI NHÓM] Tin nhắn từ nhóm chat Zalo (Thread ID: ${message.threadId}). Bot CHỈ trả lời chat 1-1 với khách cá nhân.`);
+                return;
+            }
+
             const timeStr = new Date().toLocaleTimeString("vi-VN");
-            console.log(`\n📩 [${timeStr}] Khách nhắn: "${userText}"`);
+            console.log(`\n📩 [${timeStr}] [Khách 1-1] Nhắn: "${userText}"`);
 
             // Sinh câu trả lời thông minh từ Động Cơ Trí Tuệ Kép (Bộ Não 1 + Bộ Não 2 GPT)
             const result = await generateReplyAsync(userText, knowledge);
             const replyText = result.reply;
             console.log(`🤖 [${timeStr}] [${result.model}] HAITECH BOT trả lời: "${replyText.substring(0, 80)}..."`);
 
-            // Gửi tin nhắn phản hồi cho khách
+            // Gửi tin nhắn phản hồi cho khách cá nhân 1-1
             try {
                 await api.sendMessage(
                     {

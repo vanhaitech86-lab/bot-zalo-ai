@@ -36,7 +36,8 @@
     },
     "zaloPersonal": {
       "enabled": true,
-      "phone": "0988739896"
+      "phone": "0988739896",
+      "replyInGroups": false
     }
   },
   "rules": [

@@ -87,14 +87,21 @@ Nhấp đúp chuột vào file:
   ```
   ➡️ Bot đã chính thức hoạt động!
 
-### 🔹 Bước 3: Tự động lưu phiên cho lần sau
+### 🔹 Bước 3: Cơ chế an toàn 100% — Chỉ Chat 1-1 Riêng Tư
+Bot được trang bị bộ lọc bảo mật tự động:
+- **Chỉ trả lời khách nhắn tin 1-1:** Trả lời nhanh, thông minh theo đúng bảng giá và tri thức.
+- **Tự động bỏ qua mọi hội nhóm (Group Chat):** Khi có tin nhắn trong các nhóm Zalo (nhóm gia đình, nhóm đồng nghiệp, nhóm BTC, v.v.), Bot sẽ **tự động bỏ qua và tuyệt đối không gửi bất kỳ tin nhắn nào vào nhóm**, tránh làm phiền cuộc trò chuyện chung.
+
+### 🔹 Bước 4: Tự động lưu phiên cho lần sau
 Hệ thống sẽ tự lưu phiên đăng nhập vào file `session.json`. Từ lần sau, mỗi khi bạn bật `CHAY_BOT_ZALO.bat`, bot sẽ **tự đăng nhập luôn mà không cần quét lại mã QR** nữa!
 
-### 🔹 Bước 4: Cách ngắt kết nối và dừng Bot khi cần
-Khi bạn muốn tắt bot, có 3 cách:
-- **Cách nhanh nhất:** Nhấp đúp vào file **`NGAT_KET_NOI_BOT.bat`** (tự động tắt tiến trình và xóa phiên).
-- **Cách thủ công:** Bấm tổ hợp phím **`Ctrl + C`** hoặc bấm dấu **X** tắt cửa sổ đen.
-- **Cách từ xa trên điện thoại:** Mở Zalo điện thoại ➡️ Cài đặt (⚙️) ➡️ *Tài khoản và bảo mật* ➡️ *Lịch sử đăng nhập* ➡️ Chọn phiên máy tính vừa kết nối ➡️ Bấm **Đăng xuất**.
+### 🔹 Bước 5: Các cách ngắt kết nối và tắt Bot tức thì
+Khi muốn dừng bot hoặc ngắt kết nối tài khoản Zalo, bạn có thể thực hiện theo bất kỳ cách nào dưới đây:
+1. **Cách 1-Click trên máy tính:** Nhấp đúp vào file **`NGAT_KET_NOI_BOT.bat`** (tự động tắt tiến trình Bot và xóa sạch phiên).
+2. **Cách từ điện thoại (Không cần chạm máy tính):** Mở Zalo trên điện thoại, gửi tin nhắn có nội dung **`#tatbot`** hoặc **`#ngatketnoi`** ➡️ Bot sẽ lập tức dừng và tự động ngắt kết nối.
+3. **Cách trên Dashboard:** Mở file [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html) ➡️ Tại Bước 3 bấm nút đỏ **`🛑 Ngắt kết nối Zalo`**.
+4. **Cách trên cửa sổ Console:** Gõ chữ **`q`** rồi nhấn Enter, hoặc bấm **`Ctrl + C`**.
+5. **Cách từ xa qua quản lý Zalo:** Mở Zalo điện thoại ➡️ Cài đặt (⚙️) ➡️ *Tài khoản và bảo mật* ➡️ *Lịch sử đăng nhập* ➡️ Chọn phiên máy tính ➡️ Bấm **Đăng xuất**.
 
 ---
 

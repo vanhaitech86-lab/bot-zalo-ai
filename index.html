@@ -27,10 +27,11 @@
         </a>
         <div class="nav-actions">
             <a class="nav-link" href="#tinh-nang">Tính năng</a>
+            <a class="nav-link" href="#dung-thu" style="color:var(--brand); font-weight:700;">🎁 Dùng thử 7 ngày</a>
             <a class="nav-link" href="#bang-gia">Bảng giá</a>
             <a class="nav-link" href="#faq">FAQ</a>
             <a class="lp-btn-secondary" href="login.html" style="padding:9px 18px; font-size:14px; border-radius:999px">Đăng nhập</a>
-            <a class="btn-cta" href="login.html">Đăng ký</a>
+            <a class="btn-cta" href="#dung-thu">Đăng ký trải nghiệm</a>
         </div>
     </nav>
 
@@ -41,10 +42,10 @@
             <h1>Bot AI trả lời khách hàng trên <span class="accent">Zalo</span>, học từ chính dữ liệu của bạn</h1>
             <p class="lead">Tải tài liệu, dán link website hoặc video — bot tự đọc và ghi nhớ. Quét một mã QR, bot chạy nền 24/7, kể cả khi bạn tắt máy.</p>
             <div class="lp-cta-row">
-                <a class="lp-btn-primary" href="login.html">Đăng nhập →</a>
-                <a class="lp-btn-secondary" href="#tinh-nang">Xem tính năng</a>
+                <a class="lp-btn-primary" href="#dung-thu">🎁 Đăng ký dùng thử 7 ngày miễn phí →</a>
+                <a class="lp-btn-secondary" href="login.html">Đăng nhập Dashboard</a>
             </div>
-            <p class="lp-hint">Đăng nhập bằng Google · Không cần thẻ thanh toán để bắt đầu</p>
+            <p class="lp-hint">✨ Trải nghiệm đầy đủ tính năng · Không cần thẻ tín dụng · Hỗ trợ thiết lập 1-1</p>
         </div>
 
         <div class="lp-hero-visual">
@@ -271,75 +272,229 @@
         </div>
     </section>
 
+    <!-- ========== DEDICATED FREE TRIAL SECTION ========== -->
+    <section class="lp-trial-section" id="dung-thu">
+        <div class="lp-trial-box fade-up">
+            <div class="lp-trial-content">
+                <div class="lp-trial-badge">
+                    <span>🎁 ĐĂNG KÝ TRẢI NGHIỆM 7 NGÀY MIỄN PHÍ</span>
+                </div>
+                <h2 class="lp-trial-title">Để Bot AI chăm sóc khách <span>24/7</span> thay bạn ngay hôm nay</h2>
+                <p class="lp-trial-desc">
+                    Trải nghiệm bot tự động trả lời 1-1 trên Zalo cá nhân, tự học dữ liệu sản phẩm của shop, không lo trôi tin nhắn hay mất khách ngoài giờ. Thiết lập nhanh chỉ mất 3 phút!
+                </p>
+                <div class="lp-trial-perks">
+                    <div class="lp-trial-perk-item">
+                        <span>✓</span> Trả lời riêng tư 1-1 khách cá nhân
+                    </div>
+                    <div class="lp-trial-perk-item">
+                        <span>✓</span> Bộ não AI Gemini 2.5 Flash siêu tốc
+                    </div>
+                    <div class="lp-trial-perk-item">
+                        <span>✓</span> Nạp tài liệu & bảng giá riêng của shop
+                    </div>
+                    <div class="lp-trial-perk-item">
+                        <span>✓</span> Tự động ngắt kết nối khi cần với 1-click
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; font-size:13px; color:#94A3B8; background:rgba(0,180,216,0.08); padding:10px 16px; border-radius:12px; border:1px solid rgba(0,180,216,0.2);">
+                    <span style="font-size:18px;">🛡️</span>
+                    <span><strong>100% Miễn phí & An toàn:</strong> Không thu phí ngầm, không yêu cầu thẻ tín dụng, dữ liệu hoàn toàn bảo mật.</span>
+                </div>
+            </div>
+
+            <div class="lp-trial-form-card">
+                <h3>Đăng ký nhận tài khoản trải nghiệm</h3>
+                <p>Điền thông tin bên dưới để kích hoạt bản dùng thử 7 ngày:</p>
+                <form id="publicTrialForm" onsubmit="handlePublicTrialSubmit(event)">
+                    <div class="lp-trial-field">
+                        <label for="pt_name">Họ và tên của bạn *</label>
+                        <input type="text" id="pt_name" placeholder="Ví dụ: Nguyễn Văn Hải" required />
+                    </div>
+                    <div class="lp-trial-field">
+                        <label for="pt_phone">Số điện thoại Zalo (nhận mã QR & kích hoạt) *</label>
+                        <input type="tel" id="pt_phone" placeholder="Ví dụ: 0988739896" required />
+                    </div>
+                    <div class="lp-trial-field">
+                        <label for="pt_shop">Tên Shop / Thương hiệu / Doanh nghiệp</label>
+                        <input type="text" id="pt_shop" placeholder="Ví dụ: Shop Thời Trang Moon / Spa Hương Sen" />
+                    </div>
+                    <div class="lp-trial-field">
+                        <label for="pt_industry">Ngành nghề kinh doanh</label>
+                        <select id="pt_industry">
+                            <option value="Thời trang & Phụ kiện">👗 Thời trang & Phụ kiện</option>
+                            <option value="Mỹ phẩm & Spa làm đẹp">💄 Mỹ phẩm & Spa làm đẹp</option>
+                            <option value="Gia dụng & Thiết bị công nghệ">📱 Gia dụng & Thiết bị công nghệ</option>
+                            <option value="Bất động sản & Nội thất">🏠 Bất động sản & Nội thất</option>
+                            <option value="Ăn uống & Nhà hàng F&B">🍔 Ăn uống & Nhà hàng F&B</option>
+                            <option value="Khóa học & Dịch vụ số">🎓 Khóa học & Dịch vụ số</option>
+                            <option value="Ngành nghề khác">✨ Ngành nghề khác</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="pt_submit_btn" class="lp-trial-submit-btn">
+                        🚀 Nhận Bản Trải Nghiệm Miễn Phí →
+                    </button>
+                    <p class="lp-trial-guarantee">Cam kết bảo mật thông tin · Hỗ trợ kỹ thuật 1-1 qua Zalo</p>
+                </form>
+                <div id="pt_success_box" style="display:none; text-align:center; padding:15px; background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:12px; margin-top:15px;">
+                    <div style="font-size:26px; margin-bottom:4px;">🎉</div>
+                    <h4 style="color:#15803D; margin-bottom:6px; font-size:16px;">Đăng ký dùng thử thành công!</h4>
+                    <p style="font-size:13px; color:#166534; margin-bottom:12px;" id="pt_success_msg">Mã kích hoạt của bạn đã sẵn sàng. Chuyển đến màn hình Dashboard để nạp dữ liệu và kết nối Zalo.</p>
+                    <a href="dashboard.html" style="display:inline-block; background:#16A34A; color:white; padding:9px 18px; border-radius:8px; font-size:13px; font-weight:700; text-decoration:none;">Vào Dashboard Quản Lý Ngay →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== PRICING ========== -->
     <section class="lp-section" id="bang-gia">
         <div class="lp-section-head">
-            <h2>Chọn gói phù hợp với bạn</h2>
-            <p>Chi phí hợp lý — hiệu quả dài lâu. Đầu tư một lần, tiết kiệm cả năm.</p>
+            <h2>Bảng giá dịch vụ linh hoạt &amp; Tiết kiệm</h2>
+            <p>Chọn hình thức thuê bao định kỳ theo tháng hoặc mua trọn gói vĩnh viễn tùy theo nhu cầu kinh doanh của bạn.</p>
         </div>
-        <div class="lp-pricing">
 
+        <!-- Pricing Toggle -->
+        <div class="pricing-toggle-wrap">
+            <button type="button" id="btn-tab-monthly" class="pricing-toggle-btn active" onclick="switchPricingMode('monthly')">
+                <span>📅 Thuê theo tháng (SaaS)</span>
+            </button>
+            <button type="button" id="btn-tab-lifetime" class="pricing-toggle-btn" onclick="switchPricingMode('lifetime')">
+                <span>⭐ Mua trọn gói (Vĩnh viễn)</span>
+                <span class="pricing-toggle-badge">Tiết kiệm 40%</span>
+            </button>
+        </div>
+
+        <!-- Monthly Subscription Pricing Grid -->
+        <div id="pricing-monthly-grid" class="lp-pricing">
             <div class="lp-price-card tier-starter fade-up">
-                <h3>Chatbot trải nghiệm</h3>
-                <p class="note">Phù hợp với cá nhân và cửa hàng nhỏ.</p>
-                <div class="amount">2.999.000đ</div>
-                <div class="per">Trọn gói · Hỗ trợ 7 ngày</div>
-                <a class="lp-price-btn" href="login.html">Đăng nhập</a>
+                <h3>Gói Khởi Nghiệp</h3>
+                <p class="note">Dành cho shop online mới bắt đầu cần bot trực chat.</p>
+                <div class="amount">199.000đ</div>
+                <div class="per">/ tháng · Không cam kết dài hạn</div>
+                <a class="lp-price-btn" href="#dung-thu">Dùng thử 7 ngày</a>
                 <ul>
-                    <li>Thiết lập 1 nhân viên trợ lý</li>
-                    <li>Nạp tối đa 10 tài liệu</li>
-                    <li>Xây 10 câu hỏi thường gặp</li>
-                    <li>1 quy trình tiếp nhận khách</li>
-                    <li>1 lần tinh chỉnh</li>
-                    <li>Hỗ trợ 7 ngày</li>
+                    <li>1 tài khoản Zalo cá nhân</li>
+                    <li>Chỉ trả lời riêng tư 1-1 khách cá nhân</li>
+                    <li>Nút ngắt kết nối khẩn cấp 1-click</li>
+                    <li>AI Google Gemini 2.5 Flash miễn phí</li>
+                    <li>Nạp tối đa 20 tài liệu / sản phẩm</li>
+                    <li>Hỗ trợ kỹ thuật qua Zalo</li>
                 </ul>
             </div>
 
             <div class="lp-price-card tier-popular fade-up">
                 <span class="badge">⭐ ĐƯỢC CHỌN NHIỀU NHẤT</span>
-                <h3>Chatbot cửa hàng</h3>
-                <p class="note">Phù hợp với shop và doanh nghiệp nhỏ.</p>
-                <div class="amount">9.500.000đ</div>
-                <div class="per">Trọn gói · Hỗ trợ 30 ngày</div>
-                <a class="lp-price-btn" href="login.html">Đăng nhập</a>
+                <h3>Gói Pro Shop</h3>
+                <p class="note">Tối ưu cho cửa hàng có lượng tin nhắn 50-300 khách/ngày.</p>
+                <div class="amount">499.000đ</div>
+                <div class="per">/ tháng · Tiết kiệm chi phí 1 nhân viên</div>
+                <a class="lp-price-btn" href="#dung-thu">Đăng ký trải nghiệm</a>
                 <ul>
-                    <li>Chuẩn hóa bộ não chatbot</li>
-                    <li>Nạp tối đa 50 tài liệu</li>
-                    <li>Xây 30 câu hỏi thường gặp</li>
-                    <li>Thiết kế 3 quy trình tư vấn</li>
-                    <li>Phân loại và chuyển khách</li>
-                    <li>Đào tạo tối đa 3 nhân sự</li>
-                    <li>Hỗ trợ 30 ngày</li>
+                    <li>Tất cả tính năng của gói Khởi Nghiệp</li>
+                    <li>Bộ Não Kép Dual Brain (Groq + Gemini)</li>
+                    <li>Không giới hạn tài liệu &amp; câu hỏi FAQ</li>
+                    <li>Tự động học dữ liệu website &amp; catalog</li>
+                    <li>Kịch bản chốt đơn và điều hướng mua hàng</li>
+                    <li>Bảng quản trị Leads &amp; CRM khách hàng</li>
+                    <li>Hỗ trợ thiết lập từ xa Ultraview/AnyDesk</li>
                 </ul>
             </div>
 
             <div class="lp-price-card tier-premium fade-up">
-                <h3>Chatbot siêu trí tuệ</h3>
-                <p class="note">Phù hợp với doanh nghiệp cần cá nhân hóa chuyên sâu.</p>
-                <div class="amount">15.000.000đ</div>
-                <div class="per">Trọn gói · Hỗ trợ và tối ưu 90 ngày</div>
-                <a class="lp-price-btn" href="login.html">Đăng nhập</a>
+                <h3>Gói Doanh Nghiệp</h3>
+                <p class="note">Dành cho chuỗi bán lẻ, thẩm mỹ viện, bất động sản.</p>
+                <div class="amount">990.000đ</div>
+                <div class="per">/ tháng · Chăm sóc chuyên sâu</div>
+                <a class="lp-price-btn" href="https://zalo.me/0988739896" target="_blank">Liên hệ tư vấn</a>
                 <ul>
-                    <li>Nạp tối đa 100 tài liệu</li>
-                    <li>Xây 60 câu hỏi thường gặp</li>
-                    <li>Thiết kế 5 quy trình tư vấn</li>
-                    <li>Phân loại nhiều nhóm khách hàng</li>
-                    <li>Chuyển đúng bộ phận phụ trách</li>
-                    <li>Đào tạo tối đa 5 nhân sự</li>
-                    <li>Hỗ trợ và tối ưu 90 ngày</li>
+                    <li>Tất cả tính năng gói Pro Shop</li>
+                    <li>Tối ưu phễu kịch bản bán hàng nâng cao</li>
+                    <li>Hỗ trợ nạp và cập nhật tồn kho định kỳ</li>
+                    <li>Cam kết phản hồi dưới 2 giây</li>
+                    <li>Hotline hỗ trợ kỹ thuật ưu tiên 24/7</li>
+                    <li>Báo cáo tỷ lệ chuyển đổi hàng tuần</li>
                 </ul>
             </div>
 
             <div class="lp-price-card tier-enterprise fade-up">
-                <h3>Tư vấn cao cấp</h3>
-                <p class="note">Cho nhu cầu đặc thù, vượt ngoài 3 gói trên</p>
-                <div class="amount" style="font-size:22px">Theo yêu cầu</div>
-                <div class="per">Khảo sát &amp; báo giá riêng</div>
-                <a class="lp-price-btn" href="mailto:vanhaitech.86@gmail.com?subject=T%C3%B4i%20mu%E1%BB%91n%20t%C6%B0%20v%E1%BA%A5n%20g%C3%B3i%20cao%20c%E1%BA%A5p">NHẬN TƯ VẤN</a>
+                <h3>Gói Whitelabel Agency</h3>
+                <p class="note">Dành cho cá nhân/công ty muốn kinh doanh cho thuê bot.</p>
+                <div class="amount" style="font-size:24px">2.990.000đ</div>
+                <div class="per">/ tháng · Quản lý tối đa 10 shop khách hàng</div>
+                <a class="lp-price-btn" href="https://zalo.me/0988739896" target="_blank">Hợp tác thương mại</a>
                 <ul>
-                    <li>Khảo sát quy trình thực tế</li>
-                    <li>Tuỳ biến không giới hạn</li>
-                    <li>Đội ngũ triển khai riêng</li>
+                    <li>Gắn thương hiệu riêng (Logo, Tên miền của bạn)</li>
+                    <li>Dashboard quản lý tập trung nhiều khách</li>
+                    <li>Tự định giá và giữ 100% lợi nhuận thu từ khách</li>
+                    <li>Chuyển giao mã nguồn &amp; hướng dẫn triển khai</li>
+                    <li>Hỗ trợ kỹ thuật cấp cao từ kỹ sư HAITECH</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lifetime One-Time Pricing Grid (Hidden initially) -->
+        <div id="pricing-lifetime-grid" class="lp-pricing" style="display:none;">
+            <div class="lp-price-card tier-starter fade-up">
+                <h3>Setup Trải nghiệm</h3>
+                <p class="note">Cài đặt trọn gói một lần cho cá nhân và shop nhỏ.</p>
+                <div class="amount">2.999.000đ</div>
+                <div class="per">Trọn gói vĩnh viễn · Hỗ trợ 30 ngày</div>
+                <a class="lp-price-btn" href="#dung-thu">Đăng ký tư vấn</a>
+                <ul>
+                    <li>Thiết lập 1 nhân viên trợ lý Zalo AI</li>
+                    <li>Nạp tối đa 20 tài liệu &amp; sản phẩm</li>
+                    <li>Xây dựng 20 câu hỏi thường gặp</li>
+                    <li>1 quy trình tiếp nhận &amp; chốt khách</li>
+                    <li>Bàn giao bộ cài chạy trên máy tính shop</li>
+                    <li>Hỗ trợ bảo hành 30 ngày</li>
+                </ul>
+            </div>
+
+            <div class="lp-price-card tier-popular fade-up">
+                <span class="badge">⭐ KHUYÊN DÙNG TRỌN GÓI</span>
+                <h3>Setup Cửa hàng Pro</h3>
+                <p class="note">Chuẩn hóa dữ liệu chuyên sâu cho doanh nghiệp vừa và nhỏ.</p>
+                <div class="amount">9.500.000đ</div>
+                <div class="per">Trọn gói vĩnh viễn · Hỗ trợ 90 ngày</div>
+                <a class="lp-price-btn" href="#dung-thu">Đăng ký tư vấn</a>
+                <ul>
+                    <li>Chuẩn hóa bộ não chatbot độc quyền</li>
+                    <li>Nạp tối đa 100 tài liệu sản phẩm</li>
+                    <li>Xây dựng 50 kịch bản tư vấn tự động</li>
+                    <li>Thiết kế 3 phễu chốt đơn chuyên sâu</li>
+                    <li>Đào tạo nhân sự shop cách vận hành</li>
+                    <li>Cài đặt chạy 24/7 trên Cloud/VPS riêng</li>
+                    <li>Bảo hành &amp; tối ưu trong 90 ngày</li>
+                </ul>
+            </div>
+
+            <div class="lp-price-card tier-premium fade-up">
+                <h3>Setup Siêu trí tuệ</h3>
+                <p class="note">Dành cho doanh nghiệp cần cá nhân hóa và tích hợp API riêng.</p>
+                <div class="amount">15.000.000đ</div>
+                <div class="per">Trọn gói vĩnh viễn · Đồng hành 180 ngày</div>
+                <a class="lp-price-btn" href="https://zalo.me/0988739896" target="_blank">Nhận báo giá riêng</a>
+                <ul>
+                    <li>Không giới hạn dữ liệu tài liệu nạp vào</li>
+                    <li>Tích hợp quản lý đơn hàng &amp; CRM ngoài</li>
+                    <li>Thiết kế đa kịch bản theo phân nhóm khách</li>
+                    <li>Đào tạo toàn bộ đội ngũ kinh doanh</li>
+                    <li>Tặng 1 năm vận hành VPS Cloud tốc độ cao</li>
+                    <li>Bảo hành và tối ưu trong 180 ngày</li>
+                </ul>
+            </div>
+
+            <div class="lp-price-card tier-enterprise fade-up">
+                <h3>Tư vấn Enterprise</h3>
+                <p class="note">Thiết kế phần mềm AI Zalo riêng biệt theo nghiệp vụ.</p>
+                <div class="amount" style="font-size:22px">Theo yêu cầu</div>
+                <div class="per">Khảo sát &amp; hợp đồng kinh tế</div>
+                <a class="lp-price-btn" href="mailto:vanhaitech.86@gmail.com?subject=T%C3%B4i%20mu%E1%BB%91n%20t%C6%B0%20v%E1%BA%A5n%20g%C3%B3i%20Enterprise">NHẬN TƯ VẤN</a>
+                <ul>
+                    <li>Khảo sát trực tiếp quy trình doanh nghiệp</li>
+                    <li>Tùy biến thuật toán AI &amp; bảo mật máy chủ nội bộ</li>
+                    <li>Đội ngũ kỹ sư triển khai riêng biệt</li>
+                    <li>Ký hợp đồng &amp; xuất hóa đơn VAT đầy đủ</li>
                 </ul>
             </div>
         </div>
@@ -551,6 +706,102 @@
                 btn.style.background = '';
                 form.reset();
             }, 3000);
+        }
+
+        // Switch Pricing Mode (Monthly vs Lifetime)
+        function switchPricingMode(mode) {
+            const btnMonthly = document.getElementById('btn-tab-monthly');
+            const btnLifetime = document.getElementById('btn-tab-lifetime');
+            const gridMonthly = document.getElementById('pricing-monthly-grid');
+            const gridLifetime = document.getElementById('pricing-lifetime-grid');
+
+            if (mode === 'monthly') {
+                btnMonthly.classList.add('active');
+                btnLifetime.classList.remove('active');
+                gridMonthly.style.display = 'grid';
+                gridLifetime.style.display = 'none';
+            } else {
+                btnLifetime.classList.add('active');
+                btnMonthly.classList.remove('active');
+                gridMonthly.style.display = 'none';
+                gridLifetime.style.display = 'grid';
+            }
+        }
+
+        // Handle Public Free Trial Registration Form
+        function handlePublicTrialSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('pt_name').value.trim();
+            const phone = document.getElementById('pt_phone').value.trim();
+            const shop = document.getElementById('pt_shop').value.trim() || 'Cá nhân kinh doanh';
+            const industry = document.getElementById('pt_industry').value;
+            const submitBtn = document.getElementById('pt_submit_btn');
+
+            if (!name || !phone) {
+                alert('Vui lòng điền họ tên và số điện thoại Zalo.');
+                return;
+            }
+
+            submitBtn.textContent = '⏳ Đang kích hoạt bản dùng thử...';
+            submitBtn.disabled = true;
+
+            const now = new Date();
+            const exp = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const trialKey = 'HAI-TRIAL-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+
+            const timeStr = now.toLocaleTimeString('vi-VN') + ' ' + now.toLocaleDateString('vi-VN');
+            const newLead = {
+                id: 'lead_' + Date.now(),
+                name: name,
+                phone: phone,
+                shop: shop,
+                category: industry,
+                industry: industry,
+                channels: 'Zalo cá nhân (1-1)',
+                time: timeStr,
+                createdAt: now.toISOString(),
+                expiresAt: exp.toISOString(),
+                status: 'active',
+                trialKey: trialKey
+            };
+
+            // Save to shared localStorage leads database
+            try {
+                const existing = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+                existing.unshift(newLead);
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(existing));
+            } catch (err) {
+                console.warn('Cannot write localStorage:', err);
+            }
+
+            // Mailto notification backup
+            const mailSubject = encodeURIComponent(`[ĐĂNG KÝ TRẢI NGHIỆM] ${name} - ${shop} (${phone})`);
+            const mailBody = encodeURIComponent(
+                `Khách hàng đăng ký dùng thử 7 ngày Bot Zalo:\n\n` +
+                `- Họ tên: ${name}\n` +
+                `- SĐT Zalo: ${phone}\n` +
+                `- Shop/Doanh nghiệp: ${shop}\n` +
+                `- Ngành nghề: ${industry}\n` +
+                `- Mã kích hoạt: ${trialKey}\n` +
+                `- Thời hạn 7 ngày đến: ${exp.toLocaleDateString('vi-VN')}`
+            );
+            // Non-blocking mail trigger
+            const mailLink = document.createElement('a');
+            mailLink.href = `mailto:vanhaitech.86@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+            mailLink.style.display = 'none';
+            document.body.appendChild(mailLink);
+            setTimeout(() => {
+                mailLink.click();
+                mailLink.remove();
+            }, 600);
+
+            setTimeout(() => {
+                document.getElementById('publicTrialForm').style.display = 'none';
+                const successBox = document.getElementById('pt_success_box');
+                const successMsg = document.getElementById('pt_success_msg');
+                successMsg.innerHTML = `Xin chúc mừng <strong>${name}</strong> (${shop})!<br/>Mã kích hoạt của bạn: <strong style="color:#0077B6; font-size:15px;">${trialKey}</strong><br/>Thời hạn dùng thử miễn phí: <strong>${exp.toLocaleDateString('vi-VN')}</strong> (7 ngày).`;
+                successBox.style.display = 'block';
+            }, 800);
         }
 
         // Navbar shadow on scroll
