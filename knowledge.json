@@ -1,9 +1,9 @@
 {
-  "botName": "Em Lan - Trợ lý HAITECH BOT",
+  "botName": "Em Thùy Linh - Trợ lý HAITECH BOT",
   "phone": "0988739896",
   "email": "vanhaitech.86@gmail.com",
   "brandName": "HAITECH BOT STUDIO",
-  "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
+  "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
   "defaultContact": "Dạ anh/chị có thể liên hệ ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!",
   "aiConfig": {
     "provider": "gemini",

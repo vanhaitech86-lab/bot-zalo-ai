@@ -14,12 +14,12 @@
     const currentScript = document.currentScript || document.querySelector('script[src*="haitech-chat-widget"]');
     const config = {
         apiUrl: currentScript?.getAttribute('data-api-url') || 'https://bot-zalo-ai.vercel.app/api/website-chat',
-        botName: currentScript?.getAttribute('data-bot-name') || 'Em Lan - Trợ lý HAITECH BOT',
+        botName: currentScript?.getAttribute('data-bot-name') || 'Em Thùy Linh - Trợ lý HAITECH BOT',
         phone: currentScript?.getAttribute('data-phone') || '0988 739 896',
         zaloUrl: currentScript?.getAttribute('data-zalo-url') || 'https://zalo.me/0988739896',
         primaryColor: currentScript?.getAttribute('data-color') || '#0077B6',
         position: currentScript?.getAttribute('data-position') || 'right', // 'right' | 'left'
-        greeting: currentScript?.getAttribute('data-greeting') || 'Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Anh/chị cần em tư vấn sản phẩm hay gửi bảng giá hôm nay ạ? 😊'
+        greeting: currentScript?.getAttribute('data-greeting') || 'Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT. Anh/chị cần em tư vấn sản phẩm hay gửi bảng giá hôm nay ạ? 😊'
     };
 
     const cleanPhone = config.phone.replace(/[^0-9]/g, '');

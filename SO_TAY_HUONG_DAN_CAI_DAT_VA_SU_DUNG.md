@@ -115,7 +115,7 @@ Bạn có thể mở file này bằng phần mềm **Notepad**, **Notepad++** ho
 ### Cấu trúc mẫu chuẩn:
 ```json
 {
-  "botName": "Em Lan - Trợ lý HAITECH BOT",
+  "botName": "Em Thùy Linh - Trợ lý HAITECH BOT",
   "phone": "0988 739 896",
   "email": "vanhaitech.86@gmail.com",
   "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT...",
@@ -214,7 +214,7 @@ Mã nhúng tùy biến mẫu:
 <script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
   data-color="#0077B6" 
   data-position="right" 
-  data-bot-name="Em Lan - Trợ lý HAITECH BOT" 
+  data-bot-name="Em Thùy Linh - Trợ lý HAITECH BOT" 
   data-phone="0988 739 896" 
   data-greeting="Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Anh/chị cần em tư vấn sản phẩm hay gửi bảng giá ưu đãi hôm nay ạ? 😊" 
   async></script>

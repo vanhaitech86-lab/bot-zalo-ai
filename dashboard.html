@@ -821,7 +821,7 @@
                         <div class="form-row">
                             <div class="form-field">
                                 <label for="botNameInput">Tên Trợ lý AI (Bot Name)</label>
-                                <input type="text" id="botNameInput" value="Em Lan - Trợ lý HAITECH BOT" placeholder="Ví dụ: Em Lan tư vấn" />
+                                <input type="text" id="botNameInput" value="Em Thùy Linh - Trợ lý HAITECH BOT" placeholder="Ví dụ: Em Thùy Linh tư vấn" />
                                 <div class="hint">Tên xưng hô khi nhắn tin với khách hàng.</div>
                             </div>
                             <div class="form-field">
@@ -1284,7 +1284,7 @@
                         <div class="form-row">
                             <div class="form-field">
                                 <label>Tên nhân viên AI hiển thị:</label>
-                                <input type="text" id="widgetBotNameInput" value="Em Lan - Trợ lý HAITECH BOT" oninput="updateWidgetCodeSnippet()" />
+                                <input type="text" id="widgetBotNameInput" value="Em Thùy Linh - Trợ lý HAITECH BOT" oninput="updateWidgetCodeSnippet()" />
                             </div>
                             <div class="form-field">
                                 <label>Số Hotline hiển thị trên nút gọi:</label>
@@ -1472,7 +1472,7 @@
                         <!-- System Prompt -->
                         <div class="form-field">
                             <label style="font-weight: 700;">Tùy chỉnh Lời Chỉ Dẫn Hệ Thống (System Prompt):</label>
-                            <textarea id="aiSystemPromptInput" rows="3" placeholder="Để trống nếu muốn dùng Prompt chuẩn của Em Lan - Trợ lý HAITECH BOT (Hệ thống tự động ghép bảng giá, hotline và tài liệu FAQ vào ngữ cảnh RAG cho AI)."></textarea>
+                            <textarea id="aiSystemPromptInput" rows="3" placeholder="Để trống nếu muốn dùng Prompt chuẩn của Em Thùy Linh - Trợ lý HAITECH BOT (Hệ thống tự động ghép bảng giá, hotline và tài liệu FAQ vào ngữ cảnh RAG cho AI)."></textarea>
                         </div>
 
                         <!-- Action Buttons -->
@@ -1564,7 +1564,7 @@
                             <div class="sim-header-info">
                                 <div class="sim-avatar" id="simAvatarIcon">🤖</div>
                                 <div>
-                                    <div style="font-weight: 700; font-size: 15px;" id="simBotName">Em Lan - Trợ lý HAITECH BOT</div>
+                                    <div style="font-weight: 700; font-size: 15px;" id="simBotName">Em Thùy Linh - Trợ lý HAITECH BOT</div>
                                     <div style="font-size: 12px; opacity: .85;" id="simChannelSubtitle">🟢 Đang hoạt động trên Zalo</div>
                                 </div>
                             </div>
@@ -2028,11 +2028,11 @@
         // State
         let currentUser = null;
         let botConfig = {
-            name: "Em Lan - Trợ lý HAITECH BOT",
+            name: "Em Thùy Linh - Trợ lý HAITECH BOT",
             industry: "Máy lọc nước & Giải pháp công nghệ",
             tone: "friendly",
             phone: "0988739896",
-            welcomeMsg: "Dạ em chào anh/chị ạ! Em là trợ lý AI của HAITECH BOT. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
+            welcomeMsg: "Dạ em chào anh/chị ạ! Em là Thùy Linh - trợ lý AI của HAITECH BOT. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
             isOnline: true
         };
 
@@ -3198,7 +3198,7 @@
         function updateWidgetCodeSnippet() {
             const color = document.getElementById('widgetColorPicker')?.value || '#0077B6';
             const position = document.getElementById('widgetPositionSelect')?.value || 'right';
-            const botName = document.getElementById('widgetBotNameInput')?.value || 'Em Lan - Trợ lý HAITECH BOT';
+            const botName = document.getElementById('widgetBotNameInput')?.value || 'Em Thùy Linh - Trợ lý HAITECH BOT';
             const phone = document.getElementById('widgetPhoneInput')?.value || '0988 739 896';
             const greeting = document.getElementById('widgetGreetingInput')?.value || '';
 
@@ -3242,7 +3242,7 @@
             script.src = 'haitech-chat-widget.js';
             script.setAttribute('data-color', document.getElementById('widgetColorPicker')?.value || '#0077B6');
             script.setAttribute('data-position', document.getElementById('widgetPositionSelect')?.value || 'right');
-            script.setAttribute('data-bot-name', document.getElementById('widgetBotNameInput')?.value || 'Em Lan - Trợ lý HAITECH BOT');
+            script.setAttribute('data-bot-name', document.getElementById('widgetBotNameInput')?.value || 'Em Thùy Linh - Trợ lý HAITECH BOT');
             script.setAttribute('data-phone', document.getElementById('widgetPhoneInput')?.value || '0988 739 896');
             script.setAttribute('data-api-url', '/api/website-chat');
             document.body.appendChild(script);

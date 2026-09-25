@@ -29,7 +29,7 @@ function loadKnowledge() {
     } catch (e) {
         console.warn("⚠️ Chưa đọc được knowledge.json, dùng cấu hình mặc định.");
         knowledge = {
-            botName: "Em Lan - Trợ lý HAITECH BOT",
+            botName: "Em Thùy Linh - Trợ lý HAITECH BOT",
             phone: "0988739896",
             rules: []
         };

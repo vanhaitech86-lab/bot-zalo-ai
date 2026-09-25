@@ -97,11 +97,11 @@ export const AI_PROVIDERS = {
 
 // Cấu hình tri thức mặc định
 export const DEFAULT_KNOWLEDGE = {
-    botName: "Em Lan - Trợ lý HAITECH BOT",
+    botName: "Em Thùy Linh - Trợ lý HAITECH BOT",
     brandName: "HAITECH BOT STUDIO",
     phone: "0988 739 896",
     email: "vanhaitech.86@gmail.com",
-    welcomeMessage: "Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
+    welcomeMessage: "Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
     defaultContact: "Dạ anh/chị có thể liên hệ ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!",
     aiConfig: {
         provider: "gemini", // "gemini" | "groq" | "openrouter" | "deepseek" | "openai" | "custom"
@@ -183,7 +183,7 @@ export function buildAiSystemPrompt(kb) {
             .join('\n');
     }
 
-    return `Bạn là "${kb.botName || 'Em Lan - Trợ lý HAITECH BOT'}", trợ lý AI bán hàng và chăm sóc khách hàng của "${kb.brandName || 'HAITECH BOT STUDIO'}".
+    return `Bạn là "${kb.botName || 'Em Thùy Linh - Trợ lý HAITECH BOT'}", trợ lý AI bán hàng và chăm sóc khách hàng của "${kb.brandName || 'HAITECH BOT STUDIO'}".
 Hotline/Zalo chính thức: ${kb.phone || '0988 739 896'}.
 Email liên hệ: ${kb.email || 'vanhaitech.86@gmail.com'}.
 
