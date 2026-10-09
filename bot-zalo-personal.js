@@ -106,6 +106,37 @@ function isBusinessInquiry(text, kb) {
     return false;
 }
 
+// Hàm kiểm tra xem bot có được gọi tên / tag @thuylinh trong nhóm chat Zalo không
+function isBotMentionedInGroup(message, userText, ownId) {
+    if (!userText) return false;
+
+    // 1. Kiểm tra mentions chính thức từ Zalo protocol (khi người dùng gõ @ và chọn tên bot)
+    if (message.data?.mentions && Array.isArray(message.data.mentions)) {
+        if (ownId && message.data.mentions.some(m => String(m.uid) === String(ownId))) {
+            return true;
+        }
+    }
+
+    // 2. Kiểm tra các cách gọi tên phổ biến trong văn bản
+    const lower = userText.toLowerCase().trim();
+    const triggerPatterns = [
+        "@thuylinh", "@thùylinh", "@thùy linh", "@thuy linh",
+        "thùy linh ơi", "thuylinh ơi", "thuy linh oi", "thuylinh oi",
+        "@bot", "bot ơi", "bot oi", "em thùy linh", "em thuylinh",
+        "#thuylinh", "#tl"
+    ];
+
+    return triggerPatterns.some(kw => lower.includes(kw));
+}
+
+// Hàm làm sạch từ khóa mention để đưa câu hỏi thuần túy vào bộ não AI
+function cleanMentionText(text) {
+    if (!text) return "Chào em";
+    let cleaned = text.replace(/@?(thùy linh|thuylinh|thuy linh|bot)\s*(ơi|oi)?/gi, ' ').trim();
+    cleaned = cleaned.replace(/^@\s*/, '').trim();
+    return cleaned || "Chào em Thùy Linh";
+}
+
 // 1. Nạp và theo dõi dữ liệu tri thức (Knowledge Base)
 let knowledge = {};
 function loadKnowledge() {
@@ -520,17 +551,19 @@ async function startBot() {
         }
     }
 
-    async function processAndReply(threadId, lastData, userText, threadType = ThreadType.User, isBossMode = false) {
+    async function processAndReply(threadId, lastData, userText, threadType = ThreadType.User, isBossMode = false, isGroupMode = false) {
         try {
             const timeStr = new Date().toLocaleTimeString("vi-VN");
-            const targetLabel = isBossMode ? "👑 SẾP HẢI (Cloud của tôi)" : (threadType === ThreadType.User ? "Khách 1-1" : `Nhóm ${threadId}`);
+            let targetLabel = "Khách 1-1";
+            if (isBossMode) targetLabel = "👑 SẾP HẢI (Cloud của tôi)";
+            else if (isGroupMode || threadType === ThreadType.Group) targetLabel = `👥 Nhóm ${threadId} (Gọi @thuylinh)`;
             console.log(`\n📩 [${timeStr}] [${targetLabel}] Nhắn:\n"${userText}"`);
 
             // Đọc lại dữ liệu tri thức mới nhất từ knowledge.json
             loadKnowledge();
 
-            // Tự động phát hiện SĐT khách hàng và lưu trữ online nếu là chat 1-1 với khách
-            if (!isBossMode && threadType === ThreadType.User) {
+            // Tự động phát hiện SĐT khách hàng và lưu trữ online (cả chat 1-1 và trong nhóm)
+            if (!isBossMode) {
                 handleLeadCapture(threadId, lastData, userText);
             }
 
@@ -590,12 +623,33 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                     }
                 };
                 result = await generateReplyAsync(userText, bossKb, history);
+            } else if (isGroupMode || threadType === ThreadType.Group) {
+                // Prompt trợ lý tư vấn trong nhóm chat & hỗ trợ chốt đơn
+                const groupKb = {
+                    ...knowledge,
+                    aiConfig: {
+                        ...(knowledge.aiConfig || {}),
+                        systemPrompt: `Bạn là 'Em Thùy Linh' — trợ lý tư vấn AI thông minh, duyên dáng và chuyên nghiệp của HaiTech AI (Hotline/Zalo anh Hải: 0988 739 896).
+Hiện tại bạn ĐANG TRẢ LỜI MỘT THÀNH VIÊN TRONG HỘI NHÓM ZALO vừa gọi bạn (@thuylinh).
+
+NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
+1. Xưng 'em', gọi người hỏi là 'anh/chị' một cách lịch sự, nhã nhặn, tôn trọng.
+2. Trả lời trực tiếp, rõ ràng, cô đọng trong 2 - 3 câu để không làm loãng nhóm.
+3. TƯ VẤN & HỖ TRỢ CHỐT ĐƠN:
+   - Nếu khách hỏi về Web, App, Tool MMO, Video AI, Bot Zalo: Tư vấn giải pháp trọng tâm, khẳng định HaiTech AI triển khai nhanh, chuẩn SEO, tối ưu chi phí.
+   - Luôn khéo léo định hướng: Gợi ý khách kết nối trực tiếp với anh Nguyễn Văn Hải (Hotline/Zalo: 0988 739 896) hoặc để lại số điện thoại/nhắn tin riêng để bên em gửi demo mẫu và báo giá ưu đãi nhất!
+4. TUYỆT ĐỐI không spam, không nói dài dòng lan man.`
+                    }
+                };
+                result = await generateReplyAsync(userText, groupKb, history);
             } else {
                 result = await generateReplyAsync(userText, knowledge, history);
             }
 
             const replyText = result.reply;
-            const logName = isBossMode ? "EM THÙY LINH (Trợ lý riêng)" : "HAITECH BOT";
+            let logName = "HAITECH BOT";
+            if (isBossMode) logName = "EM THÙY LINH (Trợ lý riêng)";
+            else if (isGroupMode || threadType === ThreadType.Group) logName = "EM THÙY LINH (Trực nhóm)";
             console.log(`🤖 [${timeStr}] [${result.model}] ${logName} trả lời: "${replyText.substring(0, 100)}..."`);
 
             // Đánh dấu câu trả lời của Bot để chống vòng lặp tự phản hồi chính mình
@@ -616,14 +670,26 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                 await new Promise(r => setTimeout(r, 150));
             }
 
-            // Gửi tin nhắn phản hồi
+            // Gửi tin nhắn phản hồi (ưu tiên quote trích dẫn trong nhóm để mọi người nhận biết)
             try {
-                await api.sendMessage(
-                    { msg: replyText },
-                    targetThreadId,
-                    threadType
-                );
-                console.log(`✅ [${timeStr}] Gửi phản hồi thành công!`);
+                if (threadType === ThreadType.Group && lastData) {
+                    await api.sendMessage(
+                        {
+                            msg: replyText,
+                            quote: lastData
+                        },
+                        targetThreadId,
+                        threadType
+                    );
+                    console.log(`✅ [${timeStr}] Gửi phản hồi nhóm thành công (trích dẫn)!`);
+                } else {
+                    await api.sendMessage(
+                        { msg: replyText },
+                        targetThreadId,
+                        threadType
+                    );
+                    console.log(`✅ [${timeStr}] Gửi phản hồi thành công!`);
+                }
             } catch (sendErr) {
                 // Nếu gửi thường không được thì thử gửi dạng trích dẫn (chỉ khi không phải gửi vào Cloud của tôi)
                 if (targetThreadId !== send2meId) {
@@ -636,7 +702,7 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                             targetThreadId,
                             threadType
                         );
-                        console.log(`✅ [${timeStr}] Gửi phản hồi thành công (trích dẫn)!`);
+                        console.log(`✅ [${timeStr}] Gửi phản hồi thành công (trích dẫn dự phòng)!`);
                     } catch (quoteErr) {
                         console.error("⚠️ Lỗi khi gửi tin nhắn Zalo:", quoteErr.message);
                     }
@@ -780,15 +846,25 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                 return;
             }
 
-            // 3. TÍNH NĂNG BẢO VỆ CHỈ CHAT 1-1 RIÊNG TƯ (HOẶC THEO CẤU HÌNH NHÓM):
-            const allowGroups = knowledge.channels?.zaloPersonal?.replyInGroups === true;
-            if (message.type !== ThreadType.User && !allowGroups) {
-                console.log(`🛡️ [BỎ QUA HỘI NHÓM] Tin nhắn từ nhóm chat Zalo (Thread ID: ${message.threadId}). Bot hiện chỉ trực chat 1-1 với khách cá nhân.`);
+            // 3. XỬ LÝ THEO LOẠI HỘI THOẠI (CHAT NHÓM vs CHAT 1-1 CÁ NHÂN):
+            if (message.type === ThreadType.Group) {
+                // CHỈ PHẢN HỒI TRONG NHÓM KHI CÓ NGƯỜI GỌI TÊN @thuylinh HOẶC MENTION
+                const ownId = api.getOwnId ? String(api.getOwnId()) : null;
+                const isMentioned = isBotMentionedInGroup(message, userText, ownId);
+
+                if (!isMentioned) {
+                    // Nếu không có ai gọi @thuylinh -> Tuyệt đối im lặng, không xen vào trò chuyện của nhóm
+                    return;
+                }
+
+                // Đã được gọi tên trong nhóm -> Làm sạch tiền tố mention và phản hồi ngay lập tức
+                const cleanGroupPrompt = cleanMentionText(userText);
+                console.log(`\n👥 [NHÓM ZALO ${message.threadId}] Có thành viên gọi @thuylinh: "${userText}"`);
+                await processAndReply(message.threadId, message.data, cleanGroupPrompt, ThreadType.Group, false, true);
                 return;
             }
 
-            // 4. BỘ LỌC BẠN BÈ THÔNG MINH (SMART FILTER):
-            // Nếu ở chế độ smart_customer_only, chỉ trả lời khi câu hỏi có ý định dịch vụ/kinh doanh!
+            // 4. ĐỐI VỚI TIN NHẮN 1-1 CÁ NHÂN: BỘ LỌC BẠN BÈ THÔNG MINH (SMART FILTER)
             if (botMode === 'smart_customer_only') {
                 const isBiz = isBusinessInquiry(userText, knowledge);
                 if (!isBiz) {
@@ -797,7 +873,7 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                 }
             }
 
-            // 5. Gộp tin nhắn nếu khách gửi nhiều câu ngắn liên tiếp trong 350ms
+            // 5. Gộp tin nhắn 1-1 nếu khách gửi nhiều câu ngắn liên tiếp trong 350ms
             const threadId = message.threadId;
             const threadType = message.type;
             if (!pendingMessageBuffers.has(threadId)) {
@@ -822,7 +898,7 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                 const targetData = buffer.lastData;
                 const targetType = buffer.threadType || ThreadType.User;
                 pendingMessageBuffers.delete(threadId);
-                await processAndReply(threadId, targetData, combinedText, targetType, false);
+                await processAndReply(threadId, targetData, combinedText, targetType, false, false);
             }, 350);
         } catch (e) {
             console.error("⚠️ Lỗi khi nhận diện tin nhắn:", e.message);
