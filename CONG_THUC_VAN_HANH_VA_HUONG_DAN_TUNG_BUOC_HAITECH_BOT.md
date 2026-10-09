@@ -171,6 +171,14 @@ Anh Hải chỉ cần mở Zalo trên điện thoại, vào mục **Cloud của 
 * **Lời chào:** *"Chào anh/chị, bên em có giải pháp Trợ lý AI Em Thùy Linh trực Zalo cá nhân 24/7, tự động tư vấn, lọc bạn bè và thu thập số điện thoại khách hàng gửi thẳng về Zalo cho anh/chị."*
 * **Chính sách phễu:** *"Bên em đang hỗ trợ doanh nghiệp và chủ shop DÙNG THỬ 7 NGÀY HOÀN TOÀN MIỄN PHÍ, không cần cọc tiền. Anh/chị chỉ cần quét mã QR là trải nghiệm ngay lập tức!"*
 
+### 6.3. Quản lý Khách Dùng Thử trên Bảng Điều Khiển (Dashboard):
+Tại mục **"Danh Sách Khách Hàng Đã Đăng Ký Trải Nghiệm (Leads CRM)"** trên [dashboard.html](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/dashboard.html):
+* **Cột "Trạng thái & Hạn dùng":** Hiển thị rõ số ngày còn lại (🟢 Còn X ngày đến DD/MM/YYYY), báo hết hạn (⚠️ Hết hạn) hoặc đã ngắt (⛔ Đã ngắt).
+* **Nút "⛔ Ngắt" / "▶️ Mở lại":** Bấm 1 chạm để ngắt tạm dừng bot đối với khách hết hạn hoặc khách spam; bấm "▶️ Mở lại" để kích hoạt lại cho khách.
+* **Nút "⏳ Gia hạn":** Mở hộp thoại popup cho phép chọn nhanh: **+3 ngày**, **+7 ngày (1 tuần)**, **+14 ngày (2 tuần)**, **+30 ngày (1 tháng)** hoặc nhập số ngày tùy ý. Hệ thống tự động tính ngày hết hạn mới và chuyển trạng thái sang hoạt động.
+* **Nút "💬 Nhắn Zalo":** Bấm 1 click mở ngay cửa sổ chat Zalo trực tiếp với số điện thoại của khách để trao đổi và chốt hợp đồng.
+* **Nút "🗑️":** Xóa các dòng đăng ký thử nghiệm trùng lặp để danh sách luôn gọn gàng.
+
 ---
 
 ## 📁 DANH MỤC CÁC FILE QUAN TRỌNG TRONG HỆ THỐNG
