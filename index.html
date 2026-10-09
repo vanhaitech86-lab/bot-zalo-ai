@@ -155,6 +155,115 @@
             .kol-chat-bubble { padding: 12px; bottom: 12px; left: 12px; right: 12px; }
             .bubble-msg { font-size: 12px; }
         }
+
+        /* Affiliate Section Styles */
+        .lp-affiliate-section {
+            padding: 80px 20px;
+            background: linear-gradient(180deg, #F8FAFC 0%, #F5F3FF 50%, #FAF5FF 100%);
+            border-top: 1px solid #E2E8F0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .affiliate-container {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+        .aff-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(124, 58, 237, 0.12);
+            color: #7C3AED;
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+        .aff-perks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin: 32px 0 36px 0;
+        }
+        .aff-perk-card {
+            background: white;
+            border: 1.5px solid #E9D5FF;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.06);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .aff-perk-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(124, 58, 237, 0.12);
+            border-color: #A855F7;
+        }
+        .aff-card-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 860px) {
+            .aff-card-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .aff-panel {
+            background: white;
+            border-radius: 22px;
+            padding: 32px 28px;
+            border: 1.5px solid #E2E8F0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        .aff-input-group {
+            margin-bottom: 16px;
+        }
+        .aff-input-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 13.5px;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+        .aff-input-group input, .aff-input-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color .2s;
+        }
+        .aff-input-group input:focus, .aff-input-group select:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+        .aff-btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #7C3AED, #9333EA);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 18px rgba(124, 58, 237, 0.35);
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .aff-btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(124, 58, 237, 0.45);
+        }
     </style>
 </head>
 <body>
@@ -170,6 +279,7 @@
         <div class="nav-actions">
             <a class="nav-link" href="#tinh-nang">Tính năng</a>
             <a class="nav-link" href="#dung-thu" style="color:var(--brand); font-weight:700;">🎁 Dùng thử 7 ngày</a>
+            <a class="nav-link" href="#affiliate" style="color:#7C3AED; font-weight:700;">🤝 Affiliate</a>
             <a class="nav-link" href="#bang-gia">Bảng giá</a>
             <a class="nav-link" href="#faq">FAQ</a>
             <a class="lp-btn-secondary" href="login.html" style="padding:9px 18px; font-size:14px; border-radius:999px">Đăng nhập</a>
@@ -472,6 +582,154 @@
                     <h4 style="color:#15803D; margin-bottom:6px; font-size:16px;">Đăng ký dùng thử thành công!</h4>
                     <p style="font-size:13px; color:#166534; margin-bottom:12px;" id="pt_success_msg">Mã kích hoạt của bạn đã sẵn sàng. Chuyển đến màn hình Dashboard để nạp dữ liệu và kết nối Zalo.</p>
                     <a href="dashboard.html" style="display:inline-block; background:#16A34A; color:white; padding:9px 18px; border-radius:8px; font-size:13px; font-weight:700; text-decoration:none;">Vào Dashboard Quản Lý Ngay →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== AFFILIATE PROGRAM SECTION ========== -->
+    <section class="lp-affiliate-section" id="affiliate">
+        <div class="affiliate-container">
+            <div style="text-align: center; max-width: 760px; margin: 0 auto;">
+                <span class="aff-badge">💎 ĐỐI TÁC TIẾP THỊ LIÊN KẾT (AFFILIATE 30% - 50%)</span>
+                <h2 style="font-size: 32px; font-weight: 800; color: #1E1B4B; margin-bottom: 12px; line-height: 1.3;">
+                    Kiếm Thu Nhập Thụ Động Cùng <span style="color: #7C3AED;">HAITECH BOT</span>
+                </h2>
+                <p style="font-size: 15.5px; color: #475569; line-height: 1.6;">
+                    Đăng ký trở thành Đối tác & Cộng tác viên trong 30 giây để nhận ngay <strong>Link Affiliate độc quyền</strong>. Giới thiệu khách hàng trải nghiệm hoặc mua gói, bạn nhận hoa hồng <strong>30% - 50% trọn đời</strong> chuyển thẳng về tài khoản ngân hàng của bạn!
+                </p>
+            </div>
+
+            <!-- 3 Highlights Cards -->
+            <div class="aff-perks-grid">
+                <div class="aff-perk-card">
+                    <div style="font-size: 32px; margin-bottom: 8px;">💰</div>
+                    <h3 style="font-size: 17px; color: #1E1B4B; margin-bottom: 6px;">Hoa Hồng 30% - 50% Trọn Đời</h3>
+                    <p style="font-size: 13.5px; color: #64748B; line-height: 1.6; margin: 0;">
+                        Nhận hoa hồng định kỳ mỗi khi khách hàng gia hạn hàng tháng (từ 150.000đ – 2.500.000đ/đơn). Dòng tiền thụ động bền vững!
+                    </p>
+                </div>
+                <div class="aff-perk-card">
+                    <div style="font-size: 32px; margin-bottom: 8px;">⚡</div>
+                    <h3 style="font-size: 17px; color: #1E1B4B; margin-bottom: 6px;">Cookie Lưu 60 Ngày & Minh Bạch</h3>
+                    <p style="font-size: 13.5px; color: #64748B; line-height: 1.6; margin: 0;">
+                        Khách hàng bấm vào link hôm nay, 60 ngày sau quay lại mua bạn vẫn nhận trọn vẹn hoa hồng đối soát tự động.
+                    </p>
+                </div>
+                <div class="aff-perk-card">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🎁</div>
+                    <h3 style="font-size: 17px; color: #1E1B4B; margin-bottom: 6px;">Khách Được Nhận Quà Dùng Thử</h3>
+                    <p style="font-size: 13.5px; color: #64748B; line-height: 1.6; margin: 0;">
+                        Khách vào qua link của bạn được kích hoạt ngay gói 7 ngày dùng thử miễn phí, giúp tỷ lệ chuyển đổi cực cao.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Two Columns: Registration Form & Link Dashboard -->
+            <div class="aff-card-layout">
+                <!-- Cột trái: Form Đăng Ký Đối Tác -->
+                <div class="aff-panel">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
+                        <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #7C3AED, #9333EA); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px;">📝</div>
+                        <div>
+                            <h3 style="font-size: 18px; color: #1E1B4B; margin: 0;">1. Đăng Ký Thông Tin Đối Tác</h3>
+                            <p style="font-size: 12.5px; color: #64748B; margin: 2px 0 0;">Điền thông tin để hệ thống tạo Link & Mã Giới Thiệu cho bạn</p>
+                        </div>
+                    </div>
+
+                    <form id="affiliateRegForm" onsubmit="handleAffiliateRegister(event)">
+                        <div class="aff-input-group">
+                            <label>Họ và tên của bạn: <span style="color:#E11D48;">*</span></label>
+                            <input type="text" id="affNameInput" placeholder="Ví dụ: Nguyễn Văn Hải" required />
+                        </div>
+                        <div class="aff-input-group">
+                            <label>Số điện thoại / Zalo nhận hoa hồng: <span style="color:#E11D48;">*</span></label>
+                            <input type="tel" id="affPhoneInput" placeholder="Ví dụ: 0988739896" required />
+                        </div>
+                        <div class="aff-input-group">
+                            <label>Tên Ngân hàng & Số tài khoản nhận tiền: <span style="color:#E11D48;">*</span></label>
+                            <input type="text" id="affBankInput" placeholder="Ví dụ: MB Bank - 0988739896 (Nguyễn Văn Hải)" required />
+                        </div>
+                        <div class="aff-input-group">
+                            <label>Mã giới thiệu tùy chọn (Code rút gọn):</label>
+                            <input type="text" id="affCodeCustomInput" placeholder="Ví dụ: HAI86 (để trống sẽ tự lấy theo SĐT)" maxlength="20" />
+                        </div>
+                        <button type="submit" class="aff-btn-primary">
+                            🚀 ĐĂNG KÝ VÀ TẠO LINK AFFILIATE NGAY
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cột phải: Link Affiliate & Bộ Công Cụ Chia Sẻ -->
+                <div class="aff-panel" style="background: linear-gradient(135deg, #FAF5FF, #FFFFFF); border: 2px solid #DDD6FE;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 38px; height: 38px; border-radius: 10px; background: #10B981; color: white; display: flex; align-items: center; justify-content: center; font-size: 18px;">🔗</div>
+                            <div>
+                                <h3 style="font-size: 18px; color: #1E1B4B; margin: 0;">2. Link & Công Cụ Giới Thiệu</h3>
+                                <p style="font-size: 12.5px; color: #059669; margin: 2px 0 0; font-weight: 700;" id="affStatusText">🟢 Sẵn sàng chia sẻ kiếm hoa hồng</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="resetAffiliateData()" style="background: none; border: none; color: #64748B; font-size: 12px; cursor: pointer; text-decoration: underline;" title="Đăng ký lại tài khoản khác">Đổi thông tin</button>
+                    </div>
+
+                    <!-- Ô hiển thị link Affiliate -->
+                    <div style="background: white; border: 2px solid #7C3AED; border-radius: 14px; padding: 14px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);">
+                        <label style="font-size: 12px; font-weight: 700; color: #7C3AED; display: block; margin-bottom: 6px;">ĐƯỜNG LINK GIỚI THIỆU CHÍNH THỨC CỦA BẠN:</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="affGeneratedLinkInput" readonly value="https://bot-zalo-ai.vercel.app/?ref=0988739896" style="width: 100%; border: 1px solid #CBD5E1; padding: 10px 12px; border-radius: 10px; font-weight: 700; color: #1E1B4B; background: #F8FAFC; font-size: 13.5px;" />
+                            <button type="button" onclick="copyAffiliateLink()" id="affCopyBtn" style="background: #7C3AED; color: white; border: none; padding: 0 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; transition: all .2s;">
+                                📋 Copy
+                            </button>
+                        </div>
+                        <div id="affCopyToast" style="display: none; color: #059669; font-size: 12px; font-weight: 700; margin-top: 6px;">
+                            ✅ Đã sao chép link Affiliate vào bộ nhớ tạm! Bạn có thể dán vào Zalo/Facebook ngay.
+                        </div>
+                    </div>
+
+                    <!-- Công cụ chia sẻ 1 chạm -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-size: 13px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 8px;">Chia sẻ nhanh qua mạng xã hội:</label>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button type="button" onclick="shareAffiliateToZalo()" class="btn-action" style="background: #0068FF; color: white; padding: 9px 14px; font-size: 12.5px; border-radius: 10px; cursor: pointer; border: none;">
+                                💬 Gửi Qua Zalo
+                            </button>
+                            <button type="button" onclick="shareAffiliateToFacebook()" class="btn-action" style="background: #1877F2; color: white; padding: 9px 14px; font-size: 12.5px; border-radius: 10px; cursor: pointer; border: none;">
+                                🌐 Đăng Facebook
+                            </button>
+                            <button type="button" onclick="toggleAffiliateQr()" class="btn-action" style="background: #475569; color: white; padding: 9px 14px; font-size: 12.5px; border-radius: 10px; cursor: pointer; border: none;">
+                                📷 Mã QR Giới Thiệu
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Khung QR Code mở rộng -->
+                    <div id="affQrBox" style="display: none; background: white; border: 1px dashed #CBD5E1; border-radius: 14px; padding: 14px; text-align: center; margin-bottom: 20px;">
+                        <img id="affQrImage" src="" alt="Mã QR Affiliate" style="width: 160px; height: 160px; display: block; margin: 0 auto 8px; border-radius: 8px;" />
+                        <span style="font-size: 12px; color: #64748B;">Khách chỉ cần quét mã QR này để vào trang web thông qua mã giới thiệu của bạn!</span>
+                    </div>
+
+                    <!-- Bảng thống kê hiệu quả của Đối tác -->
+                    <div style="background: white; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+                        <div style="font-size: 12.5px; font-weight: 700; color: #475569; margin-bottom: 10px;">📊 HIỆU QUẢ GIỚI THIỆU CỦA BẠN:</div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                            <div style="background: #F8FAFC; padding: 10px; border-radius: 10px;">
+                                <div style="font-size: 11px; color: #64748B;">Lượt Click</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #0077B6;" id="affStatsClicks">0</div>
+                            </div>
+                            <div style="background: #F8FAFC; padding: 10px; border-radius: 10px;">
+                                <div style="font-size: 11px; color: #64748B;">Khách Đăng Ký</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #059669;" id="affStatsLeads">0</div>
+                            </div>
+                            <div style="background: #F8FAFC; padding: 10px; border-radius: 10px;">
+                                <div style="font-size: 11px; color: #64748B;">Hoa Hồng Tạm Tính</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #7C3AED;" id="affStatsEarnings">0đ</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 11.5px; color: #94A3B8; text-align: center; margin-top: 8px;">
+                            💡 Hoa hồng được tổng kết và chuyển khoản tự động vào thứ 6 hàng tuần!
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -896,6 +1154,23 @@
                 trialKey: trialKey
             };
 
+            // Check if there was an affiliate referrer
+            const affRef = localStorage.getItem('haitech_affiliate_ref');
+            if (affRef) {
+                newLead.referredBy = affRef;
+                try {
+                    const savedPartner = JSON.parse(localStorage.getItem('haitech_affiliate_partner') || 'null');
+                    if (savedPartner && savedPartner.code === affRef) {
+                        savedPartner.leads = (savedPartner.leads || 0) + 1;
+                        savedPartner.earnings = (savedPartner.earnings || 0) + 150000;
+                        localStorage.setItem('haitech_affiliate_partner', JSON.stringify(savedPartner));
+                        if (typeof updateAffiliateStatsUI === 'function') {
+                            updateAffiliateStatsUI(savedPartner);
+                        }
+                    }
+                } catch (_) {}
+            }
+
             // Save to shared localStorage leads database
             try {
                 const existing = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
@@ -914,6 +1189,7 @@
                 `- Shop/Doanh nghiệp: ${shop}\n` +
                 `- Ngành nghề: ${industry}\n` +
                 `- Mã kích hoạt: ${trialKey}\n` +
+                `- Người giới thiệu (Affiliate): ${newLead.referredBy || 'Trực tiếp'}\n` +
                 `- Thời hạn 7 ngày đến: ${exp.toLocaleDateString('vi-VN')}`
             );
             // Non-blocking mail trigger
@@ -933,6 +1209,215 @@
                 successMsg.innerHTML = `Xin chúc mừng <strong>${name}</strong> (${shop})!<br/>Mã kích hoạt của bạn: <strong style="color:#0077B6; font-size:15px;">${trialKey}</strong><br/>Thời hạn dùng thử miễn phí: <strong>${exp.toLocaleDateString('vi-VN')}</strong> (7 ngày).`;
                 successBox.style.display = 'block';
             }, 800);
+        }
+
+        // ==========================================
+        // AFFILIATE SYSTEM JAVASCRIPT
+        // ==========================================
+        function getAffiliateBaseUrl() {
+            const loc = window.location;
+            if (!loc || loc.protocol === 'file:') {
+                return 'https://bot-zalo-ai.vercel.app/';
+            }
+            return loc.origin + loc.pathname;
+        }
+
+        function updateAffiliateLinkUI(code) {
+            const base = getAffiliateBaseUrl();
+            const sep = base.includes('?') ? '&' : '?';
+            const fullUrl = `${base}${sep}ref=${encodeURIComponent(code)}`;
+            const input = document.getElementById('affGeneratedLinkInput');
+            if (input) input.value = fullUrl;
+
+            const qrImg = document.getElementById('affQrImage');
+            if (qrImg) {
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(fullUrl)}`;
+            }
+        }
+
+        function updateAffiliateStatsUI(partner) {
+            if (!partner) return;
+            const clicksEl = document.getElementById('affStatsClicks');
+            const leadsEl = document.getElementById('affStatsLeads');
+            const earningsEl = document.getElementById('affStatsEarnings');
+
+            if (clicksEl) clicksEl.textContent = partner.clicks || 0;
+            if (leadsEl) leadsEl.textContent = partner.leads || 0;
+            if (earningsEl) {
+                const val = partner.earnings || ((partner.leads || 0) * 150000);
+                earningsEl.textContent = val.toLocaleString('vi-VN') + 'đ';
+            }
+        }
+
+        function handleAffiliateRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('affNameInput').value.trim();
+            const phone = document.getElementById('affPhoneInput').value.trim();
+            const bank = document.getElementById('affBankInput').value.trim();
+            let customCode = document.getElementById('affCodeCustomInput').value.trim();
+
+            if (!name || !phone || !bank) {
+                alert('Vui lòng điền đầy đủ Họ tên, Số điện thoại và Tài khoản ngân hàng!');
+                return;
+            }
+
+            let code = customCode ? customCode.replace(/[^0-9a-zA-Z_-]/g, '').toUpperCase() : phone.replace(/[^0-9a-zA-Z]/g, '');
+            if (!code) code = 'AFF' + Date.now().toString().slice(-4);
+
+            const partner = {
+                name,
+                phone,
+                bank,
+                code,
+                customCode,
+                registeredAt: new Date().toISOString(),
+                clicks: 0,
+                leads: 0,
+                earnings: 0
+            };
+
+            // Preserve past stats if re-saving
+            try {
+                const old = JSON.parse(localStorage.getItem('haitech_affiliate_partner') || 'null');
+                if (old && (old.phone === phone || old.code === code)) {
+                    partner.clicks = old.clicks || 0;
+                    partner.leads = old.leads || 0;
+                    partner.earnings = old.earnings || 0;
+                }
+            } catch (_) {}
+
+            localStorage.setItem('haitech_affiliate_partner', JSON.stringify(partner));
+            updateAffiliateLinkUI(partner.code);
+            updateAffiliateStatsUI(partner);
+
+            const statusText = document.getElementById('affStatusText');
+            if (statusText) {
+                statusText.innerHTML = `🟢 Kích hoạt: <strong>${name}</strong> (Mã: ${code})`;
+                statusText.style.color = '#7C3AED';
+            }
+
+            alert(`🎉 CHÚC MỪNG ${name.toUpperCase()}!\nBạn đã đăng ký thành công Đối tác Tiếp thị liên kết (Affiliate).\n\nĐường link độc quyền của bạn là:\n${getAffiliateBaseUrl()}?ref=${code}\n\n👉 Bạn hãy copy link hoặc chia sẻ nhanh qua Zalo / Facebook để bắt đầu nhận hoa hồng 30% - 50% trọn đời!`);
+
+            const linkInput = document.getElementById('affGeneratedLinkInput');
+            if (linkInput) {
+                linkInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                linkInput.select();
+            }
+        }
+
+        function copyAffiliateLink() {
+            const input = document.getElementById('affGeneratedLinkInput');
+            if (!input) return;
+
+            input.select();
+            input.setSelectionRange(0, 99999);
+
+            const finish = () => {
+                const toast = document.getElementById('affCopyToast');
+                const btn = document.getElementById('affCopyBtn');
+                if (toast) {
+                    toast.style.display = 'block';
+                    setTimeout(() => { toast.style.display = 'none'; }, 4000);
+                }
+                if (btn) {
+                    const oldTxt = btn.innerHTML;
+                    btn.innerHTML = '✅ Đã Copy!';
+                    btn.style.background = '#10B981';
+                    setTimeout(() => {
+                        btn.innerHTML = oldTxt;
+                        btn.style.background = '#7C3AED';
+                    }, 2000);
+                }
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(input.value).then(finish).catch(() => {
+                    document.execCommand('copy');
+                    finish();
+                });
+            } else {
+                document.execCommand('copy');
+                finish();
+            }
+        }
+
+        function shareAffiliateToZalo() {
+            const link = document.getElementById('affGeneratedLinkInput') ? document.getElementById('affGeneratedLinkInput').value : window.location.href;
+            const zaloUrl = `https://zalo.me/share?url=${encodeURIComponent(link)}`;
+            window.open(zaloUrl, '_blank', 'width=620,height=600');
+        }
+
+        function shareAffiliateToFacebook() {
+            const link = document.getElementById('affGeneratedLinkInput') ? document.getElementById('affGeneratedLinkInput').value : window.location.href;
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+            window.open(fbUrl, '_blank', 'width=620,height=600');
+        }
+
+        function toggleAffiliateQr() {
+            const box = document.getElementById('affQrBox');
+            if (!box) return;
+            box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+        }
+
+        function resetAffiliateData() {
+            if (confirm('Bạn có muốn chỉnh sửa lại thông tin đăng ký Đối tác Affiliate?')) {
+                const nameIn = document.getElementById('affNameInput');
+                if (nameIn) {
+                    nameIn.focus();
+                    nameIn.select();
+                }
+            }
+        }
+
+        // Initialize Affiliate data & Check inbound ref
+        function initAffiliateSystem() {
+            try {
+                // Inbound referral tracking (?ref=...)
+                const urlParams = new URLSearchParams(window.location.search);
+                const ref = urlParams.get('ref');
+                if (ref) {
+                    const cleanRef = ref.trim();
+                    localStorage.setItem('haitech_affiliate_ref', cleanRef);
+
+                    // Check if current device is the partner to record click
+                    const savedPartner = JSON.parse(localStorage.getItem('haitech_affiliate_partner') || 'null');
+                    if (savedPartner && savedPartner.code === cleanRef) {
+                        savedPartner.clicks = (savedPartner.clicks || 0) + 1;
+                        localStorage.setItem('haitech_affiliate_partner', JSON.stringify(savedPartner));
+                        updateAffiliateStatsUI(savedPartner);
+                    }
+                }
+
+                // Restore saved partner profile
+                const partner = JSON.parse(localStorage.getItem('haitech_affiliate_partner') || 'null');
+                if (partner) {
+                    if (document.getElementById('affNameInput')) document.getElementById('affNameInput').value = partner.name || '';
+                    if (document.getElementById('affPhoneInput')) document.getElementById('affPhoneInput').value = partner.phone || '';
+                    if (document.getElementById('affBankInput')) document.getElementById('affBankInput').value = partner.bank || '';
+                    if (document.getElementById('affCodeCustomInput')) document.getElementById('affCodeCustomInput').value = partner.customCode || '';
+
+                    updateAffiliateLinkUI(partner.code);
+                    updateAffiliateStatsUI(partner);
+
+                    const statusText = document.getElementById('affStatusText');
+                    if (statusText) {
+                        statusText.innerHTML = `🟢 Đối tác: <strong>${partner.name}</strong> (Mã: ${partner.code})`;
+                        statusText.style.color = '#7C3AED';
+                    }
+                } else {
+                    // Default fallback preview
+                    updateAffiliateLinkUI('0988739896');
+                }
+            } catch (err) {
+                console.warn('Affiliate init warning:', err);
+            }
+        }
+
+        // Run when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAffiliateSystem);
+        } else {
+            initAffiliateSystem();
         }
 
         // Navbar shadow on scroll
