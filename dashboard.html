@@ -1732,12 +1732,13 @@
                                         <th style="padding: 10px 14px;">Số Zalo</th>
                                         <th style="padding: 10px 14px;">Cửa hàng / Ngành</th>
                                         <th style="padding: 10px 14px;">Kênh muốn dùng</th>
-                                        <th style="padding: 10px 14px;">Hành động</th>
+                                        <th style="padding: 10px 14px; text-align: center;">Trạng thái & Hạn dùng</th>
+                                        <th style="padding: 10px 14px; text-align: center;">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody id="trialLeadsTableBody">
                                     <tr>
-                                        <td colspan="6" style="text-align: center; padding: 24px; color: var(--ink-soft);">Chưa có dữ liệu khách đăng ký mới. Dữ liệu sẽ tự động xuất hiện tại đây khi có khách điền form!</td>
+                                        <td colspan="7" style="text-align: center; padding: 24px; color: var(--ink-soft);">Chưa có dữ liệu khách đăng ký mới. Dữ liệu sẽ tự động xuất hiện tại đây khi có khách điền form!</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -2003,6 +2004,57 @@
                         🚀 KÍCH HOẠT DÙNG THỬ 7 NGÀY
                     </button>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL GIA HẠN DÙNG THỬ KHÁCH HÀNG -->
+    <div id="extendTrialModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.7); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
+        <div style="background:white; border-radius:24px; max-width:480px; width:100%; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.35); border:1px solid var(--border);">
+            <div style="padding:18px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #EEF2FF, #E0E7FF);">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg, #4F46E5, #6366F1); color:white; display:flex; align-items:center; justify-content:center; font-size:20px;">⏳</div>
+                    <div>
+                        <div style="font-weight:800; font-size:16px; color:#312E81;">Gia Hạn Trải Nghiệm Khách Hàng</div>
+                        <div style="font-size:12px; color:#4338CA;" id="extendModalCustomerSub">Cập nhật thời hạn cho khách</div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeExtendTrialModal()" style="background:transparent; border:none; font-size:26px; cursor:pointer; color:var(--ink-soft); line-height:1;">&times;</button>
+            </div>
+
+            <div style="padding:22px 24px;">
+                <input type="hidden" id="extendTargetIndex" value="" />
+                
+                <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:18px;">
+                    <div style="font-size:13px; color:var(--ink-soft);">Khách hàng: <strong id="extendModalName" style="color:var(--brand); font-size:14px;"></strong></div>
+                    <div style="font-size:13px; color:var(--ink-soft); margin-top:4px;">Số Zalo: <strong id="extendModalPhone" style="color:var(--ink);"></strong></div>
+                    <div style="font-size:13px; color:var(--ink-soft); margin-top:4px;">Hạn hiện tại: <span id="extendModalCurrentExp" style="font-weight:700;"></span></div>
+                </div>
+
+                <label style="font-size:13px; font-weight:700; color:var(--ink); display:block; margin-bottom:8px;">Chọn gói gia hạn nhanh:</label>
+                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:16px;">
+                    <button type="button" onclick="selectExtendDays(3)" class="btn-action secondary extend-preset-btn" id="extendBtn3" style="padding:10px; justify-content:center; font-weight:700; font-size:13px;">+ 3 Ngày</button>
+                    <button type="button" onclick="selectExtendDays(7)" class="btn-action primary extend-preset-btn" id="extendBtn7" style="padding:10px; justify-content:center; font-weight:700; font-size:13px; background:#4F46E5; color:white;">+ 7 Ngày (1 tuần)</button>
+                    <button type="button" onclick="selectExtendDays(14)" class="btn-action secondary extend-preset-btn" id="extendBtn14" style="padding:10px; justify-content:center; font-weight:700; font-size:13px;">+ 14 Ngày (2 tuần)</button>
+                    <button type="button" onclick="selectExtendDays(30)" class="btn-action secondary extend-preset-btn" id="extendBtn30" style="padding:10px; justify-content:center; font-weight:700; font-size:13px;">+ 30 Ngày (1 tháng)</button>
+                </div>
+
+                <div style="margin-bottom:18px;">
+                    <label style="font-size:12.5px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:6px;">Hoặc nhập số ngày cụ thể:</label>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <input type="number" id="extendCustomDaysInput" min="1" max="365" value="7" oninput="updateCustomExtendDays(this.value)" style="width:90px; padding:8px 12px; border:1px solid var(--border); border-radius:10px; font-weight:700; font-size:14px;" />
+                        <span style="font-size:13px; color:var(--ink-soft);">ngày trải nghiệm thêm</span>
+                    </div>
+                </div>
+
+                <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:12px; font-size:12.5px; color:#1E40AF; margin-bottom:20px;">
+                    🎯 Ngày hết hạn mới dự kiến: <strong id="extendNewExpPreview" style="color:#1D4ED8;"></strong>
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button type="button" onclick="closeExtendTrialModal()" class="btn-action secondary" style="padding:9px 18px;">Đóng</button>
+                    <button type="button" onclick="confirmExtendTrial()" class="btn-action success" style="padding:9px 20px; background:#4F46E5; color:white; font-weight:700; border:none; border-radius:10px; cursor:pointer;">✅ Xác Nhận Gia Hạn</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2673,7 +2725,11 @@
                 leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
             } catch(e) { leads = []; }
 
+            lead.id = lead.id || ('lead_' + Date.now());
             lead.time = new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN');
+            lead.status = 'active'; // 'active' | 'paused'
+            lead.createdAt = Date.now();
+            lead.expiresAt = Date.now() + 7 * 86400000; // 7 ngày dùng thử
             leads.unshift(lead);
             localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
             renderTrialLeads();
@@ -2692,24 +2748,266 @@
             if (!tbody) return;
 
             if (leads.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: var(--ink-soft);">Chưa có dữ liệu khách đăng ký mới. Dữ liệu sẽ tự động xuất hiện tại đây khi có khách điền form!</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: var(--ink-soft);">Chưa có dữ liệu khách đăng ký mới. Dữ liệu sẽ tự động xuất hiện tại đây khi có khách điền form!</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = leads.map(item => `
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 10px 14px; color: var(--ink-soft);">${item.time}</td>
-                    <td style="padding: 10px 14px; font-weight: 700; color: var(--brand);">${item.name}</td>
-                    <td style="padding: 10px 14px; font-weight: 600;">
-                        <a href="tel:${item.phone}" style="color:var(--brand); text-decoration:none;">📞 ${item.phone}</a>
-                    </td>
-                    <td style="padding: 10px 14px;">${item.shop} <br/><small style="color:var(--ink-soft);">${item.category}</small></td>
-                    <td style="padding: 10px 14px;"><span style="background:var(--brand-tint); color:var(--brand-dark); font-size:11px; padding:2px 8px; border-radius:999px;">${item.channels}</span></td>
-                    <td style="padding: 10px 14px;">
-                        <a class="btn-action primary" style="padding:4px 10px; font-size:11.5px; text-decoration:none; display:inline-flex;" href="https://zalo.me/${(item.phone||'').replace(/[^0-9]/g,'')}" target="_blank">💬 Nhắn Zalo</a>
-                    </td>
-                </tr>
-            `).join('');
+            const now = Date.now();
+            let needsSave = false;
+
+            tbody.innerHTML = leads.map((item, idx) => {
+                if (!item.status) {
+                    item.status = 'active';
+                    needsSave = true;
+                }
+                if (!item.expiresAt) {
+                    item.expiresAt = now + 7 * 86400000;
+                    needsSave = true;
+                }
+
+                const exp = item.expiresAt;
+                const expDateStr = new Date(exp).toLocaleDateString('vi-VN');
+                const diffDays = Math.ceil((exp - now) / 86400000);
+
+                let statusBadgeHtml = '';
+                if (item.status === 'paused') {
+                    statusBadgeHtml = `
+                        <span style="background: #FEE2E2; color: #DC2626; border: 1px solid #FCA5A5; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                            ⛔ Đã Ngắt
+                        </span>
+                        <div style="font-size: 11px; color: #94A3B8; margin-top: 3px;">Tạm dừng trải nghiệm</div>
+                    `;
+                } else if (diffDays <= 0) {
+                    statusBadgeHtml = `
+                        <span style="background: #FEF3C7; color: #D97706; border: 1px solid #FCD34D; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                            ⚠️ Hết Hạn
+                        </span>
+                        <div style="font-size: 11px; color: #DC2626; margin-top: 3px; font-weight: 600;">Hết hạn: ${expDateStr}</div>
+                    `;
+                } else {
+                    statusBadgeHtml = `
+                        <span style="background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                            🟢 Còn ${diffDays} ngày
+                        </span>
+                        <div style="font-size: 11px; color: #64748B; margin-top: 3px;">Đến: ${expDateStr}</div>
+                    `;
+                }
+
+                const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+
+                return `
+                    <tr style="border-bottom: 1px solid var(--border); ${item.status === 'paused' ? 'background: #FFFBF5;' : ''}">
+                        <td style="padding: 10px 14px; color: var(--ink-soft); font-size: 12.5px;">${item.time || ''}</td>
+                        <td style="padding: 10px 14px; font-weight: 700; color: var(--brand); font-size: 13.5px;">${item.name || 'Khách Zalo'}</td>
+                        <td style="padding: 10px 14px; font-weight: 600;">
+                            <a href="tel:${cleanPhone}" style="color:var(--brand); text-decoration:none;">📞 ${item.phone || ''}</a>
+                        </td>
+                        <td style="padding: 10px 14px;">${item.shop || 'Cửa hàng'} <br/><small style="color:var(--ink-soft);">${item.category || 'Tự do'}</small></td>
+                        <td style="padding: 10px 14px;"><span style="background:var(--brand-tint); color:var(--brand-dark); font-size:11px; padding:2px 8px; border-radius:999px;">${item.channels || 'Đa kênh'}</span></td>
+                        <td style="padding: 10px 14px; text-align: center;">
+                            ${statusBadgeHtml}
+                        </td>
+                        <td style="padding: 10px 14px; text-align: center;">
+                            <div style="display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                                <a class="btn-action primary" style="padding: 5px 10px; font-size: 11.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; border-radius: 8px;" href="https://zalo.me/${cleanPhone}" target="_blank" title="Nhắn tin Zalo trực tiếp">
+                                    💬 Nhắn Zalo
+                                </a>
+
+                                ${item.status === 'paused' ? `
+                                    <button type="button" onclick="toggleTrialLeadStatus(${idx})" class="btn-action" style="padding: 5px 10px; font-size: 11.5px; background: #10B981; color: white; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; font-weight: 700;" title="Mở lại quyền trải nghiệm cho khách">
+                                        ▶️ Mở lại
+                                    </button>
+                                ` : `
+                                    <button type="button" onclick="toggleTrialLeadStatus(${idx})" class="btn-action" style="padding: 5px 10px; font-size: 11.5px; background: #EF4444; color: white; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; font-weight: 700;" title="Ngắt quyền trải nghiệm của khách này">
+                                        ⛔ Ngắt
+                                    </button>
+                                `}
+
+                                <button type="button" onclick="openExtendTrialModal(${idx})" class="btn-action" style="padding: 5px 10px; font-size: 11.5px; background: #6366F1; color: white; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 3px; font-weight: 700;" title="Gia hạn thêm ngày dùng thử cho khách">
+                                    ⏳ Gia hạn
+                                </button>
+
+                                <button type="button" onclick="deleteTrialLead(${idx})" style="padding: 5px 7px; font-size: 11px; background: transparent; border: 1px solid var(--border); color: #94A3B8; border-radius: 8px; cursor: pointer;" title="Xóa dòng này">
+                                    🗑️
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (needsSave) {
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+            }
+        }
+
+        // Bật / Ngắt quyền trải nghiệm của khách hàng
+        function toggleTrialLeadStatus(idx) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const item = leads[idx];
+            if (!item) return;
+
+            if (item.status === 'paused') {
+                item.status = 'active';
+                if (!item.expiresAt || item.expiresAt <= Date.now()) {
+                    item.expiresAt = Date.now() + 3 * 86400000;
+                }
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+                renderTrialLeads();
+                alert(`🟢 ĐÃ KÍCH HOẠT LẠI TRẢI NGHIỆM!\n\nKhách hàng: ${item.name} (${item.phone})\nTrạng thái: Đang hoạt động (Đến ngày ${new Date(item.expiresAt).toLocaleDateString('vi-VN')})`);
+            } else {
+                if (!confirm(`Bạn có chắc muốn NGẮT quyền trải nghiệm của khách hàng "${item.name}" (${item.phone}) không?\n\nSau khi ngắt, bot sẽ dừng trả lời cho khách này cho đến khi bạn bật lại hoặc gia hạn.`)) {
+                    return;
+                }
+                item.status = 'paused';
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+                renderTrialLeads();
+                alert(`⛔ ĐÃ NGẮT QUYỀN TRẢI NGHIỆM!\n\nKhách hàng: ${item.name} (${item.phone})\nBot đã tạm dừng phục vụ khách này.`);
+            }
+        }
+
+        // Xóa khách hàng dùng thử
+        function deleteTrialLead(idx) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const item = leads[idx];
+            if (!item) return;
+
+            if (confirm(`Bạn có chắc muốn xóa khách hàng "${item.name}" (${item.phone}) khỏi danh sách trải nghiệm không?`)) {
+                leads.splice(idx, 1);
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+                renderTrialLeads();
+            }
+        }
+
+        // Modal Gia hạn
+        let currentExtendingIdx = null;
+        let selectedExtendDays = 7;
+
+        function openExtendTrialModal(idx) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const item = leads[idx];
+            if (!item) return;
+
+            currentExtendingIdx = idx;
+            selectedExtendDays = 7;
+
+            const nameEl = document.getElementById('extendModalName');
+            const phoneEl = document.getElementById('extendModalPhone');
+            const curExpEl = document.getElementById('extendModalCurrentExp');
+            const customInput = document.getElementById('extendCustomDaysInput');
+
+            if (nameEl) nameEl.textContent = item.name || 'Khách hàng';
+            if (phoneEl) phoneEl.textContent = item.phone || '';
+            
+            const curExp = item.expiresAt || (Date.now() + 7 * 86400000);
+            const curExpDate = new Date(curExp).toLocaleDateString('vi-VN');
+            const isExpired = curExp <= Date.now();
+            if (curExpEl) {
+                curExpEl.innerHTML = isExpired ? `<span style="color:#DC2626;">Đã hết hạn (${curExpDate})</span>` : `<span style="color:#059669;">Còn hạn đến ${curExpDate}</span>`;
+            }
+
+            if (customInput) customInput.value = 7;
+            selectExtendDays(7);
+
+            const m = document.getElementById('extendTrialModal');
+            if (m) m.style.display = 'flex';
+        }
+
+        function closeExtendTrialModal() {
+            const m = document.getElementById('extendTrialModal');
+            if (m) m.style.display = 'none';
+            currentExtendingIdx = null;
+        }
+
+        function selectExtendDays(days) {
+            selectedExtendDays = parseInt(days, 10);
+            const customInput = document.getElementById('extendCustomDaysInput');
+            if (customInput) customInput.value = selectedExtendDays;
+
+            [3, 7, 14, 30].forEach(d => {
+                const btn = document.getElementById('extendBtn' + d);
+                if (btn) {
+                    if (d === selectedExtendDays) {
+                        btn.style.background = '#4F46E5';
+                        btn.style.color = 'white';
+                    } else {
+                        btn.style.background = 'white';
+                        btn.style.color = 'var(--ink)';
+                    }
+                }
+            });
+
+            updateNewExpPreview();
+        }
+
+        function updateCustomExtendDays(val) {
+            const days = parseInt(val, 10) || 1;
+            selectedExtendDays = days;
+            [3, 7, 14, 30].forEach(d => {
+                const btn = document.getElementById('extendBtn' + d);
+                if (btn) {
+                    if (d === selectedExtendDays) {
+                        btn.style.background = '#4F46E5';
+                        btn.style.color = 'white';
+                    } else {
+                        btn.style.background = 'white';
+                        btn.style.color = 'var(--ink)';
+                    }
+                }
+            });
+            updateNewExpPreview();
+        }
+
+        function updateNewExpPreview() {
+            if (currentExtendingIdx === null) return;
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+            const item = leads[currentExtendingIdx];
+            if (!item) return;
+
+            const baseTime = (item.expiresAt && item.expiresAt > Date.now()) ? item.expiresAt : Date.now();
+            const newExp = baseTime + selectedExtendDays * 86400000;
+            const newExpStr = new Date(newExp).toLocaleDateString('vi-VN');
+            const previewEl = document.getElementById('extendNewExpPreview');
+            if (previewEl) {
+                previewEl.textContent = `${newExpStr} (+${selectedExtendDays} ngày nữa)`;
+            }
+        }
+
+        function confirmExtendTrial() {
+            if (currentExtendingIdx === null) return;
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+            const item = leads[currentExtendingIdx];
+            if (!item) return;
+
+            const baseTime = (item.expiresAt && item.expiresAt > Date.now()) ? item.expiresAt : Date.now();
+            item.expiresAt = baseTime + selectedExtendDays * 86400000;
+            item.status = 'active'; // Tự động mở lại nếu đang bị ngắt
+            item.lastExtendedAt = Date.now();
+
+            localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+            renderTrialLeads();
+            closeExtendTrialModal();
+
+            const newExpStr = new Date(item.expiresAt).toLocaleDateString('vi-VN');
+            alert(`🎉 GIA HẠN THÀNH CÔNG!\n\nKhách hàng: ${item.name} (${item.phone})\nĐã được cộng thêm: +${selectedExtendDays} ngày trải nghiệm\nHạn mới: ${newExpStr}\nTrạng thái: 🟢 Đang hoạt động`);
         }
 
         // ================= COMMERCIAL PRICING & PROFIT CALCULATOR =================
