@@ -1,0 +1,68 @@
+=====================================================================
+   🌐 TỔNG HỢP LINK CLOUD, WEBHOOK & THÔNG TIN ĐẤU NỐI ĐA KÊNH
+   Sản phẩm: HAITECH BOT STUDIO — Trợ lý AI Em Thùy Linh 24/7
+   Hotline hỗ trợ kỹ thuật: 0988 739 896 — Email: vanhaitech.86@gmail.com
+=====================================================================
+
+1. CÁC ĐƯỜNG LINK CLOUD WEBHOOK (CHẠY 24/7 KHÔNG CẦN MỞ MÁY TÍNH):
+---------------------------------------------------------------------
+- Trang chủ Cloud Studio:
+  👉 https://bot-zalo-ai.vercel.app
+
+- Mã nhúng LiveChat AI Widget Website:
+  👉 https://bot-zalo-ai.vercel.app/haitech-chat-widget.js
+
+- Webhook Facebook Fanpage Messenger:
+  👉 URL Webhook: https://bot-zalo-ai.vercel.app/api/facebook-webhook
+  👉 Verify Token (Mã xác minh): haitech_fanpage_bot_secret
+  👉 Sự kiện cần tích chọn: messages, messaging_postbacks
+
+- Webhook Zalo Doanh Nghiệp (Zalo OA):
+  👉 URL Webhook: https://bot-zalo-ai.vercel.app/api/zalo-webhook
+  👉 Sự kiện cần tích chọn: user_send_text
+
+- API LiveChat AI Website:
+  👉 https://bot-zalo-ai.vercel.app/api/website-chat
+
+
+---------------------------------------------------------------------
+2. CÁC CỔNG CÀI ĐẶT NHÀ PHÁT TRIỂN (DEVELOPERS):
+---------------------------------------------------------------------
+- Cổng Meta / Facebook for Developers:
+  👉 https://developers.facebook.com/
+  (Nơi dán Webhook và lấy Page Access Token cho Fanpage)
+
+- Cổng Zalo for Developers:
+  👉 https://developers.zalo.me/
+  (Nơi cấu hình Webhook cho Zalo Official Account)
+
+- Trang quản lý Zalo OA Doanh Nghiệp:
+  👉 https://oa.zalo.me/
+
+- Trang tải Node.js (nếu máy khách chưa có sẵn):
+  👉 https://nodejs.org/en/download/prebuilt-installer
+
+
+---------------------------------------------------------------------
+3. ĐOẠN MÃ NHÚNG WIDGET AI VÀO WEBSITE (CHÈN TRƯỚC THẺ ĐÓNG </body>):
+---------------------------------------------------------------------
+<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+  data-bot-name="Em Thùy Linh - Trợ lý HAITECH BOT" 
+  data-phone="0988 739 896" 
+  data-zalo-url="https://zalo.me/0988739896" 
+  data-color="#0077B6" 
+  async></script>
+
+
+---------------------------------------------------------------------
+4. CÁC FILE QUAN TRỌNG TRONG GÓI BÀN GIAO:
+---------------------------------------------------------------------
+- [HUONG_DAN_KHACH_HANG.html] : Cẩm nang xem trên trình duyệt & in PDF
+- [dashboard.html]            : Bảng điều khiển nạp giá và quản trị bot
+- [CAI_DAT_LAN_DAU.bat]       : Cài đặt tự động trong 30 giây
+- [KET_NOI_ZALO_THUY_LINH.bat]: Mở mã QR kết nối Zalo
+- [BAT_THUY_LINH.bat]         : Bật bot trực 24/7
+- [TAT_THUY_LINH.bat]         : Tạm dừng bot để tự chat tay
+- [NGAT_KET_NOI_BOT.bat]      : Ngắt kết nối Zalo an toàn
+- [HUONG_DAN_NHANH_3_BUOC.txt]: Hướng dẫn 3 bước ngắn gọn
+=====================================================================

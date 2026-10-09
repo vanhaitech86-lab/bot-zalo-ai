@@ -22,12 +22,26 @@ mkdir "%TARGET_DIR%\api"
 
 echo [2/4] Sao chep cac tap tin ma nguon va tai lieu...
 copy /y "CAI_DAT_LAN_DAU.bat" "%TARGET_DIR%\" >nul
+copy /y "BAT_THUY_LINH.bat" "%TARGET_DIR%\" >nul
+copy /y "TAT_THUY_LINH.bat" "%TARGET_DIR%\" >nul
+copy /y "KET_NOI_ZALO_THUY_LINH.bat" "%TARGET_DIR%\" >nul
 copy /y "CHAY_BOT_ZALO.bat" "%TARGET_DIR%\" >nul
 copy /y "NGAT_KET_NOI_BOT.bat" "%TARGET_DIR%\" >nul
+copy /y "TEST_BO_NAO_THU_2.bat" "%TARGET_DIR%\" >nul
+copy /y "AVATAR_THUY_LINH.jpg" "%TARGET_DIR%\" >nul
+copy /y "kol-thuy-linh.jpg" "%TARGET_DIR%\" >nul
+copy /y "haitech-kol-ai.jpg" "%TARGET_DIR%\" >nul
+copy /y "bot-avatar.png" "%TARGET_DIR%\" >nul
+copy /y "robot-assistant.png" "%TARGET_DIR%\" >nul
+copy /y "HUONG_DAN_NHANH_3_BUOC.txt" "%TARGET_DIR%\" >nul
+copy /y "DANH_SACH_LINK_VA_THONG_TIN_DAU_NOI.txt" "%TARGET_DIR%\" >nul
+copy /y ".env" "%TARGET_DIR%\" >nul
 copy /y "bot-zalo-personal.js" "%TARGET_DIR%\" >nul
 copy /y "knowledge.json" "%TARGET_DIR%\" >nul
 copy /y "package.json" "%TARGET_DIR%\" >nul
 copy /y "vercel.json" "%TARGET_DIR%\" >nul
+copy /y "MO_TRANG_WEB.bat" "%TARGET_DIR%\" >nul
+copy /y "server.js" "%TARGET_DIR%\" >nul
 copy /y "dashboard.html" "%TARGET_DIR%\" >nul
 copy /y "index.html" "%TARGET_DIR%\" >nul
 copy /y "login.html" "%TARGET_DIR%\" >nul
@@ -37,11 +51,17 @@ copy /y "README.md" "%TARGET_DIR%\" >nul
 copy /y "SO_TAY_HUONG_DAN_CAI_DAT_VA_SU_DUNG.md" "%TARGET_DIR%\" >nul
 copy /y "HUONG_DAN_DONG_GOI_THUONG_MAI.md" "%TARGET_DIR%\" >nul
 copy /y "CHUNG_NHAN_BAN_QUYEN_VA_HOP_DONG_MAU.md" "%TARGET_DIR%\" >nul
+copy /y "TAI_LIEU_HUONG_DAN_KHACH_HANG_TOAN_DIEN.md" "%TARGET_DIR%\" >nul
+copy /y "HUONG_DAN_KHACH_HANG.html" "%TARGET_DIR%\" >nul
+copy /y "HUONG_DAN_KET_NOI_GOOGLE_SHEETS_ONLINE.md" "%TARGET_DIR%\" >nul
+copy /y "TAO_BOT_CHO_KHACH.bat" "%TARGET_DIR%\" >nul
+copy /y "tao-bot-khach-hang.mjs" "%TARGET_DIR%\" >nul
 
 copy /y "api\facebook-webhook.js" "%TARGET_DIR%\api\" >nul
 copy /y "api\knowledge-engine.js" "%TARGET_DIR%\api\" >nul
 copy /y "api\zalo-webhook.js" "%TARGET_DIR%\api\" >nul
 copy /y "api\website-chat.js" "%TARGET_DIR%\api\" >nul
+copy /y "api\sync-leads.js" "%TARGET_DIR%\api\" >nul
 
 echo [3/4] Nen toan bo san pham thanh file ZIP thuong mai...
 powershell -NoProfile -Command "Compress-Archive -Path '%TARGET_DIR%\*' -DestinationPath '%ZIP_FILE%' -Force"

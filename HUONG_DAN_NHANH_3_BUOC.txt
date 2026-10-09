@@ -1,0 +1,46 @@
+=====================================================================
+   🌸 HƯỚNG DẪN 3 BƯỚC BẮT ĐẦU SỬ DỤNG TRỢ LÝ AI EM THÙY LINH
+   Sản phẩm của HAITECH BOT STUDIO (Hotline: 0988 739 896)
+=====================================================================
+
+Chào mừng Quý khách! Để kích hoạt Em Thùy Linh chăm sóc khách hàng 24/7,
+Quý khách chỉ cần làm 3 bước cực kỳ đơn giản sau:
+
+---------------------------------------------------------------------
+👉 BƯỚC 1: CÀI ĐẶT LẦN ĐẦU (Chỉ cần làm 1 lần duy nhất)
+---------------------------------------------------------------------
+- Nhấp đúp chuột vào file: [CAI_DAT_LAN_DAU.bat]
+- Cửa sổ sẽ tự động kiểm tra và cài đặt môi trường cần thiết.
+- Khi màn hình hiện "CÀI ĐẶT THÀNH CÔNG 100%", Quý khách nhấn phím bất kỳ để đóng.
+
+---------------------------------------------------------------------
+👉 BƯỚC 2: KẾT NỐI VỚI ZALO CỦA BẠN (10 giây)
+---------------------------------------------------------------------
+- Nhấp đúp chuột vào file: [KET_NOI_ZALO_THUY_LINH.bat] (hoặc CHAY_BOT_ZALO.bat)
+- Màn hình và trình duyệt sẽ hiển thị mã QR.
+- Mở Zalo trên điện thoại -> Bấm vào icon Quét mã QR ở góc trên cùng bên phải.
+- Quét mã QR trên máy tính -> Bấm "Đăng nhập" (hoặc "Xác nhận") trên điện thoại.
+==> Chúc mừng! Em Thùy Linh đã chính thức trực chat 24/7 trên Zalo của bạn!
+
+---------------------------------------------------------------------
+👉 BƯỚC 3: NẠP BẢNG GIÁ & ĐỔI TÊN SHOP CỦA BẠN
+---------------------------------------------------------------------
+- Cách 1 (Dễ nhất): Nhấp đúp mở file [dashboard.html] trên trình duyệt để:
+  + Nạp bảng giá, danh sách sản phẩm.
+  + Thử trò chuyện trực tiếp với Thùy Linh tại tab "Test thử Bot Chat".
+- Cách 2: Mở file [knowledge.json] bằng Notepad để chỉnh sửa trực tiếp.
+
+---------------------------------------------------------------------
+💡 CÁC PHÍM TẮT TIỆN ÍCH HẰNG NGÀY:
+---------------------------------------------------------------------
+- [BAT_THUY_LINH.bat]: Bật Thùy Linh tự động trực chat 24/7.
+- [TAT_THUY_LINH.bat]: Tạm tắt Thùy Linh để bạn tự chat tay với khách.
+- [NGAT_KET_NOI_BOT.bat]: Ngắt kết nối Zalo sạch sẽ khi cần đổi số khác.
+- Hoặc từ Zalo điện thoại, bạn chỉ cần nhắn:
+  + #tat : Tạm dừng bot
+  + #bat : Bật lại bot
+
+📞 HỖ TRỢ KỸ THUẬT 24/7:
+- Hotline / Zalo: 0988 739 896
+- Email: vanhaitech.86@gmail.com
+=====================================================================

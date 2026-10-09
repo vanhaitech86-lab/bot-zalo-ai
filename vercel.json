@@ -15,6 +15,18 @@
       "use": "@vercel/static"
     },
     {
+      "src": "*.jpg",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.svg",
+      "use": "@vercel/static"
+    },
+    {
       "src": "haitech-chat-widget.js",
       "use": "@vercel/static"
     }
@@ -31,6 +43,10 @@
     {
       "src": "/api/website-chat",
       "dest": "/api/website-chat.js"
+    },
+    {
+      "src": "/api/sync-leads",
+      "dest": "/api/sync-leads.js"
     },
     {
       "src": "/haitech-chat-widget.js",

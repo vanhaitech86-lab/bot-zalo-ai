@@ -5,6 +5,7 @@
     <title>Bảng điều khiển — HAITECH BOT Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="bot-avatar.png" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
     <style>
         :root {
@@ -600,11 +601,8 @@
     <!-- ========== TOP BAR ========== -->
     <nav class="dash-nav">
         <a class="brand" href="index.html">
-            <div class="mark">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3C7 3 3 6.4 3 10.6c0 2.5 1.5 4.7 3.8 6.1-.1.9-.5 2.1-1.3 3.1 1.6-.2 3-.9 4-1.7.8.2 1.6.3 2.5.3 5 0 9-3.4 9-7.8S17 3 12 3Z" fill="white"/>
-                    <circle cx="8.7" cy="10.6" r="1" fill="#0077B6"/><circle cx="12" cy="10.6" r="1" fill="#0077B6"/><circle cx="15.3" cy="10.6" r="1" fill="#0077B6"/>
-                </svg>
+            <div class="mark" style="background: transparent; border: 2px solid #00B4D8; border-radius: 50%; overflow: hidden; padding: 0; width: 36px; height: 36px; box-shadow: 0 2px 8px rgba(0,180,216,0.3);">
+                <img src="bot-avatar.png" alt="HAITECH BOT" style="width: 100%; height: 100%; object-fit: cover;" />
             </div>
             HAITECH BOT Studio
         </a>
@@ -628,7 +626,7 @@
             </button>
 
             <div class="dash-user-chip">
-                <img id="navAvatar" src="" alt="Avatar" />
+                <img id="navAvatar" src="bot-avatar.png" onerror="this.src='bot-avatar.png'" alt="Avatar" />
                 <div class="user-meta">
                     <div class="user-name" id="navName">Đang tải...</div>
                     <div class="user-role">Gói Trải Nghiệm</div>
@@ -885,14 +883,14 @@
                             <h4 style="margin: 0 0 14px; font-size: 15px; color: var(--ink);">✍️ Nhập hoặc dán trực tiếp kiến thức / Bảng giá / Bài viết</h4>
                             <div class="form-field">
                                 <label for="directDocTitle">Tên chủ đề / Tên sản phẩm</label>
-                                <input type="text" id="directDocTitle" placeholder="Ví dụ: Bảng giá máy lọc nước mới nhất 2026" />
+                                <input type="text" id="directDocTitle" placeholder="Ví dụ: Bảng giá Trợ lý AI Em Thùy Linh mới nhất 2026" />
                             </div>
                             <div class="form-field">
                                 <label for="directDocContent">Nội dung chi tiết (Copy thông tin sản phẩm, báo giá, chính sách vào đây)</label>
                                 <textarea id="directDocContent" rows="6" placeholder="Dán nội dung chi tiết vào đây... Ví dụ:
-- Máy lọc nước RO150: Giá 91.800.000đ, công suất 150L/h, bảo hành 12 tháng.
-- Máy lọc nước RO250: Giá 125.000.000đ, công suất 250L/h.
-- Miễn phí vận chuyển và lắp đặt toàn quốc. Hotline: 0988 739 896."></textarea>
+- Gói Khởi Nghiệp: Giá 199.000đ/tháng (hoặc 1.990.000đ trọn đời), trực chat Zalo cá nhân 24/7.
+- Gói Pro Đa Kênh: Giá 499.000đ/tháng, tích hợp Zalo + Fanpage + Website LiveChat.
+- Bảo hành & Hỗ trợ kỹ thuật 24/7. Hotline: 0988 739 896."></textarea>
                             </div>
                             <button type="button" class="btn-action primary" onclick="saveDirectTextDoc()">📥 Lưu văn bản này vào bộ não Bot</button>
                         </div>
@@ -992,11 +990,11 @@
                         <h4 style="margin: 0 0 14px; font-size: 15px;">+ Thêm câu hỏi & câu trả lời mẫu</h4>
                         <div class="form-field">
                             <label>Khách thường hỏi gì? (Câu hỏi)</label>
-                            <input type="text" id="faqQuestionInput" placeholder="Ví dụ: Giá máy lọc nước RO150 là bao nhiêu?" />
+                            <input type="text" id="faqQuestionInput" placeholder="Ví dụ: Giá thuê Trợ lý AI Thùy Linh là bao nhiêu?" />
                         </div>
                         <div class="form-field">
                             <label>Bot nên trả lời thế nào? (Câu trả lời)</label>
-                            <textarea id="faqAnswerInput" rows="2" placeholder="Ví dụ: Dạ máy lọc RO150 giá 91.800.000đ đã bao gồm lắp đặt và bảo hành 12 tháng tận nơi ạ."></textarea>
+                            <textarea id="faqAnswerInput" rows="2" placeholder="Ví dụ: Dạ gói Trợ lý AI Thùy Linh chỉ từ 199.000đ/tháng, tự động trực chat 24/7 và hỗ trợ chốt đơn đa kênh ạ."></textarea>
                         </div>
                         <button class="btn-action primary" onclick="addFaqItem()">+ Lưu câu hỏi này vào Bot</button>
                     </div>
@@ -1939,6 +1937,9 @@
 
                 <!-- Action buttons -->
                 <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <a href="qr.html" target="_blank" class="btn-action secondary" style="padding:9px 16px; font-size:13px; text-decoration:none;" title="Mở trang mã QR Zalo to rõ">
+                        🖼️ Mở Trang QR (qr.html)
+                    </a>
                     <button type="button" onclick="refreshModalQrCode()" class="btn-action secondary" style="padding:9px 16px; font-size:13px;">
                         🔄 Làm Mới Mã QR
                     </button>
@@ -2029,34 +2030,34 @@
         let currentUser = null;
         let botConfig = {
             name: "Em Thùy Linh - Trợ lý HAITECH BOT",
-            industry: "Máy lọc nước & Giải pháp công nghệ",
+            industry: "Giải pháp Trợ lý AI & Chăm sóc khách hàng tự động",
             tone: "friendly",
             phone: "0988739896",
-            welcomeMsg: "Dạ em chào anh/chị ạ! Em là Thùy Linh - trợ lý AI của HAITECH BOT. Anh/chị đang quan tâm đến dòng sản phẩm hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
+            welcomeMsg: "Dạ em chào anh/chị ạ! Em là Thùy Linh - trợ lý AI của HAITECH BOT. Anh/chị đang quan tâm đến gói Trợ lý AI hay dịch vụ nào để em gửi bảng giá chi tiết ạ? 😊",
             isOnline: true
         };
 
         let documents = [
-            { id: 1, name: "Bảng giá máy lọc nước RO150 & RO250 năm 2026.pdf", type: "PDF", size: "1.4 MB" },
-            { id: 2, name: "Chính sách bảo hành & lắp đặt tận nơi.docx", type: "DOCX", size: "320 KB" },
-            { id: 3, name: "https://haitech.vn/san-pham (Website catalog)", type: "URL", size: "Web" }
+            { id: 1, name: "Bảng giá thuê Trợ lý AI Thùy Linh năm 2026.pdf", type: "PDF", size: "1.4 MB" },
+            { id: 2, name: "Chính sách bảo hành & Hỗ trợ kỹ thuật 24/7.docx", type: "DOCX", size: "320 KB" },
+            { id: 3, name: "https://bot-zalo-ai.vercel.app (Hệ thống Cloud Studio)", type: "URL", size: "Web" }
         ];
 
         let faqs = [
-            { id: 1, q: "Shop còn máy lọc nước RO150 không ạ?", a: "Dạ còn ạ 😊 RO150 giá 91.800.000đ đã gồm trọn gói lắp đặt, bảo hành chính hãng 12 tháng. Anh/chị cần em tư vấn công suất lắp cho gia đình hay cơ sở kinh doanh ạ?" },
-            { id: 2, q: "Giá máy RO250 bao nhiêu?", a: "RO250 hiện giá 125.000.000đ ạ. Công suất 250L/h chuyên dùng cho công xưởng và văn phòng lớn ạ." },
-            { id: 3, q: "Có được bảo hành không shop?", a: "Dạ tất cả máy đều được bảo hành 12 tháng tận nơi, bảo dưỡng định kỳ miễn phí 6 tháng/lần ạ!" },
-            { id: 4, q: "Cho mình số hotline tư vấn", a: "Dạ anh/chị có thể gọi ngay hotline 0988 739 896 để gặp kỹ thuật viên tư vấn 24/7 ạ!" }
+            { id: 1, q: "Bên mình có giải pháp Bot AI tự động trực chat Zalo và Fanpage không shop?", a: "Dạ có ạ 😊 Em là Trợ lý AI Thùy Linh, tự động trực chat 24/7 và chốt đơn đa kênh chỉ từ 199.000đ/tháng. Anh/chị đang kinh doanh mảng nào để em tư vấn kịch bản tối ưu nhất ạ?" },
+            { id: 2, q: "Cho mình xin giá gói Pro Đa Kênh hoặc trọn đời nữa nhé", a: "Dạ gói Pro Đa Kênh trọn đời đang ưu đãi chỉ 1.990.000đ (tặng kèm Website LiveChat) ạ. Em gửi anh/chị bảng so sánh các gói kèm link dùng thử 7 ngày miễn phí nhé! 🎁" },
+            { id: 3, q: "Cài đặt có khó không shop, mình không biết code?", a: "Dạ siêu nhanh ạ! Bạn chỉ cần lấy điện thoại quét mã QR Zalo trong 10 giây là bot kích hoạt ngay, không cần biết lập trình ạ!" },
+            { id: 4, q: "Cho mình số hotline hỗ trợ kỹ thuật", a: "Dạ hotline/Zalo kỹ thuật hỗ trợ 24/7 của bên em là 0988 739 896 ạ!" }
         ];
 
         let simHistory = [];
 
         let chatHistoryData = [
-            { time: "19:42 Hôm nay", channel: "Zalo Cá nhân", customer: "Anh Tuấn (0912.xxx.888)", query: "Shop còn máy RO150 không?", reply: "Dạ còn ạ, giá 91.800.000đ đã gồm lắp đặt...", status: "Đã tư vấn" },
-            { time: "19:10 Hôm nay", channel: "Website LiveChat", customer: "Khách Web (Hà Nội)", query: "Cho mình hỏi công suất máy RO250 dùng được bao nhiêu người?", reply: "Dạ máy RO250 công suất 250L/h phục vụ tốt cho 80 - 150 người ạ...", status: "Khách LiveChat" },
-            { time: "18:50 Hôm nay", channel: "Facebook Fanpage", customer: "Thu Trang (Messenger)", query: "Báo giá em mẫu RO150 với shop ơi", reply: "Dạ chào bạn, bên mình đang ưu đãi...", status: "Khách Messenger" },
-            { time: "18:15 Hôm nay", channel: "Zalo OA", customer: "Chị Hạnh (0983.xxx.123)", query: "Bảo hành thế nào em?", reply: "Dạ máy bảo hành 12 tháng tận nhà...", status: "Tiềm năng" },
-            { time: "16:05 Hôm nay", channel: "Zalo Cá nhân", customer: "Khách Zalo ẩn danh", query: "Cho mình xin hotline", reply: "Hotline bên em là 0988 739 896 ạ...", status: "Đã gửi SĐT" }
+            { time: "19:42 Hôm nay", channel: "Zalo Cá nhân", customer: "Anh Tuấn (0912.xxx.888)", query: "Bên mình có bot AI trực chat Zalo không?", reply: "Dạ có ạ, gói Thùy Linh trực 24/7 chỉ từ 199k...", status: "Đã tư vấn" },
+            { time: "19:10 Hôm nay", channel: "Website LiveChat", customer: "Khách Web (Hà Nội)", query: "Cho mình hỏi gói Pro Đa Kênh gồm những gì?", reply: "Dạ gói Pro gồm Zalo cá nhân, Fanpage và Website...", status: "Khách LiveChat" },
+            { time: "18:50 Hôm nay", channel: "Facebook Fanpage", customer: "Thu Trang (Messenger)", query: "Báo giá em gói thuê bot theo tháng với", reply: "Dạ chào bạn, bên mình đang ưu đãi dùng thử 7 ngày...", status: "Khách Messenger" },
+            { time: "18:15 Hôm nay", channel: "Zalo OA", customer: "Chị Hạnh (0983.xxx.123)", query: "Bảo hành thế nào em?", reply: "Dạ bot được bảo hành và cập nhật 12 tháng tận nơi...", status: "Tiềm năng" },
+            { time: "16:05 Hôm nay", channel: "Zalo Cá nhân", customer: "Khách Zalo ẩn danh", query: "Cho mình xin hotline tư vấn bot", reply: "Hotline kỹ thuật bên em là 0988 739 896 ạ...", status: "Đã gửi SĐT" }
         ];
 
         // Init
@@ -2580,7 +2581,10 @@
 
             const qrImg = document.getElementById('modalZaloQrImg');
             if (qrImg) {
-                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/${phoneClean}?t=${Date.now()}`;
+                const liveImg = new Image();
+                liveImg.onload = () => { qrImg.src = 'qr.png?t=' + Date.now(); };
+                liveImg.onerror = () => { qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/${phoneClean}?t=${Date.now()}`; };
+                liveImg.src = 'qr.png?t=' + Date.now();
             }
 
             const directLink = document.getElementById('modalDirectZaloLink');
@@ -3255,12 +3259,9 @@
         // ================= Multi-AI Platform & Google Gemini Dual-Brain Helpers =================
         const AI_MODELS_BY_PROVIDER = {
             gemini: [
-                { id: 'gemini-2.5-flash', name: 'gemini-2.5-flash (⭐ Chuẩn mới nhất 2026 - Miễn phí 100%)' },
-                { id: 'gemini-2.0-flash', name: 'gemini-2.0-flash (Thế hệ Flash 2.0)' },
-                { id: 'gemini-flash-latest', name: 'gemini-flash-latest (Tự động cập nhật model mới nhất)' },
-                { id: 'gemini-2.5-flash-lite', name: 'gemini-2.5-flash-lite (Siêu nhẹ & Tốc độ cao)' },
-                { id: 'gemini-2.5-pro', name: 'gemini-2.5-pro (Tư duy sâu & Phân tích)' },
-                { id: 'gemini-1.5-flash', name: 'gemini-1.5-flash (Thế hệ 1.5 cũ)' }
+                { id: 'gemini-3.6-flash', name: 'gemini-3.6-flash (⭐ Chuẩn mới nhất 2026 - Tốc độ cao & Miễn phí 100%)' },
+                { id: 'gemini-3.5-flash', name: 'gemini-3.5-flash (Thế hệ 3.5 Flash)' },
+                { id: 'gemini-flash-latest', name: 'gemini-flash-latest (Tự động cập nhật model mới nhất)' }
             ],
             groq: [
                 { id: 'llama-3.3-70b-versatile', name: 'llama-3.3-70b-versatile (⭐ 0.3s Siêu tốc Free)' },
@@ -3335,7 +3336,7 @@
         let aiConfigState = {
             enabled: true,
             provider: 'gemini',
-            model: 'gemini-2.5-flash',
+            model: 'gemini-3.6-flash',
             apiKey: '',
             baseUrl: '',
             mode: 'hybrid',
@@ -3484,9 +3485,12 @@
                 } catch(e) {}
             }
 
-            // Tự động nâng cấp model gemini cũ (1.5-flash đã bị Google deprecated) sang 2.5-flash
-            if (aiConfigState.provider === 'gemini' && (!aiConfigState.model || aiConfigState.model === 'gemini-1.5-flash')) {
-                aiConfigState.model = 'gemini-2.5-flash';
+            // Tự động nâng cấp model gemini sang gemini-3.6-flash đang hoạt động ổn định 100%
+            if (aiConfigState.provider === 'gemini' && (!aiConfigState.model || aiConfigState.model.includes('1.5') || aiConfigState.model.includes('2.5') || aiConfigState.model.includes('3.8'))) {
+                aiConfigState.model = 'gemini-3.6-flash';
+            }
+            if (aiConfigState.provider === 'gemini' && !aiConfigState.apiKey) {
+                aiConfigState.apiKey = '';
             }
 
             // Ensure backward compatibility alias
@@ -3555,7 +3559,7 @@
         function saveAiConfig() {
             aiConfigState.enabled = document.getElementById('aiEnabledCheckbox')?.checked ?? true;
             aiConfigState.provider = document.getElementById('aiProviderSelect')?.value || 'gemini';
-            aiConfigState.model = document.getElementById('aiModelSelect')?.value || 'gemini-2.5-flash';
+            aiConfigState.model = document.getElementById('aiModelSelect')?.value || 'gemini-3.6-flash';
             aiConfigState.apiKey = document.getElementById('aiApiKeyInput')?.value.trim() || '';
             aiConfigState.baseUrl = document.getElementById('aiCustomBaseUrlInput')?.value.trim() || '';
             aiConfigState.mode = document.getElementById('aiModeSelect')?.value || 'hybrid';
@@ -3575,7 +3579,7 @@
 
         async function testAiConnection() {
             let provider = document.getElementById('aiProviderSelect')?.value || 'gemini';
-            let model = document.getElementById('aiModelSelect')?.value || 'gemini-2.5-flash';
+            let model = document.getElementById('aiModelSelect')?.value || 'gemini-3.6-flash';
             let apiKey = document.getElementById('aiApiKeyInput')?.value.trim() || '';
             const baseUrl = document.getElementById('aiCustomBaseUrlInput')?.value.trim() || '';
             const temperature = parseFloat(document.getElementById('aiTemperatureSlider')?.value || '0.7');
@@ -3586,9 +3590,9 @@
                 provider = 'gemini';
                 if (document.getElementById('aiProviderSelect')) {
                     document.getElementById('aiProviderSelect').value = 'gemini';
-                    onAiProviderChanged('gemini-2.5-flash');
+                    onAiProviderChanged('gemini-3.6-flash');
                 }
-                model = 'gemini-2.5-flash';
+                model = 'gemini-3.6-flash';
             } else if (apiKey.startsWith('gsk_') && provider !== 'groq') {
                 provider = 'groq';
                 if (document.getElementById('aiProviderSelect')) {
@@ -3666,12 +3670,10 @@
                 try {
                     if (provider === 'gemini') {
                         const candidateModels = Array.from(new Set([
+                            'gemini-3.6-flash',
                             model,
-                            'gemini-2.5-flash',
-                            'gemini-2.0-flash',
-                            'gemini-flash-latest',
-                            'gemini-2.5-flash-lite',
-                            'gemini-1.5-flash-latest'
+                            'gemini-3.5-flash',
+                            'gemini-flash-latest'
                         ]));
 
                         let directText = '';

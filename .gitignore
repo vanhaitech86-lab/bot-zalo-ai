@@ -1,8 +1,12 @@
 .vercel
 node_modules/
+.env
 session.json
 qr.png
 qr.html
 test-qr.js
 *.zip
 HAITECH_BOT_COMMERCIAL_*/
+session_backup*.json
+bot-status.json
+SESSION_CLOUD_ENV.txt

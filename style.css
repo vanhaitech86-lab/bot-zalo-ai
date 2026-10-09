@@ -814,3 +814,108 @@ h1, h2, h3, .display {
     }
 }
 
+/* ========== Robot AI Mascot & Chat Avatar Styles ========== */
+.kol-mascot-float {
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    border: 2px solid #00B4D8;
+    border-radius: 999px;
+    padding: 6px 16px 6px 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 12px 32px rgba(0, 119, 182, 0.25);
+    z-index: 10;
+    animation: mascotPopBounce 4s ease-in-out infinite alternate;
+}
+@keyframes mascotPopBounce {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-7px) scale(1.02); }
+}
+.mascot-avatar-ring {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #00B4D8;
+    padding: 1px;
+    background: white;
+    flex-shrink: 0;
+}
+.mascot-pop-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+.mascot-online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 11px;
+    height: 11px;
+    background: #10B981;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+.mascot-pop-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+.mascot-pop-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #0077B6;
+    letter-spacing: 0.4px;
+}
+.mascot-pop-sub {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1E293B;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .kol-mascot-float {
+        top: -12px;
+        right: 0;
+        padding: 4px 12px 4px 4px;
+    }
+    .mascot-avatar-ring {
+        width: 36px;
+        height: 36px;
+    }
+    .mascot-pop-sub {
+        font-size: 11px;
+    }
+}
+
+.lp-mock-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.lp-mock-row.bot-row {
+    justify-content: flex-end;
+}
+.lp-mock-row.bot-row .lp-bubble {
+    margin-bottom: 0;
+    margin-left: 0;
+}
+.lp-bubble-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 119, 182, 0.25);
+    border: 2px solid #00B4D8;
+    flex-shrink: 0;
+    margin-bottom: 2px;
+}
+

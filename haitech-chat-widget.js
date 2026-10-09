@@ -19,6 +19,7 @@
         zaloUrl: currentScript?.getAttribute('data-zalo-url') || 'https://zalo.me/0988739896',
         primaryColor: currentScript?.getAttribute('data-color') || '#0077B6',
         position: currentScript?.getAttribute('data-position') || 'right', // 'right' | 'left'
+        avatarUrl: currentScript?.getAttribute('data-avatar-url') || 'bot-avatar.png',
         greeting: currentScript?.getAttribute('data-greeting') || 'Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT. Anh/chị cần em tư vấn sản phẩm hay gửi bảng giá hôm nay ạ? 😊'
     };
 
@@ -43,8 +44,8 @@
 
         /* Nút tròn nổi mở Chat */
         .haitech-launcher-btn {
-            width: 62px;
-            height: 62px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             background: linear-gradient(135deg, ${config.primaryColor}, #00B4D8);
             box-shadow: 0 8px 24px rgba(0, 119, 182, 0.45);
@@ -52,14 +53,24 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: none;
+            border: 2.5px solid #FFFFFF;
             outline: none;
             transition: all .25s ease;
             position: relative;
+            padding: 2px;
+            overflow: visible;
         }
         .haitech-launcher-btn:hover {
             transform: scale(1.08);
             box-shadow: 0 12px 30px rgba(0, 119, 182, 0.55);
+        }
+        .haitech-launcher-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
         }
         .haitech-launcher-icon {
             font-size: 30px;
@@ -119,15 +130,24 @@
             gap: 10px;
         }
         .haitech-header-avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            border: 2px solid rgba(255,255,255,0.9);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .haitech-header-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
         .haitech-header-title {
             font-weight: 700;
@@ -322,7 +342,8 @@
     container.innerHTML = `
         <!-- Nút Tròn Mở Chat -->
         <button class="haitech-launcher-btn" id="haitechLauncherBtn" aria-label="Mở Trợ lý AI">
-            <div class="haitech-launcher-icon" id="haitechLauncherIcon">💬</div>
+            <img src="${config.avatarUrl}" class="haitech-launcher-img" id="haitechLauncherImg" alt="Bot AI" onerror="this.style.display='none'; document.getElementById('haitechLauncherIcon').style.display='flex';" />
+            <div class="haitech-launcher-icon" id="haitechLauncherIcon" style="display:none;">💬</div>
             <div class="haitech-online-badge"></div>
         </button>
 
@@ -330,7 +351,9 @@
         <div class="haitech-chat-window" id="haitechChatWindow">
             <div class="haitech-chat-header">
                 <div class="haitech-header-user">
-                    <div class="haitech-header-avatar">🤖</div>
+                    <div class="haitech-header-avatar">
+                        <img src="${config.avatarUrl}" alt="Avatar" onerror="this.outerHTML='🤖'" />
+                    </div>
                     <div>
                         <div class="haitech-header-title">${config.botName}</div>
                         <div class="haitech-header-status">

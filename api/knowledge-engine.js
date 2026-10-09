@@ -8,20 +8,43 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Nạp tự động các biến môi trường từ .env nếu có
+function loadEnv() {
+    try {
+        const envPath = path.resolve(process.cwd(), '.env');
+        if (fs.existsSync(envPath)) {
+            const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed && !trimmed.startsWith('#')) {
+                    const idx = trimmed.indexOf('=');
+                    if (idx > 0) {
+                        const key = trimmed.slice(0, idx).trim();
+                        const val = trimmed.slice(idx + 1).trim().replace(/^["']|["']$/g, '');
+                        if (!process.env[key]) process.env[key] = val;
+                    }
+                }
+            }
+        }
+    } catch (e) {}
+}
+loadEnv();
+
 // Danh sách các nhà cung cấp mô hình AI được hỗ trợ
 export const AI_PROVIDERS = {
     gemini: {
         id: "gemini",
         name: "Google Gemini (Google AI Studio)",
         badge: "Miễn phí 100% · 1.500 lượt/ngày",
-        defaultModel: "gemini-2.5-flash",
+        defaultModel: "gemini-3.8-flash",
         models: [
+            "gemini-3.8-flash",
+            "gemini-3.5-flash",
+            "gemini-2.5-flash-lite",
+            "gemini-flash-latest",
             "gemini-2.5-flash",
             "gemini-2.0-flash",
-            "gemini-flash-latest",
-            "gemini-2.5-flash-lite",
-            "gemini-2.5-pro",
-            "gemini-1.5-flash"
+            "gemini-2.5-pro"
         ],
         keyPlaceholder: "AIzaSy...",
         keyUrl: "https://aistudio.google.com/app/apikey",
@@ -107,17 +130,17 @@ export const DEFAULT_KNOWLEDGE = {
         provider: "gemini", // "gemini" | "groq" | "openrouter" | "deepseek" | "openai" | "custom"
         enabled: true,
         apiKey: "",
-        model: "gemini-1.5-flash",
+        model: "gemini-3.8-flash",
         mode: "hybrid", // "hybrid" (Ưu tiên Bộ Não 1, câu mở gọi AI) | "full-ai" (Luôn gọi AI có tri thức)
         temperature: 0.7,
-        maxTokens: 500,
+        maxTokens: 1000,
         systemPrompt: "",
         customBaseUrl: ""
     },
     rules: [
         {
             keywords: ["giá", "nhiêu tiền", "chi phí", "báo giá", "bảng giá"],
-            reply: "Dạ bên em có các gói giải pháp tối ưu cho cá nhân và doanh nghiệp với ưu đãi đặc biệt hôm nay. Anh/chị đang quan tâm đến dòng sản phẩm nào để em gửi bảng báo giá chi tiết kèm ưu đãi ạ? 📋 Hotline/Zalo: 0988 739 896"
+            reply: "Dạ bên em có các gói giải pháp linh hoạt từ cơ bản đến chuyên sâu với nhiều ưu đãi. Anh/chị đang quan tâm đến gói giải pháp nào để em gửi bảng báo giá chi tiết và ưu đãi tốt nhất hôm nay ạ? 📋"
         },
         {
             keywords: ["chào", "alo", "hi", "hello", "shop ơi", "ad ơi"],
@@ -137,7 +160,7 @@ export const DEFAULT_KNOWLEDGE = {
         },
         {
             keywords: ["tư vấn", "hỗ trợ", "mua hàng", "đặt hàng"],
-            reply: "Dạ anh/chị vui lòng để lại số điện thoại hoặc kết nối trực tiếp Zalo hotline: 0988 739 896 để em báo chuyên viên tư vấn gọi hỗ trợ ngay trong 5 phút ạ!"
+            reply: "Dạ anh/chị đang cần giải pháp cụ thể cho bài toán nào ạ? Anh/chị cứ chia sẻ nhu cầu, em sẽ tư vấn phương án tối ưu nhất ngay tại đây ạ!"
         }
     ]
 };
@@ -156,6 +179,10 @@ export function getKnowledgeBase() {
                 ...DEFAULT_KNOWLEDGE.aiConfig,
                 ...(parsed.aiConfig || legacyGpt)
             };
+
+            if (!baseAiConfig.apiKey) {
+                baseAiConfig.apiKey = (process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.OPENAI_API_KEY || '').trim();
+            }
 
             return {
                 ...DEFAULT_KNOWLEDGE,
@@ -179,88 +206,125 @@ export function buildAiSystemPrompt(kb) {
     let knowledgeContext = "";
     if (kb.rules && Array.isArray(kb.rules)) {
         knowledgeContext = kb.rules
-            .map(r => `- Chủ đề: [${r.keywords.join(', ')}] -> Thông tin: ${r.reply}`)
+            .map(r => `- Chủ đề: [${r.keywords.join(', ')}] -> Nội dung: ${r.reply}`)
             .join('\n');
     }
 
-    return `Bạn là "${kb.botName || 'Em Thùy Linh - Trợ lý HAITECH BOT'}", trợ lý AI bán hàng và chăm sóc khách hàng của "${kb.brandName || 'HAITECH BOT STUDIO'}".
-Hotline/Zalo chính thức: ${kb.phone || '0988 739 896'}.
-Email liên hệ: ${kb.email || 'vanhaitech.86@gmail.com'}.
+    return `Bạn là "${kb.botName || 'Em Thùy Linh - Trợ lý HAITECH BOT'}", trợ lý tư vấn thông minh và tận tâm của "${kb.brandName || 'HAITECH BOT STUDIO'}".
 
-VAI TRÒ & PHONG CÁCH GIAO TIẾP:
-1. Xưng hô: Luôn xưng "em" và gọi khách là "anh/chị" (hoặc "bạn" nếu khách xưng hô thân mật).
-2. Phong cách: Thân thiện, chu đáo, nhiệt tình, chuyên nghiệp, tự nhiên như nhân viên thật.
-3. Độ dài câu: RẤT QUAN TRỌNG! Chỉ trả lời ngắn gọn từ 2 đến 4 câu, súc tích, đi thẳng vào câu hỏi, phù hợp văn phong chat Zalo/Messenger. Không viết bài luận dài.
-4. Đính kèm icon phù hợp (😊, 📋, 📞, ✨) để tạo cảm giác gần gũi.
+NGUYÊN TẮC GIAO TIẾP QUAN TRỌNG NHẤT (BẮT BUỘC TUÂN THỦ 100%):
+1. ĐI THẲNG VÀO VẤN ĐỀ - TỰ NHIÊN, CỤ THỂ, KHÔNG NÓI VĂN MẪU CHUNG CHUNG:
+   - Trả lời trực diện, thông minh, đúng trọng tâm câu hỏi của khách hàng.
+   - TUYỆT ĐỐI KHÔNG dùng các câu văn mẫu sáo rỗng, quảng cáo chung chung (Ví dụ KHÔNG NÓI: "giải pháp bên em đang hỗ trợ rất nhiều doanh nghiệp...", "bên em tự động thu hút khách hàng 24/7...", v.v.).
+   - Khi khách hỏi về bất kỳ chủ đề/dịch vụ nào (như Business Coaching, chiến lược, marketing, kỹ thuật...): Hãy đi thẳng vào nội dung cốt lõi, giải thích rõ ràng lộ trình, cách làm thực tế hoặc giải pháp cụ thể giúp ích cho khách.
 
-THÔNG TIN CHÍNH THỨC CỦA CỬA HÀNG / CÔNG TY (RAG):
+2. TUYỆT ĐỐI BỎ SỐ ĐIỆN THOẠI TRONG CÂU TRẢ LỜI:
+   - Khách hàng ĐANG TRÒ CHUYỆN TRỰC TIẾP TRÊN ZALO VỚI BẠN. Do đó KHÔNG BAO GIỜ được nói: "Anh có thể nhắn qua Zalo số...", "gọi vào hotline...", "nhắn tin số điện thoại...". Việc tự ý chèn số điện thoại khi đang chat Zalo là cấm kỵ.
+   - CHỈ DUY NHẤT khi khách hàng chủ động hỏi: "Cho xin số điện thoại", "Hotline là gì", "Địa chỉ liên hệ ở đâu" thì mới cung cấp: ${kb.phone || '0988 739 896'}.
+
+3. PHONG CÁCH TỰ NHIÊN NHƯ NGƯỜI THẬT:
+   - Xưng "em", gọi khách là "anh/chị" (hoặc "anh", "chị" tùy xưng hô của khách).
+   - Độ dài: Ngắn gọn từ 2 đến 3 câu súc tích, văn phong tự nhiên, lịch sự, chuyên nghiệp như một chuyên gia tư vấn giàu kinh nghiệm.
+   - Luôn kết thúc bằng 1 câu hỏi định hướng ngắn gọn để tiếp tục cuộc trò chuyện và hiểu rõ bài toán của khách (Ví dụ: "Hiện tại anh đang muốn tối ưu cho đội ngũ kinh doanh hay xây dựng hệ thống tự động cho toàn doanh nghiệp ạ?").
+   - Hạn chế icon, chỉ dùng tối đa 1 icon tinh tế (😊 hoặc ✨).
+
+4. TUYỆT ĐỐI KHÔNG LẶP LẠI LỜI CHÀO HỎI NẾU ĐANG TRONG CUỘC HỘI THOẠI:
+   - Nếu trong lịch sử trò chuyện đã chào rồi, hoặc khách hàng đang hỏi về dịch vụ, nhu cầu, nghiệp vụ...: TUYỆT ĐỐI KHÔNG mở đầu bằng "Dạ em chào anh/chị ạ!".
+   - Hãy đi thẳng vào nội dung phản hồi, thảo luận hoặc đưa ra giải pháp giúp khách ngay.
+
+DỮ LIỆU THAM KHẢO NỘI BỘ:
 ${knowledgeContext}
 
-QUY TẮC BẢO VỆ THÔNG TIN:
-- Cung cấp chính xác thông tin, bảng giá và chính sách có trong dữ liệu trên.
-- Nếu khách hỏi điều gì chưa có trong tài liệu: Tuyệt đối không tự bịa đặt giá sai. Hãy trả lời khéo léo và mời khách để lại số điện thoại hoặc gọi trực tiếp Hotline/Zalo ${kb.phone || '0988 739 896'} để chuyên viên hỗ trợ.
-- Kết thúc bằng một câu hỏi gợi mở nhẹ nhàng để tiếp tục phục vụ khách hàng.`;
+LƯU Ý VỀ GIÁ & CHÍNH SÁCH:
+- Nếu khách hỏi giá: Báo rõ các mức giá định hướng hoặc hỏi rõ quy mô để tư vấn mức chi phí chính xác nhất, không né tránh câu hỏi giá.`;
 }
 
 // =============================================================================
 // CÁC HÀM GỌI API CHO TỪNG NỀN TẢNG AI
 // =============================================================================
 
+// Hàm kiểm tra khớp từ khóa nguyên từ (word boundary), tránh trường hợp "coaching" bị khớp với "hi"
+export function matchKeyword(textLower, keyword) {
+    if (!textLower || !keyword) return false;
+    const cleanKw = keyword.trim().toLowerCase();
+    if (!cleanKw) return false;
+    const escaped = cleanKw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(^|[^\\p{L}\\p{N}])${escaped}([^\\p{L}\\p{N}]|$)`, 'u');
+    return regex.test(textLower);
+}
+
 // 1. Google Gemini API (Google AI Studio - Miễn phí 1.500 lượt/ngày)
-export async function callGoogleGemini(userMessage, kb) {
+export async function callGoogleGemini(userMessage, kb, conversationHistory = []) {
     const aiConfig = kb.aiConfig || kb.gptConfig || {};
     const apiKey = (aiConfig.apiKey || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '').trim();
     if (!apiKey) {
         throw new Error('Chưa cấu hình Google Gemini API Key. Hãy lấy key miễn phí tại aistudio.google.com!');
     }
 
-    const requestedModel = (aiConfig.model || 'gemini-2.5-flash').trim();
+    const requestedModel = (aiConfig.model || 'gemini-3.6-flash').trim();
     const temperature = Number(aiConfig.temperature ?? 0.7);
     const maxTokens = Number(aiConfig.maxTokens ?? 600);
     const systemPrompt = buildAiSystemPrompt(kb);
 
-    // Danh sách model ưu tiên thử nghiệm nếu model chỉ định bị deprecated (404/not supported)
+    // Danh sách model tối ưu trên Google AI Studio (ưu tiên gemini-flash-lite-latest để phản hồi siêu tốc 1-2s)
     const candidateModels = Array.from(new Set([
+        'gemini-flash-lite-latest',
+        'gemini-3.5-flash-lite',
         requestedModel,
-        'gemini-2.5-flash',
-        'gemini-2.0-flash',
-        'gemini-flash-latest',
-        'gemini-2.5-flash-lite',
-        'gemini-2.5-pro',
-        'gemini-1.5-flash-latest',
-        'gemini-1.5-flash'
+        'gemini-3.8-flash',
+        'gemini-3.6-flash'
     ]));
+
+    // Xây dựng ngữ cảnh hội thoại đa lượt (Multi-turn chat)
+    const contents = [];
+    if (Array.isArray(conversationHistory) && conversationHistory.length > 0) {
+        for (const msg of conversationHistory.slice(-8)) {
+            contents.push({
+                role: msg.role === 'model' ? 'model' : 'user',
+                parts: [{ text: msg.text }]
+            });
+        }
+    }
+    contents.push({
+        role: 'user',
+        parts: [{ text: userMessage }]
+    });
 
     let lastError = null;
 
     for (const curModel of candidateModels) {
         const cleanModel = curModel.replace(/^models\//, '');
-        // Thử cả v1beta và v1
-        const endpoints = [
-            `https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:generateContent?key=${apiKey}`,
-            `https://generativelanguage.googleapis.com/v1/models/${cleanModel}:generateContent?key=${apiKey}`
-        ];
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${cleanModel}:generateContent?key=${apiKey}`;
 
-        for (const url of endpoints) {
+        // Thử tối đa 2 lần cho mỗi model nếu gặp 503 spike
+        for (let attempt = 1; attempt <= 2; attempt++) {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 12000);
-
+            const timeoutId = setTimeout(() => controller.abort(), 20000);
             try {
+                const generationConfig = {
+                    temperature: temperature,
+                    maxOutputTokens: Math.max(maxTokens, 1500)
+                };
+                // gemini-flash-lite không hỗ trợ thinkingConfig (sẽ bị lỗi 400 INVALID_ARGUMENT)
+                if (cleanModel.includes('thinking')) {
+                    generationConfig.thinkingConfig = { thinkingBudget: 0 };
+                }
+
+                const reqBody = {
+                    contents: contents,
+                    generationConfig: generationConfig
+                };
+                // systemInstruction is supported on gemini models, ignore on gemma if needed
+                if (!cleanModel.includes('gemma')) {
+                    reqBody.systemInstruction = {
+                        parts: [{ text: systemPrompt }]
+                    };
+                }
+
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [
-                            { role: 'user', parts: [{ text: userMessage }] }
-                        ],
-                        systemInstruction: {
-                            parts: [{ text: systemPrompt }]
-                        },
-                        generationConfig: {
-                            temperature: temperature,
-                            maxOutputTokens: maxTokens
-                        }
-                    }),
+                    body: JSON.stringify(reqBody),
                     signal: controller.signal
                 });
 
@@ -283,19 +347,27 @@ export async function callGoogleGemini(userMessage, kb) {
                 const errMsg = errData.error?.message || `HTTP ${response.status}: ${response.statusText}`;
                 lastError = new Error(errMsg);
 
-                // Nếu lỗi là do model không tìm thấy trên endpoint này, thử model tiếp theo
-                if (response.status === 404 || errMsg.includes('not found') || errMsg.includes('not supported')) {
-                    break; // break khỏi endpoint loop để sang candidateModel tiếp theo
-                } else {
-                    // Lỗi xác thực hoặc hết quota hoặc lỗi khác thì ném lỗi ra ngay
+                if (errMsg.includes('API_KEY_INVALID') || errMsg.includes('API key not valid')) {
                     throw new Error(`Google Gemini Error: ${errMsg}`);
                 }
+
+                // Nếu gặp 503 / high demand và còn lượt thử, đợi 800ms rồi thử lại
+                if ((response.status === 503 || errMsg.includes('high demand') || errMsg.includes('temporarily unavailable')) && attempt < 2) {
+                    await new Promise(r => setTimeout(r, 800));
+                    continue;
+                }
+
+                // Chuyển sang model tiếp theo
+                break;
             } catch (err) {
                 clearTimeout(timeoutId);
-                if (err.message && (err.message.includes('API_KEY_INVALID') || err.message.includes('API key not valid') || err.message.includes('Google Gemini Error:'))) {
+                if (err.message && (err.message.includes('API_KEY_INVALID') || err.message.includes('API key not valid'))) {
                     throw err;
                 }
                 lastError = err;
+                if (attempt < 2) {
+                    await new Promise(r => setTimeout(r, 800));
+                }
             }
         }
     }
@@ -304,7 +376,7 @@ export async function callGoogleGemini(userMessage, kb) {
 }
 
 // 2. OpenAI-Compatible API (Groq, OpenRouter, DeepSeek, OpenAI, Custom/Ollama)
-export async function callOpenAiCompatible(userMessage, kb, defaultBaseUrl = 'https://api.openai.com/v1') {
+export async function callOpenAiCompatible(userMessage, kb, defaultBaseUrl = 'https://api.openai.com/v1', conversationHistory = []) {
     const aiConfig = kb.aiConfig || kb.gptConfig || {};
     const apiKey = (aiConfig.apiKey || process.env.OPENAI_API_KEY || '').trim();
 
@@ -332,16 +404,25 @@ export async function callOpenAiCompatible(userMessage, kb, defaultBaseUrl = 'ht
         headers['X-Title'] = 'HAITECH BOT STUDIO';
     }
 
+    // Xây dựng danh sách tin nhắn có lịch sử đa lượt
+    const messages = [{ role: 'system', content: systemPrompt }];
+    if (Array.isArray(conversationHistory) && conversationHistory.length > 0) {
+        for (const msg of conversationHistory.slice(-8)) {
+            messages.push({
+                role: msg.role === 'model' ? 'assistant' : 'user',
+                content: msg.text
+            });
+        }
+    }
+    messages.push({ role: 'user', content: userMessage });
+
     try {
         const response = await fetch(`${baseUrl}/chat/completions`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
                 model: model,
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userMessage }
-                ],
+                messages: messages,
                 temperature: temperature,
                 max_tokens: maxTokens
             }),
@@ -377,7 +458,7 @@ export async function callOpenAiCompatible(userMessage, kb, defaultBaseUrl = 'ht
 }
 
 // 3. Dispatcher điều phối gọi Model theo đúng Nền tảng được chọn
-export async function callAiModel(userMessage, kb) {
+export async function callAiModel(userMessage, kb, conversationHistory = []) {
     const aiConfig = kb.aiConfig || kb.gptConfig || {};
     let provider = aiConfig.provider || 'gemini';
     const apiKey = (aiConfig.apiKey || '').trim();
@@ -390,17 +471,17 @@ export async function callAiModel(userMessage, kb) {
     }
 
     if (provider === 'gemini') {
-        return await callGoogleGemini(userMessage, { ...kb, aiConfig: { ...aiConfig, provider: 'gemini' } });
+        return await callGoogleGemini(userMessage, { ...kb, aiConfig: { ...aiConfig, provider: 'gemini' } }, conversationHistory);
     }
 
     const providerDef = AI_PROVIDERS[provider] || AI_PROVIDERS.openai;
     const baseUrl = aiConfig.customBaseUrl || providerDef.baseUrl || 'https://api.openai.com/v1';
-    return await callOpenAiCompatible(userMessage, { ...kb, aiConfig: { ...aiConfig, provider } }, baseUrl);
+    return await callOpenAiCompatible(userMessage, { ...kb, aiConfig: { ...aiConfig, provider } }, baseUrl, conversationHistory);
 }
 
 // Giữ hàm callOpenAiGpt cho tương thích ngược
-export async function callOpenAiGpt(userMessage, kb) {
-    return await callAiModel(userMessage, kb);
+export async function callOpenAiGpt(userMessage, kb, conversationHistory = []) {
+    return await callAiModel(userMessage, kb, conversationHistory);
 }
 
 // =============================================================================
@@ -416,31 +497,33 @@ export function generateReply(userMessage, customKnowledge = null) {
 
     const textLower = userMessage.toLowerCase().trim();
 
-    // 1.1. Khớp theo bộ quy tắc từ khóa (rules)
+    // 1.1. Khớp theo bộ quy tắc từ khóa (rules) theo nguyên từ
     if (kb.rules && Array.isArray(kb.rules)) {
         for (const rule of kb.rules) {
-            if (rule.keywords && rule.keywords.some(k => textLower.includes(k.toLowerCase().trim()))) {
+            if (rule.keywords && rule.keywords.some(k => matchKeyword(textLower, k))) {
                 return rule.reply;
             }
         }
     }
 
     // 1.2. Chào hỏi
-    if (textLower.includes("chào") || textLower.includes("hi") || textLower.includes("hello") || textLower.includes("alo") || textLower.includes("ê")) {
+    const greetings = ["chào", "hi", "hello", "alo", "ê"];
+    if (greetings.some(g => matchKeyword(textLower, g))) {
         return kb.welcomeMessage;
     }
 
     // 1.3. Hỏi giá
-    if (textLower.includes("giá") || textLower.includes("nhiêu tiền") || textLower.includes("chi phí") || textLower.includes("báo giá")) {
-        return `Dạ bên em đang có chính sách giá ưu đãi tốt nhất. Anh/chị vui lòng liên hệ hotline/Zalo: ${kb.phone || "0988 739 896"} để em gửi bảng báo giá chi tiết kèm ưu đãi hôm nay nhé ạ! 📋`;
+    const priceKws = ["giá", "nhiêu tiền", "chi phí", "báo giá", "bảng giá"];
+    if (priceKws.some(p => matchKeyword(textLower, p))) {
+        return `Dạ bên em đang có chính sách giá ưu đãi rất tốt cho từng giải pháp. Anh/chị đang quan tâm đến gói giải pháp nào để em gửi bảng báo giá chi tiết và ưu đãi tốt nhất hôm nay ạ? 📋`;
     }
 
     // 1.4. Mặc định
-    return `Dạ em là ${kb.botName || "HAITECH BOT"}. Em đã nhận được yêu cầu của anh/chị về: "${userMessage}". Để được hỗ trợ nhanh nhất, anh/chị có thể gọi hoặc nhắn tin hotline/Zalo: ${kb.phone || "0988 739 896"} nhé ạ! Cảm ơn anh/chị! 🙏`;
+    return `Dạ em đã ghi nhận yêu cầu của anh/chị về: "${userMessage}". Anh/chị có thể chia sẻ cụ thể hơn để em tư vấn phương án tối ưu nhất nhé ạ! 😊`;
 }
 
 // 2. Hệ Thống Trí Tuệ Kép Đa Nền Tảng (Multi-Platform Dual-Brain Engine)
-export async function generateReplyAsync(userMessage, customKnowledge = null) {
+export async function generateReplyAsync(userMessage, customKnowledge = null, conversationHistory = []) {
     const kb = customKnowledge || getKnowledgeBase();
     if (!userMessage || typeof userMessage !== 'string') {
         return {
@@ -462,7 +545,7 @@ export async function generateReplyAsync(userMessage, customKnowledge = null) {
     if (mode === 'hybrid') {
         if (kb.rules && Array.isArray(kb.rules)) {
             for (const rule of kb.rules) {
-                if (rule.keywords && rule.keywords.some(k => textLower.includes(k.toLowerCase().trim()))) {
+                if (rule.keywords && rule.keywords.some(k => matchKeyword(textLower, k))) {
                     return {
                         reply: rule.reply,
                         brainUsed: 'rules',
@@ -477,7 +560,7 @@ export async function generateReplyAsync(userMessage, customKnowledge = null) {
     // NẾU LÀ CHẾ ĐỘ FULL-AI HOẶC BỘ NÃO 1 KHÔNG KHỚP LUẬT NÀO -> KÍCH HOẠT BỘ NÃO 2 (MULTI-AI)
     if (isAiEnabled && hasApiKey) {
         try {
-            const aiResult = await callAiModel(userMessage, kb);
+            const aiResult = await callAiModel(userMessage, kb, conversationHistory);
             return {
                 reply: aiResult.reply,
                 brainUsed: 'ai',

@@ -1,25 +1,25 @@
 {
-  "botName": "Em Thùy Linh - Trợ lý HAITECH BOT",
+  "botName": "Em Thùy Linh — Trợ lý riêng của HaiTech AI",
   "phone": "0988739896",
   "email": "vanhaitech.86@gmail.com",
-  "brandName": "HAITECH BOT STUDIO",
-  "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
-  "defaultContact": "Dạ anh/chị có thể liên hệ ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!",
+  "brandName": "HaiTech AI (Nguyễn Văn Hải)",
+  "welcomeMessage": "Dạ em chào anh/chị ạ! Em là Thùy Linh — Trợ lý riêng của anh Nguyễn Văn Hải (HaiTech AI). Bên em chuyên thiết kế Web/App/Tool MMO, sản xuất Video AI và giải pháp Bot tự động 24/7. Anh/chị đang quan tâm đến giải pháp nào để em hỗ trợ tư vấn chi tiết ạ? 😊",
+  "defaultContact": "Dạ anh/chị có thể liên hệ ngay hotline/Zalo anh Hải: 0988 739 896 để được tư vấn phương án và hỗ trợ kỹ thuật 24/7 ạ!",
   "aiConfig": {
     "provider": "gemini",
     "enabled": true,
     "apiKey": "",
-    "model": "gemini-2.5-flash",
+    "model": "gemini-flash-lite-latest",
     "mode": "hybrid",
     "temperature": 0.7,
     "maxTokens": 600,
-    "systemPrompt": ""
+    "systemPrompt": "Bạn là 'Em Thùy Linh', trợ lý riêng thông minh, chuyên nghiệp và tận tâm của anh Nguyễn Văn Hải — chuyên gia công nghệ sáng lập HaiTech AI (Hotline/Zalo: 0988 739 896).\n\nLĨNH VỰC HOẠT ĐỘNG CHUYÊN SÂU CỦA HAITECH AI:\n1. THIẾT KẾ WEBSITE & APP MOBILE: Làm theo yêu cầu riêng, chuẩn SEO, UI/UX hiện đại, tối ưu thương mại điện tử và tốc độ cao.\n2. LẬP TRÌNH TOOL TỰ ĐỘNG HÓA & MMO/AFFILIATE: Viết tool tự động hóa tác vụ, tool nuôi tài khoản, tool cào dữ liệu, tool phục vụ kiếm tiền online (MMO) và Affiliate.\n3. SẢN XUẤT VIDEO AI & HÌNH ẢNH NHÂN VẬT ẢO AI: Tạo video nhân vật ảo nói chuyện tự nhiên, video review sản phẩm, video ngắn TikTok/Reels/Shorts triệu view đa ngành nghề.\n4. PHẦN MỀM TRỢ LÝ AI BOT ZALO/FANPAGE 24/7: Hệ thống trực chat đa kênh tự động, chăm sóc khách hàng và chốt đơn 24/7 không cần người trực. Tặng 7 ngày dùng thử miễn phí 100%.\n5. DỊCH VỤ MARKETING & PHỄU CHUYỂN ĐỔI: Tối ưu chi phí quảng cáo, xây dựng phễu bán hàng tự động.\n\nNGUYÊN TẮC GIAO TIẾP:\n- Xưng 'em', gọi khách là 'anh/chị' (hoặc 'anh', 'chị' tùy ngữ cảnh).\n- Văn phong tự nhiên, khéo léo, tự tin như một chuyên gia tư vấn giàu kinh nghiệm, không dùng văn mẫu sáo rỗng.\n- Trả lời trực diện vào câu hỏi trong 2 - 3 câu súc tích.\n- Luôn kết thúc bằng 1 câu hỏi định hướng ngắn gọn để tiếp tục cuộc trò chuyện và hiểu rõ bài toán của khách."
   },
   "gptConfig": {
     "provider": "gemini",
     "enabled": true,
     "apiKey": "",
-    "model": "gemini-2.5-flash",
+    "model": "gemini-flash-lite-latest",
     "mode": "hybrid"
   },
   "channels": {
@@ -42,31 +42,139 @@
   },
   "rules": [
     {
-      "keywords": ["giá", "nhiêu tiền", "chi phí", "báo giá", "bảng giá"],
-      "reply": "Dạ bên em có các gói giải pháp tối ưu cho cá nhân và doanh nghiệp. Anh/chị đang quan tâm đến dòng sản phẩm cụ thể nào để em gửi bảng báo giá chi tiết kèm ưu đãi hôm nay ạ? 📋 Hotline/Zalo hỗ trợ: 0988 739 896"
+      "keywords": [
+        "web",
+        "website",
+        "app",
+        "mobile",
+        "thiết kế web",
+        "làm app",
+        "viết app",
+        "làm web",
+        "giao diện",
+        "phần mềm di động"
+      ],
+      "reply": "Dạ HaiTech AI chuyên thiết kế Website và App Mobile chuẩn SEO, giao diện UI/UX cao cấp, tích hợp thanh toán tự động và tối ưu tốc độ tải trang. Bên em nhận làm từ Web bán hàng, Web công ty đến App chuyên dụng theo yêu cầu riêng. Anh/chị cho em xin ý tưởng hoặc ngành nghề để bên em gửi demo mẫu và báo giá chi tiết nhé ạ! 🚀 Hotline/Zalo anh Hải: 0988 739 896"
     },
     {
-      "keywords": ["chào", "alo", "hi", "hello", "shop ơi", "ad ơi"],
-      "reply": "Dạ em chào anh/chị ạ! Rất vui được hỗ trợ anh/chị. Anh/chị cần em giải đáp thông tin sản phẩm hay chính sách nào ạ? 😊"
+      "keywords": [
+        "tool",
+        "công cụ",
+        "tự động hóa",
+        "automation",
+        "mmo",
+        "affiliate",
+        "code tool",
+        "viết tool",
+        "lập trình tool",
+        "tool nuôi",
+        "tool cào"
+      ],
+      "reply": "Dạ bên em chuyên nhận lập trình Tool tự động hóa tác vụ, tool tương tác, tool cào dữ liệu, tool hỗ trợ MMO và Affiliate marketing theo yêu cầu riêng. Mọi tool đều được tối ưu ổn định, dễ dùng và hỗ trợ kỹ thuật tận tâm. Anh/chị cho em xin chi tiết bài toán cần tự động hóa để bên em lên phương án kỹ thuật nhé ạ! 💻"
     },
     {
-      "keywords": ["bảo hành", "hỏng", "sửa", "đổi trả", "lỗi"],
-      "reply": "Dạ tất cả sản phẩm và dịch vụ bên em đều được cam kết bảo hành chính hãng tận nơi 12 tháng, bảo dưỡng định kỳ và hỗ trợ kỹ thuật nhanh chóng trong vòng 24h ạ!"
+      "keywords": [
+        "video ai",
+        "làm video",
+        "tạo ảnh",
+        "hình ảnh ai",
+        "video tiktok",
+        "reels",
+        "shorts",
+        "nhân vật ảo",
+        "review ai",
+        "video ngắn"
+      ],
+      "reply": "Dạ HaiTech AI cung cấp giải pháp sáng tạo Video AI và hình ảnh AI đỉnh cao: từ nhân vật ảo nói chuyện tự nhiên như người thật, video review sản phẩm không cần quay chụp, đến kịch bản video viral TikTok/Reels/Shorts thu hút hàng triệu view. Anh/chị cần làm video quảng bá cho sản phẩm hay dự án nào ạ? 🎬"
     },
     {
-      "keywords": ["hotline", "số điện thoại", "sđt", "liên hệ", "địa chỉ", "ở đâu"],
-      "reply": "Dạ thông tin liên hệ chính thức của bên em:\n📞 Hotline/Zalo: 0988 739 896\n✉️ Email: vanhaitech.86@gmail.com\nAnh/chị có thể gọi ngay hoặc để lại lời nhắn em hỗ trợ ngay ạ!"
+      "keywords": [
+        "bot",
+        "bot zalo",
+        "chatbot",
+        "trợ lý ai",
+        "trực chat",
+        "chăm sóc khách hàng",
+        "tự động trả lời"
+      ],
+      "reply": "Dạ giải pháp HAITECH BOT bên em giúp doanh nghiệp tự động trực chat 24/7 trên Zalo cá nhân, Fanpage và Website. Bot tích hợp AI thông minh, tự động tư vấn, xin số điện thoại và chốt đơn thần tốc kể cả lúc nửa đêm. Bên em có chính sách DÙNG THỬ 7 NGÀY HOÀN TOÀN MIỄN PHÍ! Anh/chị muốn quét mã kích hoạt chạy thử trên Zalo ngay hôm nay không ạ? 🤖"
     },
     {
-      "keywords": ["lắp đặt", "giao hàng", "ship", "vận chuyển"],
-      "reply": "Dạ bên em hỗ trợ giao hàng và lắp đặt tận nơi trên toàn quốc, có kỹ thuật viên bàn giao và hướng dẫn vận hành chi tiết ạ!"
+      "keywords": [
+        "marketing",
+        "quảng cáo",
+        "ads",
+        "chạy ads",
+        "doanh số",
+        "chốt đơn",
+        "phễu",
+        "phễu bán hàng"
+      ],
+      "reply": "Dạ HaiTech AI cung cấp giải pháp Marketing tổng thể kết hợp công nghệ AI: xây dựng phễu chuyển đổi tự động, kịch bản chốt đơn và tối ưu chi phí quảng cáo đa kênh. Anh/chị để lại số điện thoại hoặc kết nối trực tiếp hotline anh Hải: 0988 739 896 để được tư vấn chiến lược nhé ạ! 📈"
     },
     {
-      "keywords": ["fanpage", "facebook", "fb", "messenger"],
-      "reply": "Dạ Fanpage chính thức của bên em luôn có Trợ lý AI trực chat 24/7 để hỗ trợ gửi catalog và tư vấn cho anh/chị bất kỳ lúc nào ạ!"
+      "keywords": [
+        "giá",
+        "báo giá",
+        "chi phí",
+        "bao nhiêu",
+        "nhiêu tiền",
+        "bảng giá",
+        "chi phí làm"
+      ],
+      "reply": "Dạ bên em có bảng giá linh hoạt theo từng quy mô và nhu cầu:\n1️⃣ Dịch vụ Tool & Video AI: Báo giá linh hoạt theo độ phức tạp bài toán.\n2️⃣ Thiết kế Web/App: Trọn gói tối ưu từ cơ bản đến cao cấp.\n3️⃣ Trợ lý AI Bot Zalo: Gói tháng chỉ từ 199k, gói Pro trọn đời 1.990.000đ (Tặng 7 ngày dùng thử miễn phí).\nAnh/chị đang quan tâm dịch vụ nào cụ thể để em gửi bảng giá chi tiết kèm ưu đãi tốt nhất hôm nay ạ? 📋"
+    },
+    {
+      "keywords": [
+        "tài khoản",
+        "stk",
+        "chuyển khoản",
+        "thanh toán",
+        "ngân hàng"
+      ],
+      "reply": "Dạ thông tin thanh toán chính thức của HaiTech AI:\n🏦 Ngân hàng: MB Bank (Quân Đội)\n💳 Số tài khoản: 0988739896\n👤 Chủ tài khoản: NGUYEN VAN HAI\nNội dung: [Tên anh/chị] + [Dịch vụ]\nAnh/chị chuyển khoản xong nhắn em để kích hoạt triển khai ngay nhé ạ! 🚀"
+    },
+    {
+      "keywords": [
+        "hotline",
+        "liên hệ",
+        "số điện thoại",
+        "sđt",
+        "địa chỉ",
+        "gặp anh hải",
+        "số anh hải"
+      ],
+      "reply": "Dạ anh/chị có thể liên hệ trực tiếp với anh Nguyễn Văn Hải (HaiTech AI) qua:\n📞 Hotline/Zalo: 0988 739 896\n✉️ Email: vanhaitech.86@gmail.com\nAnh Hải luôn sẵn sàng tư vấn và hỗ trợ kỹ thuật 24/7 ạ! ✨"
+    },
+    {
+      "keywords": [
+        "chào",
+        "alo",
+        "hi",
+        "hello",
+        "shop ơi",
+        "ad ơi",
+        "em ơi",
+        "thùy linh ơi",
+        "bạn ơi"
+      ],
+      "reply": "Dạ em chào anh/chị ạ! Em là Thùy Linh — Trợ lý riêng của anh Nguyễn Văn Hải (HaiTech AI). Rất vui được hỗ trợ anh/chị! Anh/chị đang cần tư vấn giải pháp Web/App, Tool MMO, Video AI hay Bot tự động ạ? 😊"
+    },
+    {
+      "keywords": [
+        "dùng thử",
+        "trải nghiệm",
+        "test",
+        "test thử",
+        "thử nghiệm"
+      ],
+      "reply": "Dạ bên em đang có chương trình TRẢI NGHIỆM DÙNG THỬ BOT 7 NGÀY HOÀN TOÀN MIỄN PHÍ ạ! 🎁\n👉 Chỉ cần lấy Zalo quét mã QR 10 giây là bot kích hoạt trực chat ngay.\n👉 Tích hợp AI Google Gemini thông minh tự trả lời như người thật.\nAnh/chị sẵn sàng quét mã để em kích hoạt chạy thử ngay bây giờ nhé ạ! 🚀"
     }
   ],
   "customNotes": [
-    "Dữ liệu này được chia sẻ dùng chung cho cả Zalo cá nhân, Zalo OA và Facebook Fanpage Messenger."
+    "HaiTech AI cung cấp trọn gói: Thiết kế Web/App, Lập trình Tool tự động hóa MMO, Sản xuất Video/Ảnh AI, Trợ lý AI Bot Zalo.",
+    "Chính sách bảo hành: Hỗ trợ kỹ thuật 24/7 trọn đời, cập nhật tính năng mới miễn phí.",
+    "Chính sách dùng thử: Mọi khách hàng đều được dùng thử đầy đủ tính năng trong 7 ngày miễn phí, chỉ cần quét mã QR trong 10 giây.",
+    "Khách hàng không cần biết lập trình hay code, chỉ cần chạy file cài đặt 1-click là xong."
   ]
 }

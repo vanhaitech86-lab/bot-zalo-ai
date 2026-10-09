@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cẩm Nang Hướng Dẫn Sử Dụng — Trợ Lý AI Em Thùy Linh</title>
+    <link rel="icon" type="image/png" href="bot-avatar.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <style>
+        :root {
+            --brand: #0077B6;
+            --brand-dark: #023E8A;
+            --brand-light: #00B4D8;
+            --brand-tint: #E0F2FE;
+            --accent: #10B981;
+            --ink: #0F172A;
+            --ink-soft: #475569;
+            --surface: #F8FAFC;
+            --border: #E2E8F0;
+            --card: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #F1F5F9;
+            color: var(--ink);
+            line-height: 1.65;
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        /* Header Banner */
+        .doc-header {
+            background: linear-gradient(135deg, #023E8A, #0077B6);
+            color: white;
+            padding: 40px 36px;
+            position: relative;
+        }
+        .doc-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .doc-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+        .doc-header p {
+            color: rgba(255,255,255,0.85);
+            font-size: 15px;
+            max-width: 650px;
+        }
+        .header-meta {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            flex-wrap: wrap;
+        }
+
+        /* Action bar */
+        .action-bar {
+            background: #F8FAFC;
+            padding: 12px 36px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-print {
+            background: white;
+            color: var(--brand);
+            border: 1.5px solid var(--brand);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all .2s;
+        }
+        .btn-print:hover {
+            background: var(--brand);
+            color: white;
+        }
+
+        /* Content Body */
+        .doc-body {
+            padding: 36px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--brand-dark);
+            margin: 36px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--brand-tint);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2:first-of-type {
+            margin-top: 0;
+        }
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 20px 0 10px;
+        }
+        p, li {
+            font-size: 14.5px;
+            color: var(--ink-soft);
+        }
+        ul, ol {
+            padding-left: 22px;
+            margin-bottom: 14px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Step Cards */
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .step-card {
+            background: #F8FAFC;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            transition: all .2s;
+        }
+        .step-card:hover {
+            border-color: var(--brand);
+            box-shadow: 0 6px 16px rgba(0, 119, 182, 0.08);
+            transform: translateY(-2px);
+        }
+        .step-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand), var(--brand-light));
+            color: white;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            margin-bottom: 14px;
+        }
+        .step-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .step-file {
+            background: #0F172A;
+            color: #38BDF8;
+            font-family: monospace;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* Alerts & Notice Boxes */
+        .alert-box {
+            background: var(--brand-tint);
+            border-left: 4px solid var(--brand);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #0369A1;
+        }
+        .alert-box.success {
+            background: #ECFDF5;
+            border-left-color: var(--accent);
+            color: #065F46;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 13.5px;
+        }
+        th, td {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            background: #F1F5F9;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        tr:nth-child(even) {
+            background: #F8FAFC;
+        }
+
+        /* Code box */
+        pre {
+            background: #0F172A;
+            color: #E2E8F0;
+            padding: 16px 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 14px 0;
+        }
+
+        /* Footer */
+        .doc-footer {
+            background: #F8FAFC;
+            padding: 24px 36px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+            }
+            .action-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="doc-header">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:280px;">
+                <span class="doc-badge">🌸 BẢN QUYỀN CHÍNH THỨC 2026</span>
+                <h1>CẨM NANG HƯỚNG DẪN SỬ DỤNG TRỢ LÝ AI EM THÙY LINH</h1>
+                <p>Hệ thống trợ lý ảo thông minh tự động tư vấn, báo giá và chốt đơn 24/7 trên Zalo cá nhân, Facebook Fanpage và Website.</p>
+            </div>
+            <div style="flex-shrink:0;">
+                <img src="bot-avatar.png" alt="Mascot Bot AI" style="width:100px; height:100px; border-radius:50%; border:3px solid white; box-shadow:0 8px 24px rgba(0,0,0,0.25); object-fit:cover; display:block;" />
+            </div>
+        </div>
+        <div class="header-meta">
+            <span>🏢 Đơn vị: HAITECH BOT STUDIO</span>
+            <span>📞 Hotline/Zalo: 0988 739 896</span>
+            <span>🌐 Cloud Webhook: bot-zalo-ai.vercel.app</span>
+        </div>
+    </header>
+
+    <!-- ACTION BAR -->
+    <div class="action-bar">
+        <span style="font-size: 13.5px; font-weight: 600; color: var(--ink);">📖 Tài liệu bàn giao khách hàng (Chìa khóa trao tay)</span>
+        <button class="btn-print" onclick="window.print()">
+            <span>🖨️ In ra / Lưu file PDF</span>
+        </button>
+    </div>
+
+    <!-- BODY -->
+    <main class="doc-body">
+
+        <!-- PHẦN 1 -->
+        <h2>🌟 1. Giới thiệu Trợ lý AI Em Thùy Linh</h2>
+        <p><strong>Em Thùy Linh</strong> là trợ lý ảo được lập trình chuyên sâu cho cá nhân kinh doanh, chủ shop và doanh nghiệp:</p>
+        <ul>
+            <li><strong>Tốc độ phản hồi &lt; 1 giây:</strong> Khách nhắn tin là nhận phản hồi ngay tức khắc, không lo mất khách lúc nửa đêm hay ngày nghỉ lễ.</li>
+            <li><strong>Bộ Não Kép Đột Phá:</strong> Kết hợp giữa dữ liệu bảng giá chuẩn xác 100% của bạn với trí tuệ nhân tạo thế hệ mới (Google Gemini AI) để trả lời trôi chảy, khéo léo xin số điện thoại chốt đơn.</li>
+            <li><strong>Chỉ Chat 1-1 Riêng Tư:</strong> Tuyệt đối không bao giờ nhắn vào hội nhóm Zalo, bảo mật tối đa cuộc trò chuyện riêng tư của chủ shop.</li>
+        </ul>
+
+        <!-- PHẦN 2 -->
+        <h2>🚀 2. Hướng dẫn 3 bước kích hoạt nhanh trên Zalo</h2>
+        <div class="step-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h4>Cài đặt lần đầu</h4>
+                <p>Nhấp đúp chuột vào file bên dưới. Máy sẽ tự kiểm tra môi trường và cài đặt trọn gói trong 30 giây.</p>
+                <div class="step-file">👉 CAI_DAT_LAN_DAU.bat</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h4>Quét mã QR Zalo</h4>
+                <p>Nhấp đúp file kết nối. Trình duyệt tự mở mã QR to rõ. Mở Zalo điện thoại quét mã là Thùy Linh trực chat ngay!</p>
+                <div class="step-file">👉 KET_NOI_ZALO_THUY_LINH.bat</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h4>Sửa giá & Tên shop</h4>
+                <p>Mở giao diện trực quan trên trình duyệt để nạp bảng giá, hotline và kịch bản chốt đơn theo ý muốn.</p>
+                <div class="step-file">👉 dashboard.html</div>
+            </div>
+        </div>
+
+        <div class="alert-box success">
+            ✅ <strong>Tính năng nhớ phiên tự động:</strong> Sau lần đầu quét mã QR, bot sẽ tự lưu vào máy. Từ các lần sau, bạn chỉ cần bật file là bot tự đăng nhập ngay, không phải quét lại mã nữa!
+        </div>
+
+        <!-- PHẦN 3 -->
+        <h2>⌨️ 3. Phím tắt tiện ích & Điều khiển từ xa</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Thao tác / Lệnh</th>
+                    <th style="width: 35%;">Cách sử dụng</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>BAT_THUY_LINH.bat</strong></td>
+                    <td>Nhấp đúp trên máy tính</td>
+                    <td>Bật Em Thùy Linh tự động trực chat 24/7</td>
+                </tr>
+                <tr>
+                    <td><strong>TAT_THUY_LINH.bat</strong></td>
+                    <td>Nhấp đúp trên máy tính</td>
+                    <td>Tạm dừng bot khi bạn muốn tự chat tay với khách</td>
+                </tr>
+                <tr>
+                    <td><strong>NGAT_KET_NOI_BOT.bat</strong></td>
+                    <td>Nhấp đúp trên máy tính</td>
+                    <td>Ngắt kết nối sạch sẽ khi muốn đổi số Zalo khác</td>
+                </tr>
+                <tr>
+                    <td><strong>Nhắn tin: #tat</strong></td>
+                    <td>Nhắn từ Zalo điện thoại vào mục "Cloud của tôi"</td>
+                    <td>Tắt bot từ xa mà không cần chạm vào máy tính</td>
+                </tr>
+                <tr>
+                    <td><strong>Nhắn tin: #bat</strong></td>
+                    <td>Nhắn từ Zalo điện thoại vào mục "Cloud của tôi"</td>
+                    <td>Bật lại bot từ xa ngay lập tức</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PHẦN 4 -->
+        <h2>🌐 4. Đấu nối Facebook Fanpage (Cloud 24/7 không cần bật máy)</h2>
+        <p>Kênh Fanpage hoạt động độc lập trên nền tảng Cloud, bạn tắt máy tính bot vẫn trả lời bình thường:</p>
+        <ol>
+            <li>Mở file <strong>dashboard.html</strong> ➡️ Chọn tab <strong>Kết nối Facebook Fanpage</strong>.</li>
+            <li>Vào cổng <a href="https://developers.facebook.com/" target="_blank">Meta for Developers</a> ➡️ Ứng dụng của bạn ➡️ Messenger ➡️ Webhooks:
+                <ul>
+                    <li><strong>Callback URL:</strong> <code>https://bot-zalo-ai.vercel.app/api/facebook-webhook</code></li>
+                    <li><strong>Verify Token:</strong> <code>haitech_fanpage_bot_secret</code></li>
+                    <li>Tích chọn 2 sự kiện: <code>messages</code> và <code>messaging_postbacks</code>.</li>
+                </ul>
+            </li>
+            <li>Tạo <strong>Mã truy cập trang (Page Access Token)</strong> ➡️ Dán vào Dashboard và bấm <strong>Lưu & Kiểm tra kết nối</strong>.</li>
+        </ol>
+
+        <!-- PHẦN 5 -->
+        <h2>💻 5. Đấu nối Website (Widget LiveChat AI 1-Dòng mã)</h2>
+        <p>Dán đoạn mã dưới đây vào trước thẻ đóng <code>&lt;/body&gt;</code> của trang web của bạn:</p>
+        <pre>&lt;!-- TRỢ LÝ AI EM THÙY LINH CHO WEBSITE --&gt;
+&lt;script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+  data-bot-name="Em Thùy Linh - Trợ lý Shop" 
+  data-phone="0988 739 896" 
+  data-zalo-url="https://zalo.me/0988739896" 
+  data-color="#0077B6" 
+  async&gt;&lt;/script&gt;</pre>
+        <ul>
+            <li><strong>WordPress:</strong> Vào Giao diện ➡️ Chỉnh sửa giao diện ➡️ mở file <code>footer.php</code> và dán trước thẻ <code>&lt;/body&gt;</code>.</li>
+            <li><strong>Haravan / Sapo / Shopify:</strong> Vào Giao diện ➡️ Sửa code ➡️ mở file <code>theme.liquid</code> và dán vào.</li>
+            <li><strong>LadiPage:</strong> Vào Thiết lập trang ➡️ Mã Javascript/CSS ➡️ dán vào mục Body ➡️ Xuất bản lại trang.</li>
+        </ul>
+
+        <!-- PHẦN 6 -->
+        <h2>📝 6. Hướng dẫn nạp bảng giá sản phẩm mới</h2>
+        <p>Bạn có thể mở <strong>dashboard.html</strong> để chỉnh sửa trực quan hoặc mở file <strong>knowledge.json</strong> bằng Notepad:</p>
+        <pre>{
+  "botName": "Em Thùy Linh - Trợ lý Shop Gia Dụng",
+  "phone": "0988 739 896",
+  "rules": [
+    {
+      "keywords": ["giá", "báo giá", "chi phí", "bao nhiêu"],
+      "reply": "Dạ bên em đang ưu đãi giảm 20% hôm nay. Anh/chị cho em xin số điện thoại hoặc gọi hotline: 0988 739 896 để em gửi bảng giá chi tiết nhé ạ! 📋"
+    },
+    {
+      "keywords": ["nồi chiên", "bảo hành"],
+      "reply": "Dạ sản phẩm bên em bảo hành chính hãng 12 tháng tận nơi ạ!"
+    }
+  ]
+}</pre>
+        <div class="alert-box">
+            💡 <strong>Tính năng Hot-Reload:</strong> Sau khi lưu file <code>knowledge.json</code>, Em Thùy Linh đang chạy sẽ tự động cập nhật ngay mà bạn không cần phải tắt đi bật lại!
+        </div>
+
+        <!-- PHẦN 7 -->
+        <h2>❓ 7. Xử lý sự cố thường gặp (Troubleshooting)</h2>
+        <ul>
+            <li><strong>Mã QR hết hạn:</strong> Mỗi mã QR có hiệu lực trong 60 giây. Nếu chưa kịp quét, hệ thống sẽ tự tạo mã mới hoặc bạn mở ảnh <code>qr.png</code> để quét.</li>
+            <li><strong>Muốn đổi sang số Zalo khác:</strong> Nhấp đúp vào file <code>NGAT_KET_NOI_BOT.bat</code>, sau đó mở lại <code>KET_NOI_ZALO_THUY_LINH.bat</code> để quét mã số mới.</li>
+            <li><strong>Máy tính khởi động lại:</strong> Bạn chỉ cần nhấp đúp file <code>CHAY_BOT_ZALO.bat</code> là bot tự chạy ngầm trực tiếp không cần quét lại mã.</li>
+        </ul>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="doc-footer">
+        <p><strong>HAITECH BOT STUDIO — Dịch vụ giải pháp AI cho Doanh nghiệp & Cá nhân kinh doanh</strong></p>
+        <p>Hotline / Zalo hỗ trợ kỹ thuật: <strong>0988 739 896</strong> • Email: <strong>vanhaitech.86@gmail.com</strong></p>
+        <p style="margin-top: 8px; color: #94A3B8; font-size: 12px;">© 2026 HAITECH BOT. All rights reserved.</p>
+    </footer>
+
+</div>
+
+</body>
+</html>

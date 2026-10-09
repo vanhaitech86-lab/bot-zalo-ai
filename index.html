@@ -2,26 +2,168 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8" />
-    <title>HAITECH BOT — Trợ lý AI trả lời khách hàng trên Zalo</title>
+    <title>HAITECH BOT — Trợ lý AI trả lời khách hàng trên ZALO, FANPAGE, WEBSITE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Dựng bot AI tự học từ tài liệu, website, video của bạn và trả lời khách hàng trên Zalo 24/7 — không cần biết code. Liên hệ: 0988739896" />
-    <meta name="keywords" content="chatbot zalo, bot zalo, trợ lý AI, chăm sóc khách hàng tự động, bot AI zalo" />
-    <meta property="og:title" content="HAITECH BOT — Trợ lý AI trả lời khách hàng trên Zalo" />
-    <meta property="og:description" content="Dựng bot AI tự học từ tài liệu, website, video của bạn và trả lời khách hàng trên Zalo 24/7 — không cần biết code." />
+    <meta name="description" content="Trợ lý KOL AI tự học từ tài liệu, website của bạn và trực chat trả lời khách hàng trên Zalo, Fanpage & Website 24/7. Liên hệ: 0988 739 896" />
+    <meta name="keywords" content="chatbot zalo, bot zalo, trợ lý AI, kol ai, thuy linh ai, chăm sóc khách hàng tự động, bot AI zalo" />
+    <meta property="og:title" content="HAITECH BOT — Trợ lý AI trả lời khách hàng trên ZALO, FANPAGE, WEBSITE" />
+    <meta property="og:description" content="Trợ lý KOL AI tự học từ dữ liệu của bạn, trực chat đa kênh 24/7." />
     <meta property="og:type" content="website" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="bot-avatar.png" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+    <style>
+        /* KOL Hero Presentation */
+        .kol-hero-container {
+            position: relative;
+            max-width: 440px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .kol-glow-halo {
+            position: absolute;
+            inset: -15px;
+            background: radial-gradient(circle at 50% 40%, rgba(0, 180, 216, 0.4), rgba(6, 214, 160, 0.25), transparent 70%);
+            border-radius: 40px;
+            filter: blur(24px);
+            z-index: 1;
+            animation: kolGlowAnim 4s ease-in-out infinite alternate;
+        }
+        @keyframes kolGlowAnim {
+            0% { opacity: 0.6; transform: scale(0.97); }
+            100% { opacity: 1; transform: scale(1.03); }
+        }
+        .kol-card-frame {
+            position: relative;
+            z-index: 2;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -15px rgba(0, 119, 182, 0.35), 0 0 0 2px rgba(255, 255, 255, 0.9);
+            background: #0B132B;
+        }
+        .kol-hero-img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            display: block;
+            border-radius: 32px;
+            transition: transform 0.5s ease;
+        }
+        .kol-card-frame:hover .kol-hero-img {
+            transform: scale(1.03);
+        }
+        .kol-live-status {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            background: rgba(11, 19, 43, 0.88);
+            backdrop-filter: blur(12px);
+            color: #FFFFFF;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            z-index: 3;
+        }
+        .kol-dot-pulse {
+            width: 10px;
+            height: 10px;
+            background: #10B981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: kolDotPulse 1.8s infinite;
+        }
+        @keyframes kolDotPulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        .kol-brand-pill {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: linear-gradient(135deg, #FFB703, #FB8500);
+            color: #000;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            box-shadow: 0 4px 14px rgba(251, 133, 0, 0.4);
+            z-index: 3;
+            letter-spacing: 0.5px;
+        }
+        .kol-chat-bubble {
+            position: absolute;
+            bottom: 18px;
+            left: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(16px);
+            border-radius: 22px;
+            padding: 14px 16px;
+            box-shadow: 0 16px 36px rgba(0, 50, 100, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            z-index: 3;
+            animation: kolBubbleFloat 3.5s ease-in-out infinite;
+        }
+        @keyframes kolBubbleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .bubble-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid #00B4D8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .bubble-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .bubble-content {
+            flex: 1;
+        }
+        .bubble-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0077B6;
+            margin-bottom: 2px;
+        }
+        .bubble-msg {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.45;
+            color: #1E293B;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .kol-hero-container { max-width: 360px; }
+            .kol-chat-bubble { padding: 12px; bottom: 12px; left: 12px; right: 12px; }
+            .bubble-msg { font-size: 12px; }
+        }
+    </style>
 </head>
 <body>
 
     <!-- ========== NAVIGATION ========== -->
     <nav class="lp-nav">
         <a class="brand" href="#">
-            <div class="mark">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3C7 3 3 6.4 3 10.6c0 2.5 1.5 4.7 3.8 6.1-.1.9-.5 2.1-1.3 3.1 1.6-.2 3-.9 4-1.7.8.2 1.6.3 2.5.3 5 0 9-3.4 9-7.8S17 3 12 3Z" fill="white"/>
-                    <circle cx="8.7" cy="10.6" r="1" fill="#0077B6"/><circle cx="12" cy="10.6" r="1" fill="#0077B6"/><circle cx="15.3" cy="10.6" r="1" fill="#0077B6"/>
-                </svg>
+            <div class="mark" style="background: transparent; border: 2px solid #00B4D8; border-radius: 50%; overflow: hidden; padding: 0; width: 38px; height: 38px; box-shadow: 0 4px 12px rgba(0,180,216,0.35);">
+                <img src="bot-avatar.png" alt="HAITECH BOT Mascot" style="width: 100%; height: 100%; object-fit: cover;" />
             </div>
             HAITECH BOT
         </a>
@@ -38,9 +180,8 @@
     <!-- ========== HERO SECTION ========== -->
     <header class="lp-hero-split">
         <div class="lp-hero-text">
-            <span class="lp-eyebrow">✨ Không cần biết lập trình</span>
-            <h1>Bot AI trả lời khách hàng trên <span class="accent">Zalo</span>, học từ chính dữ liệu của bạn</h1>
-            <p class="lead">Tải tài liệu, dán link website hoặc video — bot tự đọc và ghi nhớ. Quét một mã QR, bot chạy nền 24/7, kể cả khi bạn tắt máy.</p>
+            <h1>Bot AI trả lời khách hàng trên <span class="accent">ZALO, FANPAGE, WEBSITE</span>, Học từ chính dữ liệu của bạn</h1>
+            <p class="lead">Tải tài liệu, dán link website hoặc kịch bản — Bot tự đọc và ghi nhớ. Trực chat đa kênh tự động 24/7 trên Zalo, Fanpage Messenger và Website LiveChat, kể cả khi bạn tắt máy.</p>
             <div class="lp-cta-row">
                 <a class="lp-btn-primary" href="#dung-thu">🎁 Đăng ký dùng thử 7 ngày miễn phí →</a>
                 <a class="lp-btn-secondary" href="login.html">Đăng nhập Dashboard</a>
@@ -49,71 +190,46 @@
         </div>
 
         <div class="lp-hero-visual">
-            <svg viewBox="0 0 420 460" class="lp-robot" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
-                        <stop offset="0%" stop-color="#00B4D8" stop-opacity="0.30"/>
-                        <stop offset="100%" stop-color="#0077B6" stop-opacity="0"/>
-                    </radialGradient>
-                    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#E0F2FE"/>
-                        <stop offset="100%" stop-color="#BAE6FD"/>
-                    </linearGradient>
-                    <linearGradient id="headGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#FFFFFF"/>
-                        <stop offset="100%" stop-color="#E0F2FE"/>
-                    </linearGradient>
-                    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#0077B6"/>
-                        <stop offset="100%" stop-color="#00B4D8"/>
-                    </linearGradient>
-                </defs>
-                <circle cx="210" cy="230" r="200" fill="url(#glow)"/>
-                <circle cx="90" cy="80" r="4" fill="#00B4D8" opacity="0.6"/>
-                <circle cx="340" cy="120" r="3" fill="#06D6A0" opacity="0.6"/>
-                <circle cx="360" cy="300" r="4" fill="#0077B6" opacity="0.5"/>
-                <circle cx="60" cy="330" r="3" fill="#00B4D8" opacity="0.5"/>
-                <circle cx="180" cy="420" r="3" fill="#06D6A0" opacity="0.4"/>
-                <circle cx="320" cy="50" r="3" fill="#0077B6" opacity="0.4"/>
+            <div class="kol-hero-container">
+                <div class="kol-glow-halo"></div>
+                <div class="kol-card-frame">
+                    <img src="kol-thuy-linh.jpg" alt="Trợ lý KOL AI Thùy Linh - HAITECH BOT" class="kol-hero-img" />
+                    
+                    <!-- Live Status Badge -->
+                    <div class="kol-live-status">
+                        <span class="kol-dot-pulse"></span>
+                        <span>KOL AI Thùy Linh · Online 24/7</span>
+                    </div>
 
-                <!-- antenna -->
-                <line x1="210" y1="70" x2="210" y2="38" stroke="url(#accentGrad)" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="210" cy="30" r="10" fill="#06D6A0">
-                    <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite"/>
-                </circle>
+                    <!-- AI Brand Badge -->
+                    <div class="kol-brand-pill">
+                        ⭐ HAITECH AI · KOL AI
+                    </div>
 
-                <!-- head -->
-                <rect x="138" y="68" width="144" height="114" rx="44" fill="url(#headGrad)" stroke="#BAE6FD" stroke-width="3"/>
-                <path d="M172 116 q16 -22 32 0" stroke="#0077B6" stroke-width="8" stroke-linecap="round" fill="none"/>
-                <path d="M216 116 q16 -22 32 0" stroke="#0077B6" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <!-- Interactive Floating Chat Bubble -->
+                    <div class="kol-chat-bubble">
+                        <div class="bubble-avatar">
+                            <img src="bot-avatar.png" alt="Avatar Robot AI" />
+                        </div>
+                        <div class="bubble-content">
+                            <span class="bubble-name">Thùy Linh (Trợ lý AI):</span>
+                            <p class="bubble-msg">Dạ em chào anh/chị ạ! Em là Trợ lý AI của HAITECH BOT, tự động trực chat Zalo, Fanpage & Website 24/7 giúp tăng 300% doanh thu ạ! 😊</p>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- body -->
-                <rect x="108" y="188" width="204" height="204" rx="58" fill="url(#bodyGrad)" stroke="#BAE6FD" stroke-width="3"/>
-                <rect x="176" y="240" width="68" height="68" rx="20" fill="white" opacity="0.8"/>
-                <circle cx="210" cy="274" r="18" fill="url(#accentGrad)">
-                    <animate attributeName="fill" values="#0077B6;#00B4D8;#06D6A0;#00B4D8;#0077B6" dur="4s" repeatCount="indefinite"/>
-                </circle>
-
-                <!-- left arm -->
-                <rect x="88" y="230" width="34" height="92" rx="17" fill="url(#bodyGrad)" stroke="#BAE6FD" stroke-width="3"/>
-
-                <!-- right arm (waving) -->
-                <g>
-                    <animateTransform attributeName="transform" type="rotate" values="0 313 195;-12 313 195;0 313 195;12 313 195;0 313 195" dur="2.5s" repeatCount="indefinite"/>
-                    <rect x="296" y="148" width="34" height="98" rx="17" fill="url(#bodyGrad)" stroke="#BAE6FD" stroke-width="3" transform="rotate(28 313 150)"/>
-                    <circle cx="345" cy="138" r="21" fill="url(#headGrad)" stroke="#BAE6FD" stroke-width="3"/>
-                </g>
-
-                <!-- floating chat bubble -->
-                <g transform="translate(18,298)">
-                    <rect x="0" y="0" width="96" height="62" rx="18" fill="white" stroke="#C8DFF0" stroke-width="2"/>
-                    <path d="M18 62 L18 76 L34 62 Z" fill="white" stroke="#C8DFF0" stroke-width="2"/>
-                    <circle cx="26" cy="31" r="6" fill="#0077B6"/>
-                    <circle cx="48" cy="31" r="6" fill="#00B4D8"/>
-                    <circle cx="70" cy="31" r="6" fill="#06D6A0"/>
-                    <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
-                </g>
-            </svg>
+                <!-- Floating Mascot Companion Tag -->
+                <div class="kol-mascot-float">
+                    <div class="mascot-avatar-ring">
+                        <img src="bot-avatar.png" alt="Robot AI Mascot" class="mascot-pop-img" />
+                        <span class="mascot-online-dot"></span>
+                    </div>
+                    <div class="mascot-pop-text">
+                        <span class="mascot-pop-title">🤖 TRỢ LÝ AI 24/7</span>
+                        <span class="mascot-pop-sub">Trực chat đa kênh sẵn sàng!</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -142,13 +258,28 @@
     <!-- ========== CHAT DEMO ========== -->
     <div class="lp-hero-mock-wrap">
         <div class="lp-mock">
-            <div class="lp-mock-bar"><span></span><span></span><span></span></div>
-            <div class="lp-bubble them">Shop còn máy lọc nước RO150 không ạ?</div>
-            <div class="lp-bubble me">Dạ còn ạ 😊 RO150 giá 91.800.000đ đã gồm lắp đặt, bảo hành 12 tháng. Anh/chị cần tư vấn công suất phù hợp không ạ?</div>
-            <div class="lp-bubble them">Cho mình giá RO250 nữa</div>
-            <div class="lp-bubble me">RO250 hiện giá 125.000.000đ ạ. Em gửi anh/chị bảng so sánh chi tiết 2 mẫu nhé! 📋</div>
+            <div class="lp-mock-bar">
+                <div style="display:flex; gap:7px; align-items:center;">
+                    <span></span><span></span><span></span>
+                </div>
+                <div style="margin-left:auto; display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:#0077B6;">
+                    <img src="bot-avatar.png" alt="Bot AI" style="width:22px; height:22px; border-radius:50%; object-fit:cover; border:1.5px solid #00B4D8;" />
+                    <span>Em Thùy Linh (AI Online 24/7)</span>
+                </div>
+            </div>
+            <div class="lp-bubble them">Bên mình có giải pháp Bot AI tự động trực chat Zalo và Fanpage không shop?</div>
+            <div class="lp-mock-row bot-row">
+                <div class="lp-bubble me">Dạ có ạ 😊 Em là Trợ lý AI Thùy Linh, tự động trực chat 24/7 và chốt đơn đa kênh chỉ từ 199.000đ/tháng. Anh/chị đang kinh doanh mảng nào để em tư vấn kịch bản tối ưu nhất ạ?</div>
+                <img src="bot-avatar.png" alt="Bot Avatar" class="lp-bubble-avatar" />
+            </div>
+            <div class="lp-bubble them">Cho mình xin giá gói Pro Đa Kênh hoặc trọn đời nữa nhé</div>
+            <div class="lp-mock-row bot-row">
+                <div class="lp-bubble me">Dạ gói Pro Đa Kênh trọn đời đang ưu đãi chỉ 1.990.000đ (tặng kèm Website LiveChat) ạ. Em gửi anh/chị bảng so sánh các gói kèm link dùng thử 7 ngày miễn phí nhé! 🎁</div>
+                <img src="bot-avatar.png" alt="Bot Avatar" class="lp-bubble-avatar" />
+            </div>
         </div>
     </div>
+
 
     <!-- ========== FEATURES ========== -->
     <section class="lp-section" id="tinh-nang">
@@ -815,5 +946,15 @@
         });
     </script>
 
+    <!-- ========== HAITECH LIVECHAT AI WIDGET ========== -->
+    <script src="haitech-chat-widget.js" 
+      data-bot-name="Em Thùy Linh - Trợ lý HAITECH BOT" 
+      data-phone="0988 739 896" 
+      data-zalo-url="https://zalo.me/0988739896" 
+      data-avatar-url="bot-avatar.png"
+      data-color="#0077B6" 
+      async></script>
+
 </body>
 </html>
+
