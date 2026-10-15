@@ -64,5 +64,20 @@
 - [BAT_THUY_LINH.bat]         : Bật bot trực 24/7
 - [TAT_THUY_LINH.bat]         : Tạm dừng bot để tự chat tay
 - [NGAT_KET_NOI_BOT.bat]      : Ngắt kết nối Zalo an toàn
-- [HUONG_DAN_NHANH_3_BUOC.txt]: Hướng dẫn 3 bước ngắn gọn
+- [HUONG_DAN_DAY_BOT_LEN_INTERNET_CHAY_247_CHI_TIET.md]: Cẩm nang đưa bot lên Internet 24/7 từ A-Z
+- [XUAT_CHUOI_SESSION_LEN_CLOUD.bat]: Xuất chuỗi session đăng nhập Zalo Cloud
+- [CAP_NHAT_LEN_INTERNET.bat]       : 1 cú click đồng bộ code mới lên GitHub & Cloud
+- [SESSION_CLOUD_ENV.txt]           : Chứa chuỗi ZALO_SESSION_JSON dùng cho Render/VPS
+
+---------------------------------------------------------------------
+5. THÔNG TIN ĐẨY LÊN INTERNET (RENDER.COM 24/7 KHÔNG CẦN BẬT MÁY TÍNH):
+---------------------------------------------------------------------
+- GitHub Repo: https://github.com/vanhaitech86-lab/bot-zalo-ai.git (Branch: master)
+- Trang chủ Render: https://dashboard.render.com
+- Biến môi trường cần thêm:
+  + ZALO_SESSION_JSON : (Lấy trong file SESSION_CLOUD_ENV.txt)
+  + GEMINI_API_KEY    : (Lấy trong file .env trên máy tính của anh)
+  + PORT              : 3000
+  + NODE_ENV          : production
+- Trang chống ngủ đông: https://uptimerobot.com (Ping URL: https://<tên-app>.onrender.com/health)
 =====================================================================
