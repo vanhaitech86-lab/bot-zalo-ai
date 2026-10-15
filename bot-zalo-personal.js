@@ -12,6 +12,14 @@ import path from "node:path";
 import { exec } from "node:child_process";
 import { generateReplyAsync } from "./api/knowledge-engine.js";
 
+// Bắt các lỗi chưa xử lý để đảm bảo Bot chạy 24/7 không bị dừng đột ngột (Crash Protection)
+process.on('uncaughtException', (err) => {
+    console.error('⚠️ [Hệ thống tự bảo vệ] Bắt lỗi Uncaught Exception (ngăn sập bot):', err?.message || err);
+});
+process.on('unhandledRejection', (reason) => {
+    console.warn('⚠️ [Hệ thống tự bảo vệ] Bắt lỗi Unhandled Rejection (ngăn sập bot):', reason?.message || reason);
+});
+
 const SESSION_FILE = "./session.json";
 const KNOWLEDGE_FILE = "./knowledge.json";
 const QR_PNG_FILE = "./qr.png";
@@ -21,6 +29,19 @@ const STATUS_FILE = "./bot-status.json";
 // Biến trạng thái BẬT/TẮT & Chế độ hoạt động
 let isBotActive = true;
 let botMode = "smart_customer_only"; // "smart_customer_only" (Lọc khách) | "assistant_only" (Chỉ phục vụ Sếp) | "all_247" (Tất cả)
+
+// Hàm chuẩn hóa chuỗi lệnh tiếng Việt (bỏ dấu, chuyển chữ thường, loại bỏ ký tự đặc biệt)
+function normalizeCommand(str) {
+    if (!str) return "";
+    return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+}
 
 function loadBotStatus() {
     try {
@@ -37,6 +58,19 @@ function loadBotStatus() {
     } catch (e) {}
 }
 loadBotStatus();
+
+// Nếu chạy từ BAT_THUY_LINH.bat hoặc có tham số --force-active, đảm bảo luôn BẬT
+if (process.argv.includes('--force-active') || process.env.FORCE_ACTIVE === 'true') {
+    isBotActive = true;
+    botMode = "smart_customer_only";
+    try {
+        fs.writeFileSync(STATUS_FILE, JSON.stringify({
+            active: true,
+            mode: "smart_customer_only",
+            updatedAt: new Date().toISOString()
+        }, null, 2), "utf8");
+    } catch (e) {}
+}
 
 function setBotStatus(active, mode = null) {
     if (active !== null) isBotActive = active;
@@ -63,7 +97,7 @@ try {
         if (eventType === "change") {
             loadBotStatus();
             const modeText = botMode === 'assistant_only' ? '👑 Trợ lý riêng cho Sếp Hải' : (botMode === 'smart_customer_only' ? '🎯 Lọc khách thông minh' : '🌐 Toàn diện 24/7');
-            console.log(`🔄 Trạng thái Bot đã cập nhật: ${isBotActive ? '🟢 ĐANG BẬT' : '🛑 ĐANG TẮT'} | Chế độ: ${modeText}`);
+            console.log(`🔄 Trạng thái Bot đã cập nhật: ${isBotActive ? '🟢 ĐANG BẬT (Trực 24/7)' : '🛑 ĐANG TẮT'} | Chế độ: ${modeText}`);
         }
     });
 } catch (err) {}
@@ -97,8 +131,12 @@ function isBusinessInquiry(text, kb) {
         if (lower.includes(kw)) return true;
     }
 
-    // 3. Lời chào của khách hàng/người lạ
-    const greetings = ["chào shop", "xin chào shop", "chào công ty", "ad ơi", "admin ơi", "shop ơi"];
+    // 3. Lời chào của khách hàng/người lạ hoặc gọi đích danh Trợ lý Thùy Linh / Bot
+    const greetings = [
+        "thùy linh", "thuylinh", "thuy linh", "bot ơi", "bot oi", "em thùy linh", "em thuylinh",
+        "trợ lý", "tro ly", "@thuylinh", "chào shop", "xin chào shop", "chào công ty",
+        "ad ơi", "admin ơi", "shop ơi", "chào bạn", "chào em", "alo em"
+    ];
     for (const g of greetings) {
         if (lower.includes(g)) return true;
     }
@@ -737,12 +775,39 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
             const isTestPrefix = userText.toLowerCase().startsWith("test:") || userText.toLowerCase().startsWith("#test") || userText.toLowerCase().startsWith("bot:");
             const replyDest = (isCloudOfMine && send2meId) ? send2meId : message.threadId;
 
-            // 1. TÍNH NĂNG ĐIỀU KHIỂN & LÀM VIỆC TRỰC TIẾP VỚI SẾP HẢI QUA "CLOUD CỦA TÔI" (TRUYỀN FILE):
-            if (message.isSelf) {
-                const cmd = userText.toLowerCase().trim();
+            // 1. NẾU LÀ TIN NHẮN TRONG HỘI NHÓM:
+            if (message.type === ThreadType.Group) {
+                // CHỈ PHẢN HỒI TRONG NHÓM KHI CÓ NGƯỜI GỌI TÊN @thuylinh HOẶC MENTION (Kể cả Sếp Hải hay thành viên khác)
+                const ownId = api.getOwnId ? String(api.getOwnId()) : null;
+                const isMentioned = isBotMentionedInGroup(message, userText, ownId);
 
-                // 1.1. LỆNH ĐĂNG XUẤT HOÀN TOÀN
-                if (cmd === "#dangxuat" || cmd === "#logout" || cmd === "#reset") {
+                if (!isMentioned) {
+                    // Nếu không có ai gọi @thuylinh -> Tuyệt đối im lặng, không xen vào trò chuyện của nhóm
+                    return;
+                }
+
+                // Nếu bot đang tắt -> không phản hồi
+                if (!isBotActive) {
+                    return;
+                }
+
+                // Đã được gọi tên trong nhóm -> Làm sạch tiền tố mention và phản hồi ngay lập tức
+                const cleanGroupPrompt = cleanMentionText(userText);
+                console.log(`\n👥 [NHÓM ZALO ${message.threadId}] Có người gọi @thuylinh: "${userText}"`);
+                await processAndReply(message.threadId, message.data, cleanGroupPrompt, ThreadType.Group, false, true);
+                return;
+            }
+
+            // 2. TÍNH NĂNG ĐIỀU KHIỂN & LÀM VIỆC TRỰC TIẾP VỚI SẾP HẢI QUA "CLOUD CỦA TÔI" (TRUYỀN FILE):
+            const isFromBoss = message.isSelf || isCloudOfMine;
+            if (isFromBoss) {
+                const rawCmd = userText.toLowerCase().trim();
+                const normCmd = normalizeCommand(userText);
+
+                // 2.1. LỆNH ĐĂNG XUẤT HOÀN TOÀN
+                const isLogoutCmd = rawCmd === "#dangxuat" || rawCmd === "#đăngxuất" || rawCmd === "#logout" || rawCmd === "#reset" ||
+                                    normCmd === "dang xuat" || normCmd === "logout";
+                if (isLogoutCmd) {
                     console.log("\n=================================================================");
                     console.log("🛑 NHẬN ĐƯỢC LỆNH ĐĂNG XUẤT TỪ ĐIỆN THOẠI CỦA BẠN (#dangxuat)!");
                     console.log("🔒 Đang dừng Bot và xóa phiên đăng nhập...");
@@ -760,23 +825,24 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
                     process.exit(0);
                 }
 
-                // 1.2. CHẾ ĐỘ TRỢ LÝ RIÊNG (CHỈ PHỤC VỤ ANH HẢI, KHÔNG TRẢ LỜI NGƯỜI NGOÀI)
-                if (cmd === "#rieng" || cmd === "#troly" || cmd === "#canhan" || cmd === "trợ lý riêng" || cmd === "tro ly rieng") {
-                    setBotStatus(true, "assistant_only");
-                    console.log("\n👑 [LỆNH TỪ CLOUD] ĐÃ CHUYỂN SANG CHẾ ĐỘ TRỢ LÝ RIÊNG CHO SẾP HẢI.");
-                    const confirmMsg = `👑 [CHẾ ĐỘ TRỢ LÝ RIÊNG CỦA ANH HẢI]\n\nEm Thùy Linh đã chuyển sang chế độ phục vụ RIÊNG một mình anh Hải!\n\n✨ Từ bây giờ:\n• Em sẽ CHỈ lắng nghe và làm việc cho anh Hải trong Cloud này.\n• Em hoàn toàn KHÔNG tự tiện trả lời tin nhắn của bạn bè hay người ngoài trên Zalo.\n• Anh có thể giao việc, viết bài, viết code, hỏi đáp, tra cứu thoải mái nhé!\n\n👉 Khi muốn bật trực khách: Nhắn "#khach" (Lọc thông minh) hoặc "#bat"`;
-                    markSentReply(confirmMsg);
-                    try {
-                        await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
-                    } catch (e) {}
-                    return;
-                }
+                // 2.2. LỆNH BẬT BOT (TRỰC CHIẾN 24/7) - Nhận diện linh hoạt mọi biến thể lệnh bật
+                const isTurnOnCmd = (
+                    rawCmd === "#bat" || rawCmd === "#bật" || rawCmd === "#batbot" || rawCmd === "#bậtbot" ||
+                    rawCmd === "#on" || rawCmd === "#start" || rawCmd === "#resume" || rawCmd === "#online" ||
+                    normCmd === "bat" || normCmd === "bat bot" || normCmd === "bat len" || normCmd === "bat lai" ||
+                    normCmd === "bat tro ly" || normCmd === "bat thuy linh" || normCmd === "bat em thuy linh" ||
+                    normCmd === "mo bot" || normCmd === "mo lai bot" || normCmd === "mo tro ly" ||
+                    normCmd === "kich hoat" || normCmd === "kich hoat bot" || normCmd === "start" || normCmd === "on" ||
+                    normCmd === "resume" || normCmd === "online" || normCmd === "hoat dong" || normCmd === "hoat dong lai" ||
+                    normCmd === "bat truc khach" || normCmd === "bat 24 7" || normCmd === "bat online" ||
+                    normCmd.startsWith("bat bot") || normCmd.startsWith("bat tro ly") || normCmd.startsWith("mo bot") ||
+                    ((normCmd.includes("bat bot") || normCmd.includes("bat truc khach") || normCmd.includes("bat len") || normCmd.includes("bat lai") || normCmd.includes("bat thuy linh")) && !normCmd.includes("tat"))
+                );
 
-                // 1.3. CHẾ ĐỘ LỌC KHÁCH THÔNG MINH (CHỈ TIẾP KHÁCH HỎI DỊCH VỤ, BỎ QUA BẠN BÈ)
-                if (cmd === "#khach" || cmd === "#locthongminh" || cmd === "lọc khách" || cmd === "loc khach") {
+                if (isTurnOnCmd) {
                     setBotStatus(true, "smart_customer_only");
-                    console.log("\n🎯 [LỆNH TỪ CLOUD] ĐÃ KÍCH HOẠT CHẾ ĐỘ LỌC KHÁCH THÔNG MINH.");
-                    const confirmMsg = `🎯 [CHẾ ĐỘ TIẾP KHÁCH THÔNG MINH]\n\nEm đã kích hoạt bộ lọc bảo vệ bạn bè cá nhân:\n• Em CHỈ tự động tư vấn khi có người hỏi về: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá, Dịch vụ...\n• Khi bạn bè nhắn tin tán gẫu, trò chuyện cá nhân: Em sẽ im lặng để anh Hải tự chat thoải mái!\n\n👉 Chuyển sang trợ lý riêng cho anh: Nhắn "#rieng"\n👉 Tắt trực khách hoàn toàn: Nhắn "#tat"`;
+                    console.log("\n🟢 [LỆNH TỪ CLOUD] ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7 (TIẾP KHÁCH THÔNG MINH).");
+                    const confirmMsg = `🟢 [ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7]\n\nEm Thùy Linh đã sẵn sàng trực chiến 24/7!\n\n✨ Trạng thái hiện tại:\n• Tự động tư vấn khách hỏi dịch vụ: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá...\n• Tự động xin SĐT khách hàng và lưu trữ Online\n• Tự động bảo vệ bạn bè: Bạn bè chat riêng thì em im lặng để anh Hải tự chat\n\n💡 Lệnh nhanh trên Zalo:\n👉 Nhắn "#rieng": Chỉ phục vụ Sếp Hải (không trả lời người ngoài)\n👉 Nhắn "#tat": Tạm dừng trực khách (tự chat tay)\n👉 Nhắn "#trangthai": Kiểm tra tình trạng hoạt động`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -784,11 +850,21 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
                     return;
                 }
 
-                // 1.4. LỆNH TẮT BOT (TẠM DỪNG TỰ ĐỘNG TRẢ LỜI KHÁCH HÀNG)
-                if (cmd === "#tat" || cmd === "#tatbot" || cmd === "tắt bot" || cmd === "tat bot" || cmd === "tắt" || cmd === "tat" || cmd === "pause" || cmd === "stop" || cmd === "off") {
+                // 2.3. LỆNH TẮT BOT (TẠM DỪNG TỰ ĐỘNG TRẢ LỜI KHÁCH HÀNG)
+                const isTurnOffCmd = (
+                    rawCmd === "#tat" || rawCmd === "#tắt" || rawCmd === "#tatbot" || rawCmd === "#tắtbot" ||
+                    rawCmd === "#off" || rawCmd === "#stop" || rawCmd === "#pause" ||
+                    normCmd === "tat" || normCmd === "tat bot" || normCmd === "tat di" || normCmd === "tat bot di" ||
+                    normCmd === "dung bot" || normCmd === "tam dung" || normCmd === "nghi ngoi" || normCmd === "tat truc khach" ||
+                    normCmd === "stop" || normCmd === "pause" || normCmd === "off" ||
+                    normCmd.startsWith("tat bot") || normCmd.startsWith("tam dung") ||
+                    ((normCmd.includes("tat bot") || normCmd.includes("dung bot") || normCmd.includes("tat truc khach")) && !normCmd.includes("bat"))
+                );
+
+                if (isTurnOffCmd) {
                     setBotStatus(false);
                     console.log("\n🛑 [LỆNH TỪ CLOUD] ĐÃ TẮT TRỰC KHÁCH.");
-                    const confirmMsg = `🛑 [ĐÃ TẮT TỰ ĐỘNG TRỰC KHÁCH]\n\nEm đã tạm dừng tự động trả lời người ngoài. Em vẫn luôn túc trực hỗ trợ anh Hải trong Cloud này nhé!\n\n👉 Bật lại chế độ tiếp khách thông minh: Nhắn "#khach" hoặc "#bat"`;
+                    const confirmMsg = `🛑 [ĐÃ TẮT TỰ ĐỘNG TRỰC KHÁCH]\n\nEm đã tạm dừng tự động trả lời người ngoài. Em vẫn luôn túc trực hỗ trợ anh Hải trong Cloud này nhé!\n\n👉 Bật lại chế độ tiếp khách thông minh 24/7: Nhắn "#khach" hoặc "#bat"`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -796,11 +872,37 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
                     return;
                 }
 
-                // 1.5. LỆNH BẬT BOT
-                if (cmd === "#bat" || cmd === "#batbot" || cmd === "bật bot" || cmd === "bat bot" || cmd === "bật" || cmd === "bat" || cmd === "start" || cmd === "resume" || cmd === "on") {
+                // 2.4. CHẾ ĐỘ TRỢ LÝ RIÊNG (CHỈ PHỤC VỤ ANH HẢI, KHÔNG TRẢ LỜI NGƯỜI NGOÀI)
+                const isAssistantOnlyCmd = (
+                    rawCmd === "#rieng" || rawCmd === "#riêng" || rawCmd === "#troly" || rawCmd === "#trợlý" ||
+                    rawCmd === "#canhan" || rawCmd === "#cánhân" ||
+                    normCmd === "rieng" || normCmd === "tro ly rieng" || normCmd === "che do rieng" ||
+                    normCmd === "tro ly" || normCmd === "ca nhan" || normCmd === "chi phuc vu sep" || normCmd === "phuc vu rieng"
+                );
+
+                if (isAssistantOnlyCmd) {
+                    setBotStatus(true, "assistant_only");
+                    console.log("\n👑 [LỆNH TỪ CLOUD] ĐÃ CHUYỂN SANG CHẾ ĐỘ TRỢ LÝ RIÊNG CHO SẾP HẢI.");
+                    const confirmMsg = `👑 [CHẾ ĐỘ TRỢ LÝ RIÊNG CỦA ANH HẢI]\n\nEm Thùy Linh đã chuyển sang chế độ phục vụ RIÊNG một mình anh Hải!\n\n✨ Từ bây giờ:\n• Em sẽ CHỈ lắng nghe và làm việc cho anh Hải trong Cloud này.\n• Em hoàn toàn KHÔNG tự tiện trả lời tin nhắn của bạn bè hay người ngoài trên Zalo.\n• Anh có thể giao việc, viết bài, viết code, hỏi đáp, tra cứu thoải mái nhé!\n\n👉 Khi muốn bật trực khách 24/7: Nhắn "#khach" (Lọc thông minh) hoặc "#bat"`;
+                    markSentReply(confirmMsg);
+                    try {
+                        await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
+                    } catch (e) {}
+                    return;
+                }
+
+                // 2.5. CHẾ ĐỘ LỌC KHÁCH THÔNG MINH (CHỈ TIẾP KHÁCH HỎI DỊCH VỤ, BỎ QUA BẠN BÈ)
+                const isSmartFilterCmd = (
+                    rawCmd === "#khach" || rawCmd === "#khách" || rawCmd === "#locthongminh" || rawCmd === "#lọcthôngminh" ||
+                    rawCmd === "#tudong" || rawCmd === "#tựđộng" ||
+                    normCmd === "khach" || normCmd === "loc khach" || normCmd === "tiep khach" || normCmd === "truc khach" ||
+                    normCmd === "loc thong minh" || normCmd === "tu dong"
+                );
+
+                if (isSmartFilterCmd) {
                     setBotStatus(true, "smart_customer_only");
-                    console.log("\n🟢 [LỆNH TỪ CLOUD] ĐÃ BẬT TRỢ LÝ TRỰC KHÁCH THÔNG MINH.");
-                    const confirmMsg = `🟢 [ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN THÔNG MINH]\n\nEm đã sẵn sàng trực chiến 24/7! Em sẽ tự động tư vấn khách hàng hỏi dịch vụ, và giữ không gian riêng tư cho bạn bè anh Hải nhé. 😊\n\n👉 Chuyển sang trợ lý riêng chỉ phục vụ anh: Nhắn "#rieng"\n👉 Tắt trực khách: Nhắn "#tat"`;
+                    console.log("\n🎯 [LỆNH TỪ CLOUD] ĐÃ KÍCH HOẠT CHẾ ĐỘ LỌC KHÁCH THÔNG MINH 24/7.");
+                    const confirmMsg = `🎯 [CHẾ ĐỘ TIẾP KHÁCH THÔNG MINH 24/7]\n\nEm đã kích hoạt bộ lọc bảo vệ bạn bè cá nhân:\n• Em CHỈ tự động tư vấn khi có người hỏi về: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá, Dịch vụ...\n• Khi bạn bè nhắn tin tán gẫu, trò chuyện cá nhân: Em sẽ im lặng để anh Hải tự chat thoải mái!\n\n👉 Chuyển sang trợ lý riêng cho anh: Nhắn "#rieng"\n👉 Tắt trực khách hoàn toàn: Nhắn "#tat"`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -808,16 +910,29 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
                     return;
                 }
 
-                // 1.6. LỆNH XEM LEADS / SĐT KHÁCH
-                if (cmd === "#leads" || cmd === "#khachhang" || cmd === "danh sách khách" || cmd === "xem lead" || cmd === "leads") {
+                // 2.6. LỆNH XEM LEADS / SĐT KHÁCH
+                const isLeadsCmd = (
+                    rawCmd === "#leads" || rawCmd === "#lead" || rawCmd === "#khachhang" || rawCmd === "#kháchhàng" ||
+                    normCmd === "leads" || normCmd === "lead" || normCmd === "danh sach khach" ||
+                    normCmd === "xem lead" || normCmd === "xem khach" || normCmd === "sdt khach"
+                );
+
+                if (isLeadsCmd) {
                     await processAndReply(replyDest, message.data, "#leads", ThreadType.User, true);
                     return;
                 }
 
-                // 1.7. LỆNH KIỂM TRA TRẠNG THÁI
-                if (cmd === "#trangthai" || cmd === "trạng thái" || cmd === "trang thai" || cmd === "status" || cmd === "kiem tra") {
+                // 2.7. LỆNH KIỂM TRA TRẠNG THÁI
+                const isStatusCmd = (
+                    rawCmd === "#trangthai" || rawCmd === "#trạngthái" || rawCmd === "#status" ||
+                    rawCmd === "#check" || rawCmd === "#kiemtra" || rawCmd === "#kiểmtra" ||
+                    normCmd === "trang thai" || normCmd === "status" || normCmd === "kiem tra" ||
+                    normCmd === "kiem tra bot" || normCmd === "tinh trang" || normCmd === "check"
+                );
+
+                if (isStatusCmd) {
                     const modeLabel = botMode === 'assistant_only' ? '👑 Trợ lý riêng (Chỉ phục vụ Sếp Hải)' : (botMode === 'smart_customer_only' ? '🎯 Lọc khách thông minh (Bảo vệ bạn bè)' : '🌐 Toàn diện 24/7');
-                    const statusMsg = `📊 [TRẠNG THÁI TRỢ LÝ THÙY LINH]\n• Trợ lý riêng của: Anh Nguyễn Văn Hải (HaiTech AI)\n• Trực khách ngoài: ${isBotActive ? '🟢 ĐANG BẬT' : '🛑 ĐANG TẮT'}\n• Chế độ: ${modeLabel}\n• Động cơ AI: Gemini Flash Lite siêu tốc (~0.8s)\n\n💡 Cú pháp điều khiển:\n- "#rieng": Chỉ phục vụ Sếp Hải, không đụng bạn bè\n- "#khach": Tự động tư vấn khách hỏi dịch vụ\n- "#leads": Xem danh sách SĐT khách hàng đã lưu\n- "#tat": Tắt trực khách (tự chat tay)\n- "#bat": Bật lại trực khách`;
+                    const statusMsg = `📊 [TRẠNG THÁI TRỢ LÝ THÙY LINH]\n• Trợ lý riêng của: Anh Nguyễn Văn Hải (HaiTech AI)\n• Trực khách ngoài: ${isBotActive ? '🟢 ĐANG BẬT (24/7)' : '🛑 ĐANG TẮT (Tạm dừng)'}\n• Chế độ: ${modeLabel}\n• Động cơ AI: Gemini Flash Lite siêu tốc (~0.8s)\n\n💡 Cú pháp điều khiển trên Zalo:\n- "#bat": Bật trực khách 24/7\n- "#tat": Tắt trực khách (tự chat tay)\n- "#rieng": Chỉ phục vụ Sếp Hải, không đụng bạn bè\n- "#khach": Tự động tư vấn khách hỏi dịch vụ\n- "#leads": Xem danh sách SĐT khách hàng đã lưu`;
                     markSentReply(statusMsg);
                     try {
                         await api.sendMessage({ msg: statusMsg }, replyDest, ThreadType.User);
@@ -825,7 +940,7 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
                     return;
                 }
 
-                // 1.8. LÀM VIỆC / TRÒ CHUYỆN VỚI SẾP HẢI TRONG CLOUD CỦA TÔI:
+                // 2.8. LÀM VIỆC / TRÒ CHUYỆN VỚI SẾP HẢI TRONG CLOUD CỦA TÔI HOẶC CÓ TIỀN TỐ TEST:
                 if (isCloudOfMine || isTestPrefix) {
                     const cleanText = isTestPrefix ? userText.replace(/^(test:|#test|bot:)\s*/i, '') : userText;
                     await processAndReply(replyDest, message.data, cleanText, ThreadType.User, true);
@@ -836,31 +951,13 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
                 return;
             }
 
-            // 2. NẾU BOT ĐANG TẮT HOẶC Ở CHẾ ĐỘ TRỢ LÝ RIÊNG -> BỎ QUA TIN NHẮN NGƯỜI NGOÀI:
+            // 3. NẾU BOT ĐANG TẮT HOẶC Ở CHẾ ĐỘ TRỢ LÝ RIÊNG -> BỎ QUA TIN NHẮN 1-1 CỦA NGƯỜI NGOÀI:
             if (!isBotActive) {
                 console.log(`⏸️ [BOT TẮT TRỰC KHÁCH] Khách (${message.threadId}) nhắn: "${userText}". Bỏ qua để bạn tự chat.`);
                 return;
             }
             if (botMode === 'assistant_only') {
                 console.log(`👑 [CHẾ ĐỘ TRỢ LÝ RIÊNG] Tin nhắn từ (${message.threadId}): "${userText}". Bot chỉ phục vụ riêng anh Hải nên bỏ qua.`);
-                return;
-            }
-
-            // 3. XỬ LÝ THEO LOẠI HỘI THOẠI (CHAT NHÓM vs CHAT 1-1 CÁ NHÂN):
-            if (message.type === ThreadType.Group) {
-                // CHỈ PHẢN HỒI TRONG NHÓM KHI CÓ NGƯỜI GỌI TÊN @thuylinh HOẶC MENTION
-                const ownId = api.getOwnId ? String(api.getOwnId()) : null;
-                const isMentioned = isBotMentionedInGroup(message, userText, ownId);
-
-                if (!isMentioned) {
-                    // Nếu không có ai gọi @thuylinh -> Tuyệt đối im lặng, không xen vào trò chuyện của nhóm
-                    return;
-                }
-
-                // Đã được gọi tên trong nhóm -> Làm sạch tiền tố mention và phản hồi ngay lập tức
-                const cleanGroupPrompt = cleanMentionText(userText);
-                console.log(`\n👥 [NHÓM ZALO ${message.threadId}] Có thành viên gọi @thuylinh: "${userText}"`);
-                await processAndReply(message.threadId, message.data, cleanGroupPrompt, ThreadType.Group, false, true);
                 return;
             }
 
@@ -930,6 +1027,17 @@ NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
 
     // Khởi động lắng nghe với cơ chế tự động kết nối lại
     api.listener.start({ retryOnClose: true });
+
+    // Giám sát kết nối định kỳ (Watchdog) mỗi 60 giây để đảm bảo 24/7
+    setInterval(() => {
+        try {
+            const now = new Date();
+            if (now.getMinutes() === 0 || now.getMinutes() === 30) {
+                const modeText = botMode === 'assistant_only' ? '👑 Trợ lý riêng' : (botMode === 'smart_customer_only' ? '🎯 Lọc khách thông minh' : '🌐 Toàn diện');
+                console.log(`💓 [Heartbeat 24/7 - ${now.toLocaleTimeString("vi-VN")}]: Trợ lý Thùy Linh đang trực chiến ổn định. Trạng thái: ${isBotActive ? '🟢 ĐANG BẬT' : '🛑 ĐANG TẮT'} | Chế độ: ${modeText}`);
+            }
+        } catch (e) {}
+    }, 60000);
 }
 
 // Khởi tạo HTTP Keep-Alive Server khi chạy trên Cloud (Render, Koyeb, Railway, Docker, VPS)
@@ -967,5 +1075,11 @@ if (CLOUD_PORT) {
     }).catch(e => console.warn("Lỗi khởi động Cloud HTTP:", e.message));
 }
 
-startBot();
+startBot().catch((err) => {
+    console.error("❌ Lỗi khởi động startBot:", err?.message || err);
+    console.log("🔄 Đang thử khởi động lại sau 5 giây...");
+    setTimeout(() => {
+        startBot().catch(() => {});
+    }, 5000);
+});
 

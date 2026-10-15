@@ -82,3 +82,31 @@ Thành viên trong nhóm chỉ cần gõ bất kỳ từ khóa nào sau đây:
 - Bot Zalo cá nhân hiện đang **ĐANG CHẠY TRỰC CHIẾN 24/7** trên máy của anh.
 - Mã nguồn mới nhất đã được đồng bộ lên GitHub: `https://github.com/vanhaitech86-lab/bot-zalo-ai.git`.
 - Bất cứ khi nào anh muốn chuyển lên Render/Cloud để tắt máy tính, chỉ cần dùng chuỗi trong [SESSION_CLOUD_ENV.txt](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/SESSION_CLOUD_ENV.txt) là xong ngay!
+
+---
+
+## 5. 📱 DANH SÁCH LỆNH RA LỆNH CHO THÙY LINH TRÊN ĐIỆN THOẠI (ZALO "CLOUD CỦA TÔI")
+
+Anh Hải mở Zalo trên điện thoại -> Vào mục **"Cloud của tôi"** (hoặc **Truyền File**) và nhắn các lệnh sau:
+
+| Lệnh của anh | Ý nghĩa & Hành động của Thùy Linh |
+| :--- | :--- |
+| `#bat`, `#bật`, `bật bot`, `bật lên`, `bật trợ lý` | 🟢 **BẬT TRỰC CHIẾN 24/7:** Thùy Linh tự động tư vấn khách hỏi dịch vụ, bảo vệ bạn bè riêng tư. |
+| `#tat`, `#tắt`, `tắt bot`, `dừng bot` | 🛑 **TẠM DỪNG TRỰC KHÁCH:** Thùy Linh im lặng để anh tự tay chat với mọi người. |
+| `#rieng`, `#troly`, `trợ lý riêng` | 👑 **CHẾ ĐỘ TRỢ LÝ RIÊNG:** Thùy Linh CHỈ phục vụ riêng một mình anh Hải trong Cloud, không trả lời người ngoài. |
+| `#khach`, `lọc khách` | 🎯 **LỌC KHÁCH THÔNG MINH:** Chỉ trả lời khách hỏi dịch vụ, im lặng với bạn bè. |
+| `#leads`, `danh sách khách` | 📋 **XEM LEADS:** Thùy Linh gửi lại danh sách số điện thoại khách hàng mới nhất. |
+| `#trangthai`, `kiểm tra` | 📊 **KIỂM TRA TRẠNG THÁI:** Xem bot đang Bật hay Tắt, chế độ nào, pin/ram. |
+
+---
+
+## 6. 🛠️ BỘ CÔNG CỤ VẬN HÀNH 24/7 TRÊN MÁY TÍNH WINDOWS
+
+| Tên File | Công dụng |
+| :--- | :--- |
+| [`BAT_THUY_LINH.bat`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/BAT_THUY_LINH.bat) | Bật bot với cửa sổ dòng lệnh có **Vòng lặp tự phục hồi 24/7** (tự kết nối lại nếu mất mạng). |
+| [`CHAY_AN_247_KHONG_LO_TAT.vbs`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/CHAY_AN_247_KHONG_LO_TAT.vbs) | **CHẠY ẨN TRONG NỀN:** Không có cửa sổ đen CMD, không sợ bị bấm dấu [X] tắt nhầm! |
+| [`KIEM_TRA_TRANG_THAI_BOT.bat`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/KIEM_TRA_TRANG_THAI_BOT.bat) | Bảng điều khiển kiểm tra tiến trình PID, RAM, Bật/Tắt và xem danh sách khách. |
+| [`KHOI_DONG_CUNG_MAY_TINH_247.bat`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/KHOI_DONG_CUNG_MAY_TINH_247.bat) | Cài đặt cho bot tự khởi động cùng máy tính mỗi khi mở máy. |
+| [`DUNG_BOT_HOAN_TOAN.bat`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/DUNG_BOT_HOAN_TOAN.bat) | Tắt toàn bộ tiến trình bot đang chạy ngầm trong máy tính. |
+
