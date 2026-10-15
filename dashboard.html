@@ -682,6 +682,10 @@
                 <span>💰</span> Bảng giá & Cho thuê
                 <span class="tab-badge" style="background: #FEF3C7; color: #D97706; font-weight: 700;">Thương mại</span>
             </button>
+            <button class="nav-tab-btn" onclick="switchTab('users-settings')">
+                <span>🛡️</span> Cài đặt & Phân quyền
+                <span class="tab-badge" style="background: #EEF2FF; color: #4F46E5; font-weight: 700;">Quản trị</span>
+            </button>
 
             <!-- Support Box -->
             <div class="sidebar-support-card">
@@ -1914,6 +1918,176 @@
                             <a class="btn-action success" style="padding: 10px 20px;" href="https://zalo.me/0988739896" target="_blank">💬 Nhắn Zalo Chuyên Viên</a>
                         </div>
                     </div>
+            </div>
+
+            <!-- ================= TAB 8: CÀI ĐẶT & PHÂN QUYỀN NGƯỜI DÙNG ================= -->
+            <div id="tab-users-settings" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>🛡️ Cài Đặt Hệ Thống, Phân Quyền & Quản Lý Người Dùng</h3>
+                            <p>Phân quyền truy cập đa cấp bậc, quản lý người dùng đăng ký Dùng Thử (Trial) và Mua Thật (Paid), theo dõi doanh thu và bảo mật dữ liệu.</p>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="status-badge online" style="background:#EEF2FF; color:#4F46E5; border:1px solid #C7D2FE;">
+                                👑 Super Admin: Nguyễn Văn Hải
+                            </span>
+                            <button type="button" class="btn-action primary" onclick="openAddUserModal()" style="padding: 7px 16px; font-size: 13px; background: linear-gradient(135deg, #4F46E5, #6366F1); color:white; border:none; border-radius:999px; font-weight:700; cursor:pointer;">
+                                ➕ Thêm Người Dùng
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KPI Metric Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                        <div style="background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                            <div style="font-size: 12px; font-weight: 700; color: #64748B; text-transform: uppercase;">👥 Tổng Người Dùng</div>
+                            <div style="font-size: 26px; font-weight: 900; color: #1E293B; margin-top: 4px;" id="uStatTotal">0</div>
+                            <div style="font-size: 12px; color: #94A3B8; margin-top: 2px;">Cả dùng thử & mua thật</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #ECFDF5, #F0FDF4); border: 1.5px solid #A7F3D0; border-radius: 16px; padding: 18px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #047857; text-transform: uppercase;">🎁 Đang Dùng Thử</div>
+                            <div style="font-size: 26px; font-weight: 900; color: #059669; margin-top: 4px;" id="uStatTrial">0</div>
+                            <div style="font-size: 12px; color: #059669; margin-top: 2px;">Hạn trải nghiệm 7 ngày</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 1.5px solid #C7D2FE; border-radius: 16px; padding: 18px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #4338CA; text-transform: uppercase;">💎 Đã Mua Thật (Paid)</div>
+                            <div style="font-size: 26px; font-weight: 900; color: #4F46E5; margin-top: 4px;" id="uStatPaid">0</div>
+                            <div style="font-size: 12px; color: #4F46E5; margin-top: 2px;">Khách hàng VIP trả phí</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border: 1.5px solid #FDE68A; border-radius: 16px; padding: 18px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #B45309; text-transform: uppercase;">💰 Tổng Doanh Thu</div>
+                            <div style="font-size: 26px; font-weight: 900; color: #D97706; margin-top: 4px;" id="uStatRevenue">0đ</div>
+                            <div style="font-size: 12px; color: #B45309; margin-top: 2px;">Đã thu từ gói phần mềm</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #FFF1F2, #FFE4E6); border: 1.5px solid #FECDD3; border-radius: 16px; padding: 18px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #BE123C; text-transform: uppercase;">⚠️ Sắp / Đã Hết Hạn</div>
+                            <div style="font-size: 26px; font-weight: 900; color: #E11D48; margin-top: 4px;" id="uStatExpiring">0</div>
+                            <div style="font-size: 12px; color: #E11D48; margin-top: 2px;">Cần gọi điện chốt đơn</div>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar: Search, Filters, Export -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; background:var(--surface); padding:14px 18px; border-radius:14px; border:1px solid var(--border);">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1;">
+                            <div style="position:relative; min-width:240px; flex:1;">
+                                <input type="text" id="userSearchInput" oninput="filterUsersSettings()" placeholder="🔍 Tìm theo Tên, Số điện thoại, Email, Shop..." style="width:100%; padding:9px 12px 9px 34px; border-radius:10px; border:1.5px solid var(--border); font-size:13px;" />
+                                <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:14px; color:#94A3B8;">🔍</span>
+                            </div>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                <button type="button" class="u-filter-btn active" id="filterBtnAll" onclick="setUserFilter('all', this)" style="padding:6px 12px; font-size:12px; border-radius:8px; border:1px solid #CBD5E1; background:#4F46E5; color:white; font-weight:700; cursor:pointer;">Tất cả (<span id="countFilterAll">0</span>)</button>
+                                <button type="button" class="u-filter-btn" id="filterBtnTrial" onclick="setUserFilter('trial', this)" style="padding:6px 12px; font-size:12px; border-radius:8px; border:1px solid #CBD5E1; background:white; color:#047857; font-weight:700; cursor:pointer;">🎁 Dùng thử (<span id="countFilterTrial">0</span>)</button>
+                                <button type="button" class="u-filter-btn" id="filterBtnPaid" onclick="setUserFilter('paid', this)" style="padding:6px 12px; font-size:12px; border-radius:8px; border:1px solid #CBD5E1; background:white; color:#4338CA; font-weight:700; cursor:pointer;">💎 Mua thật (<span id="countFilterPaid">0</span>)</button>
+                                <button type="button" class="u-filter-btn" id="filterBtnExpiring" onclick="setUserFilter('expiring', this)" style="padding:6px 12px; font-size:12px; border-radius:8px; border:1px solid #CBD5E1; background:white; color:#DC2626; font-weight:700; cursor:pointer;">⚠️ Hết hạn (<span id="countFilterExpiring">0</span>)</button>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button type="button" class="btn-action secondary" onclick="exportUsersToCSV()" style="padding:7px 14px; font-size:12.5px; border-radius:8px; display:flex; align-items:center; gap:6px; cursor:pointer;" title="Tải danh sách Excel/CSV">
+                                📥 Xuất Excel / CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div style="overflow-x: auto; background: white; border-radius: 14px; border: 1.5px solid var(--border); box-shadow: 0 4px 14px rgba(0,0,0,0.03); margin-bottom: 28px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                            <thead>
+                                <tr style="background: var(--surface); border-bottom: 2px solid var(--border); text-align: left;">
+                                    <th style="padding: 12px 14px;">Khách hàng / Người dùng</th>
+                                    <th style="padding: 12px 14px;">Liên hệ (Zalo / Email)</th>
+                                    <th style="padding: 12px 14px;">Shop & Ngành nghề</th>
+                                    <th style="padding: 12px 14px;">Phân quyền vai trò</th>
+                                    <th style="padding: 12px 14px;">Gói cước & Bản quyền</th>
+                                    <th style="padding: 12px 14px; text-align: center;">Thời hạn bản quyền</th>
+                                    <th style="padding: 12px 14px; text-align: right;">Doanh thu</th>
+                                    <th style="padding: 12px 14px; text-align: center;">Thao tác quản trị</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersSettingsTableBody">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 30px; color: #94A3B8;">Đang tải danh sách người dùng...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Section: Security & System Permissions Matrix -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; border-top: 2px dashed var(--border); padding-top: 24px;">
+                        <!-- Admin Security PIN -->
+                        <div style="background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 22px;">
+                            <h4 style="margin: 0 0 12px; font-size: 15px; color: #1E293B; display: flex; align-items: center; gap: 8px;">
+                                <span>🔐</span> Mã PIN Bảo Mật Quản Trị (Admin PIN)
+                            </h4>
+                            <p style="font-size: 12.5px; color: #64748B; margin-bottom: 14px; line-height: 1.5;">
+                                Khóa bảo vệ bảng quản trị để ngăn nhân viên hoặc người ngoài xem danh sách khách hàng, doanh thu và can thiệp kịch bản của bot.
+                            </p>
+                            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px;">
+                                <input type="password" id="adminPinInput" maxlength="6" placeholder="Mã PIN (Mặc định: 8888)" style="width: 160px; padding: 8px 12px; border-radius: 8px; border: 1.5px solid var(--border); font-weight: 700; font-size: 14px; letter-spacing: 2px;" />
+                                <button type="button" class="btn-action primary" onclick="saveAdminPinConfig()" style="padding: 8px 16px; font-size: 12.5px;">
+                                    💾 Đổi Mã PIN
+                                </button>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; cursor: pointer;">
+                                <input type="checkbox" id="adminPinRequireCheck" onchange="togglePinRequire(this.checked)" />
+                                <strong>Bật chế độ khóa bảo vệ bằng mã PIN khi truy cập mục Quản Trị</strong>
+                            </label>
+                        </div>
+
+                        <!-- Role Permissions Matrix -->
+                        <div style="background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 22px;">
+                            <h4 style="margin: 0 0 12px; font-size: 15px; color: #1E293B; display: flex; align-items: center; gap: 8px;">
+                                <span>⚖️</span> Ma Trận Phân Quyền Vai Trò
+                            </h4>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.6;">
+                                <thead>
+                                    <tr style="border-bottom: 1.5px solid var(--border); text-align: left; color: #64748B;">
+                                        <th style="padding: 4px 6px;">Quyền hạn</th>
+                                        <th style="padding: 4px 6px; text-align: center;">Super Admin</th>
+                                        <th style="padding: 4px 6px; text-align: center;">Kỹ thuật</th>
+                                        <th style="padding: 4px 6px; text-align: center;">Mua thật</th>
+                                        <th style="padding: 4px 6px; text-align: center;">Dùng thử</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 6px;">Quản lý toàn bộ khách & SĐT</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#94A3B8;">Chỉ xem mình</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 6px;">Nâng cấp Mua Thật & Thu tiền</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 6px;">Chỉnh sửa Kịch bản & Tri thức AI</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅ (Shop riêng)</td>
+                                        <td style="text-align:center; color:#94A3B8;">Giới hạn</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 6px;">Bật/Ngắt kết nối Zalo cá nhân</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅ (7 ngày)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px;">Xem Doanh thu & Quản trị hệ thống</td>
+                                        <td style="text-align:center; color:#059669; font-weight:bold;">✅</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                        <td style="text-align:center; color:#94A3B8;">❌</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -2107,6 +2281,182 @@
         </div>
     </div>
 
+    <!-- MODAL THÊM NGƯỜI DÙNG / KHÁCH HÀNG MỚI -->
+    <div id="addUserModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.7); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
+        <div style="background:white; border-radius:24px; max-width:540px; width:100%; max-height:92vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.35); border:1px solid var(--border);">
+            <div style="padding:18px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #EEF2FF, #E0E7FF);">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg, #4F46E5, #6366F1); color:white; display:flex; align-items:center; justify-content:center; font-size:20px;">👤</div>
+                    <div>
+                        <div style="font-weight:800; font-size:16.5px; color:#312E81;">Thêm Người Dùng / Khách Hàng</div>
+                        <div style="font-size:12px; color:#4338CA;">Cấp quyền truy cập Dùng Thử hoặc Mua Thật</div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAddUserModal()" style="background:transparent; border:none; font-size:26px; cursor:pointer; color:var(--ink-soft); line-height:1;">&times;</button>
+            </div>
+            <div style="padding:22px 24px; overflow-y:auto; flex:1;">
+                <form id="addUserForm" onsubmit="handleManualAddUser(event)">
+                    <div class="form-field" style="margin-bottom:12px;">
+                        <label style="font-weight:700; font-size:13px;">Họ và tên: <span style="color:#E11D48;">*</span></label>
+                        <input type="text" id="addUserName" required placeholder="Ví dụ: Lê Thị Mai" />
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                        <div class="form-field">
+                            <label style="font-weight:700; font-size:13px;">Số điện thoại / Zalo: <span style="color:#E11D48;">*</span></label>
+                            <input type="tel" id="addUserPhone" required placeholder="Ví dụ: 0912 345 678" />
+                        </div>
+                        <div class="form-field">
+                            <label style="font-weight:700; font-size:13px;">Email:</label>
+                            <input type="email" id="addUserEmail" placeholder="email@gmail.com" />
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                        <div class="form-field">
+                            <label style="font-weight:700; font-size:13px;">Tên Cửa hàng / Shop:</label>
+                            <input type="text" id="addUserShop" placeholder="Ví dụ: Mai Cosmetics" />
+                        </div>
+                        <div class="form-field">
+                            <label style="font-weight:700; font-size:13px;">Ngành hàng:</label>
+                            <select id="addUserCategory">
+                                <option value="Thời trang, May mặc & Phụ kiện">👗 Thời trang, May mặc</option>
+                                <option value="Mỹ phẩm, Làm đẹp, Spa & Thẩm mỹ viện">💄 Mỹ phẩm & Spa</option>
+                                <option value="Điện thoại, Máy tính & Công nghệ">💻 Công nghệ & Thiết bị</option>
+                                <option value="Bất động sản, Nhà đất">🏢 Bất động sản</option>
+                                <option value="Nhà hàng, Quán Cafe, F&B">☕ F&B / Ẩm thực</option>
+                                <option value="Phòng khám, Nha khoa, Y tế">🏥 Phòng khám / Y tế</option>
+                                <option value="Ngành nghề & Dịch vụ khác">✨ Ngành nghề khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                        <div class="form-field">
+                            <label style="font-weight:700; font-size:13px;">Phân quyền vai trò:</label>
+                            <select id="addUserRole" onchange="onAddUserRoleChange(this.value)">
+                                <option value="customer_trial">🎁 Khách Dùng Thử</option>
+                                <option value="customer_paid">💎 Khách Mua Thật (VIP)</option>
+                                <option value="manager">🛡️ Kỹ thuật viên / Quản lý</option>
+                                <option value="admin">👑 Super Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label style="font-weight:700; font-size:13px;">Gói cước / Thời hạn:</label>
+                            <select id="addUserPlan" onchange="onAddUserPlanChange(this.value)">
+                                <option value="trial_7">🎁 Dùng thử 7 ngày (0đ)</option>
+                                <option value="paid_starter">🌟 Gói Khởi Nghiệp (199k/tháng)</option>
+                                <option value="paid_pro">💎 Gói Pro Shop (499k/tháng)</option>
+                                <option value="paid_year">🚀 Gói Năm VIP (4.990k/năm)</option>
+                                <option value="paid_lifetime">👑 Gói Trọn Đời (1.990k - Vĩnh viễn)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-field" style="margin-bottom:16px;">
+                        <label style="font-weight:700; font-size:13px;">Số tiền đã thanh toán (VND):</label>
+                        <input type="number" id="addUserPaidAmount" value="0" placeholder="0" />
+                    </div>
+                    <div style="display:flex; gap:10px; justify-content:flex-end;">
+                        <button type="button" onclick="closeAddUserModal()" class="btn-action secondary" style="padding:10px 18px;">Hủy</button>
+                        <button type="submit" class="btn-action primary" style="padding:10px 22px; background:linear-gradient(135deg, #4F46E5, #6366F1); color:white; font-weight:700; border:none; border-radius:10px; cursor:pointer;">
+                            💾 Lưu Người Dùng
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL NÂNG CẤP KHÁCH HÀNG SANG MUA THẬT (PAID CUSTOMER) -->
+    <div id="upgradePaidModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.7); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
+        <div style="background:white; border-radius:24px; max-width:520px; width:100%; max-height:92vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.35); border:1px solid var(--border);">
+            <div style="padding:18px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #ECFDF5, #F0FDF4);">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg, #059669, #10B981); color:white; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 4px 12px rgba(16,185,129,0.3);">💎</div>
+                    <div>
+                        <div style="font-weight:800; font-size:16.5px; color:#065F46;">Nâng Cấp Khách Hàng Mua Thật</div>
+                        <div style="font-size:12px; color:#047857;" id="upgradeCustomerSubTitle">Chuyển từ Dùng Thử sang Khách Trả Phí</div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeUpgradePaidModal()" style="background:transparent; border:none; font-size:26px; cursor:pointer; color:var(--ink-soft); line-height:1;">&times;</button>
+            </div>
+            <div style="padding:22px 24px; overflow-y:auto; flex:1;">
+                <input type="hidden" id="upgradeTargetLeadId" />
+                <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:12px 16px; margin-bottom:16px;">
+                    <div style="font-size:12.5px; color:#64748B;">Khách hàng:</div>
+                    <div style="font-weight:800; font-size:15px; color:#1E293B;" id="upgradeTargetCustomerName">Nguyễn Văn A</div>
+                    <div style="font-size:12px; color:#475569; margin-top:2px;" id="upgradeTargetCustomerContact">0988 739 896 · shop@gmail.com</div>
+                </div>
+
+                <div class="form-field" style="margin-bottom:14px;">
+                    <label style="font-weight:700; font-size:13px;">Chọn gói phần mềm nâng cấp: <span style="color:#E11D48;">*</span></label>
+                    <select id="upgradePlanSelect" onchange="onUpgradePlanChange(this.value)" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid var(--border); font-size:13.5px; font-weight:600;">
+                        <option value="paid_pro" data-price="499000" data-days="30">💎 Gói Pro Shop (499.000đ/tháng — 30 ngày)</option>
+                        <option value="paid_lifetime" data-price="1990000" data-days="99999" selected>👑 Gói Trọn Đời VIP (1.990.000đ — Vĩnh viễn)</option>
+                        <option value="paid_year" data-price="4990000" data-days="365">🚀 Gói Năm Siêu Lợi Nhuận (4.990.000đ/năm — 365 ngày)</option>
+                        <option value="paid_starter" data-price="199000" data-days="30">🌟 Gói Khởi Nghiệp (199.000đ/tháng — 30 ngày)</option>
+                    </select>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                    <div class="form-field">
+                        <label style="font-weight:700; font-size:13px;">Số tiền thực thu (VND):</label>
+                        <input type="number" id="upgradeAmountInput" value="1990000" style="font-weight:800; color:#059669; font-size:15px;" />
+                    </div>
+                    <div class="form-field">
+                        <label style="font-weight:700; font-size:13px;">Hình thức thanh toán:</label>
+                        <select id="upgradePayMethod">
+                            <option value="Chuyển khoản Ngân hàng (CK)">💳 Chuyển khoản (CK)</option>
+                            <option value="Tiền mặt trực tiếp">💵 Tiền mặt trực tiếp</option>
+                            <option value="Ví điện tử Momo/ZaloPay">📱 Ví điện tử Momo/ZaloPay</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field" style="margin-bottom:18px;">
+                    <label style="font-weight:700; font-size:13px;">Ghi chú hóa đơn / Đơn hàng:</label>
+                    <input type="text" id="upgradeNoteInput" placeholder="Ví dụ: Đã nhận tiền VCB Sếp Hải, kích hoạt bản Pro" />
+                </div>
+
+                <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:12px; font-size:12.5px; color:#065F46; margin-bottom:18px;">
+                    ✨ <strong>Tự động cấp Mã Bản Quyền Chính Thức (License Key)</strong>, mở khóa toàn bộ tính năng và cộng doanh thu vào báo cáo tài chính!
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button type="button" onclick="closeUpgradePaidModal()" class="btn-action secondary" style="padding:10px 18px;">Hủy</button>
+                    <button type="button" onclick="confirmUpgradePaid()" class="btn-action success" style="padding:10px 22px; background:linear-gradient(135deg, #059669, #10B981); color:white; font-weight:800; border:none; border-radius:10px; cursor:pointer; box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+                        💎 XÁC NHẬN NÂNG CẤP MUA THẬT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PHÂN QUYỀN VAI TRÒ -->
+    <div id="changeRoleModal" style="display:none; position:fixed; inset:0; background:rgba(11,26,46,0.7); z-index:9999; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
+        <div style="background:white; border-radius:24px; max-width:440px; width:100%; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.35); border:1px solid var(--border);">
+            <div style="padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #EEF2FF, #E0E7FF);">
+                <div style="font-weight:800; font-size:16px; color:#312E81;">🔑 Phân Quyền Vai Trò</div>
+                <button type="button" onclick="closeChangeRoleModal()" style="background:transparent; border:none; font-size:24px; cursor:pointer; color:var(--ink-soft);">&times;</button>
+            </div>
+            <div style="padding:20px 22px;">
+                <input type="hidden" id="changeRoleTargetLeadId" />
+                <div style="font-size:13px; color:#475569; margin-bottom:14px;" id="changeRoleTargetText">Đang phân quyền cho khách...</div>
+                <div class="form-field" style="margin-bottom:18px;">
+                    <label style="font-weight:700; font-size:13px;">Chọn vai trò mới:</label>
+                    <select id="changeRoleSelect" style="width:100%; padding:9px 12px; border-radius:10px; border:1.5px solid var(--border); font-size:13.5px; font-weight:600;">
+                        <option value="customer_trial">🎁 Khách Dùng Thử (Trial)</option>
+                        <option value="customer_paid">💎 Khách Mua Thật (VIP)</option>
+                        <option value="affiliate">💼 Cộng tác viên / Sales (Affiliate)</option>
+                        <option value="manager">🛡️ Kỹ thuật viên / Quản lý</option>
+                        <option value="admin">👑 Super Admin</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button type="button" onclick="closeChangeRoleModal()" class="btn-action secondary" style="padding:9px 16px;">Hủy</button>
+                    <button type="button" onclick="confirmChangeRole()" class="btn-action primary" style="padding:9px 20px; background:#4F46E5; color:white; font-weight:700; border:none; border-radius:10px; cursor:pointer;">💾 Lưu Quyền</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== SCRIPTS & DATA MANAGEMENT ========== -->
     <script>
         // State
@@ -2202,12 +2552,29 @@
             updateStatsUI();
             updateZaloQrUI();
             loadAiConfig();
+            initDefaultUsersIfEmpty();
             renderTrialLeads();
+            renderUsersSettings();
+            initAdminPin();
             calculateCommercialRevenue();
         });
 
         // Tab Navigation
         function switchTab(tabId) {
+            // Check Admin PIN if navigating to sensitive tabs and PIN protection is enabled
+            if (tabId === 'users-settings' || tabId === 'billing') {
+                const isPinRequired = localStorage.getItem('zalobot_admin_pin_required') === 'true';
+                if (isPinRequired && !sessionStorage.getItem('zalobot_admin_pin_verified')) {
+                    const savedPin = localStorage.getItem('zalobot_admin_pin') || '8888';
+                    const inputPin = prompt('🔒 KHÓA BẢO MẬT QUẢN TRỊ:\nVui lòng nhập Mã PIN Admin để truy cập (Mặc định: 8888):');
+                    if (inputPin !== savedPin) {
+                        alert('❌ Mã PIN không chính xác! Quyền truy cập bị từ chối.');
+                        return;
+                    }
+                    sessionStorage.setItem('zalobot_admin_pin_verified', 'true');
+                }
+            }
+
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
 
@@ -2216,6 +2583,10 @@
 
             const btn = Array.from(document.querySelectorAll('.nav-tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
             if (btn) btn.classList.add('active');
+
+            if (tabId === 'users-settings') {
+                renderUsersSettings();
+            }
         }
 
         // Wizard Step Navigation
@@ -3044,6 +3415,627 @@
 
             const newExpStr = new Date(item.expiresAt).toLocaleDateString('vi-VN');
             alert(`🎉 GIA HẠN THÀNH CÔNG!\n\nKhách hàng: ${item.name} (${item.phone})\nĐã được cộng thêm: +${selectedExtendDays} ngày trải nghiệm\nHạn mới: ${newExpStr}\nTrạng thái: 🟢 Đang hoạt động`);
+        }
+
+        // ================= USERS MANAGEMENT & ACCESS CONTROL (PHÂN QUYỀN & QUẢN LÝ DÙNG THỬ / MUA THẬT) =================
+        let currentUserFilter = 'all';
+
+        function initDefaultUsersIfEmpty() {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            if (!leads || leads.length === 0) {
+                const now = Date.now();
+                leads = [
+                    {
+                        id: 'usr_admin',
+                        name: 'Nguyễn Văn Hải',
+                        phone: '0988 739 896',
+                        email: 'vanhaitech.86@gmail.com',
+                        shop: 'HAITECH BOT STUDIO',
+                        category: 'Giải pháp Trợ lý AI & Chăm sóc khách hàng',
+                        channels: 'Đa kênh (Zalo + FB + Web)',
+                        role: 'admin',
+                        plan: 'paid_lifetime',
+                        paidAmount: 0,
+                        licenseKey: 'HT-HQ-888999',
+                        time: new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN'),
+                        createdAt: now - 30 * 86400000,
+                        expiresAt: now + 36500 * 86400000,
+                        status: 'active'
+                    },
+                    {
+                        id: 'usr_paid_1',
+                        name: 'Lê Thị Mai Linh',
+                        phone: '0912 888 666',
+                        email: 'mailinhcosmetics@gmail.com',
+                        shop: 'Shop Mỹ Phẩm Mai Linh',
+                        category: 'Mỹ phẩm, Làm đẹp, Spa & Thẩm mỹ viện',
+                        channels: 'Zalo PC, Fanpage',
+                        role: 'customer_paid',
+                        plan: 'paid_pro',
+                        paidAmount: 499000,
+                        licenseKey: 'HT-PRO-882119',
+                        time: new Date(now - 5 * 86400000).toLocaleTimeString('vi-VN') + ' ' + new Date(now - 5 * 86400000).toLocaleDateString('vi-VN'),
+                        createdAt: now - 5 * 86400000,
+                        expiresAt: now + 25 * 86400000,
+                        status: 'active'
+                    },
+                    {
+                        id: 'usr_paid_2',
+                        name: 'Trần Văn Tuấn',
+                        phone: '0977 333 444',
+                        email: 'tuanmobile@gmail.com',
+                        shop: 'Tuấn Apple Store',
+                        category: 'Điện thoại, Máy tính & Thiết bị Công nghệ',
+                        channels: 'Đa kênh',
+                        role: 'customer_paid',
+                        plan: 'paid_lifetime',
+                        paidAmount: 1990000,
+                        licenseKey: 'HT-VIP-993322',
+                        time: new Date(now - 12 * 86400000).toLocaleTimeString('vi-VN') + ' ' + new Date(now - 12 * 86400000).toLocaleDateString('vi-VN'),
+                        createdAt: now - 12 * 86400000,
+                        expiresAt: now + 36500 * 86400000,
+                        status: 'active'
+                    },
+                    {
+                        id: 'usr_trial_1',
+                        name: 'Phạm Thu Hương',
+                        phone: '0983 555 111',
+                        email: 'huongbds@gmail.com',
+                        shop: 'BĐS Đất Vàng Sài Gòn',
+                        category: 'Bất động sản, Nhà đất & Cho thuê căn hộ',
+                        channels: 'Zalo PC',
+                        role: 'customer_trial',
+                        plan: 'trial_7',
+                        paidAmount: 0,
+                        licenseKey: 'HT-TRIAL-339911',
+                        time: new Date(now - 2 * 86400000).toLocaleTimeString('vi-VN') + ' ' + new Date(now - 2 * 86400000).toLocaleDateString('vi-VN'),
+                        createdAt: now - 2 * 86400000,
+                        expiresAt: now + 5 * 86400000,
+                        status: 'active'
+                    },
+                    {
+                        id: 'usr_trial_2',
+                        name: 'Đặng Hoàng Long',
+                        phone: '0909 222 333',
+                        email: 'longcafe@gmail.com',
+                        shop: 'Long Cafe & Bakery',
+                        category: 'Nhà hàng, Quán Cafe, Trà sữa & Ăn uống (F&B)',
+                        channels: 'Fanpage, Website',
+                        role: 'customer_trial',
+                        plan: 'trial_7',
+                        paidAmount: 0,
+                        licenseKey: 'HT-TRIAL-771122',
+                        time: new Date(now - 6 * 86400000).toLocaleTimeString('vi-VN') + ' ' + new Date(now - 6 * 86400000).toLocaleDateString('vi-VN'),
+                        createdAt: now - 6 * 86400000,
+                        expiresAt: now + 1 * 86400000,
+                        status: 'active'
+                    }
+                ];
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+            }
+        }
+
+        function renderUsersSettings() {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const now = Date.now();
+            let totalCount = leads.length;
+            let trialCount = 0;
+            let paidCount = 0;
+            let totalRevenue = 0;
+            let expiringCount = 0;
+
+            leads.forEach(u => {
+                const isPaid = u.role === 'customer_paid' || (u.plan && u.plan.startsWith('paid_'));
+                if (isPaid) {
+                    paidCount++;
+                    totalRevenue += (Number(u.paidAmount) || 0);
+                } else {
+                    trialCount++;
+                }
+
+                const exp = u.expiresAt || (now + 7 * 86400000);
+                const diffDays = Math.ceil((exp - now) / 86400000);
+                if (diffDays <= 2 && !isPaid) {
+                    expiringCount++;
+                }
+            });
+
+            // Update KPI cards
+            const statTotal = document.getElementById('uStatTotal');
+            const statTrial = document.getElementById('uStatTrial');
+            const statPaid = document.getElementById('uStatPaid');
+            const statRevenue = document.getElementById('uStatRevenue');
+            const statExpiring = document.getElementById('uStatExpiring');
+
+            if (statTotal) statTotal.textContent = totalCount;
+            if (statTrial) statTrial.textContent = trialCount;
+            if (statPaid) statPaid.textContent = paidCount;
+            if (statRevenue) statRevenue.textContent = (totalRevenue > 0 ? totalRevenue.toLocaleString('vi-VN') + 'đ' : '0đ');
+            if (statExpiring) statExpiring.textContent = expiringCount;
+
+            // Update Filter Badges
+            const fAll = document.getElementById('countFilterAll');
+            const fTrial = document.getElementById('countFilterTrial');
+            const fPaid = document.getElementById('countFilterPaid');
+            const fExp = document.getElementById('countFilterExpiring');
+            if (fAll) fAll.textContent = totalCount;
+            if (fTrial) fTrial.textContent = trialCount;
+            if (fPaid) fPaid.textContent = paidCount;
+            if (fExp) fExp.textContent = expiringCount;
+
+            // Filter by Search Keyword & Category
+            const searchKeyword = (document.getElementById('userSearchInput')?.value || '').toLowerCase().trim();
+            const tbody = document.getElementById('usersSettingsTableBody');
+            if (!tbody) return;
+
+            let filtered = leads.filter(u => {
+                // Filter Tab
+                const isPaid = u.role === 'customer_paid' || (u.plan && u.plan.startsWith('paid_'));
+                const diffDays = Math.ceil(((u.expiresAt || now) - now) / 86400000);
+
+                if (currentUserFilter === 'trial' && isPaid) return false;
+                if (currentUserFilter === 'paid' && !isPaid) return false;
+                if (currentUserFilter === 'expiring' && (isPaid || diffDays > 2)) return false;
+
+                // Search keyword
+                if (searchKeyword) {
+                    const matchName = (u.name || '').toLowerCase().includes(searchKeyword);
+                    const matchPhone = (u.phone || '').toLowerCase().includes(searchKeyword);
+                    const matchEmail = (u.email || '').toLowerCase().includes(searchKeyword);
+                    const matchShop = (u.shop || '').toLowerCase().includes(searchKeyword);
+                    const matchKey = (u.licenseKey || '').toLowerCase().includes(searchKeyword);
+                    if (!matchName && !matchPhone && !matchEmail && !matchShop && !matchKey) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 32px; color: #94A3B8; font-size: 13.5px;">🔍 Không tìm thấy người dùng phù hợp với bộ lọc hiện tại.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const exp = item.expiresAt || (now + 7 * 86400000);
+                const expDateStr = new Date(exp).toLocaleDateString('vi-VN');
+                const diffDays = Math.ceil((exp - now) / 86400000);
+                const isPaid = item.role === 'customer_paid' || (item.plan && item.plan.startsWith('paid_'));
+                const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+
+                // Role Badge
+                let roleBadge = '';
+                if (item.role === 'admin') {
+                    roleBadge = `<span style="background:#FAF5FF; color:#7E22CE; border:1px solid #D8B4FE; padding:3px 9px; border-radius:999px; font-weight:800; font-size:11px;">👑 Super Admin</span>`;
+                } else if (item.role === 'manager') {
+                    roleBadge = `<span style="background:#EFF6FF; color:#1D4ED8; border:1px solid #93C5FD; padding:3px 9px; border-radius:999px; font-weight:700; font-size:11px;">🛡️ Quản lý/Kỹ thuật</span>`;
+                } else if (item.role === 'affiliate') {
+                    roleBadge = `<span style="background:#FFF7ED; color:#C2410C; border:1px solid #FDBA74; padding:3px 9px; border-radius:999px; font-weight:700; font-size:11px;">💼 Sales / CTV</span>`;
+                } else if (isPaid) {
+                    roleBadge = `<span style="background:#ECFDF5; color:#047857; border:1px solid #6EE7B7; padding:3px 9px; border-radius:999px; font-weight:800; font-size:11px;">💎 Khách Mua Thật</span>`;
+                } else {
+                    roleBadge = `<span style="background:#F0FDF4; color:#15803D; border:1px solid #BBF7D0; padding:3px 9px; border-radius:999px; font-weight:700; font-size:11px;">🎁 Khách Dùng Thử</span>`;
+                }
+
+                // Plan Badge
+                let planBadge = '';
+                if (item.plan === 'paid_lifetime') {
+                    planBadge = `<span style="background:#FEF3C7; color:#B45309; font-weight:800; padding:3px 8px; border-radius:6px; font-size:11.5px;">👑 Trọn Đời VIP</span>`;
+                } else if (item.plan === 'paid_year') {
+                    planBadge = `<span style="background:#EEF2FF; color:#4338CA; font-weight:800; padding:3px 8px; border-radius:6px; font-size:11.5px;">🚀 Gói Năm VIP</span>`;
+                } else if (item.plan === 'paid_pro') {
+                    planBadge = `<span style="background:#E0F2FE; color:#0369A1; font-weight:800; padding:3px 8px; border-radius:6px; font-size:11.5px;">💎 Gói Pro Shop</span>`;
+                } else if (item.plan === 'paid_starter') {
+                    planBadge = `<span style="background:#F1F5F9; color:#334155; font-weight:700; padding:3px 8px; border-radius:6px; font-size:11.5px;">🌟 Gói Khởi Nghiệp</span>`;
+                } else {
+                    planBadge = `<span style="background:#F8FAFC; color:#64748B; font-weight:700; padding:3px 8px; border-radius:6px; font-size:11.5px;">🎁 Dùng thử 7 ngày</span>`;
+                }
+
+                // Expiration badge
+                let expBadge = '';
+                if (item.status === 'paused') {
+                    expBadge = `<span style="background:#FEE2E2; color:#DC2626; font-weight:700; font-size:11px; padding:2px 8px; border-radius:999px;">⛔ Đã Tạm Khóa</span>`;
+                } else if (item.plan === 'paid_lifetime') {
+                    expBadge = `<span style="background:#ECFDF5; color:#059669; font-weight:800; font-size:11px; padding:2px 8px; border-radius:999px;">💎 Vĩnh Viễn</span>`;
+                } else if (diffDays <= 0) {
+                    expBadge = `<span style="background:#FEF2F2; color:#DC2626; font-weight:800; font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid #FECDD3;">⚠️ Hết Hạn (${expDateStr})</span>`;
+                } else if (diffDays <= 2 && !isPaid) {
+                    expBadge = `<span style="background:#FFFBEB; color:#D97706; font-weight:800; font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid #FDE68A;">⚠️ Còn ${diffDays} ngày (${expDateStr})</span>`;
+                } else {
+                    expBadge = `<span style="background:#ECFDF5; color:#059669; font-weight:700; font-size:11px; padding:2px 8px; border-radius:999px;">🟢 Còn ${diffDays} ngày</span><div style="font-size:10.5px; color:#64748B; margin-top:2px;">Đến: ${expDateStr}</div>`;
+                }
+
+                const revenueDisplay = (item.paidAmount && Number(item.paidAmount) > 0) ? `<strong style="color:#059669; font-size:13.5px;">${Number(item.paidAmount).toLocaleString('vi-VN')}đ</strong>` : `<span style="color:#94A3B8;">0đ</span>`;
+                const licenseDisplay = item.licenseKey ? `<div style="font-family:monospace; font-size:11px; color:#475569; margin-top:3px; background:#F1F5F9; padding:2px 6px; border-radius:4px; display:inline-block;">🔑 ${item.licenseKey}</div>` : '';
+
+                return `
+                    <tr style="border-bottom: 1px solid var(--border); ${item.status === 'paused' ? 'background: #FFFDF9;' : ''}">
+                        <td style="padding: 12px 14px;">
+                            <div style="font-weight: 700; color: #1E293B; font-size: 13.5px;">${item.name || 'Người dùng'}</div>
+                            <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">🕒 ${item.time || 'Đăng ký gần đây'}</div>
+                        </td>
+                        <td style="padding: 12px 14px;">
+                            <div style="font-weight: 600;">
+                                <a href="https://zalo.me/${cleanPhone}" target="_blank" style="color:var(--brand); text-decoration:none;">📞 ${item.phone || 'Chưa có SĐT'}</a>
+                            </div>
+                            ${item.email ? `<div style="font-size: 11.5px; margin-top: 2px;"><a href="mailto:${item.email}" style="color:#0284C7; text-decoration:none;">✉️ ${item.email}</a></div>` : '<div style="font-size:11px; color:#CBD5E1;">Chưa có email</div>'}
+                        </td>
+                        <td style="padding: 12px 14px;">
+                            <div style="font-weight: 600; color:#334155;">${item.shop || 'Cửa hàng tự do'}</div>
+                            <div style="font-size: 11.5px; color:#64748B; margin-top: 2px;">${item.category || 'Chung'}</div>
+                        </td>
+                        <td style="padding: 12px 14px;">
+                            ${roleBadge}
+                        </td>
+                        <td style="padding: 12px 14px;">
+                            ${planBadge}
+                            <br/>
+                            ${licenseDisplay}
+                        </td>
+                        <td style="padding: 12px 14px; text-align: center;">
+                            ${expBadge}
+                        </td>
+                        <td style="padding: 12px 14px; text-align: right;">
+                            ${revenueDisplay}
+                        </td>
+                        <td style="padding: 12px 14px; text-align: center;">
+                            <div style="display: inline-flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                                ${!isPaid ? `
+                                    <button type="button" onclick="openUpgradePaidModal('${item.id}')" style="padding: 5px 9px; font-size: 11px; background: linear-gradient(135deg, #059669, #10B981); color: white; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 6px rgba(16,185,129,0.25);" title="Nâng cấp khách này sang Mua Thật">
+                                        💎 Mua Thật
+                                    </button>
+                                ` : ''}
+
+                                <button type="button" onclick="openChangeRoleModal('${item.id}')" style="padding: 5px 8px; font-size: 11px; background: #EEF2FF; color: #4F46E5; border: 1px solid #C7D2FE; border-radius: 6px; font-weight: 700; cursor: pointer;" title="Phân quyền vai trò">
+                                    🔑 Quyền
+                                </button>
+
+                                <button type="button" onclick="toggleUserStatus('${item.id}')" style="padding: 5px 7px; font-size: 11px; background: ${item.status === 'paused' ? '#ECFDF5' : '#FEE2E2'}; color: ${item.status === 'paused' ? '#059669' : '#DC2626'}; border: 1px solid var(--border); border-radius: 6px; cursor: pointer;" title="${item.status === 'paused' ? 'Mở lại tài khoản' : 'Khóa tài khoản'}">
+                                    ${item.status === 'paused' ? '▶️' : '⛔'}
+                                </button>
+
+                                <button type="button" onclick="deleteUserSetting('${item.id}')" style="padding: 5px 7px; font-size: 11px; background: transparent; border: 1px solid var(--border); color: #94A3B8; border-radius: 6px; cursor: pointer;" title="Xóa tài khoản này">
+                                    🗑️
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function setUserFilter(filterType, btn) {
+            currentUserFilter = filterType;
+            document.querySelectorAll('.u-filter-btn').forEach(b => {
+                b.style.background = 'white';
+                b.style.color = '#334155';
+            });
+            if (btn) {
+                btn.style.background = '#4F46E5';
+                btn.style.color = 'white';
+            }
+            renderUsersSettings();
+        }
+
+        function filterUsersSettings() {
+            renderUsersSettings();
+        }
+
+        // Add User Modal
+        function openAddUserModal() {
+            const m = document.getElementById('addUserModal');
+            if (m) m.style.display = 'flex';
+        }
+        function closeAddUserModal() {
+            const m = document.getElementById('addUserModal');
+            if (m) m.style.display = 'none';
+        }
+
+        function onAddUserRoleChange(role) {
+            const planSelect = document.getElementById('addUserPlan');
+            const paidInput = document.getElementById('addUserPaidAmount');
+            if (role === 'customer_paid') {
+                if (planSelect) planSelect.value = 'paid_pro';
+                if (paidInput) paidInput.value = '499000';
+            } else if (role === 'customer_trial') {
+                if (planSelect) planSelect.value = 'trial_7';
+                if (paidInput) paidInput.value = '0';
+            }
+        }
+
+        function onAddUserPlanChange(plan) {
+            const paidInput = document.getElementById('addUserPaidAmount');
+            if (!paidInput) return;
+            if (plan === 'paid_starter') paidInput.value = '199000';
+            else if (plan === 'paid_pro') paidInput.value = '499000';
+            else if (plan === 'paid_year') paidInput.value = '4990000';
+            else if (plan === 'paid_lifetime') paidInput.value = '1990000';
+            else paidInput.value = '0';
+        }
+
+        function handleManualAddUser(e) {
+            e.preventDefault();
+            const name = document.getElementById('addUserName')?.value.trim();
+            const phone = document.getElementById('addUserPhone')?.value.trim();
+            const email = document.getElementById('addUserEmail')?.value.trim() || '';
+            const shop = document.getElementById('addUserShop')?.value.trim() || 'Cửa hàng';
+            const category = document.getElementById('addUserCategory')?.value;
+            const role = document.getElementById('addUserRole')?.value || 'customer_trial';
+            const plan = document.getElementById('addUserPlan')?.value || 'trial_7';
+            const paidAmount = Number(document.getElementById('addUserPaidAmount')?.value) || 0;
+
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(err) { leads = []; }
+
+            const now = Date.now();
+            let durationDays = 7;
+            if (plan === 'paid_lifetime') durationDays = 36500;
+            else if (plan === 'paid_year') durationDays = 365;
+            else if (plan === 'paid_pro' || plan === 'paid_starter') durationDays = 30;
+
+            const licensePrefix = plan.startsWith('paid_') ? 'HT-VIP-' : 'HT-TRIAL-';
+            const newU = {
+                id: 'usr_' + Date.now(),
+                name: name,
+                phone: phone,
+                email: email,
+                shop: shop,
+                category: category,
+                channels: 'Đa kênh',
+                role: role,
+                plan: plan,
+                paidAmount: paidAmount,
+                licenseKey: licensePrefix + Math.floor(100000 + Math.random() * 900000),
+                time: new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN'),
+                createdAt: now,
+                expiresAt: now + durationDays * 86400000,
+                status: 'active'
+            };
+
+            leads.unshift(newU);
+            localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+
+            renderUsersSettings();
+            renderTrialLeads();
+            closeAddUserModal();
+
+            alert(`✅ ĐÃ LƯU NGƯỜI DÙNG THÀNH CÔNG!\n\nHọ tên: ${name}\nVai trò: ${role}\nGói: ${plan}\nMã bản quyền: ${newU.licenseKey}`);
+        }
+
+        // Upgrade Paid Modal
+        let currentUpgradeLeadId = null;
+        function openUpgradePaidModal(leadId) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const u = leads.find(x => x.id === leadId);
+            if (!u) return;
+
+            currentUpgradeLeadId = leadId;
+            document.getElementById('upgradeTargetLeadId').value = leadId;
+            document.getElementById('upgradeTargetCustomerName').textContent = u.name || 'Khách hàng';
+            document.getElementById('upgradeTargetCustomerContact').textContent = `${u.phone || 'Chưa có SĐT'} · ${u.email || 'Chưa có Email'} (${u.shop || 'Cửa hàng'})`;
+
+            const m = document.getElementById('upgradePaidModal');
+            if (m) m.style.display = 'flex';
+        }
+
+        function closeUpgradePaidModal() {
+            const m = document.getElementById('upgradePaidModal');
+            if (m) m.style.display = 'none';
+        }
+
+        function onUpgradePlanChange(val) {
+            const sel = document.getElementById('upgradePlanSelect');
+            const opt = sel.options[sel.selectedIndex];
+            const price = opt.getAttribute('data-price') || '1990000';
+            const amtInput = document.getElementById('upgradeAmountInput');
+            if (amtInput) amtInput.value = price;
+        }
+
+        function confirmUpgradePaid() {
+            if (!currentUpgradeLeadId) return;
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const idx = leads.findIndex(x => x.id === currentUpgradeLeadId);
+            if (idx === -1) return;
+
+            const planVal = document.getElementById('upgradePlanSelect')?.value || 'paid_pro';
+            const amount = Number(document.getElementById('upgradeAmountInput')?.value) || 0;
+            const payMethod = document.getElementById('upgradePayMethod')?.value || 'Chuyển khoản (CK)';
+            const note = document.getElementById('upgradeNoteInput')?.value || '';
+
+            const now = Date.now();
+            let durationDays = 30;
+            let planName = 'Gói Pro Shop';
+            if (planVal === 'paid_lifetime') {
+                durationDays = 36500;
+                planName = 'Gói Trọn Đời VIP';
+            } else if (planVal === 'paid_year') {
+                durationDays = 365;
+                planName = 'Gói Năm VIP';
+            } else if (planVal === 'paid_starter') {
+                durationDays = 30;
+                planName = 'Gói Khởi Nghiệp';
+            }
+
+            const item = leads[idx];
+            item.role = 'customer_paid';
+            item.plan = planVal;
+            item.paidAmount = (Number(item.paidAmount) || 0) + amount;
+            item.expiresAt = now + durationDays * 86400000;
+            item.status = 'active';
+            item.licenseKey = 'HT-VIP-' + Math.floor(100000 + Math.random() * 900000);
+            item.lastUpgradedAt = now;
+            item.upgradeNote = note;
+            item.paymentMethod = payMethod;
+
+            localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+
+            renderUsersSettings();
+            renderTrialLeads();
+            closeUpgradePaidModal();
+
+            alert(`🎉 CHÚC MỪNG!\n\nĐã nâng cấp MUA THẬT thành công cho khách hàng: ${item.name}!\n- Gói cước: ${planName}\n- Số tiền thu: ${amount.toLocaleString('vi-VN')}đ\n- Mã bản quyền (License Key): ${item.licenseKey}\n- Trạng thái: 💎 Khách Hàng VIP Trả Phí`);
+        }
+
+        // Change Role Modal
+        let currentChangeRoleLeadId = null;
+        function openChangeRoleModal(leadId) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const u = leads.find(x => x.id === leadId);
+            if (!u) return;
+
+            currentChangeRoleLeadId = leadId;
+            document.getElementById('changeRoleTargetText').textContent = `Người dùng: ${u.name} (${u.phone || ''})`;
+            const sel = document.getElementById('changeRoleSelect');
+            if (sel) sel.value = u.role || 'customer_trial';
+
+            const m = document.getElementById('changeRoleModal');
+            if (m) m.style.display = 'flex';
+        }
+
+        function closeChangeRoleModal() {
+            const m = document.getElementById('changeRoleModal');
+            if (m) m.style.display = 'none';
+        }
+
+        function confirmChangeRole() {
+            if (!currentChangeRoleLeadId) return;
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const u = leads.find(x => x.id === currentChangeRoleLeadId);
+            if (!u) return;
+
+            const newRole = document.getElementById('changeRoleSelect')?.value || 'customer_trial';
+            u.role = newRole;
+            localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+
+            renderUsersSettings();
+            closeChangeRoleModal();
+            alert(`✅ Đã cập nhật vai trò phân quyền mới: ${newRole} cho người dùng ${u.name}!`);
+        }
+
+        function toggleUserStatus(leadId) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const u = leads.find(x => x.id === leadId);
+            if (!u) return;
+
+            if (u.status === 'paused') {
+                u.status = 'active';
+                alert(`🟢 Đã mở lại quyền truy cập cho: ${u.name}`);
+            } else {
+                u.status = 'paused';
+                alert(`⛔ Đã tạm khóa quyền truy cập của: ${u.name}`);
+            }
+
+            localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+            renderUsersSettings();
+            renderTrialLeads();
+        }
+
+        function deleteUserSetting(leadId) {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            const u = leads.find(x => x.id === leadId);
+            if (!u) return;
+
+            if (confirm(`⚠️ Bạn có chắc chắn muốn xóa người dùng "${u.name}" (${u.phone}) khỏi hệ thống?`)) {
+                leads = leads.filter(x => x.id !== leadId);
+                localStorage.setItem('zalobot_trial_leads', JSON.stringify(leads));
+                renderUsersSettings();
+                renderTrialLeads();
+            }
+        }
+
+        // Export Users to CSV
+        function exportUsersToCSV() {
+            let leads = [];
+            try {
+                leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+            } catch(e) { leads = []; }
+
+            if (leads.length === 0) {
+                alert('Không có dữ liệu người dùng để xuất file.');
+                return;
+            }
+
+            const header = ['ID', 'Ho va Ten', 'So Dien Thoai', 'Email', 'Cua Hang', 'Nganh Hang', 'Vai Tro', 'Goi Cuoc', 'Ma Ban Quyen', 'Doanh Thu (VND)', 'Ngay Het Han', 'Trang Thai'];
+            const rows = leads.map(u => [
+                u.id || '',
+                `"${(u.name || '').replace(/"/g, '""')}"`,
+                `"${u.phone || ''}"`,
+                `"${u.email || ''}"`,
+                `"${(u.shop || '').replace(/"/g, '""')}"`,
+                `"${(u.category || '').replace(/"/g, '""')}"`,
+                `"${u.role || ''}"`,
+                `"${u.plan || ''}"`,
+                `"${u.licenseKey || ''}"`,
+                u.paidAmount || 0,
+                u.expiresAt ? new Date(u.expiresAt).toLocaleDateString('vi-VN') : '',
+                u.status || 'active'
+            ]);
+
+            const csvContent = '\uFEFF' + [header.join(','), ...rows.map(r => r.join(','))].join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `DANH_SACH_KHACH_HANG_HAITECH_BOT_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+        }
+
+        // Admin Security PIN Configuration
+        function initAdminPin() {
+            const savedPin = localStorage.getItem('zalobot_admin_pin') || '8888';
+            const isRequired = localStorage.getItem('zalobot_admin_pin_required') === 'true';
+
+            const pinInput = document.getElementById('adminPinInput');
+            const pinCheck = document.getElementById('adminPinRequireCheck');
+
+            if (pinInput) pinInput.value = savedPin;
+            if (pinCheck) pinCheck.checked = isRequired;
+        }
+
+        function saveAdminPinConfig() {
+            const pin = document.getElementById('adminPinInput')?.value.trim();
+            if (!pin || pin.length < 4) {
+                alert('⚠️ Mã PIN bảo mật phải có từ 4 đến 6 chữ số!');
+                return;
+            }
+            localStorage.setItem('zalobot_admin_pin', pin);
+            alert(`✅ ĐÃ LƯU MÃ PIN MỚI THÀNH CÔNG!\nMã PIN quản trị của bạn: ${pin}`);
+        }
+
+        function togglePinRequire(checked) {
+            localStorage.setItem('zalobot_admin_pin_required', checked ? 'true' : 'false');
+            alert(checked ? '🔒 Đã BẬT bảo vệ mã PIN khi vào mục Quản Trị.' : '🔓 Đã TẮT chế độ khóa mã PIN.');
         }
 
         // ================= COMMERCIAL PRICING & PROFIT CALCULATOR =================

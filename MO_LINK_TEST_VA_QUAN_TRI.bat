@@ -10,7 +10,7 @@ echo    🌐 TỔNG HỢP LINK CẤU HÌNH & GỬI KHÁCH HÀNG TEST BOT
 echo                  HAITECH BOT — NGUYỄN VĂN HẢI
 echo =====================================================================
 echo.
-echo [1] Mở Dashboard Quản Trị & Cấp Mã Dùng Thử (Trên Trình Duyệt)
+echo [1] Mở Dashboard Quản Trị, Phân Quyền & Quản Lý Khách Hàng (Dùng Thử & Mua Thật)
 echo [2] Mở Trang Giới Thiệu & Đăng Ký 7 Ngày Dùng Thử
 echo [3] Mở Trang Trợ Lý Riêng Test Trực Tiếp AI Toàn Màn Hình
 echo [4] Mở Toàn Bộ File Tài Liệu Hướng Dẫn & Mẫu Tin Nhắn Gửi Khách

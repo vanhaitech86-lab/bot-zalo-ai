@@ -13,10 +13,15 @@
 👉 **Link truy cập:** **[https://bot-zalo-ai.vercel.app/dashboard.html](https://bot-zalo-ai.vercel.app/dashboard.html)**  
 - **Cấu hình kịch bản cho khách:** Nạp bảng giá, thông tin sản phẩm, chính sách bảo hành của khách vào mục *Tri thức & Quy tắc*.
 - **Quản lý khách dùng thử (Tab `🎁 Đăng ký trải nghiệm`):**
-  - Xem danh sách số điện thoại khách hàng vừa đăng ký trên web.
+  - Xem danh sách số điện thoại, email, ngành hàng của khách đăng ký trên web.
   - Cấp **Mã kích hoạt (Trial Key)** 7 ngày dùng thử.
   - Bấm nút **Gia hạn** (+3 ngày, +7 ngày, +30 ngày) khi khách muốn thử thêm.
-  - Phân loại khách hàng: *Đang dùng thử*, *Hết hạn*, *Đã nâng cấp trả phí*.
+  - Phân loại khách hàng: *Đang dùng thử*, *Sắp hết hạn*, *Đã mua thật*.
+- **🛡️ Cài đặt & Phân quyền (Tab MỚI `🛡️ Cài đặt & Phân quyền`):**
+  - **Phân 5 cấp độ quyền hạn:** Super Admin (Toàn quyền), Quản trị viên Kỹ thuật, Khách VIP Mua Thật, Khách Hàng Dùng Thử, Đại lý / CTV.
+  - **Quản lý người dùng Đăng ký dùng thử & Mua thật:** Thống kê doanh thu, đếm ngược ngày dùng thử, chuyển đổi 1-click từ "Dùng thử" sang "Mua thật" kèm cấp License Key chuẩn.
+  - **Bảo mật chuyên sâu:** Mã PIN quản trị (mặc định `8888`) bảo vệ dữ liệu doanh thu và khách hàng, tùy chỉnh bật/tắt yêu cầu PIN.
+  - **Xuất dữ liệu:** Bấm **"Xuất danh sách Excel (.csv)"** để tải toàn bộ danh bạ khách hàng, SĐT, email, doanh thu về máy tính.
 - **Xuất cấu hình cho khách:** Bấm **"Xuất file tri thức (.json)"** để tạo file cấu hình bàn giao cho từng khách.
 
 ### 2. Trang Đăng nhập Quản trị (Login)
