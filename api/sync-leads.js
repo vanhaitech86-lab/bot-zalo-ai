@@ -31,9 +31,9 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
             const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-            const { customerName, phone, message, shopName, threadId } = body;
+            const { customerName, phone, email, message, shopName, threadId } = body;
 
-            if (!phone && !message) {
+            if (!phone && !message && !email) {
                 return res.status(400).json({ status: 'error', message: 'Thiếu thông tin phone hoặc message' });
             }
 
@@ -41,6 +41,7 @@ export default async function handler(req, res) {
                 id: 'lead_' + Date.now(),
                 customerName: customerName || 'Khách Zalo',
                 phone: phone || '',
+                email: email || '',
                 message: message || '',
                 shopName: shopName || 'HAITECH BOT',
                 threadId: threadId || '',

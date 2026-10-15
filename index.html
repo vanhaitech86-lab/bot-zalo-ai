@@ -557,19 +557,33 @@
                         <input type="tel" id="pt_phone" placeholder="Ví dụ: 0988739896" required />
                     </div>
                     <div class="lp-trial-field">
+                        <label for="pt_email">Email nhận tài khoản & thông báo *</label>
+                        <input type="email" id="pt_email" placeholder="Ví dụ: vanhaitech.86@gmail.com" required />
+                    </div>
+                    <div class="lp-trial-field">
                         <label for="pt_shop">Tên Shop / Thương hiệu / Doanh nghiệp</label>
                         <input type="text" id="pt_shop" placeholder="Ví dụ: Shop Thời Trang Moon / Spa Hương Sen" />
                     </div>
                     <div class="lp-trial-field">
                         <label for="pt_industry">Ngành nghề kinh doanh</label>
                         <select id="pt_industry">
-                            <option value="Thời trang & Phụ kiện">👗 Thời trang & Phụ kiện</option>
-                            <option value="Mỹ phẩm & Spa làm đẹp">💄 Mỹ phẩm & Spa làm đẹp</option>
-                            <option value="Gia dụng & Thiết bị công nghệ">📱 Gia dụng & Thiết bị công nghệ</option>
-                            <option value="Bất động sản & Nội thất">🏠 Bất động sản & Nội thất</option>
-                            <option value="Ăn uống & Nhà hàng F&B">🍔 Ăn uống & Nhà hàng F&B</option>
-                            <option value="Khóa học & Dịch vụ số">🎓 Khóa học & Dịch vụ số</option>
-                            <option value="Ngành nghề khác">✨ Ngành nghề khác</option>
+                            <option value="Thời trang, May mặc & Phụ kiện">👗 Thời trang, May mặc & Phụ kiện</option>
+                            <option value="Mỹ phẩm, Làm đẹp, Spa & Thẩm mỹ viện">💄 Mỹ phẩm, Làm đẹp, Spa & Thẩm mỹ viện</option>
+                            <option value="Điện thoại, Máy tính & Thiết bị Công nghệ">💻 Điện thoại, Máy tính & Thiết bị Công nghệ</option>
+                            <option value="Bất động sản, Nhà đất & Cho thuê căn hộ">🏢 Bất động sản, Nhà đất & Cho thuê căn hộ</option>
+                            <option value="Nhà hàng, Quán Cafe, Trà sữa & Ăn uống (F&B)">☕ Nhà hàng, Quán Cafe, Trà sữa & Ăn uống (F&B)</option>
+                            <option value="Phòng khám, Nha khoa, Y tế & Dược phẩm">🏥 Phòng khám, Nha khoa, Y tế & Dược phẩm</option>
+                            <option value="Nội thất, Gia dụng & Đồ trang trí nhà cửa">🛋️ Nội thất, Gia dụng & Đồ trang trí</option>
+                            <option value="Ô tô, Xe máy, Gara & Phụ tùng xe">🚗 Ô tô, Xe máy, Gara & Phụ tùng xe</option>
+                            <option value="Giáo dục, Đào tạo, Khóa học & Du học">🎓 Giáo dục, Đào tạo, Khóa học & Du học</option>
+                            <option value="Du lịch, Khách sạn, Homestay & Vé máy bay">✈️ Du lịch, Khách sạn, Homestay & Vé máy bay</option>
+                            <option value="Luật, Thuế, Kế toán & Dịch vụ Doanh nghiệp">⚖️ Luật, Thuế, Kế toán & Dịch vụ Doanh nghiệp</option>
+                            <option value="Nông nghiệp, Thực phẩm sạch & Đặc sản">🌾 Nông nghiệp, Thực phẩm sạch & Đặc sản</option>
+                            <option value="Vận tải, Logistics & Chuyển phát nhanh">📦 Vận tải, Logistics & Chuyển phát nhanh</option>
+                            <option value="Xây dựng, Cơ khí, Nhôm kính & Vật liệu">🛠️ Xây dựng, Cơ khí, Nhôm kính & Vật liệu</option>
+                            <option value="Tài chính, Bảo hiểm, Tín dụng & Ngân hàng">💰 Tài chính, Bảo hiểm, Tín dụng & Ngân hàng</option>
+                            <option value="MMO, Affiliate Marketing & Dịch vụ số">🎮 MMO, Affiliate Marketing & Dịch vụ số</option>
+                            <option value="Ngành nghề & Dịch vụ khác">✨ Ngành nghề & Dịch vụ khác...</option>
                         </select>
                     </div>
                     <button type="submit" id="pt_submit_btn" class="lp-trial-submit-btn">
@@ -1122,6 +1136,7 @@
             e.preventDefault();
             const name = document.getElementById('pt_name').value.trim();
             const phone = document.getElementById('pt_phone').value.trim();
+            const email = document.getElementById('pt_email')?.value.trim() || '';
             const shop = document.getElementById('pt_shop').value.trim() || 'Cá nhân kinh doanh';
             const industry = document.getElementById('pt_industry').value;
             const submitBtn = document.getElementById('pt_submit_btn');
@@ -1143,6 +1158,7 @@
                 id: 'lead_' + Date.now(),
                 name: name,
                 phone: phone,
+                email: email,
                 shop: shop,
                 category: industry,
                 industry: industry,
@@ -1186,6 +1202,7 @@
                 `Khách hàng đăng ký dùng thử 7 ngày Bot Zalo:\n\n` +
                 `- Họ tên: ${name}\n` +
                 `- SĐT Zalo: ${phone}\n` +
+                `- Email: ${email || 'Chưa cập nhật'}\n` +
                 `- Shop/Doanh nghiệp: ${shop}\n` +
                 `- Ngành nghề: ${industry}\n` +
                 `- Mã kích hoạt: ${trialKey}\n` +
