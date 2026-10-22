@@ -4,7 +4,8 @@
 > **Đơn vị phát triển & Sở hữu bản quyền:** HAITECH BOT  
 > **Hotline/Zalo hỗ trợ kỹ thuật:** 0988 739 896  
 > **Email:** vanhaitech.86@gmail.com  
-> **Website/Hệ thống Webhook Cloud:** https://bot-zalo-ai.vercel.app  
+> **Website Chính Thức:** https://trolybotai.com  
+> **Hệ thống Webhook Cloud:** https://bot-zalo-ai.vercel.app  
 
 ---
 

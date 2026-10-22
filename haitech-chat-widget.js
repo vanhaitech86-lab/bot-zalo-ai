@@ -1,7 +1,7 @@
 /**
  * HAITECH BOT - LIVECHAT AI WIDGET CHO WEBSITE
  * Nhúng vào bất kỳ website nào chỉ với 1 dòng mã script:
- * <script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" async></script>
+ * <script src="https://trolybotai.com/haitech-chat-widget.js" async></script>
  * Hotline hỗ trợ: 0988 739 896 - Email: vanhaitech.86@gmail.com
  */
 

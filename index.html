@@ -8,7 +8,9 @@
     <meta name="keywords" content="chatbot zalo, bot zalo, trợ lý AI, kol ai, thuy linh ai, chăm sóc khách hàng tự động, bot AI zalo" />
     <meta property="og:title" content="HAITECH BOT — Trợ lý AI trả lời khách hàng trên ZALO, FANPAGE, WEBSITE" />
     <meta property="og:description" content="Trợ lý KOL AI tự học từ dữ liệu của bạn, trực chat đa kênh 24/7." />
+    <meta property="og:url" content="https://trolybotai.com/" />
     <meta property="og:type" content="website" />
+    <link rel="canonical" href="https://trolybotai.com/" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/png" href="bot-avatar.png" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
@@ -691,7 +693,7 @@
                     <div style="background: white; border: 2px solid #7C3AED; border-radius: 14px; padding: 14px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);">
                         <label style="font-size: 12px; font-weight: 700; color: #7C3AED; display: block; margin-bottom: 6px;">ĐƯỜNG LINK GIỚI THIỆU CHÍNH THỨC CỦA BẠN:</label>
                         <div style="display: flex; gap: 8px;">
-                            <input type="text" id="affGeneratedLinkInput" readonly value="https://bot-zalo-ai.vercel.app/?ref=0988739896" style="width: 100%; border: 1px solid #CBD5E1; padding: 10px 12px; border-radius: 10px; font-weight: 700; color: #1E1B4B; background: #F8FAFC; font-size: 13.5px;" />
+                            <input type="text" id="affGeneratedLinkInput" readonly value="https://trolybotai.com/?ref=0988739896" style="width: 100%; border: 1px solid #CBD5E1; padding: 10px 12px; border-radius: 10px; font-weight: 700; color: #1E1B4B; background: #F8FAFC; font-size: 13.5px;" />
                             <button type="button" onclick="copyAffiliateLink()" id="affCopyBtn" style="background: #7C3AED; color: white; border: none; padding: 0 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; transition: all .2s;">
                                 📋 Copy
                             </button>
@@ -1234,7 +1236,7 @@
         function getAffiliateBaseUrl() {
             const loc = window.location;
             if (!loc || loc.protocol === 'file:') {
-                return 'https://bot-zalo-ai.vercel.app/';
+                return 'https://trolybotai.com/';
             }
             return loc.origin + loc.pathname;
         }

@@ -10,7 +10,7 @@
 Đây là các link nội bộ để anh thiết lập dữ liệu riêng cho khách và quản lý thời hạn dùng thử:
 
 ### 1. Bảng điều khiển Studio Quản trị (Dashboard)
-👉 **Link truy cập:** **[https://bot-zalo-ai.vercel.app/dashboard.html](https://bot-zalo-ai.vercel.app/dashboard.html)**  
+👉 **Link truy cập:** **[https://trolybotai.com/dashboard.html](https://trolybotai.com/dashboard.html)**  
 - **Cấu hình kịch bản cho khách:** Nạp bảng giá, thông tin sản phẩm, chính sách bảo hành của khách vào mục *Tri thức & Quy tắc*.
 - **Quản lý khách dùng thử (Tab `🎁 Đăng ký trải nghiệm`):**
   - Xem danh sách số điện thoại, email, ngành hàng của khách đăng ký trên web.
@@ -25,11 +25,11 @@
 - **Xuất cấu hình cho khách:** Bấm **"Xuất file tri thức (.json)"** để tạo file cấu hình bàn giao cho từng khách.
 
 ### 2. Trang Đăng nhập Quản trị (Login)
-👉 **Link truy cập:** **[https://bot-zalo-ai.vercel.app/login.html](https://bot-zalo-ai.vercel.app/login.html)**  
+👉 **Link truy cập:** **[https://trolybotai.com/login.html](https://trolybotai.com/login.html)**  
 - Tích hợp nút **`⚡ Đăng nhập dùng thử 1-Click (Demo Trial)`** để vào thẳng hệ thống mà không cần nhớ mật khẩu.
 
 ### 3. API Đồng bộ dữ liệu Lead Khách hàng
-👉 **Link API:** `https://bot-zalo-ai.vercel.app/api/sync-leads`  
+👉 **Link API:** `https://bot-zalo-ai.vercel.app/api/sync-leads` (hoặc `https://trolybotai.com/api/sync-leads`)  
 - Tự động tiếp nhận và lưu trữ thông tin khách đăng ký dùng thử từ Website vào hệ thống quản trị.
 
 ---
@@ -40,10 +40,10 @@ Anh gửi các đường link dưới đây cho khách hàng tùy theo nhu cầu
 
 | Nhu cầu của khách | Link gửi cho khách | Điểm nhấn trải nghiệm |
 | :--- | :--- | :--- |
-| **Muốn xem giới thiệu & Đăng ký dùng thử 7 ngày** | 👉 **[https://bot-zalo-ai.vercel.app](https://bot-zalo-ai.vercel.app)**<br>*(Form đăng ký: [https://bot-zalo-ai.vercel.app/#dung-thu](https://bot-zalo-ai.vercel.app/#dung-thu))* | • Giao diện chuẩn công nghệ AI, bảng giá minh bạch.<br>• Có bong bóng **LiveChat AI** góc màn hình để chat thử.<br>• Khách điền SĐT là nhận ngay Mã kích hoạt 7 ngày miễn phí. |
-| **Muốn chat thử trực tiếp toàn màn hình (Web App)** | 👉 **[https://bot-zalo-ai.vercel.app/tro-ly-rieng.html](https://bot-zalo-ai.vercel.app/tro-ly-rieng.html)** | • Giao diện Studio như ChatGPT/Claude.<br>• Khách test hỏi đáp mọi câu hỏi khó, kiểm tra độ nhạy bén của Trợ lý Em Thùy Linh. |
+| **Muốn xem giới thiệu & Đăng ký dùng thử 7 ngày** | 👉 **[https://trolybotai.com](https://trolybotai.com)**<br>*(Form đăng ký: [https://trolybotai.com/#dung-thu](https://trolybotai.com/#dung-thu))* | • Giao diện chuẩn công nghệ AI, bảng giá minh bạch.<br>• Có bong bóng **LiveChat AI** góc màn hình để chat thử.<br>• Khách điền SĐT là nhận ngay Mã kích hoạt 7 ngày miễn phí. |
+| **Muốn chat thử trực tiếp toàn màn hình (Web App)** | 👉 **[https://trolybotai.com/tro-ly-rieng.html](https://trolybotai.com/tro-ly-rieng.html)** | • Giao diện Studio như ChatGPT/Claude.<br>• Khách test hỏi đáp mọi câu hỏi khó, kiểm tra độ nhạy bén của Trợ lý Em Thùy Linh. |
 | **Muốn test trực tiếp trên Zalo thực tế** | 👉 **[https://zalo.me/0988739896](https://zalo.me/0988739896)** | • Mở ứng dụng Zalo trên điện thoại khách.<br>• Trực tiếp nhắn tin với Em Thùy Linh, kiểm tra tốc độ trả lời 0.8 giây và văn phong tự nhiên. |
-| **Khách cần tài liệu hướng dẫn cài đặt & sử dụng** | 👉 **[https://bot-zalo-ai.vercel.app/HUONG_DAN_KHACH_HANG.html](https://bot-zalo-ai.vercel.app/HUONG_DAN_KHACH_HANG.html)** | • Cẩm nang 3 bước quét mã QR đăng nhập và sử dụng bot (xem mượt mà trên cả điện thoại và máy tính). |
+| **Khách cần tài liệu hướng dẫn cài đặt & sử dụng** | 👉 **[https://trolybotai.com/HUONG_DAN_KHACH_HANG.html](https://trolybotai.com/HUONG_DAN_KHACH_HANG.html)** | • Cẩm nang 3 bước quét mã QR đăng nhập và sử dụng bot (xem mượt mà trên cả điện thoại và máy tính). |
 
 ---
 
@@ -52,7 +52,7 @@ Anh gửi các đường link dưới đây cho khách hàng tùy theo nhu cầu
 ### MẪU 1: Gửi khách quan tâm dịch vụ muốn chat thử trên Web
 > *"Chào anh/chị! Em gửi anh/chị link trải nghiệm thực tế Trợ lý AI HAITECH BOT trực chiến 24/7 bên em:*
 > 
-> *👉 Link chat thử toàn màn hình: https://bot-zalo-ai.vercel.app/tro-ly-rieng.html*
+> *👉 Link chat thử toàn màn hình: https://trolybotai.com/tro-ly-rieng.html*
 > 
 > *Anh/chị cứ nhắn thử vài câu hỏi về giá cả, tư vấn sản phẩm hoặc nhờ bot viết bài để kiểm tra tốc độ phản hồi 0.8s và độ thông minh của bot nhé ạ!"*
 
@@ -70,7 +70,7 @@ Anh gửi các đường link dưới đây cho khách hàng tùy theo nhu cầu
 ### MẪU 3: Gửi khách muốn tự kích hoạt 7 ngày dùng thử miễn phí
 > *"Dạ bên em đang có chương trình trải nghiệm miễn phí 7 ngày đầy đủ tính năng cho shop của mình:*
 > 
-> *👉 Đăng ký kích hoạt 7 ngày tại: https://bot-zalo-ai.vercel.app/#dung-thu*
+> *👉 Đăng ký kích hoạt 7 ngày tại: https://trolybotai.com/#dung-thu*
 > 
 > *Anh/chị chỉ cần điền tên và số điện thoại là hệ thống tự động cấp Mã Dùng Thử ngay trên màn hình trong 3 giây ạ!"*
 
@@ -79,7 +79,7 @@ Anh gửi các đường link dưới đây cho khách hàng tùy theo nhu cầu
 ### MẪU 4: Dành cho khách muốn nhúng Chatbot AI vào Website riêng của họ
 Gửi cho khách đoạn mã nhúng sau để họ dán trước thẻ `</body>` trên website:
 ```html
-<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+<script src="https://trolybotai.com/haitech-chat-widget.js" 
   data-bot-name="Trợ lý AI - HAITECH BOT" 
   data-phone="0988 739 896" 
   data-zalo-url="https://zalo.me/0988739896" 
@@ -92,7 +92,7 @@ Gửi cho khách đoạn mã nhúng sau để họ dán trước thẻ `</body>`
 ## 📈 PHẦN 4: QUY TRÌNH 3 BƯỚC BIẾN KHÁCH DÙNG THỬ THÀNH KHÁCH TRẢ TIỀN
 
 1. **Bước 1 — Kích hoạt nhanh trong 10 giây**:
-   - Gửi link [https://bot-zalo-ai.vercel.app/#dung-thu](https://bot-zalo-ai.vercel.app/#dung-thu) để khách đăng ký nhận mã hoặc anh tự vào [Dashboard](https://bot-zalo-ai.vercel.app/dashboard.html) tạo cho khách.
+   - Gửi link [https://trolybotai.com/#dung-thu](https://trolybotai.com/#dung-thu) để khách đăng ký nhận mã hoặc anh tự vào [Dashboard](https://trolybotai.com/dashboard.html) tạo cho khách.
 2. **Bước 2 — Chăm sóc tự động ngày thứ 3 và ngày thứ 6**:
    - Ngày 3: Nhắn hỏi khách xem bot trả lời khách của shop thế nào, có cần chỉnh sửa kịch bản hay bảng giá gì không.
    - Ngày 6: Báo khách hạn dùng thử sắp kết thúc và gửi chương trình ưu đãi (Ví dụ: Giảm 20% khi thanh toán gói 6 tháng hoặc tặng thêm 1 tháng).

@@ -12,6 +12,7 @@
 | **Kho mã nguồn GitHub** | `https://github.com/vanhaitech86-lab/bot-zalo-ai.git` (Nhánh: `master`) |
 | **Nền tảng Cloud đề xuất** | **Render.com** (Miễn phí 100%, có máy chủ Singapore phản hồi cực nhanh) |
 | **Công cụ giữ Bot thức 24/7** | **UptimeRobot.com** (Ping định kỳ chống ngủ đông tự động) |
+| **Tên miền Website chính thức** | `https://trolybotai.com` (Đã kích hoạt & bảo mật HTTPS) |
 | **Hệ thống Webhook Vercel** | `https://bot-zalo-ai.vercel.app` (Đang trực sẵn 24/7 cho Web & Fanpage) |
 | **File lấy phiên Zalo** | Nhấp đúp: [`XUAT_CHUOI_SESSION_LEN_CLOUD.bat`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/XUAT_CHUOI_SESSION_LEN_CLOUD.bat) |
 | **File đồng bộ mã nguồn** | Nhấp đúp: [`CAP_NHAT_LEN_INTERNET.bat`](file:///e:/BOT%20ZALO%20CH%C4%82M%20S%C3%93C%20KH%C3%81CH%20%20T%E1%BB%B0%20%C4%90%E1%BB%98NG/CAP_NHAT_LEN_INTERNET.bat) |

@@ -62,7 +62,8 @@ export default async function handler(req, res) {
                         .map(m => ({
                             id: m.name.replace(/^models\//, ''),
                             name: m.displayName ? `${m.name.replace(/^models\//, '')} (${m.displayName})` : m.name.replace(/^models\//, '')
-                        }));
+                        }))
+                        .filter(m => !m.id.includes('2.5') && !m.id.includes('1.5') && m.id !== 'gemini-2.0-flash');
                     return res.status(200).json({ success: true, models: availableModels });
                 } catch (e) {
                     return res.status(500).json({ success: false, error: e.message });
@@ -73,7 +74,7 @@ export default async function handler(req, res) {
                 const startTime = Date.now();
                 const testPrompt = body.prompt || "Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai và sẵn sàng hỗ trợ khách hàng như thế nào.";
                 const provider = body.provider || kb.aiConfig?.provider || 'gemini';
-                const model = body.model || (provider === 'gemini' ? 'gemini-2.5-flash' : 'llama-3.3-70b-versatile');
+                const model = body.model || (provider === 'gemini' ? 'gemini-flash-lite-latest' : 'llama-3.3-70b-versatile');
 
                 const testKb = {
                     ...kb,

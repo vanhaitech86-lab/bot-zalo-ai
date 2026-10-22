@@ -4,7 +4,8 @@
 > **Đơn vị phát triển:** HAITECH BOT STUDIO  
 > **Hotline/Zalo hỗ trợ kỹ thuật 24/7:** 0988 739 896  
 > **Email:** vanhaitech.86@gmail.com  
-> **Hệ thống Cloud Webhook:** https://bot-zalo-ai.vercel.app  
+> **Website Chính Thức:** https://trolybotai.com  
+> **Hệ thống Cloud Webhook:** https://bot-zalo-ai.vercel.app (hoặc https://trolybotai.com)  
 > **Phiên bản:** v1.0.0 Thương Mại  
 
 ---
@@ -191,7 +192,7 @@ Tính năng **LiveChat AI Widget** cho phép bạn hoặc khách hàng nhúng m�
 
 ```html
 <!-- Mã nhúng nhanh mặc định -->
-<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" async></script>
+<script src="https://trolybotai.com/haitech-chat-widget.js" async></script>
 ```
 
 ### 🌟 Các tính năng nổi bật của Widget Website:
@@ -211,7 +212,7 @@ Bạn có thể mở [**`dashboard.html`**](file:///e:/BOT%20ZALO%20CH%C4%82M%20
 
 Mã nhúng tùy biến mẫu:
 ```html
-<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+<script src="https://trolybotai.com/haitech-chat-widget.js" 
   data-color="#0077B6" 
   data-position="right" 
   data-bot-name="Em Thùy Linh - Trợ lý HAITECH BOT" 

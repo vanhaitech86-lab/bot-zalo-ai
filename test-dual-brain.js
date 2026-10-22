@@ -49,13 +49,13 @@ async function main() {
             knowledge.aiConfig = knowledge.aiConfig || {};
             knowledge.aiConfig.enabled = true;
             knowledge.aiConfig.provider = 'gemini';
-            knowledge.aiConfig.model = 'gemini-2.5-flash';
+            knowledge.aiConfig.model = 'gemini-flash-lite-latest';
             knowledge.aiConfig.apiKey = currentKey;
 
             knowledge.gptConfig = knowledge.gptConfig || {};
             knowledge.gptConfig.enabled = true;
             knowledge.gptConfig.provider = 'gemini';
-            knowledge.gptConfig.model = 'gemini-2.5-flash';
+            knowledge.gptConfig.model = 'gemini-flash-lite-latest';
             knowledge.gptConfig.apiKey = currentKey;
 
             try {
@@ -68,7 +68,7 @@ async function main() {
     } else {
         const masked = currentKey.substring(0, 8) + '...' + currentKey.substring(currentKey.length - 4);
         console.log(`✅ Đã tìm thấy Google Gemini API Key sẵn có: ${masked}`);
-        console.log(`🤖 Mô hình đang dùng: ${knowledge?.aiConfig?.model || 'gemini-2.5-flash'}\n`);
+        console.log(`🤖 Mô hình đang dùng: ${knowledge?.aiConfig?.model || 'gemini-flash-lite-latest'}\n`);
     }
 
     // Kiểm tra kết nối thử nghiệm mẫu

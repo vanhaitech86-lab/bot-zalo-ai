@@ -85,11 +85,11 @@ Anh có thể thuê VPS tại Việt Nam (Vietnix, TinoHost, BKNS...) hoặc VPS
 ### 🌟 PHƯƠNG ÁN 3: KẾT NỐI VÀO ZALO OA DOANH NGHIỆP TRÊN VERCEL (100% SERVERLESS CLOUD)
 *Hoàn toàn không cần máy chủ, không tốn tài nguyên.*
 
-Hệ thống của anh hiện đã được triển khai sẵn trên nền tảng **Vercel Cloud toàn cầu**:
-- **Trang chủ Studio:** `https://bot-zalo-ai.vercel.app`
-- **Webhook Zalo OA:** `https://bot-zalo-ai.vercel.app/api/zalo-webhook`
+Hệ thống của anh hiện đã được triển khai sẵn trên nền tảng **Vercel Cloud toàn cầu** và đã trỏ tên miền chính thức:
+- **Trang chủ Studio chính:** `https://trolybotai.com` (Gốc Vercel: `https://bot-zalo-ai.vercel.app`)
+- **Webhook Zalo OA:** `https://bot-zalo-ai.vercel.app/api/zalo-webhook` (hoặc `https://trolybotai.com/api/zalo-webhook`)
 - **Webhook Fanpage Facebook:** `https://bot-zalo-ai.vercel.app/api/facebook-webhook`
-- **LiveChat AI Website:** `https://bot-zalo-ai.vercel.app/api/website-chat`
+- **LiveChat AI Website:** `https://trolybotai.com/haitech-chat-widget.js`
 
 Chỉ cần đăng ký một trang **Zalo Official Account (Zalo OA)** miễn phí tại [oa.zalo.me](https://oa.zalo.me), dán webhook Vercel vào cổng nhà phát triển Zalo, khách hàng chat vào OA là Thùy Linh trả lời 24/7 không cần mở máy tính một giây nào!
 
@@ -102,4 +102,4 @@ Chỉ cần đăng ký một trang **Zalo Official Account (Zalo OA)** miễn ph
 | **Muốn dùng Zalo cá nhân hiện tại (0988 739 896) khi tắt máy** | **Phương án 1 (Render.com)** hoặc **Phương án 2 (VPS)** | Bấm `XUAT_CHUOI_SESSION_LEN_CLOUD.bat` lấy chuỗi session dán lên Render là xong. |
 | **Muốn mở điện thoại là chat được với Thùy Linh** | **Zalo -> "Cloud của tôi"** | Nhắn tin trực tiếp trên điện thoại, Thùy Linh phản hồi trong 0.8s. |
 | **Muốn xem danh sách khách hàng khi máy tính tắt** | **Google Sheets trên điện thoại** | Mở app Google Sheets trên điện thoại để xem số điện thoại khách tự động cập nhật. |
-| **Muốn trực chat trên Website & Fanpage khi tắt máy** | **Vercel Cloud (Đã sẵn sàng 100%)** | Đã online 24/7 tại `https://bot-zalo-ai.vercel.app`. |
+| **Muốn trực chat trên Website & Fanpage khi tắt máy** | **Cloud 24/7 (Đã sẵn sàng 100%)** | Đã online 24/7 tại `https://trolybotai.com` và `https://bot-zalo-ai.vercel.app`. |

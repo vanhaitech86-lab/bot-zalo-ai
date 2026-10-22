@@ -20,13 +20,13 @@ set /p choice="👉 Nhập lựa chọn của anh (1, 2, 3 hoặc 4): "
 
 if "%choice%"=="1" (
     echo Đang mở Dashboard Quản Trị...
-    start https://bot-zalo-ai.vercel.app/dashboard.html
+    start https://trolybotai.com/dashboard.html
 ) else if "%choice%"=="2" (
     echo Đang mở Trang Landing Page Dùng Thử...
-    start https://bot-zalo-ai.vercel.app/#dung-thu
+    start https://trolybotai.com/#dung-thu
 ) else if "%choice%"=="3" (
     echo Đang mở Trang Trợ Lý Riêng Test AI...
-    start https://bot-zalo-ai.vercel.app/tro-ly-rieng.html
+    start https://trolybotai.com/tro-ly-rieng.html
 ) else (
     echo Đang mở File Tài Liệu Chi Tiết...
     start "" "TAI_LIEU_LINK_WEB_CAU_HINH_VA_TEST_BOT_CHO_KHACH.md"

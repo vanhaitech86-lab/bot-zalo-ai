@@ -36,15 +36,14 @@ export const AI_PROVIDERS = {
         id: "gemini",
         name: "Google Gemini (Google AI Studio)",
         badge: "Miễn phí 100% · 1.500 lượt/ngày",
-        defaultModel: "gemini-3.8-flash",
+        defaultModel: "gemini-flash-lite-latest",
         models: [
-            "gemini-3.8-flash",
+            "gemini-flash-lite-latest",
+            "gemini-3.6-flash",
+            "gemini-3.5-flash-lite",
             "gemini-3.5-flash",
-            "gemini-2.5-flash-lite",
-            "gemini-flash-latest",
-            "gemini-2.5-flash",
-            "gemini-2.0-flash",
-            "gemini-2.5-pro"
+            "gemini-3.8-flash",
+            "gemini-flash-latest"
         ],
         keyPlaceholder: "AIzaSy...",
         keyUrl: "https://aistudio.google.com/app/apikey",
@@ -266,14 +265,15 @@ export async function callGoogleGemini(userMessage, kb, conversationHistory = []
     const maxTokens = Number(aiConfig.maxTokens ?? 600);
     const systemPrompt = buildAiSystemPrompt(kb);
 
-    // Danh sách model tối ưu trên Google AI Studio (ưu tiên gemini-flash-lite-latest để phản hồi siêu tốc 1-2s)
+    // Danh sách model tối ưu trên Google AI Studio (ưu tiên gemini-flash-lite-latest để phản hồi siêu tốc ~0.8s)
     const candidateModels = Array.from(new Set([
-        'gemini-flash-lite-latest',
-        'gemini-3.5-flash-lite',
         requestedModel,
-        'gemini-3.8-flash',
-        'gemini-3.6-flash'
-    ]));
+        'gemini-flash-lite-latest',
+        'gemini-3.6-flash',
+        'gemini-3.5-flash-lite',
+        'gemini-3.5-flash',
+        'gemini-flash-latest'
+    ])).filter(m => !m.includes('2.5') && !m.includes('1.5') && m !== 'gemini-2.0-flash');
 
     // Xây dựng ngữ cảnh hội thoại đa lượt (Multi-turn chat)
     const contents = [];

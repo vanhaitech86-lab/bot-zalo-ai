@@ -33,9 +33,11 @@ graph TD
 ## 🛒 PHẦN 2: HƯỚNG DẪN MUA TÊN MIỀN & VPS CHUẨN
 
 ### 1. Mua Tên Miền Riêng (Domain)
+> 🌟 **Tên miền chính thức hiện tại của hệ thống đã kích hoạt thành công:** `https://trolybotai.com` (Đã trỏ DNS và cài đặt chứng chỉ SSL HTTPS bảo mật xanh).
+
 Anh có thể chọn các đuôi tên miền uy tín như `.vn`, `.com.vn`, `.com`, `.ai`, `.pro`:
-- **Gợi ý tên miền đẹp:** `haitech.vn`, `haitechai.vn`, `haitechbot.vn`, `trolythuy linh.vn`...
-- **Nhà cung cấp uy tín tại Việt Nam:** [Mắt Bão](https://matbao.net), [PA Việt Nam](https://pavietnam.vn), [Inet](https://inet.vn), [TinoHost](https://tinohost.com).
+- **Tên miền chính đang dùng:** `trolybotai.com`
+- **Nhà cung cấp uy tín tại Việt Nam:** [Mắt Bão](https://matbao.net), [PA Việt Nam](https://pavietnam.vn), [Inet](https://inet.vn), [TinoHost](https://tinohost.com), [Tenten](https://tenten.vn).
 - **Nhà cung cấp quốc tế (Rất rẻ & quản lý DNS siêu tốc):** [Cloudflare](https://cloudflare.com), [Namecheap](https://namecheap.com).
 
 ### 2. Thuê VPS Linux Riêng (Nếu muốn tự làm chủ 100% máy chủ)

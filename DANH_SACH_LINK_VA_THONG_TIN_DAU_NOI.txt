@@ -4,13 +4,15 @@
    Hotline hỗ trợ kỹ thuật: 0988 739 896 — Email: vanhaitech.86@gmail.com
 =====================================================================
 
-1. CÁC ĐƯỜNG LINK CLOUD WEBHOOK (CHẠY 24/7 KHÔNG CẦN MỞ MÁY TÍNH):
+1. CÁC ĐƯỜNG LINK WEBSITE & CLOUD (CHẠY 24/7 KHÔNG CẦN MỞ MÁY TÍNH):
 ---------------------------------------------------------------------
-- Trang chủ Cloud Studio:
-  👉 https://bot-zalo-ai.vercel.app
+- Trang chủ Website Chính Thức (Tên miền riêng):
+  👉 https://trolybotai.com
+  👉 Trang Dashboard Quản Trị: https://trolybotai.com/dashboard.html
+  👉 Trang Trợ Lý Riêng Test AI: https://trolybotai.com/tro-ly-rieng.html
 
 - Mã nhúng LiveChat AI Widget Website:
-  👉 https://bot-zalo-ai.vercel.app/haitech-chat-widget.js
+  👉 https://trolybotai.com/haitech-chat-widget.js
 
 - Webhook Facebook Fanpage Messenger:
   👉 URL Webhook: https://bot-zalo-ai.vercel.app/api/facebook-webhook
@@ -46,7 +48,7 @@
 ---------------------------------------------------------------------
 3. ĐOẠN MÃ NHÚNG WIDGET AI VÀO WEBSITE (CHÈN TRƯỚC THẺ ĐÓNG </body>):
 ---------------------------------------------------------------------
-<script src="https://bot-zalo-ai.vercel.app/haitech-chat-widget.js" 
+<script src="https://trolybotai.com/haitech-chat-widget.js" 
   data-bot-name="Em Thùy Linh - Trợ lý HAITECH BOT" 
   data-phone="0988 739 896" 
   data-zalo-url="https://zalo.me/0988739896" 
