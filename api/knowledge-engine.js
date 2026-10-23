@@ -341,15 +341,15 @@ export async function callGoogleGemini(userMessage, kb, conversationHistory = []
     const maxTokens = Number(aiConfig.maxTokens ?? 600);
     const systemPrompt = buildAiSystemPrompt(kb);
 
-    // Danh sách model tối ưu trên Google AI Studio (ưu tiên gemini-flash-lite-latest để phản hồi siêu tốc ~0.8s)
+    // Danh sách model Google AI Studio: Ưu tiên chính xác model người dùng đã chọn
     const candidateModels = Array.from(new Set([
         requestedModel,
         'gemini-flash-lite-latest',
-        'gemini-3.6-flash',
-        'gemini-3.5-flash-lite',
-        'gemini-3.5-flash',
+        'gemini-2.0-flash',
+        'gemini-2.0-flash-lite',
+        'gemini-1.5-flash',
         'gemini-flash-latest'
-    ])).filter(m => !m.includes('2.5') && !m.includes('1.5') && m !== 'gemini-2.0-flash');
+    ]));
 
     // Xây dựng ngữ cảnh hội thoại đa lượt (Multi-turn chat)
     const contents = [];

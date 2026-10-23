@@ -1423,7 +1423,7 @@
                                         🔍 Dò Model từ Key
                                     </button>
                                 </div>
-                                <select id="aiModelSelect" style="font-size: 14px; font-weight: 600; padding: 10px 14px;">
+                                <select id="aiModelSelect" onchange="onAiModelChanged()" style="font-size: 14px; font-weight: 600; padding: 10px 14px;">
                                     <option value="gemini-flash-lite-latest" selected>gemini-flash-lite-latest (⚡ Siêu tốc ~0.8s - Khuyên dùng)</option>
                                     <option value="gemini-3.6-flash">gemini-3.6-flash (⭐ Chuẩn mới nhất - Tốc độ cao)</option>
                                     <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Siêu nhẹ & Ổn định)</option>
@@ -1485,8 +1485,8 @@
                             <button type="button" class="btn-action primary" style="background: linear-gradient(135deg, #059669, #10B981);" onclick="saveAiConfig()">
                                 💾 Lưu Cấu Hình Bộ Não AI
                             </button>
-                            <button type="button" class="btn-action secondary" style="border-color: #059669; color: #059669; font-weight: 700;" onclick="testAiConnection()">
-                                🧪 Kiểm Tra Kết Nối Google Gemini Ngay
+                            <button type="button" id="btnTestAiConnection" class="btn-action secondary" style="border-color: #059669; color: #059669; font-weight: 700;" onclick="testAiConnection()">
+                                🧪 Kiểm Tra Kết Nối Google Gemini (gemini-flash-lite-latest) Ngay
                             </button>
                         </div>
 
@@ -4787,6 +4787,36 @@
             }
         }
 
+        function updateTestButtonText() {
+            const btn = document.getElementById('btnTestAiConnection');
+            if (!btn) return;
+            const provSelect = document.getElementById('aiProviderSelect');
+            const modelSelect = document.getElementById('aiModelSelect');
+            const prov = provSelect?.value || 'gemini';
+            const model = modelSelect?.value || '';
+            const provMeta = PROVIDER_METADATA[prov] || PROVIDER_METADATA.gemini;
+
+            let displayModel = model;
+            if (displayModel.includes('/')) {
+                displayModel = displayModel.split('/').pop();
+            }
+            displayModel = displayModel.replace(/:free$/, ' (Free)');
+            if (displayModel.length > 28) {
+                displayModel = displayModel.substring(0, 25) + '...';
+            }
+
+            btn.innerHTML = `🧪 Kiểm Tra Kết Nối <strong>${provMeta.name}</strong> (${displayModel || 'Model đã chọn'}) Ngay`;
+        }
+
+        function onAiModelChanged() {
+            const modelSelect = document.getElementById('aiModelSelect');
+            if (modelSelect) {
+                aiConfigState.model = modelSelect.value;
+            }
+            updateTestButtonText();
+            updateAiBadgeUI();
+        }
+
         function onAiProviderChanged(targetModel = null) {
             const provSelect = document.getElementById('aiProviderSelect');
             if (!provSelect) return;
@@ -4827,6 +4857,7 @@
             }
 
             updateAiBadgeUI();
+            updateTestButtonText();
         }
 
         async function autoDetectGeminiModels() {
@@ -4870,10 +4901,11 @@
                     const mSelect = document.getElementById('aiModelSelect');
                     if (mSelect) {
                         mSelect.innerHTML = models.map(m => `<option value="${m.id}">${m.name ? `${m.id} (${m.name})` : m.id}</option>`).join('');
-                        const best = models.find(m => m.id === 'gemini-flash-lite-latest' || m.id === 'gemini-3.6-flash' || m.id === 'gemini-3.5-flash-lite' || m.id === 'gemini-3.5-flash') || models[0];
+                        const best = models.find(m => m.id === 'gemini-flash-lite-latest' || m.id === 'gemini-2.0-flash' || m.id === 'gemini-3.6-flash' || m.id === 'gemini-3.5-flash-lite' || m.id === 'gemini-3.5-flash') || models[0];
                         mSelect.value = best.id;
                         aiConfigState.model = best.id;
                         localStorage.setItem('zalobot_ai_config', JSON.stringify(aiConfigState));
+                        updateTestButtonText();
                     }
                     alert(`🎉 ĐÃ DÒ TÌM THÀNH CÔNG!\n\nTìm thấy ${models.length} model khả dụng từ tài khoản Google của bạn.\nĐã tự động chọn model tối ưu: ${aiConfigState.model}`);
                 } else {
@@ -4908,9 +4940,8 @@
                 } catch(e) {}
             }
 
-            // Tự động nâng cấp model gemini sang gemini-flash-lite-latest đang hoạt động ổn định 100%
-            if (aiConfigState.provider === 'gemini' && (!aiConfigState.model || aiConfigState.model.includes('1.5') || aiConfigState.model.includes('2.5') || aiConfigState.model === 'gemini-2.0-flash')) {
-                aiConfigState.model = 'gemini-flash-lite-latest';
+            if (!aiConfigState.model) {
+                aiConfigState.model = (aiConfigState.provider === 'gemini') ? 'gemini-flash-lite-latest' : 'claude-3-7-sonnet-20250219';
             }
             if (aiConfigState.provider === 'gemini' && !aiConfigState.apiKey) {
                 aiConfigState.apiKey = '';
@@ -4935,6 +4966,7 @@
             if (document.getElementById('aiSystemPromptInput')) document.getElementById('aiSystemPromptInput').value = aiConfigState.systemPrompt || '';
 
             updateAiBadgeUI();
+            updateTestButtonText();
         }
 
         // Backward compatibility
@@ -5008,7 +5040,7 @@
             const temperature = parseFloat(document.getElementById('aiTemperatureSlider')?.value || '0.7');
             const systemPrompt = document.getElementById('aiSystemPromptInput')?.value.trim();
 
-            // TỰ ĐỘNG CHUYỂN ĐỔI NỀN TẢNG NẾU DÁN NHẦM LOẠI KEY:
+            // TỰ ĐỘNG CHUẨN HÓA NỀN TẢNG NẾU DÁN NHẦM LOẠI KEY RÕ RÀNG:
             if (apiKey.startsWith('AIzaSy') && provider !== 'gemini') {
                 provider = 'gemini';
                 if (document.getElementById('aiProviderSelect')) {
@@ -5016,21 +5048,34 @@
                     onAiProviderChanged('gemini-flash-lite-latest');
                 }
                 model = 'gemini-flash-lite-latest';
+            } else if (apiKey.startsWith('sk-ant-') && provider !== 'claude') {
+                provider = 'claude';
+                if (document.getElementById('aiProviderSelect')) {
+                    document.getElementById('aiProviderSelect').value = 'claude';
+                    onAiProviderChanged('claude-3-7-sonnet-20250219');
+                }
+                model = 'claude-3-7-sonnet-20250219';
             } else if (apiKey.startsWith('gsk_') && provider !== 'groq') {
                 provider = 'groq';
                 if (document.getElementById('aiProviderSelect')) {
                     document.getElementById('aiProviderSelect').value = 'groq';
-                    onAiProviderChanged('llama-3.3-70b-versatile');
+                    onAiProviderChanged('deepseek-r1-distill-llama-70b');
                 }
-                model = 'llama-3.3-70b-versatile';
-            }
-
-            // Nếu người dùng chọn model đã deprecated (2.5/1.5/2.0-flash), tự động chuyển sang gemini-flash-lite-latest
-            if (provider === 'gemini' && (model.includes('2.5') || model.includes('1.5') || model === 'gemini-2.0-flash')) {
-                model = 'gemini-flash-lite-latest';
-                const mSelect = document.getElementById('aiModelSelect');
-                if (mSelect) mSelect.value = model;
-                aiConfigState.model = model;
+                model = 'deepseek-r1-distill-llama-70b';
+            } else if (apiKey.startsWith('xai-') && provider !== 'xai') {
+                provider = 'xai';
+                if (document.getElementById('aiProviderSelect')) {
+                    document.getElementById('aiProviderSelect').value = 'xai';
+                    onAiProviderChanged('grok-2-latest');
+                }
+                model = 'grok-2-latest';
+            } else if (apiKey.startsWith('sk-or-') && provider !== 'openrouter') {
+                provider = 'openrouter';
+                if (document.getElementById('aiProviderSelect')) {
+                    document.getElementById('aiProviderSelect').value = 'openrouter';
+                    onAiProviderChanged('deepseek/deepseek-r1:free');
+                }
+                model = 'deepseek/deepseek-r1:free';
             }
 
             const provMeta = PROVIDER_METADATA[provider] || PROVIDER_METADATA.gemini;
@@ -5050,7 +5095,7 @@
                 resultBox.style.display = 'block';
                 resultBox.style.borderColor = '#059669';
             }
-            if (replyEl) replyEl.innerHTML = `⏳ Đang kết nối tới <strong>${provMeta.name} (${model})</strong> và gửi tin nhắn kiểm tra...`;
+            if (replyEl) replyEl.innerHTML = `⏳ Đang kết nối tới <strong>${provMeta.name} (${model})</strong> và gửi câu hỏi kiểm tra...`;
             if (metaEl) metaEl.textContent = '';
             if (latencyBadge) latencyBadge.textContent = '⚡ Đang gửi...';
 
@@ -5080,22 +5125,23 @@
                     throw new Error(data.error || data.message || `Lỗi phản hồi từ ${provMeta.name} (HTTP ${res.status})`);
                 }
 
-                // Tự động đồng bộ nếu backend tự động nâng cấp sang model khả dụng
+                // Tự động đồng bộ nếu backend trả về model hoạt động
                 if (data.model && data.model !== model) {
                     aiConfigState.model = data.model;
                     const mSelect = document.getElementById('aiModelSelect');
                     if (mSelect) mSelect.value = data.model;
                     localStorage.setItem('zalobot_ai_config', JSON.stringify(aiConfigState));
                     updateAiBadgeUI();
+                    updateTestButtonText();
                 }
 
                 const elapsedMs = data.latencyMs || (Date.now() - startTime);
 
                 if (resultBox) resultBox.style.borderColor = '#10B981';
                 if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
-                if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (${provMeta.name}):</strong><br/>"${data.reply}"`;
+                if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (${provMeta.name} - ${data.model || model}):</strong><br/>"${data.reply}"`;
                 if (metaEl) {
-                    const upgradeNote = (data.model && data.model !== model) ? ` · <span style="color:#059669; font-weight:700;">(Đã tự động nâng cấp sang ${data.model})</span>` : '';
+                    const upgradeNote = (data.model && data.model !== model) ? ` · <span style="color:#059669; font-weight:700;">(Đã kết nối sang ${data.model})</span>` : '';
                     metaEl.innerHTML = `✅ <strong>Kết nối thành công 100%!</strong> Nền tảng: <code>${provMeta.name}</code> · Model: <code>${data.model || model}</code>${upgradeNote} · Thời gian: <code>${elapsedMs}ms</code> ${data.usage ? `· Token: ${data.usage.total_tokens || JSON.stringify(data.usage)}` : ''}`;
                 }
                 return;
@@ -5110,11 +5156,11 @@
                     const candidateModels = Array.from(new Set([
                         model,
                         'gemini-flash-lite-latest',
-                        'gemini-3.6-flash',
-                        'gemini-3.5-flash-lite',
-                        'gemini-3.5-flash',
+                        'gemini-2.0-flash',
+                        'gemini-2.0-flash-lite',
+                        'gemini-1.5-flash',
                         'gemini-flash-latest'
-                    ])).filter(m => !m.includes('2.5') && !m.includes('1.5') && m !== 'gemini-2.0-flash');
+                    ]));
 
                     let directText = '';
                     let successModel = '';
@@ -5164,6 +5210,7 @@
                         if (mSelect) mSelect.value = successModel;
                         localStorage.setItem('zalobot_ai_config', JSON.stringify(aiConfigState));
                         updateAiBadgeUI();
+                        updateTestButtonText();
                     }
 
                     const elapsedMs = Date.now() - startTime;
@@ -5174,6 +5221,83 @@
                         const upgradeNote = (successModel && successModel !== model) ? ` · <span style="color:#059669; font-weight:700;">(Đã tự động kết nối sang ${successModel})</span>` : '';
                         metaEl.innerHTML = `✅ <strong>Kết nối Google Gemini thành công 100%!</strong> Model: <code>${successModel || model}</code>${upgradeNote}`;
                     }
+                } else if (provider === 'claude') {
+                    const directRes = await fetch('https://api.anthropic.com/v1/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': apiKey,
+                            'anthropic-version': '2023-06-01',
+                            'anthropic-dangerous-direct-browser-access': 'true'
+                        },
+                        body: JSON.stringify({
+                            model: model || 'claude-3-7-sonnet-20250219',
+                            messages: [
+                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.' }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    const directData = await parseSafeJsonResponse(directRes);
+                    if (!directRes.ok) {
+                        throw new Error(directData.error?.message || 'Lỗi Anthropic Claude');
+                    }
+                    const text = directData.content?.find(c => c.type === 'text')?.text;
+                    const elapsedMs = Date.now() - startTime;
+                    if (resultBox) resultBox.style.borderColor = '#10B981';
+                    if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                    if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (Anthropic Claude Direct):</strong><br/>"${text}"`;
+                    if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối Anthropic Claude thành công 100%!</strong> Model: <code>${directData.model || model}</code> · Thời gian: <code>${elapsedMs}ms</code>`;
+                } else if (provider === 'deepseek') {
+                    const directRes = await fetch('https://api.deepseek.com/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: model || 'deepseek-chat',
+                            messages: [
+                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.' }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    const directData = await parseSafeJsonResponse(directRes);
+                    if (!directRes.ok) {
+                        throw new Error(directData.error?.message || 'Lỗi DeepSeek');
+                    }
+                    const elapsedMs = Date.now() - startTime;
+                    if (resultBox) resultBox.style.borderColor = '#10B981';
+                    if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                    if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (DeepSeek Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
+                    if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối DeepSeek AI thành công 100%!</strong> Model: <code>${directData.model || model}</code> · Thời gian: <code>${elapsedMs}ms</code>`;
+                } else if (provider === 'openrouter') {
+                    const directRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`,
+                            'HTTP-Referer': 'https://trolybotai.com',
+                            'X-Title': 'HAITECH BOT'
+                        },
+                        body: JSON.stringify({
+                            model: model || 'deepseek/deepseek-r1:free',
+                            messages: [
+                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.' }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    const directData = await parseSafeJsonResponse(directRes);
+                    if (!directRes.ok) {
+                        throw new Error(directData.error?.message || 'Lỗi OpenRouter');
+                    }
+                    const elapsedMs = Date.now() - startTime;
+                    if (resultBox) resultBox.style.borderColor = '#10B981';
+                    if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                    if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (OpenRouter Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
+                    if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối OpenRouter thành công 100%!</strong> Model: <code>${directData.model || model}</code> · Thời gian: <code>${elapsedMs}ms</code>`;
                 } else if (provider === 'openai') {
                     const directRes = await fetch('https://api.openai.com/v1/chat/completions', {
                         method: 'POST',
@@ -5225,6 +5349,78 @@
                     if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
                     if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (GroqCloud Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
                     if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối GroqCloud thành công 100%!</strong> Model: <code>${directData.model}</code>`;
+                } else if (provider === 'xai') {
+                    const directRes = await fetch('https://api.x.ai/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: model || 'grok-2-latest',
+                            messages: [
+                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.' }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    const directData = await parseSafeJsonResponse(directRes);
+                    if (!directRes.ok) {
+                        throw new Error(directData.error?.message || 'Lỗi xAI Grok');
+                    }
+                    const elapsedMs = Date.now() - startTime;
+                    if (resultBox) resultBox.style.borderColor = '#10B981';
+                    if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                    if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (xAI Grok Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
+                    if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối xAI Grok thành công 100%!</strong> Model: <code>${directData.model || model}</code>`;
+                } else if (provider === 'mistral') {
+                    const directRes = await fetch('https://api.mistral.ai/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: model || 'mistral-large-latest',
+                            messages: [
+                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.' }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    const directData = await parseSafeJsonResponse(directRes);
+                    if (!directRes.ok) {
+                        throw new Error(directData.error?.message || 'Lỗi Mistral AI');
+                    }
+                    const elapsedMs = Date.now() - startTime;
+                    if (resultBox) resultBox.style.borderColor = '#10B981';
+                    if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                    if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (Mistral AI Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
+                    if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối Mistral AI thành công 100%!</strong> Model: <code>${directData.model || model}</code>`;
+                } else if (provider === 'custom') {
+                    const ep = `${(baseUrl || 'http://localhost:11434/v1').replace(/\/$/, '')}/chat/completions`;
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+                    const directRes = await fetch(ep, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify({
+                            model: model || 'default',
+                            messages: [
+                                { role: 'user', content: 'Chào bạn, hãy giới thiệu ngắn gọn trong 1 câu bạn là ai.' }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    const directData = await parseSafeJsonResponse(directRes);
+                    if (!directRes.ok) {
+                        throw new Error(directData.error?.message || 'Lỗi Custom / Local AI');
+                    }
+                    const elapsedMs = Date.now() - startTime;
+                    if (resultBox) resultBox.style.borderColor = '#10B981';
+                    if (latencyBadge) latencyBadge.textContent = `⚡ Độ trễ: ${elapsedMs}ms`;
+                    if (replyEl) replyEl.innerHTML = `<strong>Phản hồi từ AI (Custom/Local Direct):</strong><br/>"${directData.choices?.[0]?.message?.content}"`;
+                    if (metaEl) metaEl.innerHTML = `✅ <strong>Kết nối Local AI thành công 100%!</strong> Model: <code>${directData.model || model}</code>`;
                 } else {
                     throw lastError || new Error(`Không thể kết nối đến nhà cung cấp ${provMeta.name}`);
                 }
@@ -5240,7 +5436,7 @@
                         • <strong>Cách 1:</strong> Vào <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey ↗</a> ➡️ Bấm <strong>Create API key</strong> ➡️ Chọn <strong>"Create API key in new project"</strong> (Tạo dự án mới hoàn toàn KHÔNG gắn billing để nhận 1.500 lượt chat/ngày Free 100%).<br/>
                         • <strong>Cách 2 (Khuyên dùng):</strong> Đổi Nền tảng AI sang <strong>⚡ GroqCloud LPU</strong> (Lấy key tại <a href="https://console.groq.com/keys" target="_blank" style="color: #D97706; font-weight:700;">console.groq.com/keys ↗</a>) — Miễn phí 100% trọn đời, phản hồi siêu tốc 0.3s!`;
                     } else {
-                        metaEl.innerHTML = `Gợi ý: Hãy bấm nút <strong>🔍 Dò Model từ Key</strong> hoặc chọn model <code>gemini-flash-lite-latest</code> / <code>gemini-3.6-flash</code> từ danh sách. Nhận key Google Gemini miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey</a>`;
+                        metaEl.innerHTML = `Gợi ý: Kiểm tra lại API Key của ${provMeta.name}. Nếu chưa có key, bạn có thể lấy key miễn phí từ liên kết bên trên.`;
                     }
                 }
             }
