@@ -1,7 +1,8 @@
 # 📌 CHECKPOINT LƯU TRỮ TOÀN BỘ DỮ LIỆU & PHIÊN LÀM VIỆC HỆ THỐNG
 **Dự án:** HAITECH BOT Studio — Trợ lý AI Chăm sóc & Tư vấn khách hàng 24/7 trên Zalo Cá Nhân  
-**Trạng thái phiên:** ✅ ĐÃ LƯU TOÀN BỘ CODE, CẤU HÌNH, DỮ LIỆU TRI THỨC VÀ GITHUB  
-**Thời gian cập nhật:** 26/09/2026 - 16:06:00  
+**Trạng thái phiên:** ✅ ĐÃ XỬ LÝ DỨT ĐIỂM: BOT ĐÃ CHẠY CLOUD 24/7 TRÊN ZCLOUDVIET (TẮT MÁY TÍNH VẪN HOẠT ĐỘNG 100%)  
+**URL Cloud Bot:** `https://haitechai-bot.zcloudviet.xyz`  
+**Thời gian cập nhật:** 23/10/2026  
 
 ---
 
