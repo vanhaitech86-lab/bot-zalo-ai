@@ -97,8 +97,17 @@ const server = http.createServer(async (req, res) => {
         return adaptResponse(res).status(200).json({ success: true, total: leads.length, leads });
     }
 
-    // 3. API: /api/knowledge (Lấy dữ liệu tri thức)
+    // 3. API: /api/knowledge (Lấy & lưu dữ liệu tri thức)
     if (reqUrl === '/api/knowledge') {
+        if (req.method === 'POST') {
+            const body = await parseBody(req);
+            const knowledgeFile = path.join(__dirname, 'knowledge.json');
+            let current = {};
+            try { current = JSON.parse(fs.readFileSync(knowledgeFile, 'utf8')); } catch(e) {}
+            const merged = { ...current, ...body };
+            fs.writeFileSync(knowledgeFile, JSON.stringify(merged, null, 2), 'utf8');
+            return adaptResponse(res).status(200).json({ success: true, message: 'Đã lưu cấu hình tri thức & nhóm thành công!', knowledge: merged });
+        }
         const kb = getKnowledgeBase();
         return adaptResponse(res).status(200).json({ success: true, knowledge: kb });
     }

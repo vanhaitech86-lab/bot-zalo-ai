@@ -37,8 +37,30 @@
     "zaloPersonal": {
       "enabled": true,
       "phone": "0988739896",
-      "replyInGroups": false
+      "replyInGroups": true
     }
+  },
+  "groupConfig": {
+    "enabled": true,
+    "replyOnlyWhenMentioned": true,
+    "quoteReply": true,
+    "triggers": [
+      "@bot",
+      "bot ơi",
+      "bot oi",
+      "bot cho hỏi",
+      "@thuylinh",
+      "thùy linh ơi",
+      "thuy linh oi",
+      "trợ lý ơi",
+      "tro ly oi",
+      "ad ơi",
+      "admin ơi",
+      "shop ơi"
+    ],
+    "allowedGroupIds": [],
+    "blockedGroupIds": [],
+    "groupSystemPrompt": ""
   },
   "rules": [
     {

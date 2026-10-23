@@ -674,6 +674,10 @@
             <button class="nav-tab-btn" onclick="switchTab('history')">
                 <span>📋</span> Lịch sử tin nhắn
             </button>
+            <button class="nav-tab-btn" onclick="switchTab('group-chat')">
+                <span>👥</span> Trực Nhóm Zalo (Tag/Gọi tên)
+                <span class="tab-badge" style="background: #E0E7FF; color: #4338CA; font-weight: 700;">Nhóm VIP</span>
+            </button>
             <button class="nav-tab-btn" onclick="switchTab('trial')">
                 <span>🎁</span> Đăng ký trải nghiệm
                 <span class="tab-badge" style="background: #D1FAE5; color: #059669; font-weight: 700;">Free 7 ngày</span>
@@ -681,6 +685,10 @@
             <button class="nav-tab-btn" onclick="switchTab('billing')">
                 <span>💰</span> Bảng giá & Cho thuê
                 <span class="tab-badge" style="background: #FEF3C7; color: #D97706; font-weight: 700;">Thương mại</span>
+            </button>
+            <button class="nav-tab-btn" onclick="switchTab('handover')">
+                <span>🤝</span> Bán & Chuyển Giao Bot
+                <span class="tab-badge" style="background: #FDF2F8; color: #BE185D; font-weight: 700;">Chuyển giao</span>
             </button>
             <button class="nav-tab-btn" onclick="switchTab('users-settings')">
                 <span>🛡️</span> Cài đặt & Phân quyền
@@ -2094,6 +2102,325 @@
                 </div>
             </div>
 
+            <!-- ================= TAB: TRỰC NHÓM ZALO (GỌI TÊN / TAG / QUOTE) ================= -->
+            <div id="tab-group-chat" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>👥 Quản Trị Trực Nhóm Zalo (Chỉ Trả Lời Khi Được Gọi Tên)</h3>
+                            <p>Cấu hình Bot thông minh hoạt động trong các hội nhóm Zalo: Giữ im lặng tuyệt đối, CHỈ trả lời khi được nhắc tên hoặc bấm trả lời (Quote).</p>
+                        </div>
+                        <span class="status-badge online" id="groupStatusPill">
+                            <span class="dot"></span> <span>Chế độ Lịch sự (Anti-Spam)</span>
+                        </span>
+                    </div>
+
+                    <!-- Highlight Info Banner -->
+                    <div style="background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 1.5px solid #C7D2FE; border-radius: 16px; padding: 18px 22px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 16px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #6366F1; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(99,102,241,0.3);">
+                            🛡️
+                        </div>
+                        <div style="font-size: 13.5px; color: #3730A3; line-height: 1.6;">
+                            <div style="font-weight: 800; font-size: 15px; margin-bottom: 4px; color: #312E81;">Quy Tắc Vàng Khi Bot Tham Gia Nhóm Zalo:</div>
+                            • <strong>Không spam:</strong> Bot KHÔNG BAO GIỜ tự tiện chen ngang khi các thành viên đang trò chuyện thông thường.<br/>
+                            • <strong>Chỉ phản hồi khi:</strong> Có người gõ tag <code>@bot</code>, gõ tên (ví dụ: <em>bot ơi, trợ lý ơi...</em>), hoặc <strong>Bấm Trả lời (Quote)</strong> tin nhắn trước đó của Bot.<br/>
+                            • <strong>Đặc quyền Quote:</strong> Tự động trích dẫn lại câu hỏi của người hỏi trong nhóm để mọi người biết bot đang trả lời ai, tránh hiểu lầm.
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px;">
+                        <!-- Card 1: Chế độ kích hoạt -->
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                            <h4 style="margin: 0 0 16px; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                                <span>⚙️</span> Cài Đặt Hoạt Động Trong Nhóm
+                            </h4>
+
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: #F8FAFC; border-radius: 12px; border: 1px solid var(--border); cursor: pointer;">
+                                    <div>
+                                        <div style="font-weight: 700; font-size: 13.5px; color: var(--ink);">Cho phép Bot trả lời trong nhóm</div>
+                                        <div style="font-size: 12px; color: var(--ink-soft);">Bật/tắt khả năng tiếp nhận tin nhắn nhóm của bot</div>
+                                    </div>
+                                    <input type="checkbox" id="groupConfigEnabled" checked style="width: 20px; height: 20px; accent-color: #6366F1; cursor: pointer;" />
+                                </label>
+
+                                <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: #F8FAFC; border-radius: 12px; border: 1px solid var(--border); cursor: pointer;">
+                                    <div>
+                                        <div style="font-weight: 700; font-size: 13.5px; color: var(--ink);">Bắt buộc Gọi tên / @Tag / Quote</div>
+                                        <div style="font-size: 12px; color: var(--ink-soft);">Chỉ nói khi được réo tên (Khuyên dùng BẬT để chống spam)</div>
+                                    </div>
+                                    <input type="checkbox" id="groupConfigMentionOnly" checked style="width: 20px; height: 20px; accent-color: #6366F1; cursor: pointer;" />
+                                </label>
+
+                                <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: #F8FAFC; border-radius: 12px; border: 1px solid var(--border); cursor: pointer;">
+                                    <div>
+                                        <div style="font-weight: 700; font-size: 13.5px; color: var(--ink);">Tự động Trích dẫn (Quote Reply)</div>
+                                        <div style="font-size: 12px; color: var(--ink-soft);">Trích dẫn lại tin nhắn của người hỏi trong nhóm</div>
+                                    </div>
+                                    <input type="checkbox" id="groupConfigQuoteReply" checked style="width: 20px; height: 20px; accent-color: #6366F1; cursor: pointer;" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Danh sách từ khóa gọi tên Bot -->
+                        <div style="background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                            <h4 style="margin: 0 0 16px; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                                <span>🏷️</span> Từ Khóa Gọi Tên Bot Trong Nhóm
+                            </h4>
+
+                            <div style="font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px;">
+                                Nhập các từ khóa kích hoạt, cách nhau bởi dấu phẩy <code>,</code>. Bot sẽ trả lời khi tin nhắn chứa một trong các từ khóa này:
+                            </div>
+
+                            <textarea id="groupConfigTriggers" rows="4" style="width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 13.5px; font-family: inherit; resize: vertical;" placeholder="@bot, bot, bot ơi, ai ơi, trợ lý ơi, em ơi, admin ơi"></textarea>
+
+                            <div style="margin-top: 10px; font-size: 12px; color: #059669; background: #ECFDF5; padding: 8px 12px; border-radius: 8px; border: 1px solid #A7F3D0;">
+                                💡 <em>Hệ thống cũng tự động kích hoạt khi có người gõ tên bot hiện tại của bạn hoặc bấm nút "Trả lời" tin nhắn bot gửi.</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Kịch bản trả lời nhóm -->
+                    <div style="background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                        <h4 style="margin: 0 0 12px; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                            <span>💬</span> Kịch Bản & Phong Cách Trả Lời Khi Ở Trong Nhóm
+                        </h4>
+                        <div style="font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px;">
+                            Soạn chỉ thị cho AI khi trò chuyện trong hội nhóm đông người (ngắn gọn, xúc tích, không làm phiền người khác):
+                        </div>
+                        <textarea id="groupConfigPrompt" rows="4" style="width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 13.5px; font-family: inherit; resize: vertical;" placeholder="Khi trả lời trong nhóm Zalo: Hãy trả lời ngắn gọn (chỉ 2-3 câu), lịch sự, đi thẳng vào vấn đề. Nếu câu hỏi cần tư vấn chi tiết hoặc trao đổi bảo mật giá sỉ, hãy khuyên người hỏi nhắn tin riêng 1-1 với bạn."></textarea>
+                    </div>
+
+                    <!-- Card 4: Kiểm soát Whitelist & Blacklist Nhóm -->
+                    <div style="background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                        <h4 style="margin: 0 0 14px; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                            <span>🎯</span> Giới Hạn Nhóm Hoạt Động (Tùy Chọn Nâng Cao)
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+                            <div>
+                                <label style="display: block; font-weight: 700; font-size: 13px; margin-bottom: 6px; color: var(--ink);">
+                                    Danh sách ID Nhóm ĐƯỢC PHÉP hoạt động (Whitelist)
+                                </label>
+                                <input type="text" id="groupConfigAllowed" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 13px;" placeholder="Để trống nếu muốn cho phép TẤT CẢ các nhóm bot tham gia" />
+                                <div style="font-size: 11.5px; color: var(--ink-soft); margin-top: 4px;">Để trống = cho phép mọi nhóm</div>
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 700; font-size: 13px; margin-bottom: 6px; color: var(--ink);">
+                                    Danh sách ID Nhóm CẤM hoạt động (Blacklist)
+                                </label>
+                                <input type="text" id="groupConfigBlocked" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 13px;" placeholder="Nhập ID các nhóm cấm bot trả lời, cách nhau bởi dấu phẩy" />
+                                <div style="font-size: 11.5px; color: var(--ink-soft); margin-top: 4px;">Bot sẽ luôn im lặng trong các nhóm này</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Bar -->
+                    <div style="display: flex; gap: 12px; align-items: center; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+                        <button type="button" class="btn-action" onclick="resetDefaultGroupConfig()" style="background: #F1F5F9; color: var(--ink); border: 1px solid var(--border); padding: 10px 18px; border-radius: 10px; font-weight: 600; cursor: pointer;">
+                            ↺ Đặt lại mặc định
+                        </button>
+                        <button type="button" class="btn-action primary" onclick="saveGroupSettings()" style="background: linear-gradient(135deg, #4F46E5, #6366F1); color: white; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(99,102,241,0.25);">
+                            💾 Lưu Cấu Hình Nhóm Zalo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: BÁN & CHUYỂN GIAO BOT CHO KHÁCH HÀNG ================= -->
+            <div id="tab-handover" class="tab-content">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <div>
+                            <h3>🤝 Trung Tâm Bán Bản Quyền &amp; Chuyển Giao Bot Cho Khách Hàng</h3>
+                            <p>Đóng gói giải pháp, cá nhân hóa thương hiệu riêng cho từng khách hàng và bàn giao hệ thống chạy độc lập chỉ trong 5 phút.</p>
+                        </div>
+                        <span class="status-badge" style="background: #FDF2F8; color: #BE185D; font-weight: 800; border: 1px solid #FBCFE8; padding: 6px 14px; border-radius: 999px;">
+                            Bàn Giao 1-Click
+                        </span>
+                    </div>
+
+                    <!-- Commercial Banner -->
+                    <div style="background: linear-gradient(135deg, #0F172A, #1E1B4B, #311042); border-radius: 18px; padding: 24px; color: white; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+                            <span style="background: rgba(255,255,255,0.2); font-size: 11.5px; font-weight: 800; padding: 4px 12px; border-radius: 999px; letter-spacing: 0.5px;">
+                                QUY TRÌNH CHỐT ĐƠN &amp; BÀN GIAO THU TIỀN
+                            </span>
+                            <span style="color: #F472B6; font-weight: 700; font-size: 13px;">Thu 1.500.000đ - 4.900.000đ / Khách</span>
+                        </div>
+                        <h4 style="font-size: 19px; margin: 0 0 10px; color: #FBCFE8;">3 Bước Bán &amp; Bàn Giao Bot Cho Khách Trong 5 Phút:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 14px;">
+                            <div style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px;">
+                                <div style="font-weight: 800; color: #67E8F9; margin-bottom: 6px; font-size: 14px;">1. Cho Khách Thử Nghiệm</div>
+                                <div style="font-size: 12.5px; opacity: .9; line-height: 1.5;">Gửi link trang chủ hoặc mời khách quét mã Zalo bot mẫu của bạn để trải nghiệm tốc độ phản hồi 0.5s.</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px;">
+                                <div style="font-weight: 800; color: #A7F3D0; margin-bottom: 6px; font-size: 14px;">2. Xuất Gói Cấu Hình Riêng</div>
+                                <div style="font-size: 12.5px; opacity: .9; line-height: 1.5;">Điền tên Shop, Hotline, kịch bản ngành nghề của khách ở form dưới rồi bấm <strong>Xuất File Gói Khách (.json)</strong>.</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px;">
+                                <div style="font-weight: 800; color: #FDE047; margin-bottom: 6px; font-size: 14px;">3. Cài Đặt &amp; Quét QR Khách</div>
+                                <div style="font-size: 12.5px; opacity: .9; line-height: 1.5;">Gửi bộ cài 1-click hoặc setup qua UltraViewer. Khách dùng Zalo quét mã QR là bot tự động hoạt động!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid: Export and Import -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px;">
+                        <!-- Box 1: Xuất Gói Cấu Hình Khách -->
+                        <div style="background: white; border: 1.5px solid #FBCFE8; border-radius: 16px; padding: 22px; box-shadow: 0 4px 14px rgba(190,24,93,0.04);">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                                <h4 style="margin: 0; font-size: 16px; color: #9D174D; display: flex; align-items: center; gap: 8px;">
+                                    <span>📦</span> Xuất Gói Khách Hàng (White-Label)
+                                </h4>
+                                <span style="background: #FDF2F8; color: #BE185D; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">Bảo Mật Key</span>
+                            </div>
+
+                            <p style="font-size: 12.5px; color: var(--ink-soft); margin-bottom: 16px;">
+                                Tự động đóng gói tri thức, kịch bản, và cấu hình riêng cho khách. <strong>Hệ thống tự động ẩn API Key cá nhân của bạn</strong> để bảo mật tuyệt đối.
+                            </p>
+
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div>
+                                    <label style="display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">Tên Cửa hàng / Công ty của khách:</label>
+                                    <input type="text" id="exportClientBrand" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13.5px;" placeholder="Ví dụ: Thời Trang Vivian, Nha Khoa Nụ Cười..." />
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">Tên Trợ lý AI khách muốn đặt:</label>
+                                    <input type="text" id="exportClientBotName" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13.5px;" placeholder="Ví dụ: Em Mai - Trợ lý Thời Trang Vivian" />
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">Số Hotline / Zalo của khách:</label>
+                                    <input type="text" id="exportClientPhone" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13.5px;" placeholder="Ví dụ: 0912 345 678" />
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">Địa chỉ / Website của khách:</label>
+                                    <input type="text" id="exportClientAddress" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13.5px;" placeholder="Ví dụ: 123 Cầu Giấy, Hà Nội - website: vivian.vn" />
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--ink);">Chọn Nền tảng AI cấp cho khách:</label>
+                                    <select id="exportClientAiProvider" class="form-control" style="width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13.5px;">
+                                        <option value="groq">⚡ GroqCloud LPU (Siêu tốc 0.3s - Miễn phí 100% Khuyên Dùng)</option>
+                                        <option value="gemini">🌟 Google Gemini 2.0 Flash (Free 1.500 lượt/ngày)</option>
+                                        <option value="deepseek">🧠 DeepSeek V3 / R1 (Trí tuệ suy luận chuyên sâu)</option>
+                                        <option value="openrouter">🌐 OpenRouter Multi-AI</option>
+                                    </select>
+                                </div>
+
+                                <button type="button" onclick="exportClientPackage()" class="btn-action primary" style="background: linear-gradient(135deg, #BE185D, #DB2777); color: white; border: none; padding: 12px 18px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 14px rgba(190,24,93,0.25); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                    <span>📥</span> Xuất File Cấu Hình Khách Hàng (.json)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Box 2: Nhập Gói Cấu Hình & File Bàn Giao -->
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <!-- Import Card -->
+                            <div style="background: white; border: 1px solid var(--border); border-radius: 16px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                                <h4 style="margin: 0 0 12px; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                                    <span>📥</span> Nhập Gói Cấu Hình Khách Hàng (Import)
+                                </h4>
+                                <p style="font-size: 12.5px; color: var(--ink-soft); margin-bottom: 14px;">
+                                    Khi cài đặt trên máy khách hàng, chỉ cần chọn file <code>.json</code> đã xuất ở trên để nạp toàn bộ kịch bản ngay lập tức.
+                                </p>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <input type="file" id="clientPackageFileInput" accept=".json" style="flex: 1; font-size: 12.5px; border: 1px dashed var(--border); padding: 8px; border-radius: 8px;" />
+                                    <button type="button" onclick="importClientPackage()" class="btn-action" style="background: #0284C7; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                                        Nạp File
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Tools & Quick Downloads -->
+                            <div style="background: #F8FAFC; border: 1px solid var(--border); border-radius: 16px; padding: 20px;">
+                                <h4 style="margin: 0 0 10px; font-size: 14.5px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                                    <span>🛠️</span> Bộ Công Cụ Chuyển Giao 1-Click
+                                </h4>
+                                <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.8; color: var(--ink-soft);">
+                                    <li>File cài đặt máy khách: <code>CAI_DAT_CHO_KHACH_HANG_1CLICK.bat</code></li>
+                                    <li>Cẩm nang quy trình bán hàng: <code>QUY_TRINH_BAN_VA_CHUYEN_GIAO_BOT_CHO_KHACH.md</code></li>
+                                    <li>Quét mã QR Zalo không cần gõ mật khẩu tài khoản khách</li>
+                                    <li>Hỗ trợ chạy trên cả Windows 10/11 cá nhân và Cloud VPS 24/7</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Bộ Kịch Bản Mẫu 5 Ngành Nghề Đỉnh Cao -->
+                    <div style="margin-top: 28px;">
+                        <div style="margin-bottom: 16px;">
+                            <h4 style="margin: 0; font-size: 16px; color: var(--ink); display: flex; align-items: center; gap: 8px;">
+                                <span>🚀</span> Bộ Kịch Bản Mẫu 5 Ngành Nghề Đỉnh Cao (Áp Dụng 1 Cú Nhấp)
+                            </h4>
+                            <p style="margin: 4px 0 0; font-size: 12.5px; color: var(--ink-soft);">
+                                Bấm chọn ngành nghề của khách để tự động điền toàn bộ kịch bản tư vấn, câu hỏi FAQ và văn phong chuyên nghiệp:
+                            </p>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                            <!-- Template 1: Thời trang -->
+                            <div style="background: white; border: 1.5px solid #FBCFE8; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="font-size: 26px; margin-bottom: 8px;">👗</div>
+                                    <div style="font-weight: 800; font-size: 14.5px; color: #9D174D;">Thời Trang &amp; Mỹ Phẩm</div>
+                                    <div style="font-size: 12px; color: var(--ink-soft); margin: 6px 0 14px; line-height: 1.5;">Tư vấn bảng size, màu sắc, tình trạng còn hàng, chính sách đổi trả và chốt đơn.</div>
+                                </div>
+                                <button type="button" onclick="applyIndustryTemplate('fashion')" style="background: #FDF2F8; color: #BE185D; border: 1px solid #FBCFE8; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
+                                    ⚡ Áp Dụng Mẫu Này
+                                </button>
+                            </div>
+
+                            <!-- Template 2: Spa -->
+                            <div style="background: white; border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="font-size: 26px; margin-bottom: 8px;">💆‍♀️</div>
+                                    <div style="font-weight: 800; font-size: 14.5px; color: #065F46;">Spa &amp; Thẩm Mỹ Viện</div>
+                                    <div style="font-size: 12px; color: var(--ink-soft); margin: 6px 0 14px; line-height: 1.5;">Bảng giá dịch vụ, đặt lịch hẹn trải nghiệm, phác đồ chăm sóc da và vị trí cơ sở.</div>
+                                </div>
+                                <button type="button" onclick="applyIndustryTemplate('spa')" style="background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
+                                    ⚡ Áp Dụng Mẫu Này
+                                </button>
+                            </div>
+
+                            <!-- Template 3: Bất Động Sản -->
+                            <div style="background: white; border: 1.5px solid #FDE68A; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="font-size: 26px; margin-bottom: 8px;">🏢</div>
+                                    <div style="font-weight: 800; font-size: 14.5px; color: #92400E;">Bất Động Sản / Nhà Đất</div>
+                                    <div style="font-size: 12px; color: var(--ink-soft); margin: 6px 0 14px; line-height: 1.5;">Phân khúc tài chính, vị trí dự án, pháp lý sổ đỏ, bảng hàng và hẹn xem nhà thực tế.</div>
+                                </div>
+                                <button type="button" onclick="applyIndustryTemplate('real_estate')" style="background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
+                                    ⚡ Áp Dụng Mẫu Này
+                                </button>
+                            </div>
+
+                            <!-- Template 4: Khóa học & Đào tạo -->
+                            <div style="background: white; border: 1.5px solid #C7D2FE; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="font-size: 26px; margin-bottom: 8px;">🎓</div>
+                                    <div style="font-weight: 800; font-size: 14.5px; color: #3730A3;">Khóa Học &amp; Đào Tạo</div>
+                                    <div style="font-size: 12px; color: var(--ink-soft); margin: 6px 0 14px; line-height: 1.5;">Lộ trình đào tạo, học phí, lịch khai giảng, cam kết đầu ra và học bổng học thử.</div>
+                                </div>
+                                <button type="button" onclick="applyIndustryTemplate('education')" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
+                                    ⚡ Áp Dụng Mẫu Này
+                                </button>
+                            </div>
+
+                            <!-- Template 5: Dịch vụ kỹ thuật -->
+                            <div style="background: white; border: 1.5px solid #BAE6FD; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="font-size: 26px; margin-bottom: 8px;">🔧</div>
+                                    <div style="font-weight: 800; font-size: 14.5px; color: #075985;">Dịch Vụ &amp; Sửa Chữa</div>
+                                    <div style="font-size: 12px; color: var(--ink-soft); margin: 6px 0 14px; line-height: 1.5;">Báo giá công thợ, đặt lịch kiểm tra tận nơi, bảo hành linh kiện và khắc phục sự cố.</div>
+                                </div>
+                                <button type="button" onclick="applyIndustryTemplate('service')" style="background: #F0F9FF; color: #0284C7; border: 1px solid #BAE6FD; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer;">
+                                    ⚡ Áp Dụng Mẫu Này
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
@@ -2555,6 +2882,8 @@
             updateStatsUI();
             updateZaloQrUI();
             loadAiConfig();
+            loadGroupSettings();
+            initHandoverTab();
             initDefaultUsersIfEmpty();
             renderTrialLeads();
             renderUsersSettings();
@@ -5449,6 +5778,401 @@
             }
         }
         function testGptConnection() { testAiConnection(); }
+
+        // ==========================================
+        // CẤU HÌNH TRỰC NHÓM ZALO (GỌI TÊN / TAG / QUOTE)
+        // ==========================================
+        async function loadGroupSettings() {
+            try {
+                let groupCfg = null;
+                let replyInGroups = true;
+                let botName = botConfig.name || "Em Thùy Linh";
+                try {
+                    const res = await fetch('/api/knowledge');
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.knowledge) {
+                            groupCfg = data.knowledge.groupConfig;
+                            if (typeof data.knowledge.replyInGroups === 'boolean') {
+                                replyInGroups = data.knowledge.replyInGroups;
+                            }
+                            if (data.knowledge.botName) botName = data.knowledge.botName;
+                        }
+                    }
+                } catch (e) {}
+
+                if (!groupCfg) {
+                    const localSaved = localStorage.getItem('zalobot_group_config');
+                    if (localSaved) {
+                        try { groupCfg = JSON.parse(localSaved); } catch(e) {}
+                    }
+                }
+
+                const defaultTriggers = ["@bot", "bot", "bot ơi", "ai ơi", "trợ lý ơi", "em ơi", "admin ơi"];
+                const enabled = groupCfg ? (groupCfg.enabled ?? replyInGroups) : true;
+                const mentionOnly = groupCfg ? (groupCfg.replyOnlyWhenMentioned ?? true) : true;
+                const quoteReply = groupCfg ? (groupCfg.quoteReply ?? true) : true;
+                const triggers = (groupCfg && Array.isArray(groupCfg.triggers) && groupCfg.triggers.length > 0)
+                    ? groupCfg.triggers.join(', ')
+                    : defaultTriggers.join(', ');
+                const prompt = groupCfg?.groupSystemPrompt || 
+                    "Khi trả lời trong nhóm Zalo: Hãy trả lời ngắn gọn (chỉ 2-3 câu), lịch sự, đi thẳng vào vấn đề. Nếu câu hỏi cần tư vấn chi tiết hoặc trao đổi bảo mật giá sỉ, hãy khuyên người hỏi nhắn tin riêng 1-1 với bạn.";
+                const allowed = (groupCfg?.allowedGroups || []).join(', ');
+                const blocked = (groupCfg?.blockedGroups || []).join(', ');
+
+                const enEl = document.getElementById('groupConfigEnabled');
+                if (enEl) enEl.checked = enabled;
+
+                const menEl = document.getElementById('groupConfigMentionOnly');
+                if (menEl) menEl.checked = mentionOnly;
+
+                const quoteEl = document.getElementById('groupConfigQuoteReply');
+                if (quoteEl) quoteEl.checked = quoteReply;
+
+                const trigEl = document.getElementById('groupConfigTriggers');
+                if (trigEl) trigEl.value = triggers;
+
+                const prmEl = document.getElementById('groupConfigPrompt');
+                if (prmEl) prmEl.value = prompt;
+
+                const allwEl = document.getElementById('groupConfigAllowed');
+                if (allwEl) allwEl.value = allowed;
+
+                const blkEl = document.getElementById('groupConfigBlocked');
+                if (blkEl) blkEl.value = blocked;
+
+                updateGroupStatusBadge(enabled, mentionOnly);
+            } catch (err) {
+                console.error("Lỗi nạp cấu hình nhóm:", err);
+            }
+        }
+
+        function updateGroupStatusBadge(enabled, mentionOnly) {
+            const pill = document.getElementById('groupStatusPill');
+            if (!pill) return;
+            if (!enabled) {
+                pill.className = "status-badge offline";
+                pill.innerHTML = '<span class="dot" style="background:#94A3B8;"></span> <span>Đang tắt trong nhóm</span>';
+            } else if (mentionOnly) {
+                pill.className = "status-badge online";
+                pill.innerHTML = '<span class="dot" style="background:#10B981;"></span> <span>Chế độ Lịch sự (Chỉ nói khi gọi tên)</span>';
+            } else {
+                pill.className = "status-badge online";
+                pill.innerHTML = '<span class="dot" style="background:#F59E0B;"></span> <span>Trả lời mọi tin trong nhóm</span>';
+            }
+        }
+
+        async function saveGroupSettings() {
+            try {
+                const enabled = document.getElementById('groupConfigEnabled')?.checked ?? true;
+                const mentionOnly = document.getElementById('groupConfigMentionOnly')?.checked ?? true;
+                const quoteReply = document.getElementById('groupConfigQuoteReply')?.checked ?? true;
+                
+                const rawTriggers = document.getElementById('groupConfigTriggers')?.value || '';
+                const triggers = rawTriggers.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+
+                const groupSystemPrompt = document.getElementById('groupConfigPrompt')?.value?.trim() || '';
+
+                const rawAllowed = document.getElementById('groupConfigAllowed')?.value || '';
+                const allowedGroups = rawAllowed.split(',').map(s => s.trim()).filter(Boolean);
+
+                const rawBlocked = document.getElementById('groupConfigBlocked')?.value || '';
+                const blockedGroups = rawBlocked.split(',').map(s => s.trim()).filter(Boolean);
+
+                const groupConfig = {
+                    enabled: enabled,
+                    replyOnlyWhenMentioned: mentionOnly,
+                    quoteReply: quoteReply,
+                    triggers: triggers,
+                    allowedGroups: allowedGroups,
+                    blockedGroups: blockedGroups,
+                    groupSystemPrompt: groupSystemPrompt,
+                    updatedAt: new Date().toISOString()
+                };
+
+                localStorage.setItem('zalobot_group_config', JSON.stringify(groupConfig));
+
+                let serverSaved = false;
+                try {
+                    const res = await fetch('/api/knowledge', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            replyInGroups: enabled,
+                            groupConfig: groupConfig
+                        })
+                    });
+                    if (res.ok) serverSaved = true;
+                } catch (e) {
+                    console.warn("Không thể lưu lên server:", e);
+                }
+
+                updateGroupStatusBadge(enabled, mentionOnly);
+                alert('✅ ĐÃ LƯU CẤU HÌNH NHÓM ZALO THÀNH CÔNG!\n\n• Trực nhóm: ' + (enabled ? 'BẬT' : 'TẮT') + '\n• Chỉ nói khi gọi tên: ' + (mentionOnly ? 'BẬT (Khuyên dùng)' : 'TẮT') + '\n• Trích dẫn tin nhắn gốc: ' + (quoteReply ? 'BẬT' : 'TẮT') + (serverSaved ? '\n• Đồng bộ máy chủ: Thành công 100%' : ''));
+            } catch (err) {
+                alert('❌ Lỗi khi lưu cấu hình nhóm: ' + err.message);
+            }
+        }
+
+        function resetDefaultGroupConfig() {
+            if (!confirm('Bạn có chắc muốn đặt lại cấu hình nhóm về mặc định khuyến nghị?')) return;
+            const defTriggers = "@bot, bot, bot ơi, ai ơi, trợ lý ơi, em ơi, admin ơi";
+            const defPrompt = "Khi trả lời trong nhóm Zalo: Hãy trả lời ngắn gọn (chỉ 2-3 câu), lịch sự, đi thẳng vào vấn đề. Nếu câu hỏi cần tư vấn chi tiết hoặc trao đổi bảo mật giá sỉ, hãy khuyên người hỏi nhắn tin riêng 1-1 với bạn.";
+            if (document.getElementById('groupConfigEnabled')) document.getElementById('groupConfigEnabled').checked = true;
+            if (document.getElementById('groupConfigMentionOnly')) document.getElementById('groupConfigMentionOnly').checked = true;
+            if (document.getElementById('groupConfigQuoteReply')) document.getElementById('groupConfigQuoteReply').checked = true;
+            if (document.getElementById('groupConfigTriggers')) document.getElementById('groupConfigTriggers').value = defTriggers;
+            if (document.getElementById('groupConfigPrompt')) document.getElementById('groupConfigPrompt').value = defPrompt;
+            if (document.getElementById('groupConfigAllowed')) document.getElementById('groupConfigAllowed').value = "";
+            if (document.getElementById('groupConfigBlocked')) document.getElementById('groupConfigBlocked').value = "";
+        }
+
+        // ==========================================
+        // BÁN & CHUYỂN GIAO BOT CHO KHÁCH HÀNG (HANDOVER)
+        // ==========================================
+        function initHandoverTab() {
+            try {
+                const bInput = document.getElementById('exportClientBrand');
+                const nInput = document.getElementById('exportClientBotName');
+                const pInput = document.getElementById('exportClientPhone');
+                if (bInput && !bInput.value) bInput.value = botConfig.industry || "Cửa Hàng Khách Hàng";
+                if (nInput && !nInput.value) nInput.value = botConfig.name || "Em Thùy Linh";
+                if (pInput && !pInput.value) pInput.value = botConfig.phone || "0988 739 896";
+            } catch (e) {}
+        }
+
+        async function exportClientPackage() {
+            try {
+                const clientBrand = document.getElementById('exportClientBrand')?.value?.trim() || "Cửa Hàng Khách Hàng";
+                const clientBotName = document.getElementById('exportClientBotName')?.value?.trim() || "Trợ Lý AI";
+                const clientPhone = document.getElementById('exportClientPhone')?.value?.trim() || "";
+                const clientAddress = document.getElementById('exportClientAddress')?.value?.trim() || "";
+                const clientAiProv = document.getElementById('exportClientAiProvider')?.value || "groq";
+
+                let currentKb = {};
+                try {
+                    const res = await fetch('/api/knowledge');
+                    if (res.ok) {
+                        const d = await res.json();
+                        if (d && d.knowledge) currentKb = d.knowledge;
+                    }
+                } catch(e) {}
+
+                const clientPackage = {
+                    metadata: {
+                        packageVersion: "2.5.0-commercial",
+                        exportedAt: new Date().toISOString(),
+                        clientName: clientBrand,
+                        hotline: clientPhone,
+                        note: "Gói chuyển giao cấu hình bản quyền HAITECH BOT - Sẵn sàng chạy trên máy khách hoặc VPS Cloud."
+                    },
+                    knowledge: {
+                        botName: clientBotName,
+                        brandName: clientBrand,
+                        phone: clientPhone,
+                        address: clientAddress,
+                        replyInGroups: true,
+                        groupConfig: currentKb.groupConfig || {
+                            enabled: true,
+                            replyOnlyWhenMentioned: true,
+                            quoteReply: true,
+                            triggers: ["@bot", "bot", "bot ơi", "ai ơi", "trợ lý ơi", "em ơi", "admin ơi"],
+                            groupSystemPrompt: `Khi trả lời trong nhóm Zalo: Hãy trả lời ngắn gọn (2-3 câu), lịch sự, đại diện cho ${clientBrand}. Hướng dẫn khách inbox riêng nếu cần bảo mật.`
+                        },
+                        aiConfig: {
+                            provider: clientAiProv,
+                            model: clientAiProv === 'groq' ? 'deepseek-r1-distill-llama-70b' : (clientAiProv === 'gemini' ? 'gemini-flash-lite-latest' : 'deepseek-chat'),
+                            apiKey: "",
+                            systemPrompt: `Bạn là "${clientBotName}", trợ lý tư vấn bán hàng thông minh của "${clientBrand}".\nHotline hỗ trợ: ${clientPhone}.\nĐịa chỉ: ${clientAddress}.\nNguyên tắc: Đi thẳng vào vấn đề, tự nhiên, thân thiện, trả lời nhanh và giúp khách chốt đơn.`
+                        },
+                        rules: currentKb.rules || []
+                    },
+                    faqs: faqs || [],
+                    documents: documents || []
+                };
+
+                const jsonStr = JSON.stringify(clientPackage, null, 2);
+                const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const safeName = clientBrand.toLowerCase().replace(/[^a-z0-9]/g, '_');
+                const dateStr = new Date().toISOString().slice(0, 10);
+                a.href = url;
+                a.download = `Goi_Cau_Hinh_Khach_${safeName}_${dateStr}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                alert(`🎉 ĐÃ XUẤT THÀNH CÔNG GÓI CẤU HÌNH CHO KHÁCH HÀNG!\n\n• Tên Shop: ${clientBrand}\n• Trợ lý: ${clientBotName}\n• Tệp tin: Goi_Cau_Hinh_Khach_${safeName}_${dateStr}.json\n\n🔒 BẢO MẬT: API Key của bạn đã được xóa sạch. Khách chỉ cần nhận file này là có thể chạy bot ngay!`);
+            } catch (err) {
+                alert('❌ Lỗi khi xuất gói khách hàng: ' + err.message);
+            }
+        }
+
+        function importClientPackage() {
+            const fileInput = document.getElementById('clientPackageFileInput');
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                alert('Vui lòng chọn một file cấu hình (.json) trước khi nạp!');
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    const kb = parsed.knowledge || parsed;
+
+                    if (!confirm(`Xác nhận nạp gói cấu hình "${parsed.metadata?.clientName || kb.brandName || file.name}" vào Bot?`)) {
+                        return;
+                    }
+
+                    if (kb.botName) botConfig.name = kb.botName;
+                    if (kb.brandName) botConfig.industry = kb.brandName;
+                    if (kb.phone) botConfig.phone = kb.phone;
+                    localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+
+                    if (Array.isArray(parsed.documents)) {
+                        documents = parsed.documents;
+                        localStorage.setItem('zalobot_docs', JSON.stringify(documents));
+                        renderDocs();
+                    }
+                    if (Array.isArray(parsed.faqs)) {
+                        faqs = parsed.faqs;
+                        localStorage.setItem('zalobot_faqs', JSON.stringify(faqs));
+                        renderFaqs();
+                    }
+
+                    if (kb.groupConfig) {
+                        localStorage.setItem('zalobot_group_config', JSON.stringify(kb.groupConfig));
+                    }
+
+                    try {
+                        await fetch('/api/knowledge', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(kb)
+                        });
+                    } catch (netErr) {}
+
+                    loadGroupSettings();
+                    alert(`✅ ĐÃ NẠP THÀNH CÔNG GÓI CẤU HÌNH!\n\n• Thương hiệu: ${kb.brandName || 'Thành công'}\n• Tên Bot: ${kb.botName || 'Trợ lý AI'}\n• Hotline: ${kb.phone || 'Chưa cập nhật'}\n\nHệ thống đã sẵn sàng phục vụ khách hàng!`);
+                } catch (err) {
+                    alert('❌ File cấu hình không hợp lệ: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        async function applyIndustryTemplate(type) {
+            const templates = {
+                fashion: {
+                    name: "Thời Trang & Mỹ Phẩm",
+                    botName: "Em Mai - Trợ Lý Thời Trang",
+                    brand: "Thời Trang & Mỹ Phẩm Cao Cấp",
+                    phone: "0988 739 896",
+                    welcome: "Dạ em chào anh/chị ạ! Em là Mai - chuyên viên tư vấn của shop. Anh/chị đang quan tâm mẫu váy, áo sơ mi hay mỹ phẩm chăm sóc da nào để em tư vấn size và báo giá ưu đãi ngay ạ? ✨",
+                    prompt: "Bạn là Em Mai, chuyên viên tư vấn bán hàng thời trang và mỹ phẩm. Bạn giao tiếp duyên dáng, thân thiện. Nhiệm vụ: Hỏi chiều cao cân nặng để tư vấn size chuẩn, giới thiệu chất liệu cao cấp, báo giá ưu đãi và chốt địa chỉ nhận hàng.",
+                    rules: [
+                        { keywords: ["bảng size", "tư vấn size", "bao nhiêu kg"], reply: "Dạ bên em chuẩn size: Size S (42-48kg), Size M (49-54kg), Size L (55-60kg), Size XL (61-68kg). Anh/chị cho em xin chiều cao và cân nặng để em chọn size chuẩn tôn dáng nhất ạ!" },
+                        { keywords: ["đổi trả", "bảo hành", "kiểm tra hàng"], reply: "Dạ anh/chị hoàn toàn yên tâm: Bên em cho kiểm tra hàng trước khi thanh toán, và hỗ trợ đổi size miễn phí trong 7 ngày nếu không vừa ạ!" },
+                        { keywords: ["phí ship", "giao hàng", "mấy ngày nhận"], reply: "Dạ đơn từ 500k bên em MIỄN PHÍ SHIP toàn quốc ạ. Nội thành Hà Nội/HCM nhận trong ngày, các tỉnh khác từ 2-3 ngày là hàng tới tận tay anh/chị ạ." }
+                    ]
+                },
+                spa: {
+                    name: "Spa & Thẩm Mỹ Viện",
+                    botName: "Em Lan - Chuyên Viên Spa",
+                    brand: "Viện Thẩm Mỹ Quốc Tế",
+                    phone: "0988 739 896",
+                    welcome: "Dạ em Lan chào chị đẹp ạ! Em có thể giúp chị tư vấn dịch vụ chăm sóc da chuyên sâu, triệt lông diode laser, hay giảm béo công nghệ cao ạ? 🌸",
+                    prompt: "Bạn là Em Lan, chuyên viên tư vấn thẩm mỹ viện và spa. Bạn nhẹ nhàng, am hiểu chuyên môn da liễu. Nhiệm vụ: Lắng nghe tình trạng da/vấn đề của khách, giải thích liệu trình rõ ràng, tặng voucher trải nghiệm buổi đầu và đặt lịch hẹn.",
+                    rules: [
+                        { keywords: ["bảng giá", "giá bao nhiêu", "chi phí"], reply: "Dạ bảng giá dịch vụ bên em đang có ưu đãi trải nghiệm buổi đầu giảm 50%: Chăm sóc da chuyên sâu chỉ 199k (gốc 400k), Triệt lông công nghệ mới chỉ 99k/buổi. Chị cho em xin tình trạng da để em chọn gói phù hợp nhất nhé!" },
+                        { keywords: ["đặt lịch", "hẹn giờ", "qua lúc nào"], reply: "Dạ Spa bên em mở cửa từ 8h30 đến 20h30 tất cả các ngày trong tuần. Chị dự định ghé cơ sở bên em vào khung giờ nào để em giữ chỗ và chuẩn bị phòng riêng cho chu đáo ạ?" },
+                        { keywords: ["địa chỉ", "ở đâu", "cơ sở"], reply: "Dạ cơ sở bên em ở vị trí trung tâm, có chỗ đỗ ô tô miễn phí rộng rãi. Chị nhắn em số điện thoại để em gửi định vị Google Maps qua Zalo cho chị dễ tìm nhé ạ!" }
+                    ]
+                },
+                real_estate: {
+                    name: "Bất Động Sản & Nhà Đất",
+                    botName: "Trợ Lý BĐS Đất Vàng",
+                    brand: "Sàn Giao Dịch Bất Động Sản",
+                    phone: "0988 739 896",
+                    welcome: "Kính chào Quý khách! Em là Trợ lý phân phối quỹ căn và đất nền vị trí đẹp. Quý khách đang quan tâm mua ở hay đầu tư sinh lời trong tầm tài chính bao nhiêu ạ?",
+                    prompt: "Bạn là Trợ lý Bất Động Sản chuyên nghiệp, am hiểu thị trường, pháp lý rõ ràng. Nhiệm vụ: Xác định nhu cầu ở/đầu tư, phân khúc tài chính, giới thiệu quỹ căn đẹp nhất, gửi sơ đồ mặt bằng và mời hẹn xem thực tế.",
+                    rules: [
+                        { keywords: ["bảng giá", "giá bao nhiêu", "tài chính"], reply: "Dạ hiện tại bên em có đủ các phân khúc từ 1.8 tỷ - 3.5 tỷ (căn hộ 2PN) và 3.5 tỷ - 7 tỷ (nhà phố/đất nền sổ đỏ). Quý khách đang nhắm tầm tài chính bao nhiêu để em lọc quỹ căn chuẩn nhất ạ?" },
+                        { keywords: ["pháp lý", "sổ đỏ", "tiến độ"], reply: "Dạ toàn bộ sản phẩm bên em phân phối đều cam kết pháp lý chuẩn chỉnh 100%, có sổ đỏ lâu dài hoặc quy hoạch 1/500 minh bạch. Em có thể gửi trích lục quy hoạch qua Zalo để Quý khách kiểm tra trước ạ." },
+                        { keywords: ["xem nhà", "đi xem thực tế", "hẹn gặp"], reply: "Dạ bên em có xe đưa đón Quý khách đi xem thực địa dự án hoàn toàn miễn phí. Quý khách thuận tiện đi vào sáng hay chiều cuối tuần này để em sắp xếp xe và chuyên viên đón ạ?" }
+                    ]
+                },
+                education: {
+                    name: "Khóa Học & Đào Tạo",
+                    botName: "Trợ Lý Tuyển Sinh AI",
+                    brand: "Học Viện Đào Tạo Kỹ Năng Thực Chiến",
+                    phone: "0988 739 896",
+                    welcome: "Chào bạn! Mình là Trợ lý tuyển sinh của Học Viện. Bạn đang tìm hiểu khóa học Kỹ năng, Tin học hay Khóa Đào tạo AI Bán Hàng Tự Động để mình gửi lộ trình chi tiết nhé?",
+                    prompt: "Bạn là Trợ lý Đào tạo, truyền cảm hứng và rõ ràng về lộ trình. Nhiệm vụ: Tư vấn mục tiêu học tập, giải thích cam kết đầu ra, thông báo lịch khai giảng và học bổng ưu đãi khi đăng ký sớm.",
+                    rules: [
+                        { keywords: ["học phí", "chi phí", "bao nhiêu tiền"], reply: "Dạ học phí đang được tài trợ 40% cho 10 học viên đăng ký sớm trong tuần này: Trọn gói chỉ còn 1.990.000đ (bao gồm tài liệu, video xem lại trọn đời và hỗ trợ 1-1 từ giảng viên). Bạn có muốn nhận suất ưu đãi này không ạ?" },
+                        { keywords: ["lộ trình", "học những gì", "nội dung"], reply: "Dạ lộ trình học thực chiến gồm 8 buổi cầm tay chỉ việc: Từ cơ bản đến làm chủ công cụ và tạo ra kết quả thực tế ngay trong khóa học. Bạn nhắn mình để mình gửi file giáo trình PDF chi tiết qua Zalo nhé!" },
+                        { keywords: ["lịch học", "thời gian", "khai giảng"], reply: "Dạ khóa mới nhất khai giảng vào thứ 3 tuần tới, học vào tối 19h30 - 21h30 (thứ 3-5-7). Nếu bận buổi nào bạn đều có video record chất lượng cao để ôn lại ạ." }
+                    ]
+                },
+                service: {
+                    name: "Dịch Vụ & Kỹ Thuật Sửa Chữa",
+                    botName: "Kỹ Thuật Viên 24/7",
+                    brand: "Trung Tâm Dịch Vụ Kỹ Thuật Tận Nơi",
+                    phone: "0988 739 896",
+                    welcome: "Kính chào Quý khách! Trung tâm kỹ thuật 24/7 nghe máy. Thiết bị của quý khách đang gặp hiện tượng gì, cần thợ kiểm tra xử lý tận nhà khu vực nào ạ?",
+                    prompt: "Bạn là Kỹ Thuật Viên tư vấn lịch sự, tận tâm. Nhiệm vụ: Bắt bệnh sự cố nhanh, báo khoảng giá công thợ minh bạch, cam kết linh kiện chính hãng và điều phối thợ tới nhà sau 30 phút.",
+                    rules: [
+                        { keywords: ["giá sửa", "báo giá", "chi phí"], reply: "Dạ bên em cam kết thợ kiểm tra tận nơi miễn phí, báo đúng giá niêm yết trước khi làm, khách đồng ý mới làm, không phát sinh phụ phí. Anh/chị cho em biết thiết bị đang bị lỗi gì ạ?" },
+                        { keywords: ["bao lâu có mặt", "tới nhà", "địa chỉ"], reply: "Dạ đội ngũ kỹ thuật viên bên em phân bố khắp các quận, chỉ sau 20-30 phút là có mặt tận nhà kiểm tra cho anh/chị. Anh/chị cho em xin số điện thoại và địa chỉ cụ thể nhé!" },
+                        { keywords: ["bảo hành", "cam kết"], reply: "Dạ toàn bộ linh kiện thay thế bên em bảo hành chính hãng từ 6 đến 12 tháng, có phiếu bảo hành và tem niêm phong đầy đủ nên anh/chị hoàn toàn yên tâm ạ." }
+                    ]
+                }
+            };
+
+            const t = templates[type];
+            if (!t) return;
+
+            if (!confirm(`Bạn có chắc muốn áp dụng Bộ Kịch Bản Mẫu ngành "${t.name}"?\n\n• Tên bot: ${t.botName}\n• Phong cách: Chuyên nghiệp, đúng ngành nghề\n• Nạp sẵn câu hỏi & câu trả lời chuẩn`)) {
+                return;
+            }
+
+            botConfig.name = t.botName;
+            botConfig.industry = t.brand;
+            botConfig.welcomeMsg = t.welcome;
+            localStorage.setItem('zalobot_config', JSON.stringify(botConfig));
+
+            faqs = t.rules.map(r => ({ question: r.keywords.join(', '), answer: r.reply }));
+            localStorage.setItem('zalobot_faqs', JSON.stringify(faqs));
+            renderFaqs();
+
+            if (document.getElementById('botNameInput')) document.getElementById('botNameInput').value = t.botName;
+            if (document.getElementById('botIndustry')) document.getElementById('botIndustry').value = t.brand;
+            if (document.getElementById('botWelcomeMsg')) document.getElementById('botWelcomeMsg').value = t.welcome;
+            if (document.getElementById('exportClientBrand')) document.getElementById('exportClientBrand').value = t.brand;
+            if (document.getElementById('exportClientBotName')) document.getElementById('exportClientBotName').value = t.botName;
+
+            try {
+                await fetch('/api/knowledge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        botName: t.botName,
+                        brandName: t.brand,
+                        welcomeMsg: t.welcome,
+                        aiConfig: {
+                            systemPrompt: t.prompt
+                        },
+                        rules: t.rules
+                    })
+                });
+            } catch (e) {}
+
+            alert(`🎉 ĐÃ ÁP DỤNG THÀNH CÔNG BỘ KỊCH BẢN "${t.name.toUpperCase()}"!\n\nBot đã sẵn sàng tư vấn khách hàng với phong cách và chuyên môn đỉnh cao.`);
+        }
 
         // Logout
         function logout() {

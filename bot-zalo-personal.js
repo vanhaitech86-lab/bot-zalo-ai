@@ -43,6 +43,15 @@ function normalizeCommand(str) {
         .trim();
 }
 
+// Bộ nhớ đệm lưu các câu trả lời do Bot vừa phát ra để chống lặp vô tận khi tự chat
+const recentSentReplies = new Set();
+function markSentReply(text) {
+    if (!text) return;
+    const norm = text.trim();
+    recentSentReplies.add(norm);
+    setTimeout(() => recentSentReplies.delete(norm), 35000);
+}
+
 function loadBotStatus() {
     try {
         if (fs.existsSync(STATUS_FILE)) {
@@ -144,35 +153,114 @@ function isBusinessInquiry(text, kb) {
     return false;
 }
 
-// Hàm kiểm tra xem bot có được gọi tên / tag @thuylinh trong nhóm chat Zalo không
+// Hàm kiểm tra xem bot có được gọi tên / tag @mentions / quote trong nhóm chat Zalo không
 function isBotMentionedInGroup(message, userText, ownId) {
-    if (!userText) return false;
+    if (!userText && !message.data?.quote) return false;
 
-    // 1. Kiểm tra mentions chính thức từ Zalo protocol (khi người dùng gõ @ và chọn tên bot)
+    const groupConfig = knowledge.groupConfig || {};
+    // 0. Nếu tính năng nhóm bị tắt hoàn toàn trong cấu hình -> bỏ qua
+    if (groupConfig.enabled === false || knowledge.channels?.zaloPersonal?.replyInGroups === false) {
+        return false;
+    }
+
+    const threadId = String(message.threadId || '');
+    // Kiểm tra danh sách nhóm bị chặn (Blacklist)
+    if (Array.isArray(groupConfig.blockedGroupIds) && groupConfig.blockedGroupIds.includes(threadId)) {
+        return false;
+    }
+    // Kiểm tra danh sách nhóm chỉ định (Whitelist)
+    if (Array.isArray(groupConfig.allowedGroupIds) && groupConfig.allowedGroupIds.length > 0 && !groupConfig.allowedGroupIds.includes(threadId)) {
+        return false;
+    }
+
+    // Nếu cấu hình trả lời mọi tin nhắn trong nhóm (không cần gọi tên)
+    if (groupConfig.replyOnlyWhenMentioned === false) {
+        return true;
+    }
+
+    // 1. Kiểm tra Mentions chính thức từ Zalo protocol (khi thành viên gõ @ và chọn tài khoản Bot)
     if (message.data?.mentions && Array.isArray(message.data.mentions)) {
         if (ownId && message.data.mentions.some(m => String(m.uid) === String(ownId))) {
             return true;
         }
     }
 
-    // 2. Kiểm tra các cách gọi tên phổ biến trong văn bản
-    const lower = userText.toLowerCase().trim();
-    const triggerPatterns = [
-        "@thuylinh", "@thùylinh", "@thùy linh", "@thuy linh",
-        "thùy linh ơi", "thuylinh ơi", "thuy linh oi", "thuylinh oi",
-        "@bot", "bot ơi", "bot oi", "em thùy linh", "em thuylinh",
-        "#thuylinh", "#tl"
+    // 2. Kiểm tra Trích dẫn / Trả lời (Quote / Reply) tin nhắn của Bot
+    // Khi một người trong nhóm bấm "Trả lời" (Quote) một tin nhắn mà Bot đã gửi trước đó
+    if (message.data?.quote) {
+        const q = message.data.quote;
+        const quoteOwnerId = String(q.ownerId || q.uid || q.fromId || q.from || '');
+        if (ownId && quoteOwnerId && quoteOwnerId === String(ownId)) {
+            return true;
+        }
+        // Kiểm tra nội dung trích dẫn có phải là câu trả lời của Bot không
+        if (q.msg && recentSentReplies.has(q.msg.trim())) {
+            return true;
+        }
+    }
+
+    // 3. Kiểm tra các cách gọi tên trong văn bản tin nhắn
+    const lower = (userText || '').toLowerCase().trim();
+
+    // 3.1. Các từ khóa gọi chuẩn mực
+    const baseTriggers = [
+        "@bot", "bot ơi", "bot oi", "bot cho hỏi", "bot cho anh hỏi", "bot cho chị hỏi", "bot cho em hỏi",
+        "trợ lý ơi", "tro ly oi", "trợ lý cho hỏi", "tro ly cho hoi",
+        "ad ơi", "admin ơi", "shop ơi", "em bot", "bot tư vấn"
     ];
 
-    return triggerPatterns.some(kw => lower.includes(kw));
+    // 3.2. Từ khóa do chủ shop / khách hàng cấu hình trong Dashboard hoặc knowledge.json
+    let customTriggers = [];
+    if (Array.isArray(groupConfig.triggers) && groupConfig.triggers.length > 0) {
+        customTriggers = groupConfig.triggers.map(t => String(t).toLowerCase().trim()).filter(Boolean);
+    }
+
+    // 3.3. Tự động sinh từ khóa từ Tên Trợ Lý (knowledge.botName)
+    const botName = (knowledge.botName || 'Em Thùy Linh').toLowerCase();
+    const nameTriggers = [];
+    if (botName.includes('thùy linh') || botName.includes('thuy linh')) {
+        nameTriggers.push("@thuylinh", "@thùylinh", "@thùy linh", "@thuy linh", "thùy linh ơi", "thuylinh ơi", "thuy linh oi", "thuylinh oi", "em thùy linh", "em thuylinh", "#thuylinh", "#tl");
+    } else {
+        // Trích xuất các từ tên gọi (ví dụ "Em Mai" -> "@mai", "mai ơi")
+        const cleanName = botName.replace(/^(em|trợ lý|tro ly|bot|chuyên viên)\s+/i, '').trim();
+        if (cleanName.length >= 2) {
+            nameTriggers.push(`@${cleanName}`, `${cleanName} ơi`, `${cleanName} oi`);
+        }
+    }
+
+    const allTriggers = Array.from(new Set([...baseTriggers, ...customTriggers, ...nameTriggers]));
+
+    return allTriggers.some(kw => lower.includes(kw));
 }
 
 // Hàm làm sạch từ khóa mention để đưa câu hỏi thuần túy vào bộ não AI
 function cleanMentionText(text) {
-    if (!text) return "Chào em";
-    let cleaned = text.replace(/@?(thùy linh|thuylinh|thuy linh|bot)\s*(ơi|oi)?/gi, ' ').trim();
-    cleaned = cleaned.replace(/^@\s*/, '').trim();
-    return cleaned || "Chào em Thùy Linh";
+    if (!text) return "Chào bạn, mình cần hỗ trợ.";
+
+    let cleaned = text;
+
+    // Lấy các từ khóa gọi tên để xóa bỏ khỏi đầu câu
+    const groupConfig = knowledge.groupConfig || {};
+    const customTriggers = Array.isArray(groupConfig.triggers) ? groupConfig.triggers : [];
+    const botName = knowledge.botName || 'Em Thùy Linh';
+
+    const patterns = [
+        /@?(thùy linh|thuylinh|thuy linh|bot|trợ lý|tro ly)\s*(ơi|oi)?/gi,
+        /@\S+/g // Xóa tag @tên bất kỳ
+    ];
+
+    for (const pat of patterns) {
+        cleaned = cleaned.replace(pat, ' ');
+    }
+
+    for (const trig of customTriggers) {
+        if (trig && trig.length >= 2) {
+            cleaned = cleaned.split(new RegExp(`\\b${trig}\\b`, 'gi')).join(' ');
+        }
+    }
+
+    cleaned = cleaned.replace(/\s+/g, ' ').trim();
+    return cleaned || `Chào ${botName}, cho mình hỏi thông tin tư vấn.`;
 }
 
 // 1. Nạp và theo dõi dữ liệu tri thức (Knowledge Base)
@@ -509,14 +597,7 @@ async function startBot() {
     // Giúp Bộ Não AI hiểu trọn vẹn ngữ cảnh của khách và trả lời đúng trọng tâm một lần duy nhất
     const pendingMessageBuffers = new Map();
 
-    // Bộ nhớ đệm lưu các câu trả lời do Bot vừa phát ra để chống lặp vô tận khi tự chat
-    const recentSentReplies = new Set();
-    function markSentReply(text) {
-        if (!text) return;
-        const norm = text.trim();
-        recentSentReplies.add(norm);
-        setTimeout(() => recentSentReplies.delete(norm), 35000);
-    }
+    // Bộ nhớ đệm đã được quản lý ở module level
 
     // Tự động thu thập khách hàng tiềm năng (Leads) & Đồng bộ lưu trữ Online
     const LEADS_FILE = "./leads.json";
@@ -663,20 +744,25 @@ QUY TẮC PHỤC VỤ ANH HẢI:
                 result = await generateReplyAsync(userText, bossKb, history);
             } else if (isGroupMode || threadType === ThreadType.Group) {
                 // Prompt trợ lý tư vấn trong nhóm chat & hỗ trợ chốt đơn
+                const botName = knowledge.botName || 'Em Thùy Linh';
+                const brandName = knowledge.brandName || 'HaiTech AI';
+                const phone = knowledge.phone || '0988 739 896';
+                const groupCustomPrompt = knowledge.groupConfig?.groupSystemPrompt || '';
+
                 const groupKb = {
                     ...knowledge,
                     aiConfig: {
                         ...(knowledge.aiConfig || {}),
-                        systemPrompt: `Bạn là 'Em Thùy Linh' — trợ lý tư vấn AI thông minh, duyên dáng và chuyên nghiệp của HaiTech AI (Hotline/Zalo anh Hải: 0988 739 896).
-Hiện tại bạn ĐANG TRẢ LỜI MỘT THÀNH VIÊN TRONG HỘI NHÓM ZALO vừa gọi bạn (@thuylinh).
+                        systemPrompt: groupCustomPrompt || `Bạn là '${botName}' — trợ lý AI thông minh, duyên dáng và chuyên nghiệp của ${brandName} (Hotline/Zalo: ${phone}).
+Hiện tại bạn ĐANG TRẢ LỜI MỘT THÀNH VIÊN TRONG HỘI NHÓM ZALO vừa gọi tên hoặc trích dẫn bạn.
 
-NGUYÊN TẮC TRẢ LỜI TRONG NHÓM:
+NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
 1. Xưng 'em', gọi người hỏi là 'anh/chị' một cách lịch sự, nhã nhặn, tôn trọng.
-2. Trả lời trực tiếp, rõ ràng, cô đọng trong 2 - 3 câu để không làm loãng nhóm.
+2. Trả lời trực tiếp, rõ ràng, cô đọng trong 2 - 3 câu để KHÔNG LÀM LOÃNG HỘI NHÓM.
 3. TƯ VẤN & HỖ TRỢ CHỐT ĐƠN:
-   - Nếu khách hỏi về Web, App, Tool MMO, Video AI, Bot Zalo: Tư vấn giải pháp trọng tâm, khẳng định HaiTech AI triển khai nhanh, chuẩn SEO, tối ưu chi phí.
-   - Luôn khéo léo định hướng: Gợi ý khách kết nối trực tiếp với anh Nguyễn Văn Hải (Hotline/Zalo: 0988 739 896) hoặc để lại số điện thoại/nhắn tin riêng để bên em gửi demo mẫu và báo giá ưu đãi nhất!
-4. TUYỆT ĐỐI không spam, không nói dài dòng lan man.`
+   - Nếu khách hỏi về sản phẩm/dịch vụ: Tư vấn trọng tâm giải pháp, ngắn gọn và hữu ích.
+   - Gợi ý khách kết nối trực tiếp hoặc nhắn tin riêng với shop để được tư vấn chuyên sâu và nhận báo giá ưu đãi nhất!
+4. TUYỆT ĐỐI không spam, không chèn số điện thoại tràn lan trừ khi thành viên hỏi trực tiếp.`
                     }
                 };
                 result = await generateReplyAsync(userText, groupKb, history);
