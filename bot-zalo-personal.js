@@ -1069,8 +1069,9 @@ if (CLOUD_PORT) {
                 res.end('Not Found');
             }
         });
-        srv.listen(CLOUD_PORT, () => {
-            console.log(`🌐 [Cloud Keep-Alive]: HTTP Server đang lắng nghe cổng ${CLOUD_PORT}`);
+        const bindPort = Number(CLOUD_PORT) || 3000;
+        srv.listen(bindPort, '0.0.0.0', () => {
+            console.log(`🌐 [Cloud Keep-Alive]: HTTP Server đang lắng nghe trên 0.0.0.0:${bindPort}`);
         });
     }).catch(e => console.warn("Lỗi khởi động Cloud HTTP:", e.message));
 }
