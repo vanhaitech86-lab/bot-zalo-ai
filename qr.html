@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAITECH BOT - Quét Mã QR Kích Hoạt Zalo 24/7</title>
+  <link rel="icon" type="image/png" href="bot-avatar.png">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #070D1F 0%, #0B192E 100%);
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #132238;
+      padding: 36px 28px;
+      border-radius: 28px;
+      box-shadow: 0 25px 60px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.15);
+      text-align: center;
+      max-width: 460px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(2, 132, 199, 0.2);
+      color: #38BDF8;
+      border: 1px solid rgba(56,189,248,0.3);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px 0;
+      color: #38BDF8;
+      font-weight: 800;
+    }
+    p.sub-title {
+      color: #94A3B8;
+      font-size: 14.5px;
+      margin: 0 0 22px 0;
+      line-height: 1.5;
+    }
+    .qr-container {
+      background: #FFFFFF;
+      padding: 18px;
+      border-radius: 22px;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .qr-container img {
+      width: 250px;
+      height: 250px;
+      display: block;
+      border-radius: 12px;
+      image-rendering: auto;
+    }
+    .qr-loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.92);
+      border-radius: 22px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #0F172A;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .steps {
+      background: #0A1322;
+      border-radius: 16px;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #E2E8F0;
+      border-left: 4px solid #38BDF8;
+      margin-bottom: 20px;
+    }
+    .steps ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .steps li {
+      margin-bottom: 6px;
+    }
+    .steps li:last-child {
+      margin-bottom: 0;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #0284C7, #0EA5E9);
+      color: white;
+      box-shadow: 0 4px 14px rgba(2,132,199,0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: #E2E8F0;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    /* Success Card View */
+    .success-card {
+      display: none;
+      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.05));
+      border: 2px solid #10B981;
+      border-radius: 24px;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    .success-icon {
+      font-size: 50px;
+      margin-bottom: 12px;
+    }
+    .success-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #34D399;
+      margin-bottom: 8px;
+    }
+    .success-desc {
+      font-size: 14px;
+      color: #A7F3D0;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .footer {
+      margin-top: 22px;
+      font-size: 12px;
+      color: #64748B;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="mainCard">
+    <!-- View: Đang chờ quét QR -->
+    <div id="scanView">
+      <span class="badge">⚡ Động Cơ AI Zalo 24/7 (Zero-Install)</span>
+      <h1>KẾT NỐI BOT ZALO</h1>
+      <p class="sub-title">Khách hàng chỉ cần quét mã QR bằng Zalo trên điện thoại để bắt đầu sử dụng</p>
+      
+      <div class="qr-container">
+        <img id="qrImage" src="qr.png" onerror="handleQrError(this)" alt="Mã QR Đăng Nhập Zalo">
+        <div class="qr-loading-overlay" id="qrLoading">
+          <div style="font-size:24px; margin-bottom:6px;">⏳</div>
+          <span>Đang tạo mã QR mới...</span>
+        </div>
+      </div>
+
+      <div class="steps">
+        <ol>
+          <li>Mở ứng dụng <b>Zalo</b> trên điện thoại của bạn</li>
+          <li>Nhấn biểu tượng <b>Quét mã QR 📷</b> (góc trên bên phải Zalo)</li>
+          <li>Hướng camera điện thoại vào mã QR này</li>
+          <li>Nhấn <b>"Đăng nhập"</b> hoặc <b>"Xác nhận"</b> trên điện thoại</li>
+        </ol>
+      </div>
+
+      <div class="action-buttons">
+        <button type="button" class="btn btn-secondary" onclick="reloadQrImage()">
+          🔄 Làm Mới Mã QR
+        </button>
+        <a href="dashboard.html" class="btn btn-primary">
+          📊 Vào Bảng Quản Trị →
+        </a>
+      </div>
+
+      <div class="footer">
+        🛡️ An toàn 100%: Sau khi bấm Xác nhận trên điện thoại, Bot sẽ tự động trực 24/7 trên Cloud. Bạn có thể đóng tab này lại bất cứ lúc nào!
+      </div>
+    </div>
+
+    <!-- View: Đã kết nối thành công -->
+    <div id="successView" class="success-card">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">KẾT NỐI ZALO THÀNH CÔNG!</div>
+      <div class="success-desc">
+        Tài khoản Zalo của bạn đã được kết nối với <strong>HAITECH BOT AI</strong>.<br/>
+        Trợ lý thông minh đang tự động trực chiến, tư vấn báo giá và chốt khách 24/7 ngay cả khi bạn tắt máy!
+      </div>
+      <div class="action-buttons">
+        <a href="dashboard.html" class="btn btn-primary" style="padding:12px 24px;">
+          🚀 Mở Bảng Quản Trị & Cấu Hình Shop →
+        </a>
+      </div>
+      <div style="margin-top:16px; font-size:12px; color:#6EE7B7;">
+        ✓ Không cần mở máy tính · Tự động trả lời 1-1 riêng tư · Bảo mật tuyệt đối
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pollInterval = null;
+
+    function handleQrError(img) {
+      // Nếu chưa có qr.png, fallback lấy QR tạm thời từ hotline
+      img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/0988739896';
+    }
+
+    function reloadQrImage() {
+      const img = document.getElementById('qrImage');
+      const loading = document.getElementById('qrLoading');
+      if (loading) loading.style.display = 'flex';
+      
+      const testImg = new Image();
+      testImg.onload = () => {
+        img.src = 'qr.png?t=' + Date.now();
+        if (loading) loading.style.display = 'none';
+      };
+      testImg.onerror = () => {
+        if (loading) loading.style.display = 'none';
+      };
+      testImg.src = 'qr.png?t=' + Date.now();
+    }
+
+    async function checkStatus() {
+      try {
+        const res = await fetch('/api/qr-status');
+        if (!res.ok) return;
+        const data = await res.json();
+        
+        if (data && data.isConnected) {
+          // Đã đăng nhập thành công!
+          document.getElementById('scanView').style.display = 'none';
+          document.getElementById('successView').style.display = 'block';
+          if (pollInterval) clearInterval(pollInterval);
+        } else if (data && data.hasQrPng) {
+          // Đang có mã QR chờ quét
+          document.getElementById('scanView').style.display = 'block';
+          document.getElementById('successView').style.display = 'none';
+        }
+      } catch (e) {
+        // Có thể server chạy static
+      }
+    }
+
+    // Tự động kiểm tra trạng thái mỗi 2.5 giây
+    checkStatus();
+    pollInterval = setInterval(checkStatus, 2500);
+
+    // Tự động làm mới ảnh QR mỗi 20 giây để chống hết hạn
+    setInterval(() => {
+      const scanView = document.getElementById('scanView');
+      if (scanView && scanView.style.display !== 'none') {
+        const img = document.getElementById('qrImage');
+        if (img) img.src = 'qr.png?t=' + Date.now();
+      }
+    }, 20000);
+  </script>
+</body>
+</html>

@@ -57,35 +57,33 @@ Bạn có thể tự do định giá và thu 100% lợi nhuận từ khách hàn
 
 ---
 
-## ⚡ PHẦN 4: QUY TRÌNH 3 BƯỚC BÀN GIAO BOT CHO KHÁCH (CHỈ 5 PHÚT)
+## ⚡ PHẦN 4: HAI PHƯƠNG THỨC BÀN GIAO BOT CHO KHÁCH HÀNG
 
-### 🔹 BƯỚC 1: Xuất Gói Cấu Hình Khách Hàng (White-Label)
-1. Mở trang Quản trị Dashboard: `http://localhost:5000/dashboard.html` (hoặc trên tên miền của bạn).
-2. Bấm vào menu bên trái: **🤝 Bán & Chuyển Giao Bot**.
-3. Điền thông tin của khách hàng:
-   - **Tên Shop/Doanh nghiệp của khách:** (VD: *Thời Trang Vivian, Spa Lan Hương...*)
-   - **Tên Trợ lý AI:** (VD: *Em Mai, Trợ lý Vivian...*)
-   - **Số Hotline của khách:** (VD: *0912.xxx.xxx*)
-   - **Địa chỉ:** (VD: *Số 10 Cầu Giấy, Hà Nội*)
-   - Chọn nền tảng AI: **⚡ GroqCloud LPU** (khuyên dùng vì miễn phí 100% và phản hồi 0.3s).
-4. Bấm nút: **📥 Xuất File Cấu Hình Khách Hàng (.json)**.
-   - *Hệ thống tự động đóng gói toàn bộ và BẢO MẬT XÓA SẠCH API Key cá nhân của bạn.*
+### 🏆 PHƯƠNG ÁN A (KHUYÊN DÙNG 100%): MÔ HÌNH CLOUD — KHÁCH CHỈ CẦN QUÉT MÃ QR LÀ DÙNG LUÔN
+*(Khách hàng không cần có máy tính, không cần cài đặt bất cứ thứ gì, tắt điện thoại đi ngủ bot vẫn trực 24/7)*
 
-### 🔹 BƯỚC 2: Gửi Bộ Cài Đặt Cho Khách Hàng
-Bạn gửi cho khách hàng 1 thư mục nén chứa:
-1. Thư mục mã nguồn bot.
-2. File cấu hình `.json` vừa xuất ở Bước 1 (đặt tên là `knowledge.json` trong thư mục).
-3. File cài đặt siêu tốc: `CAI_DAT_CHO_KHACH_HANG_1CLICK.bat`.
+1. **Bước 1: Bạn tạo Bot riêng cho khách trên VPS / Server của bạn:**
+   - Chạy lệnh: `node tao-bot-khach-hang.mjs`
+   - Nhập tên Shop, SĐT hotline, Tên Trợ lý AI của khách.
+   - Hệ thống tự sinh cấu hình và tạo thư mục bot độc lập cho khách trong 30 giây.
+2. **Bước 2: Gửi link Quét QR cho khách:**
+   - Gửi cho khách link: `https://tenmien-cua-ban/qr` hoặc ảnh mã QR `qr.png`.
+3. **Bước 3: Khách quét mã QR trên điện thoại:**
+   - Khách mở ứng dụng Zalo trên điện thoại ➡️ Bấm nút **Quét mã QR 📷** ➡️ Quét mã và bấm **[Xác nhận đăng nhập]**.
+   - **XONG 100%!** Bot của khách bắt đầu trực 24/7 trên Cloud. Bạn thu tiền thuê hàng tháng (390k/tháng) hoặc hàng năm (2.5 triệu/năm).
 
-### 🔹 BƯỚC 3: Kích Hoạt & Quét Mã QR Zalo Khách
-1. Bạn kết nối vào máy khách qua **UltraViewer / TeamViewer** (hoặc hướng dẫn khách tự nhấp đúp vào file `CAI_DAT_CHO_KHACH_HANG_1CLICK.bat`).
-2. Script sẽ tự động:
-   - Tự kiểm tra và cài Node.js (nếu máy khách chưa có).
-   - Tự cài đặt thư viện cần thiết.
-   - Tự tạo shortcut `TRO_LY_AI_ZALO_247` ngoài màn hình Desktop cho khách.
-   - Tự động bật trình duyệt hiển thị mã QR Zalo.
-3. Bảo khách hàng mở điện thoại Zalo ➡️ Bấm dấu `+` góc trên bên phải ➡️ Chọn **Quét mã QR** ➡️ Bấm xác nhận đăng nhập trên điện thoại.
-4. **Xong 100%!** Bot bắt đầu tự động trực chat 24/7 trên tài khoản Zalo của khách hàng.
+---
+
+### 💻 PHƯƠNG ÁN B: CÀI VÀO MÁY TÍNH CỦA KHÁCH QUA ULTRAVIEWER (GÓI BÁN ĐỨT 1 LẦN)
+*(Dành cho khách mua đứt vĩnh viễn và muốn chạy trực tiếp trên laptop/PC của họ)*
+
+1. **Bước 1: Xuất Gói Cấu Hình Khách Hàng (White-Label):**
+   - Vào Dashboard ➡️ Menu **Bán & Chuyển Giao Bot** ➡️ Điền thông tin shop khách ➡️ Bấm **Xuất File Cấu Hình (.json)**.
+2. **Bước 2: Gửi Thư Mục Cài Đặt Cho Khách:**
+   - Gửi file zip chứa mã nguồn sạch + file `CAI_DAT_CHO_KHACH_HANG_1CLICK.bat`.
+3. **Bước 3: UltraViewer hỗ trợ khách bấm chạy 1-Click:**
+   - Kết nối UltraViewer vào máy khách, nhấp đúp `CAI_DAT_CHO_KHACH_HANG_1CLICK.bat`.
+   - Trình duyệt tự mở mã QR Zalo, bảo khách giơ điện thoại quét là xong.
 
 ---
 

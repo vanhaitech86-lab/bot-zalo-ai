@@ -124,8 +124,51 @@ const server = http.createServer(async (req, res) => {
         return syncLeadsHandler(req, adaptResponse(res));
     }
 
-    // Static files
-    if (reqUrl === '/') reqUrl = '/tro-ly-rieng.html';
+    // 6. API: /api/qr-status (Kiểm tra trạng thái quét mã QR kết nối Zalo)
+    if (reqUrl === '/api/qr-status') {
+        const sessionFile = path.join(__dirname, 'session.json');
+        const qrPngFile = path.join(__dirname, 'qr.png');
+        const statusFile = path.join(__dirname, 'bot-status.json');
+        
+        let isConnected = false;
+        let sessionInfo = null;
+        if (fs.existsSync(sessionFile)) {
+            try {
+                const raw = JSON.parse(fs.readFileSync(sessionFile, 'utf8'));
+                if (raw && (raw.cookies || raw.imei || raw.userAgent)) {
+                    isConnected = true;
+                    sessionInfo = {
+                        hasSession: true,
+                        updatedAt: fs.statSync(sessionFile).mtime.toISOString()
+                    };
+                }
+            } catch (e) {}
+        }
+
+        const hasQrPng = fs.existsSync(qrPngFile);
+        let qrMtime = hasQrPng ? fs.statSync(qrPngFile).mtime.toISOString() : null;
+
+        let botStatus = { active: true, mode: 'smart_customer_only' };
+        if (fs.existsSync(statusFile)) {
+            try { botStatus = JSON.parse(fs.readFileSync(statusFile, 'utf8')); } catch (e) {}
+        }
+
+        return adaptResponse(res).status(200).json({
+            success: true,
+            status: isConnected ? 'connected' : (hasQrPng ? 'waiting_scan' : 'not_started'),
+            isConnected,
+            hasQrPng,
+            qrMtime,
+            botStatus,
+            message: isConnected 
+                ? '✅ Bot đã kết nối Zalo thành công và đang trực 24/7!' 
+                : (hasQrPng ? '📱 Đang chờ quét mã QR bằng ứng dụng Zalo trên điện thoại...' : '⏳ Bot đang chuẩn bị mã QR đăng nhập...')
+        });
+    }
+
+    // Static files & Route mapping
+    if (reqUrl === '/' || reqUrl === '') reqUrl = '/tro-ly-rieng.html';
+    if (reqUrl === '/qr') reqUrl = '/qr.html';
 
     const filePath = path.join(__dirname, decodeURIComponent(reqUrl));
 
