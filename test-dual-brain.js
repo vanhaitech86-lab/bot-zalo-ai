@@ -29,11 +29,17 @@ function ask(question) {
 
 async function main() {
     console.log('\n=================================================================');
-    console.log('🧠 CÔNG CỤ KIỂM TRA & TEST THỬ NGHIỆM BỘ NÃO THỨ 2 (GOOGLE GEMINI)');
-    console.log('   HAITECH BOT STUDIO - HỆ THỐNG TRÍ TUỆ NHÂN TẠO ĐA NỀN TẢNG');
+    console.log('🧠 CÔNG CỤ TEST THỬ NGHIỆM BỘ NÃO THỨ 2 ĐA NỀN TẢNG (MULTI-AI)');
+    console.log('   Hỗ trợ: Google Gemini, Anthropic Claude, DeepSeek, Groq, OpenAI, xAI Grok');
+    console.log('   HAITECH BOT STUDIO - HỆ THỐNG TRÍ TUỆ NHÂN TẠO 24/7');
     console.log('=================================================================\n');
 
-    let currentKey = (knowledge?.aiConfig?.apiKey || process.env.GEMINI_API_KEY || '').trim();
+    const provider = knowledge?.aiConfig?.provider || 'gemini';
+    const model = knowledge?.aiConfig?.model || 'gemini-flash-lite-latest';
+    console.log(`📌 Nền tảng AI hiện tại: [${provider.toUpperCase()}]`);
+    console.log(`🤖 Mô hình đang dùng:    [${model}]`);
+
+    let currentKey = (knowledge?.aiConfig?.apiKey || process.env.GEMINI_API_KEY || process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || '').trim();
 
     if (!currentKey) {
         console.log('⚠️ Hiện tại chưa có Google Gemini API Key trong knowledge.json.');

@@ -30,7 +30,7 @@ function loadEnv() {
 }
 loadEnv();
 
-// Danh sách các nhà cung cấp mô hình AI được hỗ trợ
+// Danh sách các nhà cung cấp mô hình AI được hỗ trợ đa nền tảng
 export const AI_PROVIDERS = {
     gemini: {
         id: "gemini",
@@ -39,10 +39,14 @@ export const AI_PROVIDERS = {
         defaultModel: "gemini-flash-lite-latest",
         models: [
             "gemini-flash-lite-latest",
+            "gemini-2.0-flash",
+            "gemini-2.0-flash-lite",
             "gemini-3.6-flash",
             "gemini-3.5-flash-lite",
             "gemini-3.5-flash",
             "gemini-3.8-flash",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro",
             "gemini-flash-latest"
         ],
         keyPlaceholder: "AIzaSy...",
@@ -50,12 +54,50 @@ export const AI_PROVIDERS = {
         isFree: true,
         type: "gemini"
     },
+    claude: {
+        id: "claude",
+        name: "Anthropic Claude (Văn Phong Tự Nhiên Đỉnh Cao)",
+        badge: "Top 1 thế giới về giao tiếp bán hàng",
+        defaultModel: "claude-3-5-sonnet-20241022",
+        models: [
+            "claude-3-7-sonnet-20250219",
+            "claude-3-5-sonnet-20241022",
+            "claude-3-5-haiku-20241022",
+            "claude-3-opus-20240229"
+        ],
+        baseUrl: "https://api.anthropic.com/v1",
+        keyPlaceholder: "sk-ant-api03-...",
+        keyUrl: "https://console.anthropic.com/settings/keys",
+        isFree: false,
+        type: "anthropic"
+    },
+    deepseek: {
+        id: "deepseek",
+        name: "DeepSeek AI (Trí Tuệ Nhân Tạo R1 & V3)",
+        badge: "Suy luận logic vượt trội · Chi phí siêu rẻ",
+        defaultModel: "deepseek-chat",
+        models: [
+            "deepseek-chat",
+            "deepseek-reasoner"
+        ],
+        baseUrl: "https://api.deepseek.com",
+        keyPlaceholder: "sk-...",
+        keyUrl: "https://platform.deepseek.com/api_keys",
+        isFree: false,
+        type: "openai-compatible"
+    },
     groq: {
         id: "groq",
-        name: "GroqCloud LPU (Siêu tốc 0.3s)",
+        name: "GroqCloud LPU (Siêu tốc 0.3s · Có DeepSeek R1 Free)",
         badge: "Miễn phí 100% · Tốc độ nhanh nhất thế giới",
-        defaultModel: "llama-3.3-70b-versatile",
-        models: ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"],
+        defaultModel: "deepseek-r1-distill-llama-70b",
+        models: [
+            "deepseek-r1-distill-llama-70b",
+            "llama-3.3-70b-versatile",
+            "llama-3.1-8b-instant",
+            "mixtral-8x7b-32768",
+            "gemma2-9b-it"
+        ],
         baseUrl: "https://api.groq.com/openai/v1",
         keyPlaceholder: "gsk_...",
         keyUrl: "https://console.groq.com/keys",
@@ -64,14 +106,20 @@ export const AI_PROVIDERS = {
     },
     openrouter: {
         id: "openrouter",
-        name: "OpenRouter.ai (Đa Model Free)",
-        badge: "Có nhiều model :free miễn phí",
-        defaultModel: "google/gemini-2.0-flash-exp:free",
+        name: "OpenRouter.ai (Tổng hợp Claude, DeepSeek, Llama)",
+        badge: "Kho model đa dạng · Nhiều model :free",
+        defaultModel: "deepseek/deepseek-r1:free",
         models: [
-            "google/gemini-2.0-flash-exp:free",
-            "meta-llama/llama-3.3-70b-instruct:free",
             "deepseek/deepseek-r1:free",
-            "mistralai/mistral-7b-instruct:free"
+            "deepseek/deepseek-chat:free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "qwen/qwen-2.5-72b-instruct:free",
+            "google/gemini-2.0-flash-exp:free",
+            "anthropic/claude-3.5-sonnet",
+            "anthropic/claude-3.7-sonnet",
+            "anthropic/claude-3.5-haiku",
+            "deepseek/deepseek-r1",
+            "deepseek/deepseek-chat"
         ],
         baseUrl: "https://openrouter.ai/api/v1",
         keyPlaceholder: "sk-or-v1-...",
@@ -79,33 +127,61 @@ export const AI_PROVIDERS = {
         isFree: true,
         type: "openai-compatible"
     },
-    deepseek: {
-        id: "deepseek",
-        name: "DeepSeek AI (Suy luận đỉnh cao)",
-        badge: "Tặng credit trải nghiệm · Siêu rẻ",
-        defaultModel: "deepseek-chat",
-        models: ["deepseek-chat", "deepseek-reasoner"],
-        baseUrl: "https://api.deepseek.com",
-        keyPlaceholder: "sk-...",
-        keyUrl: "https://platform.deepseek.com/api_keys",
-        isFree: false,
-        type: "openai-compatible"
-    },
     openai: {
         id: "openai",
-        name: "OpenAI ChatGPT",
+        name: "OpenAI ChatGPT (GPT-4o / o1 / o3-mini)",
         badge: "Tiêu chuẩn quốc tế",
         defaultModel: "gpt-4o-mini",
-        models: ["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo"],
+        models: [
+            "gpt-4o-mini",
+            "gpt-4o",
+            "o3-mini",
+            "o1",
+            "o1-mini",
+            "gpt-4-turbo"
+        ],
         baseUrl: "https://api.openai.com/v1",
         keyPlaceholder: "sk-proj-...",
         keyUrl: "https://platform.openai.com/api-keys",
         isFree: false,
         type: "openai-compatible"
     },
+    xai: {
+        id: "xai",
+        name: "xAI Grok (Elon Musk — Grok 2)",
+        badge: "Thông minh, sắc bén, dữ liệu thời gian thực",
+        defaultModel: "grok-2-latest",
+        models: [
+            "grok-2-latest",
+            "grok-2-vision-1212",
+            "grok-beta"
+        ],
+        baseUrl: "https://api.x.ai/v1",
+        keyPlaceholder: "xai-...",
+        keyUrl: "https://console.x.ai",
+        isFree: false,
+        type: "openai-compatible"
+    },
+    mistral: {
+        id: "mistral",
+        name: "Mistral AI (Châu Âu — Siêu Tinh Tế)",
+        badge: "Hàng đầu châu Âu · Tối ưu logic",
+        defaultModel: "mistral-large-latest",
+        models: [
+            "mistral-large-latest",
+            "mistral-small-latest",
+            "codestral-latest",
+            "open-mistral-nemo"
+        ],
+        baseUrl: "https://api.mistral.ai/v1",
+        keyPlaceholder: "...",
+        keyUrl: "https://console.mistral.ai/api-keys",
+        isFree: false,
+        type: "openai-compatible"
+    },
     custom: {
         id: "custom",
-        name: "Custom / Ollama Local (Offline)",
+        name: "Custom / Ollama Local (Offline trên máy tính)",
         badge: "0đ vĩnh viễn · Chạy trên máy",
         defaultModel: "llama3",
         models: ["llama3", "qwen2.5", "mistral", "gemma2"],
@@ -457,21 +533,103 @@ export async function callOpenAiCompatible(userMessage, kb, defaultBaseUrl = 'ht
     }
 }
 
-// 3. Dispatcher điều phối gọi Model theo đúng Nền tảng được chọn
+// 3. Anthropic Claude API (Claude 3.7 Sonnet, Claude 3.5 Sonnet, Haiku, Opus)
+export async function callAnthropicClaude(userMessage, kb, conversationHistory = []) {
+    const aiConfig = kb.aiConfig || kb.gptConfig || {};
+    const apiKey = (aiConfig.apiKey || process.env.ANTHROPIC_API_KEY || '').trim();
+    if (!apiKey) {
+        throw new Error('Chưa cấu hình Anthropic Claude API Key (bắt đầu bằng sk-ant-...). Hãy tạo key tại https://console.anthropic.com!');
+    }
+
+    const model = (aiConfig.model || 'claude-3-5-sonnet-20241022').trim();
+    const temperature = Number(aiConfig.temperature ?? 0.7);
+    const maxTokens = Number(aiConfig.maxTokens ?? 1000);
+    const systemPrompt = buildAiSystemPrompt(kb);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20000);
+
+    const messages = [];
+    if (Array.isArray(conversationHistory) && conversationHistory.length > 0) {
+        for (const msg of conversationHistory.slice(-8)) {
+            messages.push({
+                role: msg.role === 'model' || msg.role === 'assistant' ? 'assistant' : 'user',
+                content: msg.text
+            });
+        }
+    }
+    messages.push({ role: 'user', content: userMessage });
+
+    try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model: model,
+                system: systemPrompt,
+                messages: messages,
+                max_tokens: maxTokens,
+                temperature: temperature
+            }),
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            const errMsg = errData.error?.message || `HTTP ${response.status}: ${response.statusText}`;
+            throw new Error(`Anthropic Claude Error: ${errMsg}`);
+        }
+
+        const data = await response.json();
+        const reply = data.content?.find(c => c.type === 'text')?.text?.trim();
+        if (!reply) {
+            throw new Error('Mô hình Claude không trả về câu trả lời hợp lệ.');
+        }
+
+        return {
+            reply,
+            model: data.model || model,
+            provider: 'Anthropic Claude',
+            usage: data.usage
+        };
+    } catch (err) {
+        clearTimeout(timeoutId);
+        throw err;
+    }
+}
+
+// 4. Dispatcher điều phối gọi Model theo đúng Nền tảng được chọn
 export async function callAiModel(userMessage, kb, conversationHistory = []) {
     const aiConfig = kb.aiConfig || kb.gptConfig || {};
     let provider = aiConfig.provider || 'gemini';
     const apiKey = (aiConfig.apiKey || '').trim();
 
-    // TỰ ĐỘNG CHUẨN HÓA: Nếu dán key Google Gemini (AIzaSy...) nhưng dropdown đang để Groq (hoặc ngược lại)
+    // TỰ ĐỘNG CHUẨN HÓA THEO TIỀN TỐ API KEY
     if (apiKey.startsWith('AIzaSy') && provider !== 'gemini') {
         provider = 'gemini';
     } else if (apiKey.startsWith('gsk_') && provider !== 'groq') {
         provider = 'groq';
+    } else if (apiKey.startsWith('sk-ant-') && provider !== 'claude') {
+        provider = 'claude';
+    } else if (apiKey.startsWith('xai-') && provider !== 'xai') {
+        provider = 'xai';
+    } else if (apiKey.startsWith('sk-or-') && provider !== 'openrouter') {
+        provider = 'openrouter';
     }
 
+    // Phân luồng thực thi
     if (provider === 'gemini') {
         return await callGoogleGemini(userMessage, { ...kb, aiConfig: { ...aiConfig, provider: 'gemini' } }, conversationHistory);
+    }
+
+    if (provider === 'claude' || provider === 'anthropic') {
+        return await callAnthropicClaude(userMessage, { ...kb, aiConfig: { ...aiConfig, provider: 'claude' } }, conversationHistory);
     }
 
     const providerDef = AI_PROVIDERS[provider] || AI_PROVIDERS.openai;
