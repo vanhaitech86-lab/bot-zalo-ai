@@ -5435,6 +5435,13 @@
                         👉 <strong>Cách khắc phục Miễn Phí 100% (Không tốn tiền):</strong><br/>
                         • <strong>Cách 1:</strong> Vào <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey ↗</a> ➡️ Bấm <strong>Create API key</strong> ➡️ Chọn <strong>"Create API key in new project"</strong> (Tạo dự án mới hoàn toàn KHÔNG gắn billing để nhận 1.500 lượt chat/ngày Free 100%).<br/>
                         • <strong>Cách 2 (Khuyên dùng):</strong> Đổi Nền tảng AI sang <strong>⚡ GroqCloud LPU</strong> (Lấy key tại <a href="https://console.groq.com/keys" target="_blank" style="color: #D97706; font-weight:700;">console.groq.com/keys ↗</a>) — Miễn phí 100% trọn đời, phản hồi siêu tốc 0.3s!`;
+                    } else if (errMsg.toLowerCase().includes('insufficient balance') || errMsg.toLowerCase().includes('insufficient_quota')) {
+                        metaEl.innerHTML = `⚠️ <strong>Tài khoản ${provMeta.name} của bạn đã hết số dư khả dụng (Insufficient Balance).</strong><br/>
+                        👉 <strong>Cách dùng DeepSeek / AI MIỄN PHÍ 100% không tốn tiền:</strong><br/>
+                        • <strong>Cách 1 (Khuyên dùng số 1 - Siêu tốc 0.3s):</strong> Đổi Nền tảng AI sang <strong>⚡ GroqCloud LPU</strong> ➡️ Chọn mô hình <code>deepseek-r1-distill-llama-70b</code> (Chính là DeepSeek R1 chạy trên siêu chip LPU Groq, <strong>MIỄN PHÍ 100% trọn đời</strong> không giới hạn!). Lấy key tại: <a href="https://console.groq.com/keys" target="_blank" style="color: #D97706; font-weight:700;">console.groq.com/keys ↗</a>.<br/>
+                        • <strong>Cách 2:</strong> Đổi sang <strong>🌐 OpenRouter.ai</strong> ➡️ Chọn model <code>deepseek/deepseek-r1:free</code> (Lấy key tại: <a href="https://openrouter.ai/keys" target="_blank" style="color: #3B82F6; font-weight:700;">openrouter.ai/keys ↗</a>).<br/>
+                        • <strong>Cách 3:</strong> Đổi sang <strong>Google Gemini</strong> nhận 1.500 lượt chat/ngày Miễn phí 100% tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #059669; font-weight:700;">aistudio.google.com/app/apikey ↗</a>.<br/>
+                        • <strong>Cách 4:</strong> Nếu vẫn muốn dùng tiếp tài khoản DeepSeek hiện tại, bạn có thể nạp tối thiểu $2 tại: <a href="https://platform.deepseek.com/top_up" target="_blank" style="color: #2563EB; font-weight:700;">platform.deepseek.com/top_up ↗</a>.`;
                     } else {
                         metaEl.innerHTML = `Gợi ý: Kiểm tra lại API Key của ${provMeta.name}. Nếu chưa có key, bạn có thể lấy key miễn phí từ liên kết bên trên.`;
                     }
