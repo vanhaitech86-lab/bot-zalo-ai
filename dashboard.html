@@ -3471,7 +3471,41 @@
             renderTrialLeads();
         }
 
-        function renderTrialLeads() {
+        let isSyncingLeads = false;
+        async function syncOnlineLeadsToDashboard() {
+            if (isSyncingLeads) return;
+            isSyncingLeads = true;
+            try {
+                const res = await fetch('/api/sync-leads');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && Array.isArray(data.leads) && data.leads.length > 0) {
+                        let curLeads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');
+                        const seen = new Set(curLeads.map(l => l.id || (l.phone + '_' + (l.createdAt || ''))));
+                        let hasNew = false;
+                        for (const lead of data.leads) {
+                            const key = lead.id || (lead.phone + '_' + (lead.createdAt || ''));
+                            if (!seen.has(key)) {
+                                curLeads.unshift(lead);
+                                seen.add(key);
+                                hasNew = true;
+                            }
+                        }
+                        if (hasNew) {
+                            localStorage.setItem('zalobot_trial_leads', JSON.stringify(curLeads));
+                            renderTrialLeads(true);
+                        }
+                    }
+                }
+            } catch (_) {}
+            isSyncingLeads = false;
+        }
+
+        function renderTrialLeads(skipSync = false) {
+            if (!skipSync) {
+                syncOnlineLeadsToDashboard();
+            }
+
             let leads = [];
             try {
                 leads = JSON.parse(localStorage.getItem('zalobot_trial_leads') || '[]');

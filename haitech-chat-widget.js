@@ -473,12 +473,9 @@
         sendMessage(chatInput.value);
     });
 
-    // Bấm chip gợi ý nhanh
-    document.querySelectorAll('.haitech-prompt-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            const prompt = chip.getAttribute('data-text');
-            sendMessage(prompt);
-        });
-    });
+    // Cho phép gọi mở khung chat từ bất kỳ đâu trên trang web
+    window.openHaitechChat = function () {
+        toggleChat(true);
+    };
 
 })();

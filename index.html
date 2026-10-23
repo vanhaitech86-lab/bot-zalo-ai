@@ -607,11 +607,46 @@
                     </button>
                     <p class="lp-trial-guarantee">Cam kết bảo mật thông tin · Hỗ trợ kỹ thuật 1-1 qua Zalo</p>
                 </form>
-                <div id="pt_success_box" style="display:none; text-align:center; padding:15px; background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:12px; margin-top:15px;">
-                    <div style="font-size:26px; margin-bottom:4px;">🎉</div>
-                    <h4 style="color:#15803D; margin-bottom:6px; font-size:16px;">Đăng ký dùng thử thành công!</h4>
-                    <p style="font-size:13px; color:#166534; margin-bottom:12px;" id="pt_success_msg">Mã kích hoạt của bạn đã sẵn sàng. Chuyển đến màn hình Dashboard để nạp dữ liệu và kết nối Zalo.</p>
-                    <a href="dashboard.html" style="display:inline-block; background:#16A34A; color:white; padding:9px 18px; border-radius:8px; font-size:13px; font-weight:700; text-decoration:none;">Vào Dashboard Quản Lý Ngay →</a>
+                <div id="pt_success_box" style="display:none; text-align:center; padding:22px 18px; background:#F0FDF4; border:2px solid #86EFAC; border-radius:18px; margin-top:20px; box-shadow:0 10px 25px rgba(22,163,74,0.12);">
+                    <div style="font-size:36px; margin-bottom:6px;">🎉</div>
+                    <h4 style="color:#15803D; margin-bottom:8px; font-size:19px; font-weight:800;">ĐÃ ĐĂNG KÝ GÓI TRẢI NGHIỆM 7 NGÀY THÀNH CÔNG!</h4>
+                    <p style="font-size:14px; color:#166534; margin-bottom:16px; line-height:1.6;" id="pt_success_msg"></p>
+
+                    <!-- Hộp Hướng Dẫn Sử Dụng Bot Ngay -->
+                    <div style="background:white; border:1.5px solid #BBF7D0; border-radius:14px; padding:16px; margin-bottom:16px; text-align:left;">
+                        <div style="font-weight:700; color:#166534; font-size:14px; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                            <span>⚡</span> CÁCH BẮT ĐẦU SỬ DỤNG BOT NGAY BÂY GIỜ:
+                        </div>
+                        <ul style="font-size:13px; color:#374151; padding-left:20px; line-height:1.8; margin:0 0 14px;">
+                            <li><strong>Cách 1 (Test thử trí tuệ Bot ngay):</strong> Bấm nút Zalo bên dưới để chat trực tiếp với Trợ lý AI (phản hồi trong 0.5 giây), hoặc bấm nút Chat Ngay Trên Web.</li>
+                            <li><strong>Cách 2 (Cài Bot cho chính Zalo của bạn):</strong> Vì chính sách bảo mật Zalo, chuyên viên HAITECH BOT sẽ kết nối Zalo hỗ trợ bạn quét mã kích hoạt trong 3 phút. Hoặc bạn bấm nút kết nối Zalo bên dưới để được kích hoạt ngay!</li>
+                        </ul>
+
+                        <!-- Các Nút Hành Động Trực Tiếp -->
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <a id="pt_btn_chat_zalo" href="https://zalo.me/0988739896" target="_blank" style="display:flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg, #0068FF, #0091FF); color:white; padding:12px 18px; border-radius:10px; font-size:14px; font-weight:700; text-decoration:none; box-shadow:0 4px 12px rgba(0,104,255,0.3);">
+                                💬 BẤM CHAT THỬ VỚI BOT TRÊN ZALO NGAY →
+                            </a>
+                            <button type="button" onclick="if(window.openHaitechChat){window.openHaitechChat();}else{alert('Vui lòng bấm biểu tượng trò chuyện màu xanh ở góc phải dưới màn hình để chat thử!');}" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#0284C7; color:white; padding:12px 18px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer;">
+                                🤖 THỬ CHAT VỚI TRỢ LÝ AI TRÊN TRANG WEB NÀY
+                            </button>
+                            <a href="tel:0988739896" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#10B981; color:white; padding:10px 18px; border-radius:10px; font-size:13.5px; font-weight:700; text-decoration:none;">
+                                📞 GỌI HOTLINE HỖ TRỢ KÍCH HOẠT: 0988 739 896
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Hướng dẫn dự phòng nếu Zalo bị chặn tìm kiếm -->
+                    <div style="background:#FEF3C7; border:1px solid #FCD34D; border-radius:12px; padding:12px 14px; text-align:left; font-size:12.5px; color:#92400E; margin-bottom:14px;">
+                        <div style="font-weight:700; margin-bottom:4px;">⚠️ Lưu ý nếu mở link Zalo báo "không cho phép tìm kiếm":</div>
+                        Nếu mở link Zalo trên máy tính báo <em>"Tài khoản không cho phép tìm kiếm"</em>, bạn chỉ cần <strong>mở ứng dụng Zalo trên điện thoại ➡️ Bấm dấu [+] góc trên bên phải ➡️ Chọn Quét mã QR</strong> để quét mã bên dưới kết nối trực tiếp:
+                        <div style="text-align:center; margin-top:10px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://zalo.me/0988739896" alt="Mã QR Zalo 0988739896" style="width:140px; height:140px; border-radius:10px; border:2px solid #D97706; background:white; padding:4px;" />
+                            <div style="font-size:11.5px; color:#78350F; margin-top:4px;">Mã QR Zalo Kỹ Thuật (0988 739 896)</div>
+                        </div>
+                    </div>
+
+                    <a href="dashboard.html" style="display:inline-block; color:#059669; font-size:13px; font-weight:600; text-decoration:underline;">Hoặc mở Bảng điều khiển Quản trị (Dashboard) →</a>
                 </div>
             </div>
         </div>
@@ -1212,36 +1247,33 @@
                 console.warn('Cannot write localStorage:', err);
             }
 
-            // Mailto notification backup
-            const mailSubject = encodeURIComponent(`[ĐĂNG KÝ TRẢI NGHIỆM] ${name} - ${shop} (${phone})`);
-            const mailBody = encodeURIComponent(
-                `Khách hàng đăng ký dùng thử 7 ngày Bot Zalo:\n\n` +
-                `- Họ tên: ${name}\n` +
-                `- SĐT Zalo: ${phone}\n` +
-                `- Email: ${email || 'Chưa cập nhật'}\n` +
-                `- Shop/Doanh nghiệp: ${shop}\n` +
-                `- Ngành nghề: ${industry}\n` +
-                `- Mã kích hoạt: ${trialKey}\n` +
-                `- Người giới thiệu (Affiliate): ${newLead.referredBy || 'Trực tiếp'}\n` +
-                `- Thời hạn 7 ngày đến: ${exp.toLocaleDateString('vi-VN')}`
-            );
-            // Non-blocking mail trigger
-            const mailLink = document.createElement('a');
-            mailLink.href = `mailto:vanhaitech.86@gmail.com?subject=${mailSubject}&body=${mailBody}`;
-            mailLink.style.display = 'none';
-            document.body.appendChild(mailLink);
-            setTimeout(() => {
-                mailLink.click();
-                mailLink.remove();
-            }, 600);
+            // Sync to Online Server API (Cloud / Hosting 24/7)
+            try {
+                fetch('/api/sync-leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newLead)
+                }).catch(err => console.warn('Sync lead API error:', err));
+            } catch (_) {}
 
             setTimeout(() => {
                 document.getElementById('publicTrialForm').style.display = 'none';
                 const successBox = document.getElementById('pt_success_box');
                 const successMsg = document.getElementById('pt_success_msg');
-                successMsg.innerHTML = `Xin chúc mừng <strong>${name}</strong> (${shop})!<br/>Mã kích hoạt của bạn: <strong style="color:#0077B6; font-size:15px;">${trialKey}</strong><br/>Thời hạn dùng thử miễn phí: <strong>${exp.toLocaleDateString('vi-VN')}</strong> (7 ngày).`;
+                if (successMsg) {
+                    successMsg.innerHTML = `Xin chúc mừng <strong>${name}</strong> (${shop})!<br/>Mã kích hoạt bản quyền: <strong style="color:#0077B6; font-size:16px; background:#E0F2FE; padding:2px 8px; border-radius:6px;">${trialKey}</strong> &bull; Thời hạn trải nghiệm 7 ngày đến: <strong>${exp.toLocaleDateString('vi-VN')}</strong>.`;
+                }
+
+                // Cập nhật link Zalo kèm tin nhắn soạn sẵn
+                const zaloBtn = document.getElementById('pt_btn_chat_zalo');
+                if (zaloBtn) {
+                    const zaloMsg = encodeURIComponent(`Chào bạn, mình là ${name} (Shop: ${shop}, SĐT: ${phone}). Mình vừa đăng ký dùng thử Bot AI 7 ngày (Mã: ${trialKey}). Bạn hỗ trợ kết nối kích hoạt cho mình nhé!`);
+                    zaloBtn.href = `https://zalo.me/0988739896?text=${zaloMsg}`;
+                }
+
                 successBox.style.display = 'block';
-            }, 800);
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 600);
         }
 
         // ==========================================
