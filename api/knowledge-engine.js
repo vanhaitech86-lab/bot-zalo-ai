@@ -197,10 +197,11 @@ export const AI_PROVIDERS = {
 export const DEFAULT_KNOWLEDGE = {
     botName: "Em Thùy Linh - Trợ lý HAITECH BOT",
     brandName: "HAITECH BOT STUDIO",
-    phone: "0988 739 896",
+    phone: "0965 488 528",
+    hotline: "0988 739 896",
     email: "vanhaitech.86@gmail.com",
-    welcomeMessage: "Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT. Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
-    defaultContact: "Dạ anh/chị có thể liên hệ ngay hotline/Zalo: 0988 739 896 để gặp trực tiếp chuyên viên tư vấn 24/7 ạ!",
+    welcomeMessage: "Dạ em chào anh/chị ạ! Em là Thùy Linh - Trợ lý AI của HAITECH BOT (Zalo em: 0965 488 528). Em có thể hỗ trợ tư vấn thông tin gì cho anh/chị hôm nay ạ? 😊",
+    defaultContact: "Dạ anh/chị có thể liên hệ ngay qua Zalo này (0965 488 528) hoặc gọi trực tiếp Hotline kỹ thuật: 0988 739 896 để gặp chuyên viên tư vấn 24/7 ạ!",
     aiConfig: {
         provider: "gemini", // "gemini" | "groq" | "openrouter" | "deepseek" | "openai" | "custom"
         enabled: true,
@@ -227,7 +228,7 @@ export const DEFAULT_KNOWLEDGE = {
         },
         {
             keywords: ["hotline", "số điện thoại", "sđt", "liên hệ", "địa chỉ", "ở đâu"],
-            reply: "Dạ thông tin liên hệ chính thức của bên em:\n📞 Hotline/Zalo: 0988 739 896\n✉️ Email: vanhaitech.86@gmail.com\nAnh/chị có thể gọi ngay hoặc để lại tin nhắn em hỗ trợ tư vấn ngay ạ!"
+            reply: "Dạ thông tin liên hệ chính thức của bên em:\n📱 Zalo Trợ lý Thùy Linh: 0965 488 528\n📞 Hotline kỹ thuật: 0988 739 896\n✉️ Email: vanhaitech.86@gmail.com\nAnh/chị có thể gọi ngay hoặc để lại tin nhắn em hỗ trợ tư vấn ngay ạ!"
         },
         {
             keywords: ["lắp đặt", "giao hàng", "ship", "vận chuyển"],

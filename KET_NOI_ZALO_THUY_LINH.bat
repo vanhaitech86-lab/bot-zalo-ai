@@ -7,14 +7,14 @@ echo =====================================================================
 echo       HAITECH BOT - KHỞI TẠO TRỢ LÝ THÙY LINH RIÊNG BIỆT
 echo =====================================================================
 echo.
-echo  ✅ Zalo chính của bạn đã được ngắt kết nối an toàn 100%.
-echo  🌸 Tài khoản này sẽ dành riêng cho Em Thùy Linh (Trợ lý AI 24/7).
+echo  ✅ Zalo chính của bạn (0988 739 896) hoàn toàn độc lập và an toàn 100%.
+echo  🌸 Tài khoản này sẽ dành riêng cho Em Thùy Linh (SĐT Zalo: 0965 488 528).
 echo.
-echo  👉 CÁC BƯỚC CHUẨN BỊ (Chỉ làm 1 lần):
-echo     1. Chuẩn bị 1 tài khoản Zalo phụ (dùng SIM 2 hoặc SIM phụ).
-echo     2. Đặt Tên hiển thị Zalo: "Em Thùy Linh - Trợ lý HAITECH"
-echo     3. Cài Avatar: Sử dụng ảnh "AVATAR_THUY_LINH.jpg" có sẵn trong thư mục.
-echo     4. Lấy ứng dụng Zalo Thùy Linh quét mã QR sắp hiện ra bên dưới.
+echo  👉 CÁC BƯỚC KẾT NỐI (Chỉ làm 1 lần):
+echo     1. Đăng nhập Zalo số điện thoại: 0965 488 528 trên điện thoại.
+echo     2. Đặt Tên hiển thị Zalo: "Em Thùy Linh - Trợ lý AI"
+echo     3. Cài Avatar: Sử dụng ảnh "AVATAR_THUY_LINH.png" có sẵn trong thư mục.
+echo     4. Lấy Zalo (0965 488 528) quét mã QR sắp hiện ra bên dưới để kích hoạt Bot!
 echo.
 echo =====================================================================
 echo.

@@ -276,7 +276,7 @@ function loadKnowledge() {
         console.warn("⚠️ Chưa đọc được knowledge.json, dùng cấu hình mặc định.");
         knowledge = {
             botName: "Em Thùy Linh - Trợ lý HAITECH BOT",
-            phone: "0988739896",
+            phone: "0965488528",
             rules: []
         };
     }
@@ -427,7 +427,7 @@ function createAndOpenQRPage(base64Image) {
 
     <div class="steps">
       <ol>
-        <li>Mở ứng dụng <b>Zalo</b> trên điện thoại (số 0988 739 896)</li>
+        <li>Mở ứng dụng <b>Zalo</b> trên điện thoại (số ${knowledge.channels?.zaloPersonal?.phone || knowledge.phone || '0965 488 528'})</li>
         <li>Nhấn biểu tượng <b>Quét mã QR</b> ở góc trên cùng bên phải</li>
         <li>Hướng camera điện thoại vào mã QR này</li>
         <li>Nhấn <b>Đăng nhập</b> (hoặc <b>Xác nhận</b>) trên điện thoại</li>
@@ -549,8 +549,8 @@ async function startBot() {
     // 4.3. Đăng nhập thành công, bắt đầu nhận diện và trả lời tin nhắn
     console.log("\n=================================================================");
     console.log("🎉 HAITECH BOT - TRỢ LÝ THÙY LINH ĐÃ SẴN SÀNG HOẠT ĐỘNG 100%!");
-    console.log(`🟢 TRẠNG THÁI HIỆN TẠI: ${isBotActive ? 'ĐANG BẬT (Trực 24/7)' : 'ĐANG TẮT (Tạm dừng)'}`);
-    console.log(`📞 Số điện thoại hotline: ${knowledge.phone || "0988 739 896"}`);
+    console.log(`📞 Số điện thoại Zalo:   ${knowledge.channels?.zaloPersonal?.phone || knowledge.phone || "0965 488 528"}`);
+    console.log(`☎️ Hotline kỹ thuật:     ${knowledge.hotline || "0988 739 896"}`);
     console.log("-----------------------------------------------------------------");
     console.log("📱 ĐIỀU KHIỂN TỪ ĐIỆN THOẠI (Qua 'Cloud của tôi' / My Documents / Truyền File):");
     console.log("   👉 Nhắn '#tat' hoặc '#tatbot': Tạm dừng trợ lý Thùy Linh (tự chat tay với khách)");
@@ -728,7 +728,7 @@ async function startBot() {
                     ...knowledge,
                     aiConfig: {
                         ...(knowledge.aiConfig || {}),
-                        systemPrompt: `Bạn là 'Em Thùy Linh', thư ký và trợ lý AI riêng đắc lực, thông minh, tận tâm của anh Nguyễn Văn Hải (Nhà sáng lập HaiTech AI - Hotline/Zalo: 0988 739 896).
+                        systemPrompt: `Bạn là 'Em Thùy Linh', thư ký và trợ lý AI riêng đắc lực, thông minh, tận tâm của anh Nguyễn Văn Hải (Nhà sáng lập HaiTech AI - Hotline kỹ thuật: 0988 739 896 - Số Zalo của bạn: 0965 488 528).
 Hiện tại bạn ĐANG LÀM VIỆC TRỰC TIẾP VỚI ANH HẢI (SẾP / CHỦ NHÂN CỦA BẠN) trong kênh riêng tư 'Cloud của tôi'.
 
 QUY TẮC PHỤC VỤ ANH HẢI:

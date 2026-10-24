@@ -36,6 +36,15 @@ function removeAccents(str) {
         .toUpperCase();
 }
 
+function getArg(flag, defaultVal = '') {
+    const idx = process.argv.indexOf(flag);
+    if (idx !== -1 && idx + 1 < process.argv.length) {
+        return process.argv[idx + 1];
+    }
+    return defaultVal;
+}
+const hasFlag = (flag) => process.argv.includes(flag);
+
 async function main() {
     console.log('\n=====================================================================');
     console.log('🚀 HAITECH BOT STUDIO - CÔNG CỤ TẠO BOT RIÊNG CHO TỪNG KHÁCH HÀNG');
@@ -56,26 +65,35 @@ async function main() {
         }
     }
 
-    // 1. Nhập thông tin khách hàng
-    const rawShopName = await ask('1️⃣ Tên Shop / Tên Doanh nghiệp của khách (Ví dụ: Shop Hoa Mai Anh, Salon Tóc Ken)', 'Shop Khách Hàng A');
+    // 1. Nhập thông tin khách hàng (Hỗ trợ cả CLI args và Interactive)
+    const argShop = getArg('--shop');
+    const rawShopName = argShop || await ask('1️⃣ Tên Shop / Tên Doanh nghiệp của khách (Ví dụ: Shop Hoa Mai Anh, Salon Tóc Ken)', 'Shop Khách Hàng A');
     const folderCode = removeAccents(rawShopName) || 'KHACH_HANG_A';
     
     const defaultTargetDir = path.join(path.dirname(__dirname), `BOT_${folderCode}`);
-    const customDir = await ask(`2️⃣ Đường dẫn thư mục tạo Bot`, defaultTargetDir);
+    const argDir = getArg('--dir');
+    const customDir = argDir || (argShop ? defaultTargetDir : await ask(`2️⃣ Đường dẫn thư mục tạo Bot`, defaultTargetDir));
     const targetDir = path.resolve(customDir);
 
-    const clientPhone = await ask('3️⃣ Số điện thoại Hotline / Zalo của khách', '0988 739 896');
-    const assistantName = await ask('4️⃣ Tên Trợ lý AI đại diện cho Shop', `Em Thùy Linh - Trợ lý ${rawShopName}`);
+    const clientPhone = getArg('--phone') || (argShop ? '0988 739 896' : await ask('3️⃣ Số điện thoại Hotline / Zalo của khách', '0988 739 896'));
+    const assistantName = getArg('--assistant') || (argShop ? `Em Thùy Linh - Trợ lý ${rawShopName}` : await ask('4️⃣ Tên Trợ lý AI đại diện cho Shop', `Em Thùy Linh - Trợ lý ${rawShopName}`));
 
-    console.log('\n5️⃣ Chọn ngành hàng kinh doanh của khách:');
-    console.log('   [1] Bán lẻ / Thời trang / Mỹ phẩm / Phụ kiện');
-    console.log('   [2] Dịch vụ / Spa / Nha khoa / Thẩm mỹ');
-    console.log('   [3] Bất động sản / Dự án / Xây dựng');
-    console.log('   [4] Nhà hàng / Cafe / Ăn uống');
-    console.log('   [5] Chung / Khác');
-    const industryChoice = await ask('👉 Chọn số (1-5)', '1');
+    let industryChoice = getArg('--industry');
+    if (!industryChoice) {
+        if (argShop) {
+            industryChoice = '1';
+        } else {
+            console.log('\n5️⃣ Chọn ngành hàng kinh doanh của khách:');
+            console.log('   [1] Bán lẻ / Thời trang / Mỹ phẩm / Phụ kiện');
+            console.log('   [2] Dịch vụ / Spa / Nha khoa / Thẩm mỹ');
+            console.log('   [3] Bất động sản / Dự án / Xây dựng');
+            console.log('   [4] Nhà hàng / Cafe / Ăn uống');
+            console.log('   [5] Chung / Khác');
+            industryChoice = await ask('👉 Chọn số (1-5)', '1');
+        }
+    }
 
-    const onlineWebhook = await ask('6️⃣ Link Webhook lưu trữ Online (Google Sheets / Cloud API, bấm Enter nếu để trống)', '');
+    const onlineWebhook = getArg('--webhook') || (argShop ? '' : await ask('6️⃣ Link Webhook lưu trữ Online (Google Sheets / Cloud API, bấm Enter nếu để trống)', ''));
 
     console.log('\n---------------------------------------------------------------------');
     console.log(`📁 Thư mục sẽ tạo: "${targetDir}"`);
@@ -85,7 +103,7 @@ async function main() {
     if (onlineWebhook) console.log(`☁️ Webhook Online: "${onlineWebhook}"`);
     console.log('---------------------------------------------------------------------\n');
 
-    const confirm = await ask('❓ Bạn có chắc chắn muốn khởi tạo? (y/n)', 'y');
+    const confirm = (hasFlag('--yes') || hasFlag('-y') || argShop) ? 'y' : await ask('❓ Bạn có chắc chắn muốn khởi tạo? (y/n)', 'y');
     if (confirm.toLowerCase() !== 'y' && confirm.toLowerCase() !== 'yes') {
         console.log('❌ Đã hủy thao tác.');
         rl.close();
@@ -198,7 +216,7 @@ async function main() {
     console.log(`   2. Khách dùng Zalo điện thoại quét mã QR -> Bấm Cho phép đăng nhập.`);
     console.log('   3. Bot sẽ tự động trực 24/7 trên Zalo của khách và lưu khách hàng online!\n');
 
-    const openQRNow = await ask('❓ Bạn có muốn MỞ MÃ QR CHO KHÁCH HÀNG NÀY NGAY BÂY GIỜ không? (y/n)', 'y');
+    const openQRNow = hasFlag('--no-qr') ? 'n' : (hasFlag('--open-qr') ? 'y' : await ask('❓ Bạn có muốn MỞ MÃ QR CHO KHÁCH HÀNG NÀY NGAY BÂY GIỜ không? (y/n)', 'y'));
     if (openQRNow.toLowerCase() === 'y' || openQRNow.toLowerCase() === 'yes') {
         console.log('\n🚀 Đang khởi động tiến trình tạo mã QR...');
         const batToRun = path.join(targetDir, 'KET_NOI_ZALO_THUY_LINH.bat');
