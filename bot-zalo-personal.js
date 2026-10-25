@@ -319,6 +319,82 @@ function generateReply(userMessage) {
     return `Dạ em là ${knowledge.botName || "HAITECH BOT"}. Em đã nhận được tin nhắn của anh/chị: "${userMessage}". Để được tư vấn chi tiết nhất, anh/chị vui lòng gọi hoặc nhắn Zalo hotline: ${knowledge.phone || "0988 739 896"} nhé ạ! Cảm ơn anh/chị! 🙏`;
 }
 
+let isBrowserOpenedForQR = false;
+
+function createSuccessQRPage() {
+    const htmlSuccess = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAITECH BOT - Đăng nhập Zalo thành công!</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0b132b;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #1c2541;
+      padding: 40px 32px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      border: 1px solid #10b981;
+    }
+    .icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 12px 0;
+      color: #34d399;
+    }
+    p {
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 8px 0;
+    }
+    .status-pill {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 8px 18px;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10b981;
+      color: #34d399;
+      font-weight: 700;
+      border-radius: 9999px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🎉</div>
+    <h1>ĐĂNG NHẬP THÀNH CÔNG!</h1>
+    <p>Trợ lý AI Thùy Linh đã kết nối Zalo thành công và đang trực chiến 24/7.</p>
+    <div class="status-pill">🟢 Bot đang hoạt động trực tuyến</div>
+    <p style="color:#94a3b8;font-size:13px;margin-top:20px;">Bạn có thể an tâm đóng tab trình duyệt này lại.</p>
+  </div>
+</body>
+</html>`;
+    try {
+        fs.writeFileSync(QR_HTML_FILE, htmlSuccess, "utf8");
+    } catch (e) {}
+}
+
 // 3. Hàm tạo file HTML hiển thị mã QR đẹp mắt và mở trình duyệt
 function createAndOpenQRPage(base64Image) {
     const htmlContent = `<!DOCTYPE html>
@@ -326,6 +402,7 @@ function createAndOpenQRPage(base64Image) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="12">
   <title>HAITECH BOT - Quét mã QR đăng nhập Zalo</title>
   <style>
     * { box-sizing: border-box; }
@@ -371,7 +448,7 @@ function createAndOpenQRPage(base64Image) {
     p {
       color: #94a3b8;
       font-size: 14px;
-      margin: 0 0 24px 0;
+      margin: 0 0 20px 0;
       line-height: 1.5;
     }
     .qr-container {
@@ -379,7 +456,7 @@ function createAndOpenQRPage(base64Image) {
       padding: 16px;
       border-radius: 20px;
       display: inline-block;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
       box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
     }
     .qr-container img {
@@ -387,6 +464,12 @@ function createAndOpenQRPage(base64Image) {
       height: 260px;
       display: block;
       image-rendering: pixelated;
+    }
+    .timer-note {
+      font-size: 12px;
+      color: #38bdf8;
+      margin-bottom: 16px;
+      font-weight: 600;
     }
     .steps {
       background: #0b132b;
@@ -419,23 +502,24 @@ function createAndOpenQRPage(base64Image) {
   <div class="card">
     <span class="badge">Động cơ Zalo 24/7</span>
     <h1>HAITECH BOT</h1>
-    <p>Vui lòng quét mã QR bên dưới bằng ứng dụng Zalo trên điện thoại của bạn</p>
+    <p>Vui lòng quét mã QR bên dưới bằng ứng dụng Zalo trên điện thoại</p>
     
     <div class="qr-container">
       <img src="${base64Image.startsWith('data:') ? base64Image : 'data:image/png;base64,' + base64Image}" alt="Mã QR Zalo">
     </div>
+    <div class="timer-note">🔄 Trang tự động làm mới để cập nhật mã QR liên tục</div>
 
     <div class="steps">
       <ol>
-        <li>Mở ứng dụng <b>Zalo</b> trên điện thoại (số ${knowledge.channels?.zaloPersonal?.phone || knowledge.phone || '0965 488 528'})</li>
-        <li>Nhấn biểu tượng <b>Quét mã QR</b> ở góc trên cùng bên phải</li>
+        <li>Mở ứng dụng <b>Zalo</b> trên điện thoại</li>
+        <li>Bấm biểu tượng <b>Quét mã QR</b> ở góc trên cùng bên phải</li>
         <li>Hướng camera điện thoại vào mã QR này</li>
-        <li>Nhấn <b>Đăng nhập</b> (hoặc <b>Xác nhận</b>) trên điện thoại</li>
+        <li>Bấm <b>Đăng nhập</b> (hoặc <b>Xác nhận</b>) trên điện thoại</li>
       </ol>
     </div>
 
     <div class="footer">
-      Sau khi quét xong, bạn có thể đóng tab này lại. Bot sẽ tự động trực 24/7.
+      Sau khi quét xong, bot sẽ tự động trực 24/7. Tab này sẽ tự thông báo thành công!
     </div>
   </div>
 </body>
@@ -444,8 +528,11 @@ function createAndOpenQRPage(base64Image) {
     try {
         fs.writeFileSync(QR_HTML_FILE, htmlContent, "utf8");
         const fullHtmlPath = path.resolve(QR_HTML_FILE);
-        // Mở trên Windows
-        exec(`cmd /c start "" "${fullHtmlPath}"`, (err) => {});
+        // Chỉ mở trình duyệt một lần duy nhất, tránh bật hàng loạt tab khi mã QR refresh
+        if (!isBrowserOpenedForQR) {
+            isBrowserOpenedForQR = true;
+            exec(`cmd /c start "" "${fullHtmlPath}"`, (err) => {});
+        }
     } catch (e) {
         console.warn("⚠️ Không thể tạo qr.html:", e.message);
     }
@@ -481,9 +568,14 @@ async function startBot() {
         try {
             api = await zalo.login(sessionData);
             console.log("✅ Đăng nhập bằng phiên cũ thành công! Không cần quét lại mã QR.");
+            createSuccessQRPage();
         } catch (err) {
-            console.log("⚠️ Phiên cũ đã hết hạn hoặc không hợp lệ. Chuẩn bị quét mã QR mới...");
+            console.log("⚠️ Phiên cũ đã hết hạn hoặc không hợp lệ. Đang làm mới và chuẩn bị quét mã QR mới...");
             api = null;
+            // Xóa phiên cũ không còn hợp lệ để tránh kiểm tra trạng thái bị nhầm
+            try {
+                if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
+            } catch (e) {}
         }
     }
 
@@ -535,6 +627,7 @@ async function startBot() {
                         try {
                             fs.writeFileSync(SESSION_FILE, JSON.stringify(event.data, null, 2), "utf8");
                             console.log("💾 Đã lưu phiên đăng nhập vào session.json cho các lần chạy sau!");
+                            createSuccessQRPage();
                         } catch (e) {}
                     }
                 }

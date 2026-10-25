@@ -14,6 +14,9 @@ cd /d "%~dp0"
 :: Đảm bảo bot-status.json luôn ở trạng thái BẬT khi khởi động
 powershell -NoProfile -Command "Set-Content -Path 'bot-status.json' -Value '{\"active\": true, \"mode\": \"smart_customer_only\", \"updatedAt\": \"' + (Get-Date).ToString('o') + '\"}' -Encoding UTF8" >nul 2>nul
 
+:: Tự động dọn dẹp tiến trình bot cũ nếu đang chạy ngầm để tránh xung đột
+powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'node.exe' -and $_.CommandLine -like '*bot-zalo-personal.js*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }" >nul 2>nul
+
 :: Kiểm tra Node.js
 where node >nul 2>nul
 if %errorlevel% neq 0 (

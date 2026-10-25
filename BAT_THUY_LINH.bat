@@ -8,6 +8,9 @@ cd /d "%~dp0"
 :: Đảm bảo trạng thái luôn BẬT và Chế độ Tiếp khách thông minh
 powershell -NoProfile -Command "Set-Content -Path 'bot-status.json' -Value '{\"active\": true, \"mode\": \"smart_customer_only\", \"updatedAt\": \"' + (Get-Date).ToString('o') + '\"}' -Encoding UTF8" >nul 2>nul
 
+:: Tự động dọn dẹp tiến trình bot cũ nếu đang chạy ngầm để tránh xung đột
+powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'node.exe' -and $_.CommandLine -like '*bot-zalo-personal.js*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }" >nul 2>nul
+
 echo =====================================================================
 echo          🌸 EM THÙY LINH — TRỢ LÝ RIÊNG CỦA ANH NGUYỄN VĂN HẢI
 echo =====================================================================

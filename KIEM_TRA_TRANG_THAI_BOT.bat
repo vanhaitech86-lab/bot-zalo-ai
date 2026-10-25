@@ -25,7 +25,7 @@ echo.
 if exist "session.json" (
     echo  🔑 Phiên Zalo: ĐÃ LƯU SẴN (Tự động đăng nhập không cần quét lại QR)
 ) else (
-    echo  ⚠️ Phiên Zalo: CHƯA CÓ (Cần quét mã QR khi bật lần đầu)
+    echo  ⚠️ Phiên Zalo: CHƯA CÓ HOẶC HẾT HẠN (Cần quét mã QR khi bấm Bật Bot)
 )
 
 echo.

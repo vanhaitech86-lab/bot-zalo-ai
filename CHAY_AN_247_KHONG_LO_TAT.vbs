@@ -10,6 +10,16 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 currentDir = fso.GetParentFolderName(WScript.ScriptFullName)
 WshShell.CurrentDirectory = currentDir
 
+' Kiểm tra nếu chưa có phiên đăng nhập thì yêu cầu quét QR trước
+If Not fso.FileExists(currentDir & "\session.json") Then
+    WScript.Echo "⚠️ [CHÚ Ý] CHƯA CÓ PHIÊN ĐĂNG NHẬP HOẶC PHIÊN ZALO ĐÃ HẾT HẠN!" & vbCrLf & vbCrLf & _
+                 "👉 Để kết nối Zalo, vui lòng bấm mở file:" & vbCrLf & _
+                 "   'BAT_THUY_LINH.bat' (hoặc 'CHAY_BOT_ZALO.bat')" & vbCrLf & _
+                 "để quét mã QR bằng điện thoại trước." & vbCrLf & vbCrLf & _
+                 "✅ Sau khi quét đăng nhập xong 1 lần duy nhất, bạn bấm file chạy ẩn này để bot chạy ngầm 24/7 cực kỳ tiện lợi!"
+    WScript.Quit
+End If
+
 ' Cập nhật trạng thái BẬT trực chiến 24/7
 WshShell.Run "powershell -NoProfile -Command ""Set-Content -Path 'bot-status.json' -Value '{\""active\"": true, \""mode\"": \""smart_customer_only\"", \""updatedAt\"": \""' + (Get-Date).ToString('o') + '\""}' -Encoding UTF8""", 0, True
 
