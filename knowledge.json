@@ -160,11 +160,9 @@
         "stk chuyển tiền",
         "cho số tài khoản",
         "xin số tài khoản",
-        "stk mb",
-        "stk anh hải",
         "bắn tiền vào đâu"
       ],
-      "reply": "Dạ thông tin thanh toán chính thức của HaiTech AI:\n🏦 Ngân hàng: MB Bank (Quân Đội)\n💳 Số tài khoản: 0988739896\n👤 Chủ tài khoản: NGUYEN VAN HAI\nNội dung: [Tên anh/chị] + [Dịch vụ]\nAnh/chị chuyển khoản xong nhắn em để kích hoạt triển khai ngay nhé ạ! 🚀"
+      "reply": "Dạ về thông tin thanh toán, bên em sẽ liên hệ và gửi số tài khoản kèm xác nhận gói dịch vụ riêng cho anh/chị nhé ạ! Anh/chị đang cần triển khai gói giải pháp nào ạ? 😊"
     },
     {
       "keywords": [
