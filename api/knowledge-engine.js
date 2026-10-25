@@ -700,8 +700,10 @@ export async function generateReplyAsync(userMessage, customKnowledge = null, co
     const provider = aiConfig.provider || 'gemini';
     const hasApiKey = Boolean((aiConfig.apiKey || process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY || '').trim()) || provider === 'custom';
 
-    // CHẾ ĐỘ 1: HYBRID (Ưu tiên Bộ Não 1 để trả lời nhanh <0.1s & 0đ chi phí cho các câu khớp luật)
-    if (mode === 'hybrid') {
+    // CHẾ ĐỘ 1: HYBRID (Ưu tiên Bộ Não 1 cho các câu ngắn, rõ ràng <= 60 ký tự để phản hồi tức thì <0.1s)
+    // Nếu tin nhắn là câu nói dài, chia sẻ ngữ cảnh hoặc kịch bản -> Ưu tiên Bộ Não 2 (AI) suy luận logic toàn câu!
+    const isShortQuery = textLower.length <= 60;
+    if (mode === 'hybrid' && isShortQuery) {
         if (kb.rules && Array.isArray(kb.rules)) {
             for (const rule of kb.rules) {
                 if (rule.keywords && rule.keywords.some(k => matchKeyword(textLower, k))) {
