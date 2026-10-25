@@ -13,3 +13,6 @@ DEMO_BOT_KHACH_HANG/
 BOT_*/
 danh_sach_khach_hang_thue_bot.json
 session_expired_backup.json
+
+.vercel
+.env*

@@ -21,6 +21,9 @@ echo.
 
 cd /d "%~dp0"
 
+:: Dọn dẹp tiến trình bot cũ nếu đang chạy ngầm để tránh xung đột
+powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'node.exe' -and $_.CommandLine -like '*bot-zalo-personal.js*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }" >nul 2>nul
+
 :: Đảm bảo giải phóng phiên cũ nếu có
 if exist "session.json" (
     echo [1/3] Đang làm mới phiên kết nối...
