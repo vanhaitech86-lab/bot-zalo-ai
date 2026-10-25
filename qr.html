@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HAITECH BOT - Quét Mã QR Kích Hoạt Zalo 24/7</title>
-  <link rel="icon" type="image/png" href="bot-avatar.png">
+  <meta http-equiv="refresh" content="12">
+  <title>HAITECH BOT - Quét mã QR đăng nhập Zalo</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 20px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #070D1F 0%, #0B192E 100%);
-      color: #F8FAFC;
+      background: #0b132b;
+      color: #f8fafc;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -20,82 +20,67 @@
       min-height: 100vh;
     }
     .card {
-      background: #132238;
-      padding: 36px 28px;
-      border-radius: 28px;
-      box-shadow: 0 25px 60px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.15);
+      background: #1c2541;
+      padding: 36px 32px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
       text-align: center;
-      max-width: 460px;
+      max-width: 440px;
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.08);
-      position: relative;
+      border: 1px solid #3a506b;
     }
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(2, 132, 199, 0.2);
-      color: #38BDF8;
-      border: 1px solid rgba(56,189,248,0.3);
-      font-size: 12.5px;
+      display: inline-block;
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 12px;
       font-weight: 700;
-      padding: 6px 14px;
+      padding: 4px 12px;
       border-radius: 9999px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     h1 {
       font-size: 24px;
       margin: 0 0 8px 0;
-      color: #38BDF8;
-      font-weight: 800;
+      color: #38bdf8;
     }
-    p.sub-title {
-      color: #94A3B8;
-      font-size: 14.5px;
-      margin: 0 0 22px 0;
+    p {
+      color: #94a3b8;
+      font-size: 14px;
+      margin: 0 0 20px 0;
       line-height: 1.5;
     }
     .qr-container {
-      background: #FFFFFF;
-      padding: 18px;
-      border-radius: 22px;
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 20px;
       display: inline-block;
-      margin-bottom: 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-      position: relative;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
     }
     .qr-container img {
-      width: 250px;
-      height: 250px;
+      width: 260px;
+      height: 260px;
       display: block;
-      border-radius: 12px;
-      image-rendering: auto;
+      image-rendering: pixelated;
     }
-    .qr-loading-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(255,255,255,0.92);
-      border-radius: 22px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #0F172A;
-      font-size: 13px;
+    .timer-note {
+      font-size: 12px;
+      color: #38bdf8;
+      margin-bottom: 16px;
       font-weight: 600;
     }
     .steps {
-      background: #0A1322;
+      background: #0b132b;
       border-radius: 16px;
       padding: 16px 20px;
       text-align: left;
-      font-size: 13.5px;
+      font-size: 14px;
       line-height: 1.7;
-      color: #E2E8F0;
-      border-left: 4px solid #38BDF8;
-      margin-bottom: 20px;
+      color: #e2e8f0;
+      border-left: 4px solid #38bdf8;
     }
     .steps ol {
       margin: 0;
@@ -107,190 +92,36 @@
     .steps li:last-child {
       margin-bottom: 0;
     }
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn {
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 13.5px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all .2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #0284C7, #0EA5E9);
-      color: white;
-      box-shadow: 0 4px 14px rgba(2,132,199,0.3);
-    }
-    .btn-primary:hover {
-      transform: translateY(-1px);
-    }
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      color: #E2E8F0;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.15);
-    }
-    /* Success Card View */
-    .success-card {
-      display: none;
-      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.05));
-      border: 2px solid #10B981;
-      border-radius: 24px;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    .success-icon {
-      font-size: 50px;
-      margin-bottom: 12px;
-    }
-    .success-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #34D399;
-      margin-bottom: 8px;
-    }
-    .success-desc {
-      font-size: 14px;
-      color: #A7F3D0;
-      line-height: 1.6;
-      margin-bottom: 22px;
-    }
     .footer {
-      margin-top: 22px;
+      margin-top: 20px;
       font-size: 12px;
-      color: #64748B;
-      line-height: 1.5;
+      color: #64748b;
     }
   </style>
 </head>
 <body>
+  <div class="card">
+    <span class="badge">Động cơ Zalo 24/7</span>
+    <h1>HAITECH BOT</h1>
+    <p>Vui lòng quét mã QR bên dưới bằng ứng dụng Zalo trên điện thoại</p>
+    
+    <div class="qr-container">
+      <img src="data:image/png;base64,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" alt="Mã QR Zalo">
+    </div>
+    <div class="timer-note">🔄 Trang tự động làm mới để cập nhật mã QR liên tục</div>
 
-  <div class="card" id="mainCard">
-    <!-- View: Đang chờ quét QR -->
-    <div id="scanView">
-      <span class="badge">⚡ Động Cơ AI Zalo 24/7 (Zero-Install)</span>
-      <h1>KẾT NỐI BOT ZALO</h1>
-      <p class="sub-title">Khách hàng chỉ cần quét mã QR bằng Zalo trên điện thoại để bắt đầu sử dụng</p>
-      
-      <div class="qr-container">
-        <img id="qrImage" src="qr.png" onerror="handleQrError(this)" alt="Mã QR Đăng Nhập Zalo">
-        <div class="qr-loading-overlay" id="qrLoading">
-          <div style="font-size:24px; margin-bottom:6px;">⏳</div>
-          <span>Đang tạo mã QR mới...</span>
-        </div>
-      </div>
-
-      <div class="steps">
-        <ol>
-          <li>Mở ứng dụng <b>Zalo</b> trên điện thoại của bạn</li>
-          <li>Nhấn biểu tượng <b>Quét mã QR 📷</b> (góc trên bên phải Zalo)</li>
-          <li>Hướng camera điện thoại vào mã QR này</li>
-          <li>Nhấn <b>"Đăng nhập"</b> hoặc <b>"Xác nhận"</b> trên điện thoại</li>
-        </ol>
-      </div>
-
-      <div class="action-buttons">
-        <button type="button" class="btn btn-secondary" onclick="reloadQrImage()">
-          🔄 Làm Mới Mã QR
-        </button>
-        <a href="dashboard.html" class="btn btn-primary">
-          📊 Vào Bảng Quản Trị →
-        </a>
-      </div>
-
-      <div class="footer">
-        🛡️ An toàn 100%: Sau khi bấm Xác nhận trên điện thoại, Bot sẽ tự động trực 24/7 trên Cloud. Bạn có thể đóng tab này lại bất cứ lúc nào!
-      </div>
+    <div class="steps">
+      <ol>
+        <li>Mở ứng dụng <b>Zalo</b> trên điện thoại</li>
+        <li>Bấm biểu tượng <b>Quét mã QR</b> ở góc trên cùng bên phải</li>
+        <li>Hướng camera điện thoại vào mã QR này</li>
+        <li>Bấm <b>Đăng nhập</b> (hoặc <b>Xác nhận</b>) trên điện thoại</li>
+      </ol>
     </div>
 
-    <!-- View: Đã kết nối thành công -->
-    <div id="successView" class="success-card">
-      <div class="success-icon">🎉</div>
-      <div class="success-title">KẾT NỐI ZALO THÀNH CÔNG!</div>
-      <div class="success-desc">
-        Tài khoản Zalo của bạn đã được kết nối với <strong>HAITECH BOT AI</strong>.<br/>
-        Trợ lý thông minh đang tự động trực chiến, tư vấn báo giá và chốt khách 24/7 ngay cả khi bạn tắt máy!
-      </div>
-      <div class="action-buttons">
-        <a href="dashboard.html" class="btn btn-primary" style="padding:12px 24px;">
-          🚀 Mở Bảng Quản Trị & Cấu Hình Shop →
-        </a>
-      </div>
-      <div style="margin-top:16px; font-size:12px; color:#6EE7B7;">
-        ✓ Không cần mở máy tính · Tự động trả lời 1-1 riêng tư · Bảo mật tuyệt đối
-      </div>
+    <div class="footer">
+      Sau khi quét xong, bot sẽ tự động trực 24/7. Tab này sẽ tự thông báo thành công!
     </div>
   </div>
-
-  <script>
-    let pollInterval = null;
-
-    function handleQrError(img) {
-      // Nếu chưa có qr.png, fallback lấy QR tạm thời từ số Trợ lý Thùy Linh
-      img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://zalo.me/0965488528';
-    }
-
-    function reloadQrImage() {
-      const img = document.getElementById('qrImage');
-      const loading = document.getElementById('qrLoading');
-      if (loading) loading.style.display = 'flex';
-      
-      const testImg = new Image();
-      testImg.onload = () => {
-        img.src = 'qr.png?t=' + Date.now();
-        if (loading) loading.style.display = 'none';
-      };
-      testImg.onerror = () => {
-        if (loading) loading.style.display = 'none';
-      };
-      testImg.src = 'qr.png?t=' + Date.now();
-    }
-
-    async function checkStatus() {
-      try {
-        const res = await fetch('/api/qr-status');
-        if (!res.ok) return;
-        const data = await res.json();
-        
-        if (data && data.isConnected) {
-          // Đã đăng nhập thành công!
-          document.getElementById('scanView').style.display = 'none';
-          document.getElementById('successView').style.display = 'block';
-          if (pollInterval) clearInterval(pollInterval);
-        } else if (data && data.hasQrPng) {
-          // Đang có mã QR chờ quét
-          document.getElementById('scanView').style.display = 'block';
-          document.getElementById('successView').style.display = 'none';
-        }
-      } catch (e) {
-        // Có thể server chạy static
-      }
-    }
-
-    // Tự động kiểm tra trạng thái mỗi 2.5 giây
-    checkStatus();
-    pollInterval = setInterval(checkStatus, 2500);
-
-    // Tự động làm mới ảnh QR mỗi 20 giây để chống hết hạn
-    setInterval(() => {
-      const scanView = document.getElementById('scanView');
-      if (scanView && scanView.style.display !== 'none') {
-        const img = document.getElementById('qrImage');
-        if (img) img.src = 'qr.png?t=' + Date.now();
-      }
-    }, 20000);
-  </script>
 </body>
 </html>

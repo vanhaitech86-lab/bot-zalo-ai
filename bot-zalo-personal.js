@@ -1224,7 +1224,19 @@ const CLOUD_PORT = process.env.PORT || process.env.WEB_PORT;
 if (CLOUD_PORT) {
     import('http').then(({ default: http }) => {
         const srv = http.createServer((req, res) => {
+            // Cấu hình CORS mở rộng cho phép frontend từ trolybotai.com gọi API
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+            if (req.method === 'OPTIONS') {
+                res.writeHead(204);
+                res.end();
+                return;
+            }
+
             const u = req.url.split('?')[0];
+
             if (u === '/health' || u === '/') {
                 res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
                 res.end(JSON.stringify({
@@ -1235,16 +1247,48 @@ if (CLOUD_PORT) {
                     uptimeSeconds: Math.floor(process.uptime()),
                     timestamp: new Date().toISOString()
                 }));
-            } else if (u === '/qr') {
+            } else if (u === '/api/qr-status' || u === '/status') {
+                const hasSession = fs.existsSync(SESSION_FILE) || Boolean(process.env.ZALO_SESSION_JSON);
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({
+                    success: true,
+                    status: hasSession ? 'connected' : (fs.existsSync(QR_PNG_FILE) ? 'waiting_scan' : 'ready'),
+                    isConnected: hasSession,
+                    hasSession: hasSession,
+                    active: isBotActive,
+                    mode: botMode,
+                    bot: 'Em Thùy Linh — HaiTech AI',
+                    phone: '0988 739 896',
+                    zaloUrl: 'https://zalo.me/0988739896',
+                    uptimeSeconds: Math.floor(process.uptime()),
+                    message: hasSession 
+                        ? '✅ Trợ lý AI Em Thùy Linh đang trực chiến 24/7 trên Cloud!' 
+                        : '📱 Đang chờ quét mã QR để kết nối Zalo...'
+                }));
+            } else if (u === '/qr.png') {
+                if (fs.existsSync(QR_PNG_FILE)) {
+                    res.writeHead(200, { 
+                        'Content-Type': 'image/png',
+                        'Cache-Control': 'no-cache, no-store, must-revalidate'
+                    });
+                    fs.createReadStream(QR_PNG_FILE).pipe(res);
+                } else {
+                    // Fallback chuyển tiếp sang mã QR Zalo của Em Thùy Linh
+                    res.writeHead(302, { 
+                        'Location': 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://zalo.me/0988739896'
+                    });
+                    res.end();
+                }
+            } else if (u === '/qr' || u === '/qr.html') {
                 if (fs.existsSync(QR_HTML_FILE)) {
                     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
                     fs.createReadStream(QR_HTML_FILE).pipe(res);
                 } else {
                     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-                    res.end('<!DOCTYPE html><html><body style="font-family:sans-serif;text-align:center;padding:50px;background:#0b132b;color:#fff;"><h1>✅ Bot da dang nhap thanh cong tren Cloud!</h1><p>Khong can quet lai ma QR.</p></body></html>');
+                    res.end('<!DOCTYPE html><html><body style="font-family:sans-serif;text-align:center;padding:50px;background:#0b132b;color:#fff;"><h1>✅ Bot đã đăng nhập thành công trên Cloud!</h1><p>Em Thùy Linh đang trực chiến 24/7. Không cần quét lại mã QR.</p><p><a href="https://trolybotai.com" style="color:#38bdf8;">Về trang chủ trolybotai.com</a></p></body></html>');
                 }
             } else {
-                res.writeHead(404);
+                res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
                 res.end('Not Found');
             }
         });
