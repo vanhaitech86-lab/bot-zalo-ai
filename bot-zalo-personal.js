@@ -20,11 +20,20 @@ process.on('unhandledRejection', (reason) => {
     console.warn('⚠️ [Hệ thống tự bảo vệ] Bắt lỗi Unhandled Rejection (ngăn sập bot):', reason?.message || reason);
 });
 
-const SESSION_FILE = "./session.json";
-const KNOWLEDGE_FILE = "./knowledge.json";
-const QR_PNG_FILE = "./qr.png";
+// Thư mục dữ liệu bền vững (Persistent Storage trên Cloud /data hoặc Local .)
+const DATA_DIR = process.env.DATA_DIR || (fs.existsSync("/data") ? "/data" : ".");
+try {
+    if (!fs.existsSync(DATA_DIR)) {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+} catch (e) {}
+const SESSION_FILE = path.join(DATA_DIR, "session.json");
+const KNOWLEDGE_FILE = fs.existsSync(path.join(DATA_DIR, "knowledge.json"))
+    ? path.join(DATA_DIR, "knowledge.json")
+    : "./knowledge.json";
+const QR_PNG_FILE = path.join(DATA_DIR, "qr.png");
 const QR_HTML_FILE = "./qr.html";
-const STATUS_FILE = "./bot-status.json";
+const STATUS_FILE = path.join(DATA_DIR, "bot-status.json");
 
 // Biến trạng thái BẬT/TẮT & Chế độ hoạt động
 let isBotActive = true;
@@ -144,7 +153,9 @@ function isBusinessInquiry(text, kb) {
     const greetings = [
         "thùy linh", "thuylinh", "thuy linh", "bot ơi", "bot oi", "em thùy linh", "em thuylinh",
         "trợ lý", "tro ly", "@thuylinh", "chào shop", "xin chào shop", "chào công ty",
-        "ad ơi", "admin ơi", "shop ơi", "chào bạn", "chào em", "alo em"
+        "ad ơi", "admin ơi", "shop ơi", "chào bạn", "chào em", "alo em",
+        "xin chào", "xinchao", "xin chao", "chào", "chao", "hello", "hi", "alo", "alo bot",
+        "chào ad", "chào b", "chào e", "chào anh", "chào chị"
     ];
     for (const g of greetings) {
         if (lower.includes(g)) return true;
@@ -548,20 +559,27 @@ async function startBot() {
     const zalo = new Zalo({ selfListen: true });
     let api = null;
 
-    // 4.1. Thử đăng nhập lại bằng phiên cũ (từ biến môi trường ZALO_SESSION_JSON hoặc file session.json)
+    // 4.1. Thử đăng nhập lại bằng phiên cũ (Ưu tiên file session.json trên ổ đĩa bền vững /data)
     let sessionData = null;
-    if (process.env.ZALO_SESSION_JSON) {
+    if (fs.existsSync(SESSION_FILE)) {
+        try {
+            console.log(`\n🔑 Đang tìm phiên đăng nhập trước đó từ ${SESSION_FILE}...`);
+            sessionData = JSON.parse(fs.readFileSync(SESSION_FILE, "utf8"));
+        } catch (err) {}
+    }
+    if (!sessionData && fs.existsSync("./session.json")) {
+        try {
+            console.log("\n🔑 Đang tìm phiên đăng nhập trước đó từ ./session.json...");
+            sessionData = JSON.parse(fs.readFileSync("./session.json", "utf8"));
+        } catch (err) {}
+    }
+    if (!sessionData && process.env.ZALO_SESSION_JSON) {
         try {
             console.log("\n🔑 Đang nạp phiên đăng nhập từ biến môi trường ZALO_SESSION_JSON (Cloud)...");
             sessionData = JSON.parse(process.env.ZALO_SESSION_JSON);
         } catch (e) {
             console.warn("⚠️ Biến môi trường ZALO_SESSION_JSON không đúng JSON:", e.message);
         }
-    } else if (fs.existsSync(SESSION_FILE)) {
-        try {
-            console.log("\n🔑 Đang tìm phiên đăng nhập trước đó từ session.json...");
-            sessionData = JSON.parse(fs.readFileSync(SESSION_FILE, "utf8"));
-        } catch (err) {}
     }
 
     if (sessionData) {
@@ -575,6 +593,7 @@ async function startBot() {
             // Xóa phiên cũ không còn hợp lệ để tránh kiểm tra trạng thái bị nhầm
             try {
                 if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
+                if (fs.existsSync("./session.json")) fs.unlinkSync("./session.json");
             } catch (e) {}
         }
     }
@@ -626,7 +645,11 @@ async function startBot() {
                     } else if (event.type === LoginQRCallbackEventType.GotLoginInfo) {
                         try {
                             fs.writeFileSync(SESSION_FILE, JSON.stringify(event.data, null, 2), "utf8");
-                            console.log("💾 Đã lưu phiên đăng nhập vào session.json cho các lần chạy sau!");
+                            try { fs.writeFileSync("./session.json", JSON.stringify(event.data, null, 2), "utf8"); } catch (e) {}
+                            if (DATA_DIR !== ".") {
+                                try { fs.writeFileSync(path.join(DATA_DIR, "session.json"), JSON.stringify(event.data, null, 2), "utf8"); } catch (e) {}
+                            }
+                            console.log(`💾 Đã lưu phiên đăng nhập vĩnh viễn vào ${SESSION_FILE}!`);
                             createSuccessQRPage();
                         } catch (e) {}
                     }
@@ -977,15 +1000,18 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                 return;
             }
 
-            // 2. TÍNH NĂNG ĐIỀU KHIỂN & LÀM VIỆC TRỰC TIẾP VỚI SẾP HẢI QUA "CLOUD CỦA TÔI" (TRUYỀN FILE):
-            const isFromBoss = message.isSelf || isCloudOfMine;
+            // 2. TÍNH NĂNG ĐIỀU KHIỂN & LÀM VIỆC TRỰC TIẾP VỚI SẾP HẢI HOẶC LỆNH ĐIỀU KHIỂN (#...):
+            const hasCmdPrefix = userText.trim().startsWith('#') || userText.toLowerCase().trim().startsWith('bot:');
+            const isFromBoss = message.isSelf || isCloudOfMine || hasCmdPrefix;
             if (isFromBoss) {
                 const rawCmd = userText.toLowerCase().trim();
                 const normCmd = normalizeCommand(userText);
 
-                // 2.1. LỆNH ĐĂNG XUẤT HOÀN TOÀN
-                const isLogoutCmd = rawCmd === "#dangxuat" || rawCmd === "#đăngxuất" || rawCmd === "#logout" || rawCmd === "#reset" ||
-                                    normCmd === "dang xuat" || normCmd === "logout";
+                // 2.1. LỆNH ĐĂNG XUẤT HOÀN TOÀN (CHỈ DÀNH CHO SẾP TRONG CLOUD CỦA TÔI / CHÍNH MÌNH)
+                const isLogoutCmd = (message.isSelf || isCloudOfMine) && (
+                    rawCmd === "#dangxuat" || rawCmd === "#đăngxuất" || rawCmd === "#logout" || rawCmd === "#reset" ||
+                    normCmd === "dang xuat" || normCmd === "logout"
+                );
                 if (isLogoutCmd) {
                     console.log("\n=================================================================");
                     console.log("🛑 NHẬN ĐƯỢC LỆNH ĐĂNG XUẤT TỪ ĐIỆN THOẠI CỦA BẠN (#dangxuat)!");
@@ -998,6 +1024,7 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                     } catch (e) {}
                     try {
                         if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
+                        if (fs.existsSync("./session.json")) fs.unlinkSync("./session.json");
                         if (fs.existsSync(QR_PNG_FILE)) fs.unlinkSync(QR_PNG_FILE);
                         if (fs.existsSync(QR_HTML_FILE)) fs.unlinkSync(QR_HTML_FILE);
                     } catch (e) {}
@@ -1008,6 +1035,7 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                 const isTurnOnCmd = (
                     rawCmd === "#bat" || rawCmd === "#bật" || rawCmd === "#batbot" || rawCmd === "#bậtbot" ||
                     rawCmd === "#on" || rawCmd === "#start" || rawCmd === "#resume" || rawCmd === "#online" ||
+                    rawCmd === "#kichhoat" || rawCmd === "#kíchhoạt" ||
                     normCmd === "bat" || normCmd === "bat bot" || normCmd === "bat len" || normCmd === "bat lai" ||
                     normCmd === "bat tro ly" || normCmd === "bat thuy linh" || normCmd === "bat em thuy linh" ||
                     normCmd === "mo bot" || normCmd === "mo lai bot" || normCmd === "mo tro ly" ||
@@ -1020,8 +1048,8 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
 
                 if (isTurnOnCmd) {
                     setBotStatus(true, "smart_customer_only");
-                    console.log("\n🟢 [LỆNH TỪ CLOUD] ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7 (TIẾP KHÁCH THÔNG MINH).");
-                    const confirmMsg = `🟢 [ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7]\n\nEm Thùy Linh đã sẵn sàng trực chiến 24/7!\n\n✨ Trạng thái hiện tại:\n• Tự động tư vấn khách hỏi dịch vụ: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá...\n• Tự động xin SĐT khách hàng và lưu trữ Online\n• Tự động bảo vệ bạn bè: Bạn bè chat riêng thì em im lặng để anh Hải tự chat\n\n💡 Lệnh nhanh trên Zalo:\n👉 Nhắn "#rieng": Chỉ phục vụ Sếp Hải (không trả lời người ngoài)\n👉 Nhắn "#tat": Tạm dừng trực khách (tự chat tay)\n👉 Nhắn "#trangthai": Kiểm tra tình trạng hoạt động`;
+                    console.log("\n🟢 [LỆNH ĐIỀU KHIỂN] ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7 (TIẾP KHÁCH THÔNG MINH).");
+                    const confirmMsg = `🟢 [ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7]\n\nEm Thùy Linh đã sẵn sàng trực chiến 24/7!\n\n✨ Trạng thái hiện tại:\n• Tự động tư vấn khách hỏi dịch vụ: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá...\n• Tự động xin SĐT khách hàng và lưu trữ Online\n• Tự động bảo vệ bạn bè: Bạn bè chat riêng thì em im lặng để bạn tự chat\n\n💡 Lệnh nhanh trên Zalo:\n👉 Nhắn "#tat": Tạm dừng trực khách (tự chat tay)\n👉 Nhắn "#all": Trả lời mọi tin nhắn 24/7 (không lọc bạn bè)\n👉 Nhắn "#trangthai": Kiểm tra tình trạng hoạt động`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -1042,8 +1070,8 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
 
                 if (isTurnOffCmd) {
                     setBotStatus(false);
-                    console.log("\n🛑 [LỆNH TỪ CLOUD] ĐÃ TẮT TRỰC KHÁCH.");
-                    const confirmMsg = `🛑 [ĐÃ TẮT TỰ ĐỘNG TRỰC KHÁCH]\n\nEm đã tạm dừng tự động trả lời người ngoài. Em vẫn luôn túc trực hỗ trợ anh Hải trong Cloud này nhé!\n\n👉 Bật lại chế độ tiếp khách thông minh 24/7: Nhắn "#khach" hoặc "#bat"`;
+                    console.log("\n🛑 [LỆNH ĐIỀU KHIỂN] ĐÃ TẮT TRỰC KHÁCH.");
+                    const confirmMsg = `🛑 [ĐÃ TẮT TỰ ĐỘNG TRỰC KHÁCH]\n\nEm đã tạm dừng tự động trả lời người ngoài.\n\n👉 Bật lại trực khách 24/7: Nhắn "#bat"`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -1061,7 +1089,7 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
 
                 if (isAssistantOnlyCmd) {
                     setBotStatus(true, "assistant_only");
-                    console.log("\n👑 [LỆNH TỪ CLOUD] ĐÃ CHUYỂN SANG CHẾ ĐỘ TRỢ LÝ RIÊNG CHO SẾP HẢI.");
+                    console.log("\n👑 [LỆNH ĐIỀU KHIỂN] ĐÃ CHUYỂN SANG CHẾ ĐỘ TRỢ LÝ RIÊNG CHO SẾP HẢI.");
                     const confirmMsg = `👑 [CHẾ ĐỘ TRỢ LÝ RIÊNG CỦA ANH HẢI]\n\nEm Thùy Linh đã chuyển sang chế độ phục vụ RIÊNG một mình anh Hải!\n\n✨ Từ bây giờ:\n• Em sẽ CHỈ lắng nghe và làm việc cho anh Hải trong Cloud này.\n• Em hoàn toàn KHÔNG tự tiện trả lời tin nhắn của bạn bè hay người ngoài trên Zalo.\n• Anh có thể giao việc, viết bài, viết code, hỏi đáp, tra cứu thoải mái nhé!\n\n👉 Khi muốn bật trực khách 24/7: Nhắn "#khach" (Lọc thông minh) hoặc "#bat"`;
                     markSentReply(confirmMsg);
                     try {
@@ -1080,8 +1108,8 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
 
                 if (isSmartFilterCmd) {
                     setBotStatus(true, "smart_customer_only");
-                    console.log("\n🎯 [LỆNH TỪ CLOUD] ĐÃ KÍCH HOẠT CHẾ ĐỘ LỌC KHÁCH THÔNG MINH 24/7.");
-                    const confirmMsg = `🎯 [CHẾ ĐỘ TIẾP KHÁCH THÔNG MINH 24/7]\n\nEm đã kích hoạt bộ lọc bảo vệ bạn bè cá nhân:\n• Em CHỈ tự động tư vấn khi có người hỏi về: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá, Dịch vụ...\n• Khi bạn bè nhắn tin tán gẫu, trò chuyện cá nhân: Em sẽ im lặng để anh Hải tự chat thoải mái!\n\n👉 Chuyển sang trợ lý riêng cho anh: Nhắn "#rieng"\n👉 Tắt trực khách hoàn toàn: Nhắn "#tat"`;
+                    console.log("\n🎯 [LỆNH ĐIỀU KHIỂN] ĐÃ KÍCH HOẠT CHẾ ĐỘ LỌC KHÁCH THÔNG MINH 24/7.");
+                    const confirmMsg = `🎯 [CHẾ ĐỘ TIẾP KHÁCH THÔNG MINH 24/7]\n\nEm đã kích hoạt bộ lọc bảo vệ bạn bè cá nhân:\n• Em CHỈ tự động tư vấn khi có người hỏi về: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá, Dịch vụ...\n• Khi bạn bè nhắn tin tán gẫu, trò chuyện cá nhân: Em sẽ im lặng để bạn tự chat thoải mái!\n\n👉 Trả lời tất cả không lọc bạn bè: Nhắn "#all"\n👉 Tắt trực khách hoàn toàn: Nhắn "#tat"`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -1089,8 +1117,25 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                     return;
                 }
 
-                // 2.6. LỆNH XEM LEADS / SĐT KHÁCH
-                const isLeadsCmd = (
+                // 2.5.b. CHẾ ĐỘ TRẢ LỜI TOÀN DIỆN 24/7 (TRẢ LỜI TẤT CẢ MỌI TIN NHẮN, KHÔNG LỌC BẠN BÈ)
+                const isAllCmd = (
+                    rawCmd === "#all" || rawCmd === "#tatca" || rawCmd === "#tấtcả" ||
+                    normCmd === "all" || normCmd === "tat ca" || normCmd === "tra loi tat ca"
+                );
+
+                if (isAllCmd) {
+                    setBotStatus(true, "all_247");
+                    console.log("\n🌐 [LỆNH ĐIỀU KHIỂN] ĐÃ CHUYỂN SANG CHẾ ĐỘ TRẢ LỜI TOÀN DIỆN 24/7.");
+                    const confirmMsg = `🌐 [CHẾ ĐỘ TRẢ LỜI TOÀN DIỆN 24/7]\n\nEm Thùy Linh sẽ tự động tiếp đón và trả lời TẤT CẢ mọi tin nhắn gửi đến Zalo này 24/7!\n\n👉 Chuyển sang lọc khách thông minh (bảo vệ bạn bè): Nhắn "#khach"\n👉 Tắt trực khách: Nhắn "#tat"`;
+                    markSentReply(confirmMsg);
+                    try {
+                        await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
+                    } catch (e) {}
+                    return;
+                }
+
+                // 2.6. LỆNH XEM LEADS / SĐT KHÁCH (CHỈ DÀNH CHO SẾP TRONG CLOUD CỦA TÔI / CHÍNH MÌNH)
+                const isLeadsCmd = (message.isSelf || isCloudOfMine) && (
                     rawCmd === "#leads" || rawCmd === "#lead" || rawCmd === "#khachhang" || rawCmd === "#kháchhàng" ||
                     normCmd === "leads" || normCmd === "lead" || normCmd === "danh sach khach" ||
                     normCmd === "xem lead" || normCmd === "xem khach" || normCmd === "sdt khach"
@@ -1110,8 +1155,10 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                 );
 
                 if (isStatusCmd) {
-                    const modeLabel = botMode === 'assistant_only' ? '👑 Trợ lý riêng (Chỉ phục vụ Sếp Hải)' : (botMode === 'smart_customer_only' ? '🎯 Lọc khách thông minh (Bảo vệ bạn bè)' : '🌐 Toàn diện 24/7');
-                    const statusMsg = `📊 [TRẠNG THÁI TRỢ LÝ THÙY LINH]\n• Trợ lý riêng của: Anh Nguyễn Văn Hải (HaiTech AI)\n• Trực khách ngoài: ${isBotActive ? '🟢 ĐANG BẬT (24/7)' : '🛑 ĐANG TẮT (Tạm dừng)'}\n• Chế độ: ${modeLabel}\n• Động cơ AI: Gemini Flash Lite siêu tốc (~0.8s)\n\n💡 Cú pháp điều khiển trên Zalo:\n- "#bat": Bật trực khách 24/7\n- "#tat": Tắt trực khách (tự chat tay)\n- "#rieng": Chỉ phục vụ Sếp Hải, không đụng bạn bè\n- "#khach": Tự động tư vấn khách hỏi dịch vụ\n- "#leads": Xem danh sách SĐT khách hàng đã lưu`;
+                    const modeLabel = botMode === 'assistant_only' 
+                        ? '👑 Trợ lý riêng (Chỉ phục vụ Sếp Hải)' 
+                        : (botMode === 'all_247' ? '🌐 Toàn diện 24/7 (Trả lời mọi tin nhắn)' : '🎯 Lọc khách thông minh (Bảo vệ bạn bè)');
+                    const statusMsg = `📊 [TRẠNG THÁI TRỢ LÝ THÙY LINH]\n• Trợ lý riêng của: Anh Nguyễn Văn Hải (HaiTech AI)\n• Trực khách ngoài: ${isBotActive ? '🟢 ĐANG BẬT (24/7)' : '🛑 ĐANG TẮT (Tạm dừng)'}\n• Chế độ: ${modeLabel}\n• Động cơ AI: Gemini Flash Lite siêu tốc (~0.8s)\n\n💡 Cú pháp điều khiển trên Zalo:\n- "#bat": Bật trực khách 24/7\n- "#tat": Tắt trực khách (tự chat tay)\n- "#all": Trả lời tất cả không lọc bạn bè\n- "#khach": Lọc thông minh (bảo vệ bạn bè)\n- "#leads": Xem danh sách SĐT khách hàng đã lưu`;
                     markSentReply(statusMsg);
                     try {
                         await api.sendMessage({ msg: statusMsg }, replyDest, ThreadType.User);
@@ -1248,7 +1295,7 @@ if (CLOUD_PORT) {
                     timestamp: new Date().toISOString()
                 }));
             } else if (u === '/api/qr-status' || u === '/status') {
-                const hasSession = fs.existsSync(SESSION_FILE) || Boolean(process.env.ZALO_SESSION_JSON);
+                const hasSession = fs.existsSync(SESSION_FILE) || fs.existsSync("./session.json");
                 res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
                 res.end(JSON.stringify({
                     success: true,
@@ -1257,12 +1304,10 @@ if (CLOUD_PORT) {
                     hasSession: hasSession,
                     active: isBotActive,
                     mode: botMode,
-                    bot: 'Em Thùy Linh — HaiTech AI',
-                    phone: '0988 739 896',
-                    zaloUrl: 'https://zalo.me/0988739896',
+                    bot: knowledge.botName || 'Em Thùy Linh — HaiTech AI',
                     uptimeSeconds: Math.floor(process.uptime()),
                     message: hasSession 
-                        ? '✅ Trợ lý AI Em Thùy Linh đang trực chiến 24/7 trên Cloud!' 
+                        ? '✅ Trợ lý AI đang trực chiến 24/7 trên Cloud!' 
                         : '📱 Đang chờ quét mã QR để kết nối Zalo...'
                 }));
             } else if (u === '/qr.png') {
@@ -1273,11 +1318,8 @@ if (CLOUD_PORT) {
                     });
                     fs.createReadStream(QR_PNG_FILE).pipe(res);
                 } else {
-                    // Fallback chuyển tiếp sang mã QR Zalo của Em Thùy Linh
-                    res.writeHead(302, { 
-                        'Location': 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://zalo.me/0988739896'
-                    });
-                    res.end();
+                    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+                    res.end('QR code not ready or session already active');
                 }
             } else if (u === '/qr' || u === '/qr.html') {
                 if (fs.existsSync(QR_HTML_FILE)) {
