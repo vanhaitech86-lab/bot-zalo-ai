@@ -37,7 +37,7 @@ const STATUS_FILE = path.join(DATA_DIR, "bot-status.json");
 
 // Biến trạng thái BẬT/TẮT & Chế độ hoạt động
 let isBotActive = true;
-let botMode = "smart_customer_only"; // "smart_customer_only" (Lọc khách) | "assistant_only" (Chỉ phục vụ Sếp) | "all_247" (Tất cả)
+let botMode = "all_247"; // "all_247" (Luôn trả lời tất cả) | "assistant_only" (Chỉ phục vụ Sếp)
 
 // Hàm chuẩn hóa chuỗi lệnh tiếng Việt (bỏ dấu, chuyển chữ thường, loại bỏ ký tự đặc biệt)
 function normalizeCommand(str) {
@@ -80,11 +80,11 @@ loadBotStatus();
 // Nếu chạy từ BAT_THUY_LINH.bat hoặc có tham số --force-active, đảm bảo luôn BẬT
 if (process.argv.includes('--force-active') || process.env.FORCE_ACTIVE === 'true') {
     isBotActive = true;
-    botMode = "smart_customer_only";
+    botMode = "all_247";
     try {
         fs.writeFileSync(STATUS_FILE, JSON.stringify({
             active: true,
-            mode: "smart_customer_only",
+            mode: "all_247",
             updatedAt: new Date().toISOString()
         }, null, 2), "utf8");
     } catch (e) {}
@@ -109,7 +109,7 @@ function setBotActive(active) {
 // Tự động cập nhật trạng thái khi file bot-status.json thay đổi
 try {
     if (!fs.existsSync(STATUS_FILE)) {
-        setBotStatus(true, "smart_customer_only");
+        setBotStatus(true, "all_247");
     }
     fs.watch(STATUS_FILE, (eventType) => {
         if (eventType === "change") {
@@ -1047,9 +1047,9 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                 );
 
                 if (isTurnOnCmd) {
-                    setBotStatus(true, "smart_customer_only");
-                    console.log("\n🟢 [LỆNH ĐIỀU KHIỂN] ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7 (TIẾP KHÁCH THÔNG MINH).");
-                    const confirmMsg = `🟢 [ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7]\n\nEm Thùy Linh đã sẵn sàng trực chiến 24/7!\n\n✨ Trạng thái hiện tại:\n• Tự động tư vấn khách hỏi dịch vụ: Web, App, Tool MMO, Video AI, Bot Zalo, Báo giá...\n• Tự động xin SĐT khách hàng và lưu trữ Online\n• Tự động bảo vệ bạn bè: Bạn bè chat riêng thì em im lặng để bạn tự chat\n\n💡 Lệnh nhanh trên Zalo:\n👉 Nhắn "#tat": Tạm dừng trực khách (tự chat tay)\n👉 Nhắn "#all": Trả lời mọi tin nhắn 24/7 (không lọc bạn bè)\n👉 Nhắn "#trangthai": Kiểm tra tình trạng hoạt động`;
+                    setBotStatus(true, "all_247");
+                    console.log("\n🟢 [LỆNH ĐIỀU KHIỂN] ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7 (TRẢ LỜI MỌI TIN NHẮN).");
+                    const confirmMsg = `🟢 [ĐÃ BẬT TRỢ LÝ TRỰC CHIẾN 24/7]\n\nEm Thùy Linh đã sẵn sàng trực chiến 24/7!\n\n✨ Tự động trả lời mọi tin nhắn gửi đến Zalo ngay lập tức (~0.8s)\n\n💡 Khi muốn tự chat tay: Nhắn "#tat"`;
                     markSentReply(confirmMsg);
                     try {
                         await api.sendMessage({ msg: confirmMsg }, replyDest, ThreadType.User);
@@ -1177,23 +1177,14 @@ NGUYÊN TẮC TRẢ LỜI TRONG HỘI NHÓM:
                 return;
             }
 
-            // 3. NẾU BOT ĐANG TẮT HOẶC Ở CHẾ ĐỘ TRỢ LÝ RIÊNG -> BỎ QUA TIN NHẮN 1-1 CỦA NGƯỜI NGOÀI:
+            // 3. NẾU BOT ĐANG TẮT HOẶC Ở CHẾ ĐỘ TRỢ LÝ RIÊNG -> BỎ QUA TIN NHẮN 1-1:
             if (!isBotActive) {
-                console.log(`⏸️ [BOT TẮT TRỰC KHÁCH] Khách (${message.threadId}) nhắn: "${userText}". Bỏ qua để bạn tự chat.`);
+                console.log(`⏸️ [BOT TẮT TRỰC KHÁCH] Khách (${message.threadId}) nhắn: "${userText}". Bỏ qua vì bot đang tắt.`);
                 return;
             }
             if (botMode === 'assistant_only') {
                 console.log(`👑 [CHẾ ĐỘ TRỢ LÝ RIÊNG] Tin nhắn từ (${message.threadId}): "${userText}". Bot chỉ phục vụ riêng anh Hải nên bỏ qua.`);
                 return;
-            }
-
-            // 4. ĐỐI VỚI TIN NHẮN 1-1 CÁ NHÂN: BỘ LỌC BẠN BÈ THÔNG MINH (SMART FILTER)
-            if (botMode === 'smart_customer_only') {
-                const isBiz = isBusinessInquiry(userText, knowledge);
-                if (!isBiz) {
-                    console.log(`🛡️ [BẢO VỆ BẠN BÈ] Tin nhắn cá nhân thông thường (Thread ID: ${message.threadId}): "${userText}". Bot không xen vào.`);
-                    return;
-                }
             }
 
             // 5. Gộp tin nhắn 1-1 nếu khách gửi nhiều câu ngắn liên tiếp trong 350ms
