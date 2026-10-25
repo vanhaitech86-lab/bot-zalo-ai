@@ -5,8 +5,11 @@
 > **Hotline/Zalo hỗ trợ kỹ thuật 24/7:** 0988 739 896  
 > **Email:** vanhaitech.86@gmail.com  
 > **Website Chính Thức:** https://trolybotai.com  
-> **Hệ thống Cloud Webhook:** https://bot-zalo-ai.vercel.app (hoặc https://trolybotai.com)  
-> **Phiên bản:** v1.0.0 Thương Mại  
+> **Hệ thống Cloud Vercel (Live 24/7):** https://bot-zalo-ai-ten.vercel.app  
+> **Bảng Quản Trị Trực Tuyến:** https://bot-zalo-ai-ten.vercel.app/dashboard.html  
+> **Kho Mã Nguồn GitHub:** https://github.com/vanhaitech86-lab/bot-zalo-ai  
+> **HAITECH Omnichannel CRM:** https://haitech-crm.vercel.app  
+> **Phiên bản:** v2.0 Thương Mại 
 
 ---
 
